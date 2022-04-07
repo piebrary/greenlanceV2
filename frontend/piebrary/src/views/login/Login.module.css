@@ -1,0 +1,49 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgb(204,255,51);
+    background: linear-gradient(358deg, rgba(204,255,51,1) 50%, rgba(255,255,255,1) 50%);
+}
+
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    position: absolute;
+}
+
+.content {
+    width: 250px;
+    margin: auto;
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: 20px;
+    text-align: center;
+}
+
+.contentLogo {
+    width: fit-content;
+    margin: auto;
+    position: relative;
+    top: 20px;
+}
+
+.loginContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.contentHeader {
+    display: flex;
+    justify-content: space-between;
+}

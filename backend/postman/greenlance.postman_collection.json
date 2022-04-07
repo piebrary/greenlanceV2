@@ -1,0 +1,432 @@
+{
+	"info": {
+		"_postman_id": "3c35a877-f89a-42a1-a064-06ad225ef880",
+		"name": "greenlance",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "routes",
+			"item": [
+				{
+					"name": "secured",
+					"item": [
+						{
+							"name": "shifts",
+							"item": [
+								{
+									"name": "my-shifts",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/my-shifts",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"my-shifts"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "sign-up-for-shift",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": "",
+													"description": "shift id",
+													"type": "text"
+												},
+												{
+													"key": "freelancer",
+													"value": "",
+													"description": "name of freelancer (only when current user is admin/superuser)",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/sign-up-for-shift",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"sign-up-for-shift"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "sign-out-of-shift",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": "",
+													"description": "shift id",
+													"type": "text"
+												},
+												{
+													"key": "freelancer",
+													"value": "",
+													"description": "name of freelancer (only when current user is admin/superuser)",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/sign-out-of-shift",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"sign-out-of-shift"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "new-shift",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "title",
+													"value": "test1"
+												},
+												{
+													"key": "description",
+													"value": "test1desc"
+												},
+												{
+													"key": "startTime",
+													"value": "1629110101674"
+												},
+												{
+													"key": "endTime",
+													"value": "1629190101674"
+												},
+												{
+													"key": "location",
+													"value": "diemen"
+												},
+												{
+													"key": "freelancersAmount",
+													"value": "3",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/new-shift",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"new-shift"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "update-shift",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "title",
+													"value": "test1"
+												},
+												{
+													"key": "description",
+													"value": "test1desc"
+												},
+												{
+													"key": "startTime",
+													"value": "1629110101674"
+												},
+												{
+													"key": "endTime",
+													"value": "1629190101674"
+												},
+												{
+													"key": "location",
+													"value": "weesp"
+												},
+												{
+													"key": "_id",
+													"value": "611a3f55859a3236f9a6076e",
+													"type": "text"
+												}
+											]
+										},
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/update-shift",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"update-shift"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete-shift",
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "urlencoded",
+											"urlencoded": [
+												{
+													"key": "_id",
+													"value": ""
+												}
+											]
+										},
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/delete-shift",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"delete-shift"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "shifts",
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "85.215.91.34/api/v1/s/shifts",
+											"host": [
+												"85",
+												"215",
+												"91",
+												"34"
+											],
+											"path": [
+												"api",
+												"v1",
+												"s",
+												"shifts"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "user",
+							"item": [
+								{
+									"name": "getOwnUserdata",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{jwt}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "localhost:46372/api/secured/user",
+											"host": [
+												"localhost"
+											],
+											"port": "46372",
+											"path": [
+												"api",
+												"secured",
+												"user"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "register",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{jwt}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\":\"testuser9\",\r\n    \"email\":\"testuser9@blabla.com\",\r\n    \"password\":\"password\",\r\n    \"roles\":[\"client\",\"superuser\"]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:46372/api/secured/register",
+									"host": [
+										"localhost"
+									],
+									"port": "46372",
+									"path": [
+										"api",
+										"secured",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"let token = pm.response.headers.get('jwt')\r",
+									"    \r",
+									"if(token){\r",
+									"\r",
+									"    pm.collectionVariables.set('jwt', token)\r",
+									"\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"admin\",\r\n    \"password\":\"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:46372/api/login",
+							"host": [
+								"localhost"
+							],
+							"port": "46372",
+							"path": [
+								"api",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:46372/api/status",
+							"host": [
+								"localhost"
+							],
+							"port": "46372",
+							"path": [
+								"api",
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "jwt",
+			"value": ""
+		}
+	]
+}
