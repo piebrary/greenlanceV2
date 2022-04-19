@@ -1,7 +1,5 @@
 const { Schema } = require('mongoose')
 
-const settingsSchema = require('./settings')
-
 module.exports = new Schema({
     username: {
         type: String,
@@ -30,7 +28,20 @@ module.exports = new Schema({
         type: Array,
         required: true,
     },
-    settings: new Schema(settingsSchema)
+    settings: {
+        language: {
+            type: String,
+            default: 'en'
+        },
+        timeFormat: {
+            type: String,
+            default: 'HH:mm:ss'
+        },
+        dateFormat:{
+            type: String,
+            default: 'DD-MM-YYYY'
+        },
+    }
 },
 {
     timestamps: true

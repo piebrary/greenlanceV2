@@ -5,13 +5,17 @@ module.exports = requestBody => {
     const {
         title,
         body,
-        time
+        time,
+        creator,
+        active
     } = sanitize(requestBody)
 
     return {
         title,
         body,
-        time
+        time,
+        creator,
+        active
     }
 
 }

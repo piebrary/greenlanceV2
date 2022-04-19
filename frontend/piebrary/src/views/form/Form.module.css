@@ -1,0 +1,23 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.categoryContainer {
+    width: fit-content;
+    min-width: fit-content;
+    box-sizing: border-box;
+    max-width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+    height: 100%;
+}
+
+.content {
+    max-width: 400px;
+    margin: auto;
+}

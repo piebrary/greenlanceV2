@@ -1,0 +1,170 @@
+.layoutContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    width: 100%;
+    min-height: fit-content;
+    background-color: var(--almostBlack);
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.menuHeader {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.menuItems {
+    display: none;
+    color: white;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.logout {
+    display: none;
+    width: 100%;
+    user-select: none;
+    text-align: center;
+}
+
+.logout a {
+    color: white;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.logout a:hover {
+    color: var(--cinnabar);
+}
+
+.menuOpen {
+    display: flex;
+    justify-content: space-around;
+}
+
+.group {
+    max-width: 200px;
+    margin-top: 70px;
+    margin-bottom: 20px;
+}
+
+.label {
+    margin-bottom: 10px;
+    user-select: none;
+    color: var(--cinnabar);
+}
+
+.item {
+    margin-bottom: 10px;
+    user-select: none;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.item:hover {
+    color: var(--cinnabar);
+}
+
+.itemIcon {
+    display: inline-block;
+}
+
+.itemText {
+    display: inline-block;
+    padding-top: 1px;
+    padding-left: 6px;
+}
+
+.logo {
+    height: 100%;
+}
+
+.title {
+    user-select: none;
+    display: block;
+    color: var(--white);
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.menuToggle {
+    display: block;
+    line-height: 10px;
+    cursor: pointer;
+    color: var(--white);
+    padding: 5px;
+}
+
+.content {
+    height: auto;
+    width: auto;
+    /* height: calc(100vh - 50px); */
+    overflow-y: auto;
+}
+
+.content > * {
+    margin: 10px 10px 10px 10px;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .menu {
+        min-height: 100vh;
+        width: 200px;
+        display: block;
+    }
+
+    .logout {
+        margin-top: 80px;
+    }
+
+    .menuHeader {
+        display: block;
+    }
+
+    .group:first-child {
+        margin-top: 90px;
+    }
+
+    .title {
+        width: 100%;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .label {
+        padding-left: 20px;
+    }
+
+    .item {
+        padding-left: 16px;
+    }
+
+    .menuToggle {
+        display: none;
+    }
+
+    .menuItems {
+        display: block;
+    }
+
+    .content {
+        position: absolute;
+        left: 200px;
+        width: calc(100% - 200px);
+        height: 100vh;
+    }
+
+}

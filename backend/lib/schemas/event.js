@@ -26,9 +26,11 @@ module.exports = new Schema({
     creator:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
+        required: true
     },
     active:{
-        type: Boolean
+        type: Boolean,
+        required: true
     },
     mutations:{
         type: [mongoose.Schema.Types.ObjectId],

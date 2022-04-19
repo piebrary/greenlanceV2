@@ -13,7 +13,4 @@ module.exports = new Schema({
         type: String,
         default: 'DD-MM-YYYY'
     },
-},
-{
-    timestamps: true
 })

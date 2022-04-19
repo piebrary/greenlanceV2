@@ -1,0 +1,37 @@
+:root {
+
+    /* colors */
+    /* https://www.schemecolor.com/red-white.php */
+    --darkCandyAppleRed: rgb(169, 0, 17);
+    --fireEngineRed: rgb(209, 29, 39);
+    --cinnabar: rgb(229, 60, 56);
+    --antiqueWhite: rgb(251, 235, 216);
+    --floralWhite: rgb(255, 250, 239);
+    --white: rgb(255, 255, 255);
+    --lightgrey: rgb(232, 232, 232);
+    --almostBlack: rgb(10, 10, 10);
+
+    /* app */
+    --viewmodeBreakpoint: 800px;
+    --maxContentWidth: 1400px;
+
+    /* components */
+
+    /* components.button */
+    --buttonBorder: 0px;
+    --buttonBorderRadius: 4px;
+    --buttonPadding: 5px 10px;
+    --buttonBackgroundColor: lightgrey;
+    --buttonColor: black;
+
+    --buttonBackgroundColorHover: red;
+    --buttonColorHover: white;
+
+
+
+
+
+
+
+
+}

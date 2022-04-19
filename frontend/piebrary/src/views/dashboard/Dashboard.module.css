@@ -1,23 +1,142 @@
-.container {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+.grid1Grid {
+    /* padding: 10px; */
 }
 
-.categoryContainer {
-    width: fit-content;
-    min-width: fit-content;
-    box-sizing: border-box;
-    max-width: 100%;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    padding: 4px;
-    height: 100%;
+.card1Card {
+
 }
 
-.content {
-    max-width: 400px;
-    margin: auto;
+@media only screen and (min-width: 800px) {
+
+}
+
+.button1Button {
+    color: teal;
+}
+
+.button1Button:hover {
+    background-color: teal;
+}
+
+.testmenuContainer {
+    background-color: green;
+}
+
+.griditem {
+    border: 1px solid rgb(199, 0, 0);
+    background-color: rgba(199, 0, 0, 0.5);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.griditemOneCard {
+    grid-column: 1 / 3;
+    grid-row: 1;
+}
+
+.griditemTwoCard {
+    grid-column: 1 / 3;
+    grid-row: 2;
+}
+
+.griditemThreeCard {
+    grid-column: 3 / 3;
+    grid-row: 1 / 3;
+}
+
+.griditemFourCard {
+    grid-column: 1 / 2;
+    grid-row: 3;
+}
+
+.griditemFiveCard {
+    grid-column: 2 / 4;
+    grid-row: 3;
+}
+
+.griditemSixCard {
+    grid-column: 1 / 4;
+    grid-row: 4;
+}
+
+@media only screen and (min-width: 1000px) {
+
+    .grid1Grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .griditemOneCard {
+        grid-column: 1 / 3;
+        grid-row: 1;
+    }
+
+    .griditemTwoCard {
+        grid-column: 1 / 3;
+        grid-row: 2;
+    }
+
+    .griditemThreeCard {
+        grid-column: 3 / 5;
+        grid-row: 1 / 3;
+    }
+
+    .griditemFourCard {
+        grid-column: 1 / 3;
+        grid-row: 3;
+    }
+
+    .griditemFiveCard {
+        grid-column: 3 / 5;
+        grid-row: 3;
+    }
+
+    .griditemSixCard {
+        grid-column: 1 / 5;
+        grid-row: 4;
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+    .grid1Grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .griditemOneCard {
+        grid-column: 1 / 3;
+        grid-row: 1;
+    }
+
+    .griditemTwoCard {
+        grid-column: 1 / 3;
+        grid-row: 2;
+    }
+
+    .griditemThreeCard {
+        grid-column: 3 / 5;
+        grid-row: 1 / 3;
+    }
+
+    .griditemFourCard {
+        grid-column: 5 / 6;
+        grid-row: 1;
+    }
+
+    .griditemFiveCard {
+        grid-column: 5 / 6;
+        grid-row: 2;
+    }
+
+    .griditemSixCard {
+        grid-column: 1 / 6;
+        grid-row: 3;
+    }
+
 }

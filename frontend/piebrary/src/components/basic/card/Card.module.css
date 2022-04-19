@@ -1,0 +1,27 @@
+.card {
+    border: var(--buttonBorder);
+    border-radius: var(--buttonBorderRadius);
+    padding: var(--buttonBorderPadding);
+    background-color: var(--white);
+    color: var(--buttonColor);
+    overflow: auto;
+}
+
+.card.clickable:hover {
+    background-color: var(--buttonBackgroundColorHover);
+    color: var(--buttonColorHover);
+    cursor: pointer;
+}
+
+
+.title {
+    color: var(--white);
+    background-color: var(--cinnabar);
+    padding: 20px;
+    user-select: none;
+}
+
+.content {
+    height: fit-content;
+    padding: 20px;
+}

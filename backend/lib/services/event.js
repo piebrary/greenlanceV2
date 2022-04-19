@@ -35,7 +35,7 @@ module.exports = mode => {
                 eventResponseDto(t, user_id)
             })
 
-            return successHandler(eventDocumentsDto)
+            return successHandler(undefined, eventDocumentsDto)
 
         } catch (error) {
 
@@ -71,7 +71,7 @@ module.exports = mode => {
 
             const eventDocumentDto = eventResponseDto(eventDocument)
 
-            return successHandler(eventDocumentDto)
+            return successHandler(undefined, eventDocumentDto)
 
         } catch (error) {
 
@@ -98,34 +98,27 @@ module.exports = mode => {
         try {
 
             const {
-                name,
-                description,
-                project,
+                title,
+                body,
                 time,
-                location
+                active,
+                creator
             } = eventRequestDto(req.body)
 
             const { _id } = req.user
 
-            const currentBusiness = await BusinessModel
-                .findOne({ users:_id })
-                .exec()
-
-            if(!currentBusiness.projects.includes(project)) return resourceNotFoundHandler('Project')
-
             const newEventDocument = new EventModel({
-                name,
-                description,
-                project,
-                business:currentBusiness._id,
+                title,
+                body,
                 time,
-                location
+                active,
+                creator
             })
 
             const result = await newEventDocument.save()
             const newEventDocumentDto = eventResponseDto(result)
 
-            return successHandler(newEventDocumentDto)
+            return successHandler(undefined, newEventDocumentDto)
 
         } catch (error) {
 
@@ -209,7 +202,7 @@ module.exports = mode => {
             const result = await eventDocument.save()
             const eventDocumentDto = eventResponseDto(result)
 
-            return successHandler(eventDocumentDto)
+            return successHandler(undefined, eventDocumentDto)
 
         } catch (error) {
 
@@ -250,7 +243,7 @@ module.exports = mode => {
                 })
                 .exec()
 
-            return successHandler()
+            return successHandler(undefined, )
 
         } catch (error) {
 

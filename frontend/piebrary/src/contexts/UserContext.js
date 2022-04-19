@@ -2,7 +2,6 @@ import { createContext, useState, useEffect, useContext } from 'react'
 
 import { AuthenticationContext } from './AuthenticationContext'
 
-import { doAuthenticate } from '../services/AuthenticationService'
 import { getUserData, putUserData, putUserCredentials } from '../services/UserService'
 
 export const UserContext = createContext({})

@@ -12,7 +12,7 @@ module.exports = (document, user_id) => {
         settings,
     } = document
 
-    if(_id === user_id){
+    if(_id.toString() === user_id){
 
         return {
             _id,

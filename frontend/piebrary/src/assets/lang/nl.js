@@ -16,7 +16,14 @@ module.exports = () => {
         "REPEAT_PASSWORD":"Herhaal wachtwoord",
         "NEW_PASSWORD":"Nieuw wachtwoord",
         "REPEAT_NEW_PASSWORD":"Herhaal nieuwe wachtwoord",
-        "CURRENT_PASSWORD":"Huidig wachtwoord"
+        "CURRENT_PASSWORD":"Huidig wachtwoord",
+
+        // menu
+        "DASHBOARD":"Dashboard",
+        "PROFILE":"Profiel",
+        "SETTINGS":"Instellingen",
+        "USERS":"Gebruikers",
+        "FORM":"Formulier",
     }
 
 }

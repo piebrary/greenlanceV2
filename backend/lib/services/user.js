@@ -14,57 +14,21 @@ const passwordsMatch = require('../utils/passwordsMatch')
 
 module.exports = mode => {
 
-    async function getMyUserData(req){
+    async function getUserData(req){
 
         try {
 
-            const { _id } = req.user
+            const requester = req.params._id || req.user._id
 
             const userDocument = await UserModel
-                .findOne({ _id:req.user._id })
+                .findOne({ _id:requester })
                 .exec()
 
-            if(!userDocument) return resourceNotFoundHandler('User')
+            if(!userDocument) return notFoundHandler('User')
 
-            const userDocumentDto = userResponseDto(userDocument)
+            const userDocumentDto = userResponseDto(userDocument, requester)
 
-            return successHandler(userDocumentDto)
-
-        } catch (error) {
-
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(500, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(500, 'Unknown error')
-
-            }
-
-        }
-
-    }
-
-    async function getOtherUserData(req){
-
-        try {
-
-            const { _id } = req.params
-
-            const userDocument = await UserModel
-                .findOne({ _id })
-                .exec()
-
-            if(!userDocument) return resourceNotFoundHandler('User')
-
-            const userDocumentDto = userResponseDto(userDocument)
-
-            return successHandler(userDocumentDto)
+            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -117,7 +81,7 @@ module.exports = mode => {
 
             if(!userDocument){
 
-                return resourceNotFoundHandler('User')
+                return notFoundHandler('User')
 
             }
 
@@ -150,7 +114,7 @@ module.exports = mode => {
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            return successHandler(userDocumentDto)
+            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -190,7 +154,7 @@ module.exports = mode => {
                 .findOne({ _id })
                 .exec()
 
-            if(!userDocument) return resourceNotFoundHandler('User')
+            if(!userDocument) return notFoundHandler('User')
 
             if(firstName){
 
@@ -225,7 +189,7 @@ module.exports = mode => {
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            return successHandler(userDocumentDto)
+            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -265,7 +229,7 @@ module.exports = mode => {
                 .findOne({ _id })
                 .exec()
 
-            if(!userDocument) return resourceNotFoundHandler('User')
+            if(!userDocument) return notFoundHandler('User')
 
             if(firstName){
 
@@ -300,7 +264,7 @@ module.exports = mode => {
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            return successHandler(userDocumentDto)
+            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -330,7 +294,7 @@ module.exports = mode => {
 
             const currentUser = await UserModel.findOne({ _id }).exec()
 
-            if(!currentUser) return resourceNotFoundHandler()
+            if(!currentUser) return notFoundHandler()
 
             if(!currentUser.isAdmin && !currentUser.isSuperuser){
 
@@ -363,7 +327,7 @@ module.exports = mode => {
             const result = await newUserDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            return successHandler(userDocumentDto)
+            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -395,7 +359,7 @@ module.exports = mode => {
                 .findOneAndDelete({ _id })
                 .exec()
 
-            return successHandler()
+            return successHandler(undefined, )
 
         } catch (error) {
 
@@ -418,8 +382,7 @@ module.exports = mode => {
     }
 
     return {
-        getMyUserData,
-        getOtherUserData,
+        getUserData,
         createUser,
         updateMyUserCredentials,
         updateMyUserData,

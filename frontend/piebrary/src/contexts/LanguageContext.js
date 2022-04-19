@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from 'react'
+import { createContext, useContext } from 'react'
 
 import { UserContext } from './UserContext'
 
@@ -13,10 +13,10 @@ export default function LanguageContextProvider({ children }){
     const languages = { en, nl }
 
     const contextData = {
-        getLanguage
+        translate
     }
 
-    function getLanguage(stringKey){
+    function translate(stringKey){
 
         return languages[settings.language][stringKey]
 

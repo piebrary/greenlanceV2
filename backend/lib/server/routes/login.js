@@ -5,9 +5,9 @@ module.exports = (express, config) => {
 
     const secret = config.SECRET
     const expires_in = config.EXPIRES_IN
-    const apiPrefix = config.PREFIX
+    const prefix = config.PREFIX
 
-    express.post(apiPrefix + '/login', (req, res) => {
+    express.post(prefix + '/login', (req, res) => {
         passport.authenticate(
         'local',
         { session: false },

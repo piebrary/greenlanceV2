@@ -10,7 +10,7 @@ module.exports = (document, user_id) => {
         active,
     } = document
 
-    if(creator === user_id){
+    if(creator.toString() === user_id){
 
         return {
             _id,

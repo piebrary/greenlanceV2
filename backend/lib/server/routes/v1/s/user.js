@@ -15,7 +15,7 @@ module.exports = (express, config) => {
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.getMyUserData(req)
+            const userData = await userService.getUserData(req)
 
             res
                 .status(userData.status)
@@ -29,7 +29,7 @@ module.exports = (express, config) => {
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.getOtherUserData(req)
+            const userData = await userService.getUserData(req)
 
             res
                 .status(userData.status)

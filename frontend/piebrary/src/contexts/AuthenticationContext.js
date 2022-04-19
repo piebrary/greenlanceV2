@@ -1,7 +1,6 @@
-import { createContext, useState, useContext, useEffect } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 import { doAuthenticate } from '../services/AuthenticationService'
-import { fetchUserData } from '../services/UserService'
 
 export const AuthenticationContext = createContext({})
 
