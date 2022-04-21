@@ -1,27 +1,40 @@
 .card {
-    border: var(--buttonBorder);
-    border-radius: var(--buttonBorderRadius);
-    padding: var(--buttonBorderPadding);
-    background-color: var(--white);
-    color: var(--buttonColor);
-    overflow: auto;
+    border: var(--cardBorder);
+    border-radius: var(--cardBorderRadius);
+    background-color: var(--secondary3);
+    color: var(--dark);
+    overflow: hidden;
 }
 
-.card.clickable:hover {
-    background-color: var(--buttonBackgroundColorHover);
-    color: var(--buttonColorHover);
+.card.clickable:hover .title {
+    background-color: var(--cardTitleBackgroundColorHover);
+    color: var(--cardTitleColorHover);
     cursor: pointer;
+    transition: var(--cardTransition);
+}
+
+.card.clickable:hover .body {
+    background-color: var(--cardBodyBackgroundColorHover);
+    color: var(--cardBodyColorHover);
+    cursor: pointer;
+    transition: var(--cardTransition);
 }
 
 
 .title {
-    color: var(--white);
-    background-color: var(--cinnabar);
-    padding: 20px;
+    color: var(--cardTitleColor);
+    background-color: var(--cardTitleBackgroundColor);
+    padding: var(--cardTitlePadding);
     user-select: none;
+    padding: var(--cardTitlePadding);
+    transition: var(--cardTransition);
 }
 
-.content {
-    height: fit-content;
-    padding: 20px;
+.body {
+    background-color: var(--cardBodyBackgroundColor);
+    color: var(--cardBodyColor);
+    padding: var(--cardBodyPadding);
+    padding: var(--cardBodyPadding);
+    transition: var(--cardTransition);
+    min-height: fit-content;
 }

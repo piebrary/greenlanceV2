@@ -20,6 +20,9 @@
 .main {
     width: 250px;
     margin: auto;
+    background-color: var(--lighterDark);
+    padding: 10px;
+    border-radius: 4px;
 }
 
 .footer {

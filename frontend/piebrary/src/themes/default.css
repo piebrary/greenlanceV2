@@ -2,18 +2,34 @@
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
-    --darkCandyAppleRed: rgb(169, 0, 17);
-    --fireEngineRed: rgb(209, 29, 39);
-    --cinnabar: rgb(229, 60, 56);
-    --antiqueWhite: rgb(251, 235, 216);
-    --floralWhite: rgb(255, 250, 239);
-    --white: rgb(255, 255, 255);
-    --lightgrey: rgb(232, 232, 232);
-    --almostBlack: rgb(10, 10, 10);
+    --primary1: rgb(169, 0, 17);
+    --primary2: rgb(209, 29, 39);
+    --primary3: rgb(229, 60, 56);
+    --primary4: rgb(255, 100, 76);
+    --primary5: rgb(255, 120, 96);
+    --primary6: rgb(255, 140, 116);
+    --secondary1: rgb(255, 250, 239);
+    --secondary2: rgb(251, 235, 216);
+    --secondary3: rgb(255, 255, 255);
+    --light: rgb(232, 232, 232);
+    --dark: rgb(10, 10, 10);
+    --lighterDark: rgb(50, 50, 50);
+    --success1: rgb(0, 145, 38);
+    --success2: rgb(43, 188, 81);
 
-    /* app */
+    /* layout */
     --viewmodeBreakpoint: 800px;
     --maxContentWidth: 1400px;
+    --contentSpacing: 10px;
+    --background: var(--light);
+
+    /* menu */
+    --menuWidth: 250px;
+    --menuTitleColor: var(--secondary3);
+    --menuTitleBackgroundColor: var(--primary3);
+    --menuTitleBorderRadius: 4px;
+    --menuTitlePadding: 10px;
+    --menuTitleSpacing: 28px;
 
     /* components */
 
@@ -26,6 +42,23 @@
 
     --buttonBackgroundColorHover: red;
     --buttonColorHover: white;
+
+    /* components.card */
+    --cardBorder: 0px;
+    --cardBorderRadius: 4px;
+    --cardTitlePadding: 10px 10px;
+    --cardTitleBackgroundColor: var(--primary3);
+    --cardTitleColor: var(--secondary3);
+    --cardBodyPadding: 10px 10px;
+    --cardBodyBackgroundColor: var(--secondary3);
+    --cardBodyColor: var(--dark);
+
+    --cardTransition: 0.3s ease-in-out;
+    --cardTitleBackgroundColorHover: var(--primary3);
+    --cardTitleColorHover: var(--secondary3);
+    --cardBodyBackgroundColorHover: var(--primary3);
+    --cardBodyColorHover: var(--secondary3);
+
 
 
 

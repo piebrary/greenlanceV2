@@ -19,15 +19,14 @@ export default function Login(){
             <main className={styles.main}>
                 <Form
                     logo={<LogoSmall />}
-                    title={'Login'}
+                    title={'Log in'}
                     settings={{}}
-                    onSubmit={data => authenticate(data.username, data.password)}
+                    onSubmit={data => authenticate(data.Username, data.Password)}
                     elements={[
                         {
                             type:'input',
                             subtype:'text',
-                            label:'Username',
-                            name:'username',
+                            name:'Username',
                             placeholder:'username',
                             rules:{
                                 required: true
@@ -36,8 +35,7 @@ export default function Login(){
                         {
                             type:'input',
                             subtype:'password',
-                            label:'Password',
-                            name:'password',
+                            name:'Password',
                             placeholder:'password',
                             rules:{
                                 required: true

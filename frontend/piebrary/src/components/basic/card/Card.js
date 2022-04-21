@@ -17,7 +17,7 @@ export default function Card({ customStyles, children, onClick, title }){
                     </div>
                 )
             }
-            <div className={generateStyles([styles, customStyles], 'content')}>
+            <div className={generateStyles([styles, customStyles], 'body')}>
                 {children}
             </div>
         </div>

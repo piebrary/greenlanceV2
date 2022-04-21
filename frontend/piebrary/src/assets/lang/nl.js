@@ -24,6 +24,29 @@ module.exports = () => {
         "SETTINGS":"Instellingen",
         "USERS":"Gebruikers",
         "FORM":"Formulier",
+        "GRID":"Grid",
+        "CARD":"Kaart",
+        "BUTTON":"Knop",
+        "SLIDESHOW":"Slideshow",
+        "GALLERY":"Galerij",
+        "TABLE":"Tabel",
+        "LAYOUT":"Layout",
+        "BUILDER":"Builder",
+        "DOCUMENTATION":"Documentatie",
+        "CALENDAR":"Kalender",
+        "TEXTAREA":"Tekstvlak",
+
+        // settings
+        "REGIONAL_SETTINGS":"Regionaal",
+        "LANGUAGE":"Taal",
+        "DATE_FORMAT":"Datum aanduiding",
+        "TIME_FORMAT":"Tijds aanduiding",
+        "24HOUR":"24-uursnotatie",
+        "AMPM":"12-uursnotatie",
+        "CREDENTIALS":"Gebruikersgegevens",
+        "NEW_PASSWORD":"Nieuw wachtwoord",
+        "REPEAT_PASSWORD":"Herhaal wachtwoord",
+        "CURRENT_PASSWORD":"Huidig wachtwoord",
     }
 
 }

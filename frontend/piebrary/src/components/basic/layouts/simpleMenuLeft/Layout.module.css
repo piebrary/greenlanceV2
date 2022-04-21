@@ -7,19 +7,18 @@
 .menu {
     width: 100%;
     min-height: fit-content;
-    background-color: var(--almostBlack);
+    background-color: var(--dark);
     box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+}
+
+.spacing {
+    display: none;
 }
 
 .menuHeader {
     width: 100%;
     height: 50px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
 
@@ -35,6 +34,7 @@
     width: 100%;
     user-select: none;
     text-align: center;
+    margin: 30px 0px 10px 0px;
 }
 
 .logout a {
@@ -44,47 +44,56 @@
 }
 
 .logout a:hover {
-    color: var(--cinnabar);
+    color: var(--primary3);
 }
 
 .menuOpen {
-    display: flex;
-    justify-content: space-around;
+    display: block;
 }
 
 .group {
-    max-width: 200px;
-    margin-top: 70px;
-    margin-bottom: 20px;
+    max-width: 100vw;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: block;
+    padding-left: 20px;
+}
+
+.group:first-child {
+    margin-top: 30px;
 }
 
 .label {
-    margin-bottom: 10px;
     user-select: none;
-    color: var(--cinnabar);
+    color: var(--primary3);
+    width: fit-content;
+    display: block;
+    margin: 30px 20px 0px 0px;
 }
 
 .item {
-    margin-bottom: 10px;
     user-select: none;
     color: white;
     text-decoration: none;
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    width: fit-content;
+    margin: 10px 8px 0px 0px;
+    background-color: var(--lighterDark);
+    border-radius: 4px;
+    padding: 10px;
 }
 
 .item:hover {
-    color: var(--cinnabar);
+    color: var(--primary3);
 }
 
 .itemIcon {
-    display: inline-block;
+    display: none;
 }
 
 .itemText {
     display: inline-block;
     padding-top: 1px;
-    padding-left: 6px;
 }
 
 .logo {
@@ -94,40 +103,45 @@
 .title {
     user-select: none;
     display: block;
-    color: var(--white);
+    color: var(--secondary3);
     padding: 5px;
     box-sizing: border-box;
+    margin-left: 15px;
 }
 
 .menuToggle {
     display: block;
     line-height: 10px;
     cursor: pointer;
-    color: var(--white);
+    color: var(--secondary3);
     padding: 5px;
+    margin-left: auto;
 }
 
 .content {
-    height: auto;
-    width: auto;
-    /* height: calc(100vh - 50px); */
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .content > * {
-    margin: 10px 10px 10px 10px;
+    margin: var(--contentSpacing);
 }
 
 @media only screen and (min-width: 800px) {
 
-    .menu {
+    .layoutContainer {
+        flex-direction: row;
         min-height: 100vh;
-        width: 200px;
+    }
+
+    .menu {
+        min-width: var(--menuWidth);
+        max-width: var(--menuWidth);
         display: block;
     }
 
-    .logout {
-        margin-top: 80px;
+    .content {
+        width: 100%;
+        max-width: var(--maxContentWidth);
     }
 
     .menuHeader {
@@ -135,36 +149,68 @@
     }
 
     .group:first-child {
-        margin-top: 90px;
+        margin-top: 30px;
     }
 
-    .title {
-        width: 100%;
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .label {
+    .group {
+        margin-top: 40px;
         padding-left: 20px;
     }
 
+    .title {
+        top: -64px;
+        left: calc(var(--menuWidth) + var(--contentSpacing));
+        position: relative;
+        width: fit-content;
+        text-align: center;
+        margin-top: 20px;
+        margin-left: 0px;
+        border-radius: var(--menuTitleBorderRadius);
+        background-color: var(--menuTitleBackgroundColor);
+        color: var(--menuTitleColor);
+        padding: var(--menuTitlePadding);
+    }
+
+    .spacing {
+        display: block;
+        height: var(--menuTitleSpacing);
+    }
+
+    .label {
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+
     .item {
-        padding-left: 16px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .itemIcon {
+        display: inline-block;
+    }
+
+    .itemText {
+        padding-left: 6px;
     }
 
     .menuToggle {
         display: none;
     }
 
+    .menuOpen {
+        padding: 0px;
+    }
+
     .menuItems {
         display: block;
     }
 
-    .content {
-        position: absolute;
-        left: 200px;
-        width: calc(100% - 200px);
-        height: 100vh;
+    .logout {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
     }
 
 }

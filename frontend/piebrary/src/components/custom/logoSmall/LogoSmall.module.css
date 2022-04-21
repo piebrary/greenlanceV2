@@ -3,9 +3,11 @@
     padding: 10px 5px;
     justify-content: space-around;
     align-items: center;
-    background-color: var(--cinnabar);
-    color: var(--almostBlack);
+    background-color: var(--primary3);
+    color: var(--dark);
     font-size: 22px;
     height: 100%;
     box-sizing: border-box;
+    user-select: none;
+    font-weight: 600;
 }

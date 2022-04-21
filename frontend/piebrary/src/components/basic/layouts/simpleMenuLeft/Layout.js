@@ -117,13 +117,17 @@ export default function Layout({ menuItems, children, customStyles, pageTitle })
                     }
                 </div>
                 <div className={`${generateStyles([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
-                    <NavLink to={''} onClick={logout}>
+                    <NavLink
+                        to={''}
+                        onClick={logout}
+                        className={generateStyles([styles, customStyles], 'item')}>
                         <div className={styles.itemIcon}><BiLogOutCircle size={20} /></div>
                         <div className={styles.itemText}>{translate('LOG_OUT')}</div>
                     </NavLink>
                 </div>
             </div>
             <div className={styles.content}>
+                <div className={styles.spacing}/>
                 {children}
             </div>
         </div>

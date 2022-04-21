@@ -5,16 +5,12 @@ import { UserContext } from '../../contexts/UserContext'
 
 import Grid from '../../components/basic/grid/Grid'
 import Button from '../../components/basic/button/Button'
-import Layout from '../../components/basic/layouts/simpleMenuLeft/Layout.js'
-import Card from '../../components/basic/card/Card.js'
+import Layout from '../../components/basic/layouts/simpleMenuLeft/Layout'
+import Card from '../../components/basic/card/Card'
 
 import LogoSmall from '../../components/custom/logoSmall/LogoSmall'
 
-import { BiHome } from 'react-icons/bi'
-import { FaUser } from 'react-icons/fa'
-import { VscSettings } from 'react-icons/vsc'
-import { FaUsersCog } from 'react-icons/fa'
-import { AiOutlineForm } from 'react-icons/ai'
+import { menuItems } from '../../assets/menu/items'
 
 import { filterStyles } from '../../utils/filterStyles'
 
@@ -25,56 +21,15 @@ export default function Dashboard(){
     const { translate } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
-    const menuItems = [[
-        {
-            label:<>Pages</>
-        },
-        {
-            to:'/',
-            icon:<BiHome size={20} />,
-            text:translate('DASHBOARD')
-        },
-        {
-            to:'/form',
-            icon:<AiOutlineForm size={20} />,
-            text:translate('FORM')
-        },
-    ],[
-        {
-            label:<>User</>
-        },
-        {
-            to:'/profile',
-            icon:<FaUser size={20} />,
-            text:translate('PROFILE')
-        },
-        {
-            to:'/settings',
-            icon:<VscSettings size={20} />,
-            text:translate('SETTINGS')
-        },
-    ],[
-        {
-            label:<>Admin</>,
-            hidden:!isAdmin()
-        },
-        {
-            to:'/users',
-            icon:<FaUsersCog size={20} />,
-            text:translate('USERS'),
-            hidden:!isAdmin()
-        },
-    ]]
-
     return (
         <Layout
             className={styles.container}
-            menuItems={menuItems}
-            pageTitle={'Dashboard'}>
+            menuItems={menuItems({ isAdmin, translate })}
+            pageTitle={translate('DASHBOARD')}>
             <Card
                 title={'Grid component'}
                 customStyles={filterStyles([styles], 'card1')}
-                onClick={event => console.log('card is clicked')}>
+                onClick={event => alert('You clicked on a card component!')}>
                 This page uses the Grid component. <br />
                 <br />
                 This component resizes with screen resizes if the correct properties and styles are given.
@@ -117,6 +72,62 @@ export default function Dashboard(){
                     onClick={event => console.log(event, 'test')}/>
 
             </Card>
+            <Grid customStyles={filterStyles([styles], 'grid1')}>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemOne')}>
+                    One
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemTwo')}>
+                    Two
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemThree')}
+                    title={'Three'}>
+                    Three
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemFour')}>
+                    Four
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemFive')}
+                    title={'Five'}>
+                    Five
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemSix')}>
+                    Six
+                </Card>
+            </Grid>
+            <Grid customStyles={filterStyles([styles], 'grid1')}>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemOne')}>
+                    One
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemTwo')}>
+                    Two
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemThree')}
+                    title={'Three'}>
+                    Three
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemFour')}>
+                    Four
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemFive')}
+                    title={'Five'}>
+                    Five
+                </Card>
+                <Card
+                    customStyles={filterStyles([styles], 'griditemSix')}>
+                    Six
+                </Card>
+            </Grid>
         </Layout>
     )
 }
