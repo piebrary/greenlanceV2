@@ -1,12 +1,18 @@
-.button {
-    border: 0px;
+.container {
+    background-color: var(--lighter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 4px;
-    padding: 5px 10px;
-    background-color: lightgrey;
-    color: black;
+    padding: 10px;
 }
 
-.button:hover {
-    background-color: red;
-    color: white;
+.select {
+    border: 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    padding: 4px;
+    color: var(--dark);
+    cursor: pointer;
+    outline: none;
 }

@@ -7,7 +7,7 @@
 .menu {
     width: 100%;
     min-height: fit-content;
-    background-color: var(--dark);
+    background-color: var(--darkest);
     box-sizing: border-box;
 }
 
@@ -78,7 +78,7 @@
     display: inline-block;
     width: fit-content;
     margin: 10px 8px 0px 0px;
-    background-color: var(--lighterDark);
+    background-color: var(--darker);
     border-radius: 4px;
     padding: 10px;
 }

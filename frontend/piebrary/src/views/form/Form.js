@@ -8,7 +8,7 @@ import Button from '../../components/basic/button/Button'
 import Layout from '../../components/basic/layouts/simpleMenuLeft/Layout.js'
 import Card from '../../components/basic/card/Card.js'
 
-import { menuItems } from '../../assets/menu/items'
+import { menuitems } from '../../assets/js/menu/items'
 
 import { filterStyles } from '../../utils/filterStyles'
 
@@ -22,7 +22,7 @@ export default function Form(){
     return (
         <Layout
             className={styles.container}
-            menuItems={menuItems({ isAdmin, translate })}
+            menuitems={menuitems({ isAdmin, translate })}
             pageTitle={'Form'}>
             <Card
                 title={'Form component'}

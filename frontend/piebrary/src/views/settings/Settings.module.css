@@ -40,6 +40,34 @@
     grid-auto-rows: minmax(100px, auto);
 }
 
+.submitButton {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--success2);
+    color: white;
+    cursor: pointer;
+}
+
+.submitButton:hover {
+    background-color: var(--success1);
+    color: white;
+}
+
+.resetButton {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--primary5);
+    color: white;
+    cursor: pointer;
+}
+
+.resetButton:hover {
+    background-color: var(--primary3);
+    color: white;
+}
+
 @media only screen and (min-width: 1100px) {
 
     .grid1Grid {

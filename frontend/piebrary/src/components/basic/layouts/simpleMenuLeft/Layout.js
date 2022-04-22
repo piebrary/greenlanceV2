@@ -14,7 +14,7 @@ import { generateStyles } from '../../../../utils/generateStyles'
 
 import styles from './Layout.module.css'
 
-export default function Layout({ menuItems, children, customStyles, pageTitle }){
+export default function Layout({ menuitems, children, customStyles, pageTitle }){
 
     const { logout } = useContext(AuthenticationContext)
     const { translate } = useContext(LanguageContext)
@@ -63,7 +63,7 @@ export default function Layout({ menuItems, children, customStyles, pageTitle })
                 </div>
                 <div className={menuClassList.join(' ')}>
                     {
-                        menuItems.map((group, i) => {
+                        menuitems.map((group, i) => {
 
                             const groupJSX = []
 

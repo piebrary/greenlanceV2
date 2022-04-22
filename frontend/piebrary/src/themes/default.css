@@ -11,9 +11,13 @@
     --secondary1: rgb(255, 250, 239);
     --secondary2: rgb(251, 235, 216);
     --secondary3: rgb(255, 255, 255);
-    --light: rgb(232, 232, 232);
-    --dark: rgb(10, 10, 10);
-    --lighterDark: rgb(50, 50, 50);
+    --lightest: rgb(245, 245, 245);
+    --lighter: rgb(232, 232, 232);
+    --light: rgb(200, 200, 200);
+    --normal: rgb(160, 160, 160);
+    --dark: rgb(100, 100, 100);
+    --darker: rgb(70, 70, 70);
+    --darkest: rgb(10, 10, 10);
     --success1: rgb(0, 145, 38);
     --success2: rgb(43, 188, 81);
 
@@ -21,7 +25,7 @@
     --viewmodeBreakpoint: 800px;
     --maxContentWidth: 1400px;
     --contentSpacing: 10px;
-    --background: var(--light);
+    --background: var(--lighter);
 
     /* menu */
     --menuWidth: 250px;

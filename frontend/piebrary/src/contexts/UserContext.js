@@ -28,7 +28,7 @@ export default function UserContextProvider({ children }){
         settings,
         saveUserData,
         saveUserCredentials,
-        userData
+        userData,
     }
 
     useEffect(() => {

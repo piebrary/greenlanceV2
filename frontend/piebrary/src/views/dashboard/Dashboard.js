@@ -10,7 +10,7 @@ import Card from '../../components/basic/card/Card'
 
 import LogoSmall from '../../components/custom/logoSmall/LogoSmall'
 
-import { menuItems } from '../../assets/menu/items'
+import { menuitems } from '../../assets/js/menu/items'
 
 import { filterStyles } from '../../utils/filterStyles'
 
@@ -24,7 +24,7 @@ export default function Dashboard(){
     return (
         <Layout
             className={styles.container}
-            menuItems={menuItems({ isAdmin, translate })}
+            menuitems={menuitems({ isAdmin, translate })}
             pageTitle={translate('DASHBOARD')}>
             <Card
                 title={'Grid component'}

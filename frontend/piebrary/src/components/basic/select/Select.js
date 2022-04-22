@@ -1,29 +1,39 @@
-import styles from './Select.module.css'
-
 import { generateStyles } from '../../../utils/generateStyles'
 
-export default function Select({ customStyles, name, options, selectedOption, onChange }){
+import styles from './Select.module.css'
+
+export default function Select({ customStyles, label, name, options, defaultValue, onChange, register, errors, rules }){
 
     return options && (
-        <select
-            className={generateStyles([styles, customStyles], 'select')}
-            onChange={onChange}
-            defaultValue={selectedOption?.value}>
+        <div className={generateStyles([styles, customStyles], 'container')}>
             {
-                options.map(o => {
-
-                    return (
-                        <option
-                            value={o.value}
-                            key={o.value}
-                            id={o.name}>
-                            {o.name}
-                        </option>
-                    )
-
-                })
+                label && (
+                    <div className={generateStyles([styles, customStyles], 'label')}>
+                        {label}
+                    </div>
+                )
             }
-        </select>
+            <select
+                className={generateStyles([styles, customStyles], 'select')}
+                onChange={onChange}
+                defaultValue={defaultValue?.value}
+                {...register(name, rules)}>
+                {
+                    options.map(o => {
+
+                        return (
+                            <option
+                                value={o.value}
+                                key={o.value}
+                                id={o.name}>
+                                {o.name}
+                            </option>
+                        )
+
+                    })
+                }
+            </select>
+        </div>
     )
 
 }

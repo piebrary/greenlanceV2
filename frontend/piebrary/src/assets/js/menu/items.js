@@ -15,7 +15,7 @@ import { BsBook } from 'react-icons/bs'
 import { BsCalendar2Week } from 'react-icons/bs'
 import { BsCardText } from 'react-icons/bs'
 
-export function menuItems({ isAdmin, translate }){
+export function menuitems({ isAdmin, translate }){
 
     return [
         [
