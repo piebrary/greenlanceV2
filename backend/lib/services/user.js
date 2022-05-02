@@ -1,3 +1,8 @@
+const fs = require('fs')
+
+const path = require('path')
+const Resize = require('../utils/Resize')
+
 const UserModel = require('../models/user')
 
 const notFoundHandler = require('../handlers/notFound')
@@ -10,23 +15,23 @@ const userRequestDto = require('../dto/request/user')
 const encryptPassword = require('../utils/encryptPassword')
 const passwordsMatch = require('../utils/passwordsMatch')
 
-// const validate = require('../utils/validator')()
+const logger = require('../utils/logger')
+
+const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
 module.exports = mode => {
 
-    async function getUserData(req){
+    async function getMyUserData(req){
 
         try {
 
-            const requester = req.params._id || req.user._id
-
             const userDocument = await UserModel
-                .findOne({ _id:requester })
+                .findOne({ _id:req.user._id })
                 .exec()
 
             if(!userDocument) return notFoundHandler('User')
 
-            const userDocumentDto = userResponseDto(userDocument, requester)
+            const userDocumentDto = userResponseDto(userDocument, req.user._id)
 
             return successHandler(undefined, userDocumentDto)
 
@@ -50,18 +55,68 @@ module.exports = mode => {
 
     }
 
-    async function updateMyUserCredentials(req){
+    async function getOtherUserData(req){
 
         try {
 
-            const { _id } = req.user
+            const currentUser = await UserModel.findOne({ _id:req.user_id }).exec()
+
+            if(!currentUser) return notFoundHandler()
+
+            if(!currentUser.isAdmin && !currentUser.isSuperuser){
+
+                return errorHandler(403, 'Forbidden')
+
+            }
+
+            const userDocument = await UserModel
+                .findOne({ _id:req.params._id })
+                .exec()
+
+            if(!userDocument) return notFoundHandler('User')
+
+            const userDocumentDto = userResponseDto(userDocument)
+
+            return successHandler(undefined, userDocumentDto)
+
+        } catch (error) {
+
+            if(mode === 'DEV'){
+
+                console.log(error)
+
+                return errorHandler(500, error)
+
+            }
+
+            if(mode === 'PROD'){
+
+                return errorHandler(500, 'Unknown error')
+
+            }
+
+        }
+
+    }
+
+    async function updateMyUserData(req){
+
+        try {
 
             const {
-                username,
+                firstName,
+                lastName,
                 email,
-                currentPassword,
-                newPassword
+                settings,
+                newPassword,
+                currentPassword
             } = userRequestDto(req.body)
+
+            const userDocument = await UserModel
+                .findOne({ _id:req.user._id })
+                .exec()
+
+            if(!userDocument) return notFoundHandler('User')
 
             if(newPassword && newPassword.length < 8){
 
@@ -75,119 +130,49 @@ module.exports = mode => {
 
             }
 
-            const userDocument = await UserModel
-                .findOne({ _id })
-                .exec()
+            if(
+                (
+                    (
+                        email !== userDocument.email
+                        && email !== undefined
+                    )
+                    || newPassword
+                )
+                && !currentPassword
+            ){
 
-            if(!userDocument){
-
-                return notFoundHandler('User')
-
-            }
-
-            const isMatchingPassword = await passwordsMatch(currentPassword, userDocument.passwordHash)
-
-            if(!isMatchingPassword){
-
-                return errorHandler(406, 'Wrong password')
+                return errorHandler(403, 'Current password not provided')
 
             }
 
-            if(username){
+            if(
+                (email || newPassword)
+                && currentPassword
+            ){
 
-                userDocument.username = username
+                const matchingPasswords = passwordsMatch(currentPassword, userDocument.passwordHash)
+
+                if(!matchingPasswords){
+
+                    return errorHandler(406, 'Wrong password')
+
+                }
+
+                if(matchingPasswords){
+
+                    if(newPassword) userDocument.passwordHash = await encryptPassword(newPassword)
+                    if(email) userDocument.email = email
+
+                }
 
             }
 
-            if(email){
-
-                userDocument.email = email
-
-            }
-
-            if(newPassword){
-
-                userDocument.passwordHash = await encryptPassword(newPassword)
-
-            }
+            if(firstName) userDocument.firstName = firstName
+            if(lastName) userDocument.lastName = lastName
+            if(settings) userDocument.settings = settings
 
             const result = await userDocument.save()
-            const userDocumentDto = userResponseDto(result)
-
-            return successHandler(undefined, userDocumentDto)
-
-        } catch (error) {
-
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
-
-        }
-
-    }
-
-    async function updateMyUserData(req){
-
-        try {
-
-            const { _id } = req.user
-
-            const {
-                firstName,
-                lastName,
-                business,
-                email,
-                settings,
-            } = userRequestDto(req.body)
-
-            const userDocument = await UserModel
-                .findOne({ _id })
-                .exec()
-
-            if(!userDocument) return notFoundHandler('User')
-
-            if(firstName){
-
-                userDocument.firstName = firstName
-
-            }
-
-            if(lastName){
-
-                userDocument.lastName = lastName
-
-            }
-
-            if(business){
-
-                userDocument.business = business
-
-            }
-
-            if(email){
-
-                userDocument.email = email
-
-            }
-
-            if(settings){// && validate.settings(settings)){
-
-                userDocument.settings = settings
-
-            }
-
-            const result = await userDocument.save()
-            const userDocumentDto = userResponseDto(result)
+            const userDocumentDto = userResponseDto(result, req.user._id)
 
             return successHandler(undefined, userDocumentDto)
 
@@ -215,51 +200,35 @@ module.exports = mode => {
 
         try {
 
-            const { _id } = req.params
+            const currentUser = await UserModel.findOne({ _id:req.user_id }).exec()
+
+            if(!currentUser) return notFoundHandler()
+
+            if(!currentUser.isAdmin && !currentUser.isSuperuser){
+
+                return errorHandler(403, 'Forbidden')
+
+            }
 
             const {
                 firstName,
                 lastName,
-                business,
                 email,
                 settings,
+                profilePicture
             } = userRequestDto(req.body)
 
             const userDocument = await UserModel
-                .findOne({ _id })
+                .findOne({ _id:req.params._id })
                 .exec()
 
             if(!userDocument) return notFoundHandler('User')
 
-            if(firstName){
-
-                userDocument.firstName = firstName
-
-            }
-
-            if(lastName){
-
-                userDocument.lastName = lastName
-
-            }
-
-            if(business){
-
-                userDocument.business = business
-
-            }
-
-            if(email){
-
-                userDocument.email = email
-
-            }
-
-            if(settings){// && validate.settings(settings)){
-
-                userDocument.settings = settings
-
-            }
+            if(firstName) userDocument.firstName = firstName
+            if(lastName) userDocument.lastName = lastName
+            if(email) userDocument.email = email
+            if(settings) userDocument.settings = settings
+            if(profilePicture) userDocument.profilePicture = profilePicture
 
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
@@ -304,7 +273,6 @@ module.exports = mode => {
 
             const {
                 username,
-                business,
                 firstName,
                 lastName,
                 email,
@@ -317,7 +285,6 @@ module.exports = mode => {
             const newUserDocument = new UserModel({
                 username,
                 passwordHash,
-                business,
                 firstName,
                 lastName,
                 email,
@@ -353,13 +320,21 @@ module.exports = mode => {
 
         try {
 
-            const { _id } = req.params
+            const currentUser = await UserModel.findOne({ _id:req.user._id }).exec()
+
+            if(!currentUser) return notFoundHandler()
+
+            if(!currentUser.isAdmin && !currentUser.isSuperuser){
+
+                return errorHandler(403, 'Forbidden')
+
+            }
 
             const result = UserModel
-                .findOneAndDelete({ _id })
+                .findOneAndDelete({ _id:req.params._id })
                 .exec()
 
-            return successHandler(undefined, )
+            return successHandler(undefined, 'User successfully deleted')
 
         } catch (error) {
 
@@ -381,13 +356,105 @@ module.exports = mode => {
 
     }
 
+    // async function getProfilePicture(req){
+    //
+    //     try {
+    //
+    //         const file = filename = req.params.filename
+    //
+    //         return path.join(
+    //             profilePicturePath,
+    //             req.params.filename
+    //         )
+    //
+    //
+    //     } catch (error) {
+    //
+    //         if(mode === 'DEV'){
+    //
+    //             console.log(error)
+    //
+    //             // return errorHandler(500, error)
+    //
+    //         }
+    //
+    //         if(mode === 'PROD'){
+    //
+    //             // return errorHandler(500, 'Unknown error')
+    //
+    //         }
+    //
+    //     }
+    //
+    // }
+
+    async function uploadProfilePicture(req){
+
+        try {
+
+            const userDocument = await UserModel
+                .findOne({ _id:req.user._id })
+                .exec()
+
+            if(!userDocument) return notFoundHandler('User')
+
+            const fileUpload = new Resize(profilePicturePath)
+            const filename = await fileUpload.save(req.file.buffer)
+
+            // delete old profile picture
+            if(userDocument.profilePicture){
+
+                fs.unlink(profilePicturePath + userDocument.profilePicture, err => {
+
+                    if(err) {
+
+                        logger.error({
+                            message:'New Error: fs.unlink on uploadProfilePicture()',
+                            data:error
+                        })
+
+                    }
+
+                })
+
+            }
+
+            userDocument.profilePicture = filename
+
+            const result = await userDocument.save()
+
+            return successHandler(undefined, filename)
+
+        } catch (error) {
+
+            if(mode === 'DEV'){
+
+                console.log(error)
+
+                return errorHandler(500, error)
+
+            }
+
+            if(mode === 'PROD'){
+
+                return errorHandler(500, 'Unknown error')
+
+            }
+
+        }
+
+
+    }
+
     return {
-        getUserData,
+        getMyUserData,
+        getOtherUserData,
         createUser,
-        updateMyUserCredentials,
         updateMyUserData,
         updateOtherUserData,
-        deleteUser
+        deleteUser,
+        // getProfilePicture,
+        uploadProfilePicture,
     }
 
 }

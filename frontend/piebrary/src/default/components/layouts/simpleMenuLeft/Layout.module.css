@@ -1,0 +1,240 @@
+.layoutContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu {
+    width: 100%;
+    min-height: fit-content;
+    background-color: var(--darkest);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    height: auto;
+}
+
+.spacing {
+    height: calc(var(--menuHeight) - var(--contentSpacing));
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: var(--menuHeight);
+}
+
+.items {
+    display: none;
+    color: white;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.logout {
+    display: none;
+    width: 100%;
+    user-select: none;
+    text-align: center;
+    margin: 30px 0px 10px 0px;
+}
+
+.logout a {
+    color: white;
+    text-decoration: none;
+    margin-bottom: 20px;
+}
+
+.logout a:hover {
+    color: var(--primary3);
+}
+
+.menuOpen {
+    display: block;
+}
+
+.controls {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0px 10px;
+}
+
+.controls > *:only-child {
+    margin: 0px auto 0px 0px;
+}
+
+.group {
+    max-width: 100vw;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    display: block;
+    padding-left: 20px;
+}
+
+.group:first-child {
+    margin-top: 30px;
+}
+
+.label {
+    user-select: none;
+    color: var(--primary3);
+    width: fit-content;
+    display: block;
+    margin: 30px 20px 0px 0px;
+}
+
+.item {
+    user-select: none;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: fit-content;
+    margin: 10px 8px 0px 0px;
+    background-color: var(--darker);
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.item:hover {
+    color: var(--primary3);
+}
+
+.itemIcon {
+    display: none;
+    height: 20px;
+}
+
+.itemText {
+    display: inline-block;
+    padding-top: 1px;
+}
+
+.logo {
+    display: block;
+    min-width: fit-content;
+    width: 100px;
+    height: 100%;
+}
+
+.title {
+    user-select: none;
+    color: var(--secondary3);
+    padding: 5px;
+    box-sizing: border-box;
+    margin-left: 15px;
+}
+
+.toggle {
+    display: block;
+    line-height: 10px;
+    cursor: pointer;
+    color: var(--secondary3);
+    padding: 5px;
+    margin-left: auto;
+}
+
+.content {
+    /* overflow-y: auto; */
+}
+
+.content > * {
+    margin: var(--contentSpacing);
+}
+
+@media only screen and (min-width: 800px) {
+
+    .layoutContainer {
+        flex-direction: row;
+        min-height: 100vh;
+    }
+
+    .menu {
+        min-width: var(--menuWidth);
+        max-width: var(--menuWidth);
+        display: block;
+        position: relative;
+        height: auto;
+    }
+
+    .content {
+        width: 100%;
+        max-width: var(--maxContentWidth);
+    }
+
+    .logo {
+        width: var(--menuWidth);
+    }
+
+    .group:first-child {
+        margin-top: 30px;
+    }
+
+    .group {
+        margin-top: 40px;
+        padding-left: 20px;
+    }
+
+    .controls {
+        width: calc(100% - var(--menuWidth));
+        margin: 0px;
+        padding: 0px 10px;
+        left: var(--menuWidth);
+        position: absolute;
+    }
+
+    .title {
+        position: relative;
+        width: fit-content;
+        text-align: center;
+        border-radius: var(--menuTitleBorderRadius);
+        background-color: var(--menuTitleBackgroundColor);
+        color: var(--menuTitleColor);
+        padding: var(--menuTitlePadding);
+    }
+
+    .spacing {
+        display: block;
+        height: var(--menuTitleSpacing);
+    }
+
+    .label {
+        margin-bottom: 10px;
+        padding-left: 10px;
+    }
+
+    .item {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .itemIcon {
+        display: inline-block;
+    }
+
+    .itemText {
+        padding-left: 6px;
+    }
+
+    .toggle {
+        display: none;
+    }
+
+    .menuOpen {
+        padding: 0px;
+    }
+
+    .items {
+        display: block;
+    }
+
+    .logout {
+        margin-top: 80px;
+        display: flex;
+        justify-content: center;
+    }
+
+}

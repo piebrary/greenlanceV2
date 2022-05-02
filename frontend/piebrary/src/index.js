@@ -3,9 +3,9 @@ import { createRoot } from 'react-dom/client'
 
 import App from './App'
 
-import AuthenticationContextProvider from './contexts/AuthenticationContext'
-import UserContextProvider from './contexts/UserContext'
-import LanguageContextProvider from './contexts/LanguageContext'
+import AuthenticationContextProvider from './default/contexts/AuthenticationContext'
+import UserContextProvider from './default/contexts/UserContext'
+import LanguageContextProvider from './default/contexts/LanguageContext'
 
 import './index.css'
 

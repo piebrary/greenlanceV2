@@ -1,0 +1,42 @@
+.container {
+    background-color: var(--lighter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.inputContainer {
+    margin-left: 10px;
+    flex-grow: 1;
+    max-width: 200px;
+}
+
+.input {
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: var(--secondary3);
+    color: var(--dark);
+    border: 0px;
+    padding: 10px;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+    width: 100%;
+}
+
+.input:read-only {
+    background-color: var(--lightest);
+    color: var(--normal);
+}
+
+.errorMessage {
+    min-width: 100%;
+    color: var(--primary3);
+    box-sizing: border-box;
+    display: block;
+    font-size: 13px;
+    text-align: center;
+    margin-top: 10px;
+}

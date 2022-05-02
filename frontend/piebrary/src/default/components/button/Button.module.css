@@ -1,0 +1,14 @@
+.button {
+    border: var(--buttonBorder);
+    border-radius: var(--buttonBorderRadius);
+    padding: var(--buttonPadding);
+    background-color: var(--buttonBackgroundColor);
+    color: var(--buttonColor);
+    cursor: pointer;
+    user-select: none;
+}
+
+.button:hover {
+    background-color: var(--buttonBackgroundColorHover);
+    color: var(--buttonColorHover);
+}

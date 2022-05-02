@@ -11,7 +11,7 @@ module.exports = (express, config) => {
     const eventService = EventService(mode)
 
     express.get(
-        apiPrefix + '/s/v1/events',
+        apiPrefix + '/v1/s/events',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -25,7 +25,7 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        apiPrefix + '/s/v1/event',
+        apiPrefix + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -39,7 +39,7 @@ module.exports = (express, config) => {
     )
 
     express.post(
-        apiPrefix + '/s/v1/event',
+        apiPrefix + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -53,7 +53,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        apiPrefix + '/s/v1/event',
+        apiPrefix + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -67,7 +67,7 @@ module.exports = (express, config) => {
     )
 
     express.delete(
-        apiPrefix + '/s/v1/event',
+        apiPrefix + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 

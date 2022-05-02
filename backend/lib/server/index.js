@@ -2,6 +2,7 @@ const Express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const moment = require('moment')
+const path = require('path')
 
 const serverConfig = require('../../../config/server')
 const dbConfig = require('../../../config/db')
@@ -20,6 +21,9 @@ module.exports = async () => {
         express.use(Express.json())
         express.use(bodyParser.urlencoded({ extended: true }))
         express.use(cors())
+
+        // express.use(Express.static('../public'))
+        express.use('/public', Express.static(path.join(__dirname, '../../public')))
 
         require('./auth.js')(serverConfig)
 

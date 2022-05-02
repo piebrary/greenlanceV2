@@ -10,6 +10,7 @@ module.exports = (document, user_id) => {
         email,
         roles,
         settings,
+        profilePicture,
     } = document
 
     if(_id.toString() === user_id){
@@ -22,6 +23,7 @@ module.exports = (document, user_id) => {
             email,
             roles,
             settings:settingsResponseDto(settings),
+            profilePicture,
         }
 
     }
@@ -32,6 +34,7 @@ module.exports = (document, user_id) => {
         firstName,
         lastName,
         email,
+        profilePicture,
     }
 
 }

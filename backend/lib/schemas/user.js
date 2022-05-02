@@ -24,6 +24,9 @@ module.exports = new Schema({
         type: String,
         required: true
     },
+    profilePicture: {
+        type: String
+    },
     roles: {              // user can have multiple roles, therefor use an array
         type: Array,
         required: true,
@@ -41,7 +44,7 @@ module.exports = new Schema({
             type: String,
             default: 'DD-MM-YYYY'
         },
-    }
+    },
 },
 {
     timestamps: true

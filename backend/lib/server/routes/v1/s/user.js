@@ -10,12 +10,14 @@ module.exports = (express, config) => {
 
     const userService = UserService(mode)
 
+    const upload = require('../../../../utils/uploadProfilePictureMiddleware')
+
     express.get(
-        prefix + '/s/v1/user',
+        prefix + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.getUserData(req)
+            const userData = await userService.getMyUserData(req)
 
             res
                 .status(userData.status)
@@ -25,11 +27,11 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        prefix + '/s/v1/user/:_id',
+        prefix + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.getUserData(req)
+            const userData = await userService.getOtherUserData(req)
 
             res
                 .status(userData.status)
@@ -39,22 +41,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        prefix + '/s/v1/user/credentials',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const userData = await userService.updateMyUserCredentials(req)
-
-            res
-                .status(userData.status)
-                .send(userData.body)
-
-        }
-
-    )
-
-    express.put(
-        prefix + '/s/v1/user',
+        prefix + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -68,7 +55,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        prefix + '/s/v1/user/:_id',
+        prefix + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -82,7 +69,7 @@ module.exports = (express, config) => {
     )
 
     express.post(
-        prefix + '/s/v1/user',
+        prefix + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -97,7 +84,7 @@ module.exports = (express, config) => {
     )
 
     express.delete(
-        prefix + '/s/v1/user/:_id',
+        prefix + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -109,6 +96,34 @@ module.exports = (express, config) => {
 
         }
 
+    )
+
+    // express.get(
+    //     prefix + '/v1/s/user/picture/:filename',
+    //     passport.authenticate('jwt', { session: false }),
+    //     async (req, res) => {
+    //
+    //         const result = await userService.getProfilePicture(req)
+    //
+    //         res.sendFile(result)
+    //
+    //
+    //     }
+    // )
+
+    express.post(
+        prefix + '/v1/s/user/picture',
+        passport.authenticate('jwt', { session: false }),
+        upload.single('picture'),
+        async (req, res) => {
+
+            const result = await userService.uploadProfilePicture(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
     )
 
 }
