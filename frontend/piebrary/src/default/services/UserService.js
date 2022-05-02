@@ -67,3 +67,18 @@ export async function postMyProfilePicture(file){
     return await axios(options)
 
 }
+
+export async function getUsers(){
+
+    const options = {
+        url:'/api/v1/s/users',
+        method:'GET',
+        headers: {
+            Authorization:'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return await axios(options)
+
+}

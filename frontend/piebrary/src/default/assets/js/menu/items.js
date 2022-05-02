@@ -14,13 +14,15 @@ import { IoMdHammer } from 'react-icons/io'
 import { BsBook } from 'react-icons/bs'
 import { BsCalendar2Week } from 'react-icons/bs'
 import { BsCardText } from 'react-icons/bs'
+import { BsPalette } from 'react-icons/bs'
+import { MdOutlineNotificationsActive } from 'react-icons/md'
 
 export function menuitems({ isAdmin, translate }){
 
     return [
         [
             {
-                label:<>{translate('BASIC')}</>
+                label:<>{translate('DEFAULT')}</>
             },
             {
                 to:'/',
@@ -113,6 +115,20 @@ export function menuitems({ isAdmin, translate }){
                 to:'/textarea',
                 icon:<BsCardText size={20} />,
                 text:translate('TEXTAREA')
+            },
+            {
+                to:'/notification',
+                icon:<MdOutlineNotificationsActive size={20} />,
+                text:translate('NOTIFICATIONS')
+            },
+        ],[
+            {
+                label:<>{translate('OTHER')}</>
+            },
+            {
+                to:'/styles',
+                icon:<BsPalette size={20} />,
+                text:translate('CSS_STYLES')
             },
         ],
     ]

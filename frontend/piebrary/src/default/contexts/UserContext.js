@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from 'react'
 
 import { AuthenticationContext } from './AuthenticationContext'
 
-import { getMyUserData, putMyUserData, getProfilePicture, postMyProfilePicture } from '../services/UserService'
+import { getMyUserData, putMyUserData, getProfilePicture, postMyProfilePicture, getUsers } from '../services/UserService'
 
 export const UserContext = createContext({})
 
@@ -31,7 +31,8 @@ export default function UserContextProvider({ children }){
         saveUserData,
         userData,
         getProfilePicture,
-        uploadProfilePicture
+        uploadProfilePicture,
+        getUsers,
     }
 
     useEffect(() => {

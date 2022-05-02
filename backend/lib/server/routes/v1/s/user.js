@@ -40,6 +40,20 @@ module.exports = (express, config) => {
         }
     )
 
+    express.get(
+        prefix + '/v1/s/users',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const usersData = await userService.getUsers(req)
+
+            res
+                .status(usersData.status)
+                .send(usersData.body)
+
+        }
+    )
+
     express.put(
         prefix + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),

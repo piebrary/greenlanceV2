@@ -1,6 +1,6 @@
 const settingsResponseDto = require('./settings')
 
-module.exports = (document, user_id) => {
+module.exports = (document, user_id, isAdmin) => {
 
     const {
         _id,
@@ -13,7 +13,10 @@ module.exports = (document, user_id) => {
         profilePicture,
     } = document
 
-    if(_id.toString() === user_id){
+    if(
+        _id.toString() === user_id
+        || isAdmin
+    ){
 
         return {
             _id,

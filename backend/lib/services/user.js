@@ -99,6 +99,52 @@ module.exports = mode => {
 
     }
 
+    async function getUsers(req){
+
+        try {
+
+            const currentUser = await UserModel.findOne({ _id:req.user._id }).exec()
+
+            if(!currentUser) return notFoundHandler('User')
+
+            if(!currentUser.isAdmin){
+
+                return errorHandler(403, 'Forbidden')
+
+            }
+
+            const userDocuments = await UserModel
+                .find()
+                .exec()
+
+            const userDocumentsDto = userDocuments.map(u => {
+
+                return userResponseDto(u, undefined, true)
+
+            })
+
+            return successHandler(undefined, userDocumentsDto)
+
+        } catch (error) {
+
+            if(mode === 'DEV'){
+
+                console.log(error)
+
+                return errorHandler(500, error)
+
+            }
+
+            if(mode === 'PROD'){
+
+                return errorHandler(500, 'Unknown error')
+
+            }
+
+        }
+
+    }
+
     async function updateMyUserData(req){
 
         try {
@@ -449,6 +495,7 @@ module.exports = mode => {
     return {
         getMyUserData,
         getOtherUserData,
+        getUsers,
         createUser,
         updateMyUserData,
         updateOtherUserData,

@@ -13,6 +13,7 @@ module.exports = () => {
         "USERNAME":"Gebruikersnaam",
         "EMAIL":"Email",
         "PASSWORD":"Wachtwoord",
+        "YOUR_PASSWORD":"Jouw wachtwoord",
 
         // menu
         "DASHBOARD":"Dashboard",
@@ -34,6 +35,10 @@ module.exports = () => {
         "BASIC":"Basis",
         "ADMIN":"Admin",
         "COMPONENTS":"Componenten",
+        "DEFAULT":"Standaard",
+        "CSS_STYLES":"Css stijlen",
+        "OTHER":"Anders",
+        "NOTIFICATIONS":"Notificaties",
 
         // settings
         "REGIONAL_SETTINGS":"Regionale instellingen",
@@ -53,6 +58,13 @@ module.exports = () => {
         "LASTNAME":"Achternaam",
         "PICTURE":"Profielfoto",
         "UPLOAD":"Uploaden",
+
+        // users
+        "ROLES":"Rollen",
+        "CLOSE":"Sluiten",
+        "RETURN":"Terug",
+        "CREATE_NEW_USER":"Nieuwe gebruiker",
+        "DELETE_USER":"Verwijder gebruiker",
     }
 
 }

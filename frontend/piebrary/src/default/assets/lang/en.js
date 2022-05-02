@@ -13,6 +13,7 @@ module.exports = () => {
         "USERNAME":"Username",
         "EMAIL":"Email",
         "PASSWORD":"Password",
+        "YOUR_PASSWORD":"Your password",
 
         // menu
         "DASHBOARD":"Dashboard",
@@ -34,6 +35,10 @@ module.exports = () => {
         "BASIC":"Basic",
         "ADMIN":"Admin pages",
         "COMPONENTS":"Components",
+        "DEFAULT":"Default",
+        "CSS_STYLES":"Css styling",
+        "OTHER":"Other",
+        "NOTIFICATIONS":"Notifications",
 
         // settings
         "REGIONAL_SETTINGS":"Regional settings",
@@ -53,6 +58,13 @@ module.exports = () => {
         "LASTNAME":"Lastname",
         "PICTURE":"Photo",
         "UPLOAD":"Upload",
+
+        // users
+        "ROLES":"Roles",
+        "CLOSE":"Close",
+        "RETURN":"Return",
+        "CREATE_NEW_USER":"New user",
+        "DELETE_USER":"Delete user",
     }
 
 }

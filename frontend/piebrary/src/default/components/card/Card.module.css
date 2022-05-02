@@ -28,6 +28,8 @@
     user-select: none;
     padding: var(--cardTitlePadding);
     transition: var(--cardTransition);
+    word-break: break-all;
+    word-wrap: break-word;
 }
 
 .body {
@@ -37,4 +39,6 @@
     padding: var(--cardBodyPadding);
     transition: var(--cardTransition);
     min-height: fit-content;
+    word-break: break-all;
+    word-wrap: break-word;
 }

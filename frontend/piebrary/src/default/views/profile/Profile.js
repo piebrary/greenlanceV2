@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 import { useForm } from "react-hook-form"
 
@@ -28,8 +28,6 @@ export default function Profile(){
     const { isAdmin, userData, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
-
-    const [profilePicture, setProfilePicture] = useState()
 
     const onSubmit = data => saveUserData(data)
     const onReset = event => { event.preventDefault(); reset(); }

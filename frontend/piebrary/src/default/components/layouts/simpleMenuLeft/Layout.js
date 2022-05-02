@@ -48,14 +48,15 @@ export default function Layout({ items, children, customStyles, title, controls 
                     <div className={generateStyles([styles, customStyles], 'logo')}>
                         <Logo />
                     </div>
+                    {
+                        title && (
+                            <div className={generateStyles([styles, customStyles], 'title')}>
+                                {title}
+                            </div>
+                        )
+                    }
                     <div className={generateStyles([styles, customStyles], 'controls')}>
-                        {
-                            title && (
-                                <div className={generateStyles([styles, customStyles], 'title')}>
-                                    {title}
-                                </div>
-                            )
-                        }
+                        {controls}
                     </div>
                     <div
                         className={generateStyles([styles, customStyles], 'toggle')}

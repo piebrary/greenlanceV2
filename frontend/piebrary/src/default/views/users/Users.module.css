@@ -21,3 +21,20 @@
     max-width: 400px;
     margin: auto;
 }
+
+.controlsCardBody {
+    display: flex;
+    justify-content: left;
+}
+
+.controlsCardBody > * {
+    margin-left: 6px;
+}
+
+.controlsCloseButton {
+    background-color: var(--primary3);
+}
+
+.controlsCloseButton:hover {
+    background-color: var(--primary1);
+}
