@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form"
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
 
+import { putOtherUserData } from '../../services/UserService'
+
 import Form from '../../components/form/Form'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout'
 import Card from '../../components/card/Card'
@@ -15,28 +17,30 @@ import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 import ImageUploader from '../../components/imageUploader/ImageUploader'
 import Table from '../../components/table/Table'
 import Select from '../../components/select/Select'
+import Checkbox from '../../components/checkbox/Checkbox'
 
 import { BsPersonCircle } from 'react-icons/bs'
+import { BsCheck } from 'react-icons/bs'
+import { BiUserPlus } from 'react-icons/bi'
 
 import { menuitems } from '../../assets/js/menu/items'
+import { rolesOptions } from '../../assets/js/user/roles'
 
 import { filterStyles } from '../../utils/filterStyles'
 import { containsNumber } from '../../utils/containsNumber'
 
 import styles from './Users.module.css'
 
-import { rolesSelectOptions } from '../../assets/js/user/roles'
-
 export default function Users(){
 
     const { translate } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData, getProfilePicture, getUsers } = useContext(UserContext)
+    const { isAdmin, userData, saveUserData, getProfilePicture, getUsers, postUser } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
 
     const [data, setData] = useState([])
     const [viewMode, setViewMode] = useState('view users')
-    const [currentlyViewedUser, setCurrentlyViewedUser] = useState()
+    const [selectedUser, setSelectedUser] = useState()
 
     const columns = [
         {
@@ -47,62 +51,137 @@ export default function Users(){
             Header: translate('EMAIL'),
             accessor: 'email',
         },
-        {
-            Header: translate('ROLES'),
-            accessor: 'roles'
-        }
+        ...rolesOptions.map(r => {
+            return {
+                Header: r.name,
+                accessor: data => {
+                    return data.roles.includes(r.value) && <BsCheck size={16} />
+                }
+            }
+        })
     ]
 
     useEffect(() => {
 
-        (async () => {
-
-            const response = await getUsers()
-
-            const modifiedData = response.data.map(u => {
-
-                u.roles = u.roles.join(', ')
-
-                return u
-
-            })
-
-            setData(response.data)
-
-        })()
+        fetchUsers()
 
     }, [])
 
-    function onRowClick(data){
+    async function fetchUsers(){
 
-        setViewMode('view user')
-        setCurrentlyViewedUser(data)
+        const response = await getUsers()
+
+        setData(response.data)
 
     }
 
-    function closeDetailedViewMode(){
+    function openEditUser(data){
 
-        setViewMode('view users')
-        setCurrentlyViewedUser()
+        setSelectedUser(data)
+        reset(selectedUser)
+        setViewMode('edit user')
+
+    }
+
+    function openCreateUser(){
+
+        reset({})
+        setViewMode('create user')
+
+    }
+
+    function openViewUsers(){
+
+        setSelectedUser()
         onReset()
+        setViewMode('view users')
 
     }
 
     function deleteUser(){
 
-        alert(`Are you sure you want to delete user ${currentlyViewedUser.username}`)
+        alert(`Are you sure you want to delete user ${selectedUser.username}`)
 
     }
 
-    function saveNewUser(){
+    async function updateUser(data){
 
+        const {
+            username,
+            email,
+            password,
+            currentPassword
+        } = data
 
+        const roles = []
+
+        rolesOptions.map(o => {
+
+            if(data['Roles' + o.value] === true){
+
+                roles.push(o.value)
+
+            }
+
+        })
+
+        if(roles.length === 0){
+
+            roles.push('user')
+
+        }
+
+        console.log(data)
+
+        await saveUserData({
+            username,
+            email,
+            password,
+            currentPassword,
+            roles
+        })
+
+        fetchUsers()
 
     }
 
-    function onSubmit(data){
+    async function createUser(data){
 
-        saveUserData(data)
+        const {
+            username,
+            email,
+            password,
+            repeatPassword,
+            currentPassword
+        } = data
+
+        const roles = []
+
+        for(let key in rolesOptions){
+
+            if(data[key + 'Checkbox'] === true){
+
+                roles.push(key)
+
+            }
+
+        }
+
+        if(roles.length === 0){
+
+            roles.push('user')
+
+        }
+
+        await postUser({
+            username,
+            email,
+            password,
+            repeatPassword,
+            currentPassword,
+            roles
+        })
+        fetchUsers()
 
     }
 
@@ -110,70 +189,107 @@ export default function Users(){
 
         if(event) event.preventDefault()
 
-        reset(currentlyViewedUser)
+        reset()
     }
 
     return (
         <Layout
-            className={styles.container}
             items={menuitems({ isAdmin, translate })}
             title={translate('USERS')}>
-            <Card
-                customStyles={filterStyles([styles], 'controlsCard')}>
-                {
-                    viewMode === 'view users' && (
-                        <Button
-                            label={translate('CREATE_NEW_USER')}
-                            onClick={() => setViewMode('create user')}/>
-                    )
-                }
-                {
-                    viewMode === 'view user' && (
-                        <>
+            <Card customStyles={filterStyles([styles], 'buttonsCard')}>
+                <ButtonGroup>
+                    {
+                        viewMode === 'edit user' && (
+                            <>
+                                <Button
+                                    label={translate('SAVE')}
+                                    customStyles={filterStyles([styles], 'controlsSave')}
+                                    onClick={handleSubmit(updateUser)}/>
+                                <Button
+                                    label={translate('RESET')}
+                                    onClick={onReset}
+                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                            </>
+                        )
+                    }
+                    {
+                        viewMode === 'create user' && (
+                            <>
+                                <Button
+                                    label={translate('SAVE')}
+                                    customStyles={filterStyles([styles], 'controlsSave')}
+                                    onClick={handleSubmit(createUser)}/>
+                                <Button
+                                    label={translate('RESET')}
+                                    onClick={onReset}
+                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                            </>
+                        )
+                    }
+                </ButtonGroup>
+                <ButtonGroup>
+                    {
+                        viewMode === 'view users' && (
                             <Button
-                                label={translate('DELETE_USER')}
-                                onClick={deleteUser}
-                                customStyles={filterStyles([styles], 'controlsClose')}/>
-                            <Button
-                                label={translate('CLOSE')}
-                                onClick={closeDetailedViewMode}
-                                customStyles={filterStyles([styles], 'controlsClose')}/>
-                        </>
-                    )
-                }
-                {
-                    viewMode === 'create user' && (
-                        <>
-                            <Button
-                                label={translate('CLOSE')}
-                                onClick={closeDetailedViewMode}
-                                customStyles={filterStyles([styles], 'controlsClose')}/>
-                        </>
-                    )
-                }
+                                label={<><BiUserPlus size={24} /> <p>{translate('CREATE_NEW_USER')}</p></>}
+                                onClick={openCreateUser}
+                                customStyles={filterStyles([styles], 'controlsSave')}/>
+                        )
+                    }
+                    {
+                        viewMode === 'edit user' && (
+                            <>
+                                <Button
+                                    label={translate('DELETE_USER')}
+                                    onClick={deleteUser}
+                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                            </>
+                        )
+                    }
+                </ButtonGroup>
+                <ButtonGroup>
+                    {
+                        viewMode === 'edit user' && (
+                            <>
+                                <Button
+                                    label={translate('CLOSE')}
+                                    onClick={openViewUsers}
+                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                            </>
+                        )
+                    }
+                    {
+                        viewMode === 'create user' && (
+                            <>
+                                <Button
+                                    label={translate('CLOSE')}
+                                    onClick={openViewUsers}
+                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                            </>
+                        )
+                    }
+                </ButtonGroup>
             </Card>
-            <Card
-                customStyles={filterStyles([styles], 'card1')}
-                title={(viewMode === 'view user' || viewMode === 'create user') && translate('CREDENTIALS')}>
+            <Card customStyles={filterStyles([styles], 'card1')}>
                 {
                     viewMode === 'view users' && (
                         <Table
                             columns={columns}
                             data={data}
-                            onRowClick={onRowClick}
+                            onRowClick={openEditUser}
                             />
                         )
                 }
                 {
-                    viewMode === 'view user' && (
+                    viewMode === 'edit user' && (
                         <Form
-                            onSubmit={handleSubmit(saveNewUser)}
                             customStyles={filterStyles([styles], 'testform')}>
                             <Input
                                 label={translate('USERNAME')}
                                 name={'username'}
                                 type={'text'}
-                                defaultValue={currentlyViewedUser?.username}
+                                defaultValue={selectedUser?.username}
+                                readOnly={true}
                                 register={register}
                                 errors={errors}
                                 />
@@ -181,19 +297,29 @@ export default function Users(){
                                 label={translate('EMAIL')}
                                 name={'email'}
                                 type={'text'}
-                                defaultValue={currentlyViewedUser?.email}
+                                defaultValue={selectedUser?.email}
                                 register={register}
                                 errors={errors}
                                 />
-                            <Select
-                                name={'roles'}
-                                label={translate('ROLES')}
-                                options={rolesSelectOptions}
+                            <Checkbox
+                                label={'Roles'}
+                                onClick={console.log}
                                 register={register}
                                 errors={errors}
+                                options={rolesOptions.map(r => {
+
+                                    if(selectedUser.roles.includes(r.value)){
+
+                                        r.checked = true
+
+                                    }
+
+                                    return r
+
+                                })}
                                 />
                             <Input
-                                label={translate('PASSWORD')}
+                                label={translate('NEW_PASSWORD')}
                                 name={'password'}
                                 type={'password'}
                                 hideToggle={true}
@@ -208,10 +334,6 @@ export default function Users(){
                                         minNumbers: value => {
                                             if(value.length === 0 || containsNumber(value)) return true
                                             return 'New password must contain at least one number'
-                                        },
-                                        passwordsMatch: () => {
-                                            if(getValues().newPassword === getValues().repeatPassword) return true
-                                            return 'Passwords don\'t match'
                                         }
                                     }
                                 }}
@@ -226,7 +348,7 @@ export default function Users(){
                                 rules={{
                                     validate:{
                                         passwordsMatch: () => {
-                                            if(getValues().newPassword === getValues().repeatPassword) return true
+                                            if(getValues().password === getValues().repeatPassword) return true
                                             return 'Passwords don\'t match'
                                         }
                                     }
@@ -234,44 +356,26 @@ export default function Users(){
                                 />
                             <Input
                                 label={translate('YOUR_PASSWORD')}
-                                name={'currentUserPassword'}
+                                name={'currentPassword'}
                                 type={'password'}
                                 hideToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
                                     validate:{
-                                        credentialsChanged: value => {
-                                            if(
-                                                value.length > 0
-                                                || (
-                                                    getValues().email === userData.email
-                                                    && getValues().newPassword.length === 0
-                                                )
-                                            ) return true
-                                            return 'Current password is required'
-                                        }
+                                        minLength: value => {
+                                            if(value.length > 0) return true
+                                            return 'Please provide your password'
+                                        },
                                     }
                                 }}
                                 />
-                            <ButtonGroup>
-                                <Button
-                                    label={translate('SAVE')}
-                                    onClick={onSubmit}
-                                    />
-                                <Button
-                                    customStyles={filterStyles([styles], 'controlsClose')}
-                                    label={translate('RESET')}
-                                    onClick={onReset}
-                                    />
-                            </ButtonGroup>
                         </Form>
                     )
                 }
                 {
                     viewMode === 'create user' && (
                         <Form
-                            onSubmit={handleSubmit(saveNewUser)}
                             customStyles={filterStyles([styles], 'testform')}>
                             <Input
                                 label={translate('USERNAME')}
@@ -290,13 +394,13 @@ export default function Users(){
                             <Select
                                 name={'roles'}
                                 label={translate('ROLES')}
-                                options={rolesSelectOptions}
+                                options={rolesOptions}
                                 register={register}
                                 errors={errors}
                                 />
                             <Input
                                 label={translate('PASSWORD')}
-                                name={'password'}
+                                name={'newPassword'}
                                 type={'password'}
                                 hideToggle={true}
                                 register={register}
@@ -336,7 +440,7 @@ export default function Users(){
                                 />
                             <Input
                                 label={translate('YOUR_PASSWORD')}
-                                name={'yourPassword'}
+                                name={'currentPassword'}
                                 type={'password'}
                                 hideToggle={true}
                                 register={register}
@@ -351,22 +455,11 @@ export default function Users(){
                                                     && getValues().newPassword.length === 0
                                                 )
                                             ) return true
-                                            return 'Current password is required'
+                                            return 'Please provide your password'
                                         }
                                     }
                                 }}
                                 />
-                            <ButtonGroup>
-                                <Button
-                                    label={translate('SAVE')}
-                                    onClick={() => handleSubmit(saveNewUser)}
-                                    />
-                                <Button
-                                    customStyles={filterStyles([styles], 'controlsClose')}
-                                    label={translate('RESET')}
-                                    onClick={onReset}
-                                    />
-                            </ButtonGroup>
                         </Form>
                     )
                 }

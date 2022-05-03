@@ -24,7 +24,11 @@ export default function Input({ customStyles, label, name, type, placeholder, re
                     defaultValue={defaultValue}
                     readOnly={readOnly}
                     {...reg}/>
-                {reg && errors[name] && <span className={generateStyles([styles, customStyles], 'errorMessage')}>{errors[name].message}</span>}
+                {reg && errors[name] && (
+                    <span className={generateStyles([styles, customStyles], 'errorMessage')}>
+                        {errors[name].message}
+                    </span>
+                )}
             </div>
         </div>
     )

@@ -13,12 +13,10 @@ module.exports = new Schema({
         required: true,
     },
     firstName: {
-        type: String,
-        required: true
+        type: String
     },
     lastName: {
-        type: String,
-        required: true
+        type: String
     },
     email: {
         type: String,

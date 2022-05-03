@@ -44,30 +44,10 @@ export default function Layout({ items, children, customStyles, title, controls 
     return (
         <div className={styles.layoutContainer}>
             <div className={generateStyles([styles, customStyles], 'menu')}>
-                <div className={generateStyles([styles, customStyles], 'header')}>
-                    <div className={generateStyles([styles, customStyles], 'logo')}>
-                        <Logo />
-                    </div>
-                    {
-                        title && (
-                            <div className={generateStyles([styles, customStyles], 'title')}>
-                                {title}
-                            </div>
-                        )
-                    }
-                    <div className={generateStyles([styles, customStyles], 'controls')}>
-                        {controls}
-                    </div>
-                    <div
-                        className={generateStyles([styles, customStyles], 'toggle')}
-                        onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
-                        {
-                            isMenuOpen
-                            ? <IoIosArrowUp size={40} />
-                            : <BiMenu size={40} />
-                        }
-                    </div>
+                <div className={generateStyles([styles, customStyles], 'logo')}>
+                    <Logo />
                 </div>
+
                 <div className={menuClassList.join(' ')}>
                     {
                         items.map((group, i) => {
@@ -133,9 +113,31 @@ export default function Layout({ items, children, customStyles, title, controls 
                     </NavLink>
                 </div>
             </div>
-            <div className={styles.content}>
-                <div className={styles.spacing}/>
-                {children}
+            <div className={generateStyles([styles, customStyles], 'page')}>
+                <div className={generateStyles([styles, customStyles], 'header')}>
+                    {
+                        title && (
+                            <div className={generateStyles([styles, customStyles], 'title')}>
+                                {title}
+                            </div>
+                        )
+                    }
+                    <div className={generateStyles([styles, customStyles], 'controls')}>
+                        {controls}
+                    </div>
+                    <div
+                        className={generateStyles([styles, customStyles], 'toggle')}
+                        onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
+                        {
+                            isMenuOpen
+                            ? <IoIosArrowUp size={40} />
+                            : <BiMenu size={40} />
+                        }
+                    </div>
+                </div>
+                <div className={generateStyles([styles, customStyles], 'content')}>
+                    {children}
+                </div>
             </div>
         </div>
     )

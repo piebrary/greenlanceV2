@@ -1,12 +1,12 @@
-export const rolesSelectOptions = [
+export const rolesOptions = [
     {
-        value:'admin',
-        name:'Admin'
+        name:'Admin',
+        value:'admin'
     }, {
+        name:'Superuser',
         value:'superuser',
-        name:'Superuser'
     }, {
+        name:'User',
         value:'user',
-        name:'User'
     }
 ]

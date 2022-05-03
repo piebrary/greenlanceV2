@@ -1,4 +1,4 @@
-export const dateFormatSelectOptions = [
+export const dateFormatOptions = [
     {
         value:'DD-MM-yyyy',
         name:'dd-mm-yyyy'

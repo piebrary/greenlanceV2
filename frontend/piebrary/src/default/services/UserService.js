@@ -16,10 +16,42 @@ export async function getMyUserData(){
 
 }
 
+export async function postUser(data){
+
+    const options = {
+        url:'/api/v1/s/user',
+        method:'POST',
+        headers: {
+            Authorization:'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        },
+        data
+    }
+
+    return await axios(options)
+
+}
+
 export async function putMyUserData(data){
 
     const options = {
         url:'/api/v1/s/user',
+        method:'PUT',
+        headers: {
+            Authorization:'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        },
+        data
+    }
+
+    return await axios(options)
+
+}
+
+export async function putOtherUserData(data){
+
+    const options = {
+        url:'/api/v1/s/user/' + data._id,
         method:'PUT',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),

@@ -4,7 +4,7 @@ import { generateStyles } from '../../utils/generateStyles'
 
 export default function Card({ customStyles, children, onClick, title }){
 
-    const cardStyle = `${onClick ? styles.clickable : undefined} ${generateStyles([styles, customStyles], 'card')}`
+    const cardStyle = `${onClick ? styles.clickable : ''} ${generateStyles([styles, customStyles], 'card')}`
 
     return (
         <div

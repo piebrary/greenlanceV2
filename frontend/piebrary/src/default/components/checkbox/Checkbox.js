@@ -1,16 +1,41 @@
 import styles from './Checkbox.module.css'
 
-export default function Checkbox({ customStyle, type, label, onChange }){
+import { generateStyles } from '../../utils/generateStyles'
 
-    const classNames = [styles.checkbox, customStyle].join(' ')
+export default function Checkbox({ customStyles, label, name, options, onChange, register, errors, rules }){
 
-    return (
-        <input
-            type='checkbox'
-            className={classNames}
-            onClick={event => onChange && onChange(event)}>
-            {label}
-        </input>
+    return options && (
+        <div className={generateStyles([styles, customStyles], 'container')}>
+            {
+                label && (
+                    <div className={generateStyles([styles, customStyles], 'label')}>
+                        {label}
+                    </div>
+                )
+            }
+            <div className={generateStyles([styles, customStyles], 'checkboxes')}>
+                {
+                    options.map(o => {
+
+                        return (
+                            <label
+                                className={generateStyles([styles, customStyles], 'checkboxPair')}
+                                key={o.name}>
+                                <input
+                                    type='checkbox'
+                                    className={generateStyles([styles, customStyles], 'checkbox')}
+                                    onClick={event => onChange && onChange(event)}
+                                    defaultChecked={o.checked}
+                                    disabled={o.disabled}
+                                    {...register(label + o.value, rules)}/>
+                                {o.name}
+                            </label>
+                        )
+
+                    })
+                }
+            </div>
+        </div>
     )
 
 }

@@ -1,4 +1,4 @@
-export const languageSelectOptions = [
+export const languageOptions = [
     {
         value:'nl',
         name:'nederlands'

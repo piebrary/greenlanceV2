@@ -6,6 +6,12 @@
     color: var(--buttonColor);
     cursor: pointer;
     user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.button > * + * {
+    margin-left: 10px;
 }
 
 .button:hover {

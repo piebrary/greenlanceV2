@@ -25,16 +25,16 @@
     --viewmodeBreakpoint: 800px;
     --maxContentWidth: 1400px;
     --minWidth: 360px;
-    --menuHeight: 50px;
     --contentSpacing: 10px;
     --background: var(--lighter);
 
     /* menu */
     --menuWidth: 250px;
-    --menuTitleColor: var(--secondary3);
+    --menuHeight: 50px;
+    --menuTitleColor: var(--darkest);
     --menuTitleBackgroundColor: var(--primary3);
-    --menuTitleBorderRadius: 4px;
-    --menuTitlePadding: 10px;
+    --menuTitleBorderRadius: 2px;
+    --menuTitlePadding: 18px;
     --menuTitleSpacing: 28px;
 
     /* components */
@@ -48,6 +48,9 @@
 
     --buttonBackgroundColorHover: var(--success1);
     --buttonColorHover: var(--secondary3);
+
+    /* components.checkbox */
+    --checkboxTransition: 0.3s ease-in-out;
 
     /* components.card */
     --cardBorder: 0px;

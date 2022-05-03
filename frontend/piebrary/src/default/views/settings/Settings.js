@@ -14,9 +14,9 @@ import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 import Select from '../../components/select/Select'
 
 import { menuitems } from '../../assets/js/menu/items'
-import { languageSelectOptions } from '../../assets/js/settings/language'
-import { dateFormatSelectOptions } from '../../assets/js/settings/dateFormat'
-import { timeFormatSelectOptions } from '../../assets/js/settings/timeFormat'
+import { languageOptions } from '../../assets/js/settings/language'
+import { dateFormatOptions } from '../../assets/js/settings/dateFormat'
+import { timeFormatOptions } from '../../assets/js/settings/timeFormat'
 
 import { filterStyles } from '../../utils/filterStyles'
 import { containsNumber } from '../../utils/containsNumber'
@@ -129,24 +129,24 @@ export default function Settings(){
                     <Select
                         name={'settings.language'}
                         label={translate('LANGUAGE')}
-                        options={languageSelectOptions}
-                        defaultValue={languageSelectOptions.find(o => o.value === userData.settings.language)}
+                        options={languageOptions}
+                        defaultValue={languageOptions.find(o => o.value === userData.settings.language)}
                         register={register}
                         errors={errors}
                         />
                     <Select
                         name={'settings.dateFormat'}
                         label={translate('DATE_FORMAT')}
-                        options={dateFormatSelectOptions}
-                        defaultValue={dateFormatSelectOptions.find(o => o.value === userData.settings.dateFormat)}
+                        options={dateFormatOptions}
+                        defaultValue={dateFormatOptions.find(o => o.value === userData.settings.dateFormat)}
                         register={register}
                         errors={errors}
                         />
                     <Select
                         name={'settings.timeFormat'}
                         label={translate('TIME_FORMAT')}
-                        options={timeFormatSelectOptions}
-                        defaultValue={timeFormatSelectOptions.find(o => o.value === userData.settings.timeFormat)}
+                        options={timeFormatOptions}
+                        defaultValue={timeFormatOptions.find(o => o.value === userData.settings.timeFormat)}
                         register={register}
                         errors={errors}
                         />

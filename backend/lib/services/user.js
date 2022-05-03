@@ -248,11 +248,26 @@ module.exports = mode => {
 
             const currentUser = await UserModel.findOne({ _id:req.user_id }).exec()
 
-            if(!currentUser) return notFoundHandler()
+            if(!currentUser) return notFoundHandler('User')
 
-            if(!currentUser.isAdmin && !currentUser.isSuperuser){
+            if(!currentUser.isAdmin){
 
                 return errorHandler(403, 'Forbidden')
+
+            }
+
+            const matchingPasswords = passwordsMatch(currentPassword, userDocument.passwordHash)
+
+            if(!matchingPasswords){
+
+                return errorHandler(406, 'Wrong password')
+
+            }
+
+            if(matchingPasswords){
+
+                if(newPassword) userDocument.passwordHash = await encryptPassword(newPassword)
+                if(email) userDocument.email = email
 
             }
 
@@ -305,13 +320,15 @@ module.exports = mode => {
 
         try {
 
-            const { _id } = req.user
+            const currentUser = await UserModel.findOne({ _id:req.user._id }).exec()
 
-            const currentUser = await UserModel.findOne({ _id }).exec()
+            if(!currentUser){
 
-            if(!currentUser) return notFoundHandler()
+                return notFoundHandler('User')
 
-            if(!currentUser.isAdmin && !currentUser.isSuperuser){
+            }
+
+            if(!currentUser.isAdmin){
 
                 return errorHandler(403, 'Forbidden')
 
@@ -319,23 +336,25 @@ module.exports = mode => {
 
             const {
                 username,
-                firstName,
-                lastName,
                 email,
-                password,
+                newPassword,
+                currentPassword,
                 roles
             } = userRequestDto(req.body)
 
-            const passwordHash = await encryptPassword(password)
+            const matchingPasswords = passwordsMatch(currentPassword, currentUser.passwordHash)
 
-            const newUserDocument = new UserModel({
-                username,
-                passwordHash,
-                firstName,
-                lastName,
-                email,
-                roles
-            })
+            if(!matchingPasswords){
+
+                return errorHandler(406, 'Wrong password')
+
+            }
+
+            const newUserDocument = new UserModel()
+            newUserDocument.username = username
+            newUserDocument.passwordHash = await encryptPassword(newPassword)
+            newUserDocument.email = email
+            newUserDocument.roles = roles
 
             const result = await newUserDocument.save()
             const userDocumentDto = userResponseDto(result)

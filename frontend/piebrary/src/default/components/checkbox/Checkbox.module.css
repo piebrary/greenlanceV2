@@ -1,12 +1,81 @@
-.button {
-    border: 0px;
+.container {
+    background-color: var(--lighter);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     border-radius: 4px;
-    padding: 5px 10px;
-    background-color: lightgrey;
-    color: black;
+    padding: 10px;
 }
 
-.button:hover {
-    background-color: red;
-    color: white;
+.checkboxes {
+    display: flex;
+}
+
+.checkboxPair {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+}
+
+.checkboxPair + .checkboxPair {
+    margin-left: 20px;
+}
+
+.checkbox {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: #fff;
+    /* Not removed via appearance */
+    color: var(--normal);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--normal);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+    transform: translateY(-0.075em);
+    transition: var(--checkboxTransition);
+}
+
+.checkbox:hover {
+    border: 2px solid var(--primary1);
+    transition: var(--checkboxTransition);
+}
+
+.checkbox:checked {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--primary6);
+    /* Not removed via appearance */
+    color: var(--normal);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--primary2);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+    transform: translateY(-0.075em);
+    transition: var(--checkboxTransition);
+}
+
+.checkbox:disabled {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--lighter);
+    /* Not removed via appearance */
+    color: var(--normal);
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--light);
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 4px;
+    transform: translateY(-0.075em);
 }

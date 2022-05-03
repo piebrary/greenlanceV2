@@ -1,38 +1,16 @@
-.container {
+.buttonsCardBody {
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 5px 0px;
 }
 
-.categoryContainer {
-    width: fit-content;
-    min-width: fit-content;
-    box-sizing: border-box;
-    max-width: 100%;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    padding: 4px;
-    height: 100%;
-}
-
-.content {
-    max-width: 400px;
-    margin: auto;
-}
-
-.controlsCardBody {
-    display: flex;
-    justify-content: left;
-}
-
-.controlsCardBody > * {
-    margin-left: 6px;
+.controlsSaveButton {
+    padding: 8px 20px;
 }
 
 .controlsCloseButton {
     background-color: var(--primary3);
+    padding: 8px 20px;
 }
 
 .controlsCloseButton:hover {

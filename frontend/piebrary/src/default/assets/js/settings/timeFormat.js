@@ -1,4 +1,4 @@
-export const timeFormatSelectOptions = [
+export const timeFormatOptions = [
     {
         value:'HH:mm:ss',
         name:'24HOUR'
