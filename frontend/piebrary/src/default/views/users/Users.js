@@ -34,7 +34,7 @@ import styles from './Users.module.css'
 export default function Users(){
 
     const { translate } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData, getProfilePicture, getUsers, postUser } = useContext(UserContext)
+    const { isAdmin, userData, saveUserData, getProfilePicture, getUsers, postUser, delUser } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
 
@@ -55,7 +55,7 @@ export default function Users(){
             return {
                 Header: r.name,
                 accessor: data => {
-                    return data.roles.includes(r.value) && <BsCheck size={16} />
+                    return data.roles.includes(r.value) && 'x'
                 }
             }
         })
@@ -85,22 +85,29 @@ export default function Users(){
 
     function openCreateUser(){
 
+        setSelectedUser()
         reset({})
         setViewMode('create user')
 
     }
 
-    function openViewUsers(){
+    async function openViewUsers(){
+
+        await fetchUsers()
 
         setSelectedUser()
-        onReset()
+        reset({})
         setViewMode('view users')
 
     }
 
-    function deleteUser(){
+    async function deleteUser(){
 
-        alert(`Are you sure you want to delete user ${selectedUser.username}`)
+        await alert(`Are you sure you want to delete user ${selectedUser.username}.    REPLACE WITH CONFIRM COMPONENT WHEN BUILD`)
+
+        await delUser(selectedUser._id)
+
+        openViewUsers()
 
     }
 
@@ -109,7 +116,54 @@ export default function Users(){
         const {
             username,
             email,
-            password,
+            newPassword,
+            repeatPassword,
+            currentPassword
+        } = data
+
+        const _id = selectedUser._id
+
+        const roles = []
+
+        rolesOptions.map(o => {
+
+            if(data['Roles' + o.value] === true){
+
+                roles.push(o.value)
+
+            }
+
+        })
+
+        if(roles.length === 0){
+
+            roles.push('user')
+
+        }
+
+        const result = await saveUserData({
+            _id,
+            username,
+            email,
+            newPassword,
+            repeatPassword,
+            currentPassword,
+            roles
+        })
+
+        console.log(result)
+
+        openViewUsers()
+
+    }
+
+    async function createUser(data){
+
+        const {
+            username,
+            email,
+            newPassword,
+            repeatPassword,
             currentPassword
         } = data
 
@@ -131,57 +185,16 @@ export default function Users(){
 
         }
 
-        console.log(data)
-
-        await saveUserData({
+        const result = await postUser({
             username,
             email,
-            password,
-            currentPassword,
-            roles
-        })
-
-        fetchUsers()
-
-    }
-
-    async function createUser(data){
-
-        const {
-            username,
-            email,
-            password,
-            repeatPassword,
-            currentPassword
-        } = data
-
-        const roles = []
-
-        for(let key in rolesOptions){
-
-            if(data[key + 'Checkbox'] === true){
-
-                roles.push(key)
-
-            }
-
-        }
-
-        if(roles.length === 0){
-
-            roles.push('user')
-
-        }
-
-        await postUser({
-            username,
-            email,
-            password,
+            newPassword,
             repeatPassword,
             currentPassword,
             roles
         })
-        fetchUsers()
+
+        openViewUsers()
 
     }
 
@@ -303,24 +316,21 @@ export default function Users(){
                                 />
                             <Checkbox
                                 label={'Roles'}
-                                onClick={console.log}
                                 register={register}
                                 errors={errors}
                                 options={rolesOptions.map(r => {
 
-                                    if(selectedUser.roles.includes(r.value)){
-
-                                        r.checked = true
-
+                                    return {
+                                        name:r.name,
+                                        value:r.value,
+                                        checked:selectedUser.roles.includes(r.value) ? true : false
                                     }
-
-                                    return r
 
                                 })}
                                 />
                             <Input
                                 label={translate('NEW_PASSWORD')}
-                                name={'password'}
+                                name={'newPassword'}
                                 type={'password'}
                                 hideToggle={true}
                                 register={register}
@@ -348,7 +358,7 @@ export default function Users(){
                                 rules={{
                                     validate:{
                                         passwordsMatch: () => {
-                                            if(getValues().password === getValues().repeatPassword) return true
+                                            if(getValues().newPassword === getValues().repeatPassword) return true
                                             return 'Passwords don\'t match'
                                         }
                                     }
@@ -391,12 +401,11 @@ export default function Users(){
                                 register={register}
                                 errors={errors}
                                 />
-                            <Select
-                                name={'roles'}
-                                label={translate('ROLES')}
-                                options={rolesOptions}
+                            <Checkbox
+                                label={'Roles'}
                                 register={register}
                                 errors={errors}
+                                options={rolesOptions}
                                 />
                             <Input
                                 label={translate('PASSWORD')}

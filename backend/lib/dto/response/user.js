@@ -1,6 +1,6 @@
 const settingsResponseDto = require('./settings')
 
-module.exports = (document, user_id, isAdmin) => {
+module.exports = (document, completeEntityData = false) => {
 
     const {
         _id,
@@ -13,10 +13,7 @@ module.exports = (document, user_id, isAdmin) => {
         profilePicture,
     } = document
 
-    if(
-        _id.toString() === user_id
-        || isAdmin
-    ){
+    if(completeEntityData){
 
         return {
             _id,

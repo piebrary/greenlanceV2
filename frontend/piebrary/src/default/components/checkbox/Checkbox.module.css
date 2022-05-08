@@ -16,6 +16,12 @@
     user-select: none;
     display: flex;
     align-items: center;
+    padding: 8px;
+}
+
+.checkboxPair:hover, .checkboxPair:focus-within {
+    background-color: var(--lightest);
+    border-radius: 4px;
 }
 
 .checkboxPair + .checkboxPair {
@@ -41,7 +47,14 @@
 }
 
 .checkbox:hover {
-    border: 2px solid var(--primary1);
+    border: 2px solid var(--primary2);
+    transition: var(--checkboxTransition);
+    outline: none;
+}
+
+.checkbox:focus {
+    outline: none;
+    border: 2px solid var(--primary2);
     transition: var(--checkboxTransition);
 }
 

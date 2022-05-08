@@ -8,6 +8,7 @@
     user-select: none;
     display: flex;
     align-items: center;
+    transition: var(--buttonTransition);
 }
 
 .button > * + * {
@@ -17,4 +18,5 @@
 .button:hover {
     background-color: var(--buttonBackgroundColorHover);
     color: var(--buttonColorHover);
+    transition: var(--buttonTransition);
 }

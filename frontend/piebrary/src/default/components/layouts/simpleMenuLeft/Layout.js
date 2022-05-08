@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
+import { UserContext } from '../../../contexts/UserContext'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 
 import Logo from '../../logo/Logo'
@@ -17,6 +18,7 @@ import styles from './Layout.module.css'
 export default function Layout({ items, children, customStyles, title, controls }){
 
     const { logout } = useContext(AuthenticationContext)
+    const { userData } = useContext(UserContext)
     const { translate } = useContext(LanguageContext)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -47,7 +49,6 @@ export default function Layout({ items, children, customStyles, title, controls 
                 <div className={generateStyles([styles, customStyles], 'logo')}>
                     <Logo />
                 </div>
-
                 <div className={menuClassList.join(' ')}>
                     {
                         items.map((group, i) => {
@@ -104,6 +105,9 @@ export default function Layout({ items, children, customStyles, title, controls 
                     }
                 </div>
                 <div className={`${generateStyles([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
+                    <div>
+                        Logged in as {userData.username}
+                    </div>
                     <NavLink
                         to={''}
                         onClick={logout}

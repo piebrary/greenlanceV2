@@ -1,18 +1,21 @@
 .buttonsCardBody {
     display: flex;
     justify-content: space-between;
-    padding: 5px 0px;
+    padding: 10px 5px;
 }
 
 .controlsSaveButton {
     padding: 8px 20px;
+    color: var(--dark);
+    background-color: var(--lighter);
 }
 
 .controlsCloseButton {
-    background-color: var(--primary3);
+    color: var(--dark);
+    background-color: var(--lighter);
     padding: 8px 20px;
 }
 
 .controlsCloseButton:hover {
-    background-color: var(--primary1);
+    background-color: var(--primary3);
 }

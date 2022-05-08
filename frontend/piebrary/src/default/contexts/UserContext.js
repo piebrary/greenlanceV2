@@ -2,7 +2,7 @@ import { createContext, useState, useEffect, useContext } from 'react'
 
 import { AuthenticationContext } from './AuthenticationContext'
 
-import { getMyUserData, putMyUserData, getProfilePicture, postMyProfilePicture, getUsers, postUser } from '../services/UserService'
+import { getUser, putUser, postMyProfilePicture, getUsers, postUser, delUser} from '../services/UserService'
 
 export const UserContext = createContext({})
 
@@ -30,10 +30,10 @@ export default function UserContextProvider({ children }){
         profilePicture,
         saveUserData,
         userData,
-        getProfilePicture,
         uploadProfilePicture,
         getUsers,
         postUser,
+        delUser,
     }
 
     useEffect(() => {
@@ -44,7 +44,7 @@ export default function UserContextProvider({ children }){
 
                 try {
 
-                    const response = await getMyUserData()
+                    const response = await getUser()
 
                     setUser(response.data)
 
@@ -109,13 +109,19 @@ export default function UserContextProvider({ children }){
         // upload userdata
         try {
 
-            const response = await putMyUserData(data)
+            const response = await putUser(data)
 
-            setUser(response.data)
+            if(data._id === id){
 
-            // use newPassword if we also changed password, but currentPassword if we didn't change password
-            // authenticate forces new login with new token. If it fails, we get redirected to login view
-            if(data.currentPassword) authenticate(data.username, data.newPassword || data.currentPassword)
+                setUser(response.data)
+
+                // use newPassword if we also changed password, but currentPassword if we didn't change password
+                // authenticate forces new login with new token. If it fails, we get redirected to login view
+                if(data.currentPassword) authenticate(data.username, data.newPassword || data.currentPassword)
+
+            }
+
+            return response
 
         } catch (error) {
 
@@ -131,7 +137,7 @@ export default function UserContextProvider({ children }){
 
             await postMyProfilePicture(picture)
 
-            const response = await getMyUserData()
+            const response = await getUser()
 
             setUser(response.data)
 

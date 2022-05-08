@@ -13,10 +13,22 @@
     max-width: 200px;
 }
 
-.input {
-    box-sizing: border-box;
+.inputField {
+    display: flex;
+    align-items: center;
     border-radius: 4px;
     background-color: var(--secondary3);
+}
+
+.inputField:focus-within {
+    transition: var(--inputTransition);
+    box-shadow: 0 -3px 1px -1px var(--primary3) inset;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.input {
+    box-sizing: border-box;
     color: var(--dark);
     border: 0px;
     padding: 10px;
@@ -24,11 +36,38 @@
     outline: none;
     text-align: center;
     width: 100%;
+    background-color: rgba(0,0,0,0);
+    transition: var(--inputTransition);
+    height: 40px;
+}
+
+.input:focus {
+    border: none;
+    outline: none;
 }
 
 .input:read-only {
-    background-color: var(--lightest);
+    background-color: var(--lighter);
     color: var(--normal);
+    box-shadow: none;
+}
+
+.input:read-only ~ .hideToggle {
+    background-color: var(--lighter);
+
+}
+
+.hideToggle {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: var(--inputTransition);
+    padding: 4px 10px 4px 0px;
+    padding: 8px;
+}
+
+.hideToggle:hover {
+    color: var(--primary2);
 }
 
 .errorMessage {

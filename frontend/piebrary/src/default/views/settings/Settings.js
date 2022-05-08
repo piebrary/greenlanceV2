@@ -30,8 +30,21 @@ export default function Settings(){
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
 
-    const onSubmit = data => saveUserData(data)
-    const onReset = event => { event.preventDefault(); reset(); }
+    function onSubmit(data){
+
+        data._id = userData._id
+
+        saveUserData(data)
+
+    }
+
+    function onReset(event){
+
+        event.preventDefault()
+
+        reset()
+
+    }
 
     return (
         <Layout
@@ -52,6 +65,8 @@ export default function Settings(){
                         type={'text'}
                         defaultValue={userData.username}
                         readOnly={true}
+                        register={register}
+                        errors={errors}
                         />
                     <Input
                         label={translate('EMAIL')}

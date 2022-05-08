@@ -14,7 +14,8 @@ module.exports = requestBody => {
         settings,
         profilePicture,
         currentPassword,
-        newPassword
+        newPassword,
+        repeatPassword,
     } = sanitize(requestBody)
 
     return {
@@ -27,7 +28,8 @@ module.exports = requestBody => {
         settings:settingsRequestDto(settings),
         profilePicture,
         currentPassword,
-        newPassword
+        newPassword,
+        repeatPassword,
     }
 
 }

@@ -37,7 +37,7 @@ module.exports = () => {
         "COMPONENTS":"Componenten",
         "DEFAULT":"Standaard",
         "CSS_STYLES":"Css stijlen",
-        "OTHER":"Anders",
+        "OTHER":"Overig",
         "NOTIFICATIONS":"Notificaties",
 
         // settings

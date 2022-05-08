@@ -54,7 +54,8 @@ export default function Login(){
                     <Input
                         label={'Password'}
                         name={'password'}
-                        subtype={'password'}
+                        type={'password'}
+                        hideToggle={true}
                         customStyles={filterStyles([styles], 'customInput')}
                         register={register}
                         errors={errors}

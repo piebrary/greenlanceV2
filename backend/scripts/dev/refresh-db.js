@@ -28,63 +28,201 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
         await EventModel.collection?.dropIndexes()
         await EventModel.collection?.drop()
 
-        await createFirstUser()
+        await createFirstUser({
+            username:'admin1',
+            password:'password1',
+            email:'admin1@admins.com',
+            roles:['admin'],
+            firstName:'Admin',
+            lastName:'One',
+        })
 
         await createUser({
-            username:'admin',
+            username:'admin1',
             password:'password1'
         },
         {
-            username:'peter01',
-            password:'password1',
-            firstName:'Peter',
-            lastName:'Iedema',
-            email:'piedema@gmail.com',
-            roles:['admin', 'user']
+            username:'admin2',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'admin2@admins.com',
+            roles:['admin'],
+            firstName:'Admin',
+            lastName:'Two',
         })
 
         await createUser({
-            username:'admin',
+            username:'admin1',
             password:'password1'
-        },{
-            username:'julian01',
-            password:'password1',
-            firstName:'Julian',
-            lastName:'Kors',
-            email:'julian@kors.com',
-            roles:['user']
+        },
+        {
+            username:'admin3',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'admin3@admins.com',
+            roles:['admin'],
+            firstName:'Admin',
+            lastName:'Three',
         })
 
         await createUser({
-            username:'admin',
+            username:'admin1',
             password:'password1'
-        },{
-            username:'remy01',
-            password:'password1',
-            firstName:'Remy',
-            lastName:'Kool',
-            email:'remy@kool.com',
-            roles:['admin', 'user']
+        },
+        {
+            username:'admin4',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'admin4@admins.com',
+            roles:['admin'],
+            firstName:'Admin',
+            lastName:'Four',
         })
 
         await createUser({
-            username:'admin',
+            username:'admin1',
             password:'password1'
-        },{
-            username:'mariska01',
-            password:'password1',
-            firstName:'Mariska',
-            lastName:'Duin',
-            email:'mariska@duin.com',
-            roles:['user']
+        },
+        {
+            username:'admin5',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'admin5@admins.com',
+            roles:['admin'],
+            firstName:'Admin',
+            lastName:'Five',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'superuser1',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'superuser1@superusers.com',
+            roles:['superuser'],
+            firstName:'Superuser',
+            lastName:'One',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'superuser2',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'superuser2@superusers.com',
+            roles:['superuser'],
+            firstName:'Superuser',
+            lastName:'Two',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'superuser3',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'superuser3@superusers.com',
+            roles:['superuser'],
+            firstName:'Superuser',
+            lastName:'Three',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'user1',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'user1@users.com',
+            roles:['user'],
+            firstName:'User',
+            lastName:'One',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'user2',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'user2@users.com',
+            roles:['user'],
+            firstName:'User',
+            lastName:'Two',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'user3',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'user3@users.com',
+            roles:['user'],
+            firstName:'User',
+            lastName:'Three',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'user4',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'user4@users.com',
+            roles:['user'],
+            firstName:'User',
+            lastName:'Four',
+        })
+
+        await createUser({
+            username:'admin1',
+            password:'password1'
+        },
+        {
+            username:'user5',
+            newPassword:'password1',
+            repeatPassword:'password1',
+            currentPassword:'password1',
+            email:'user5@users.com',
+            roles:['user'],
+            firstName:'User',
+            lastName:'Five',
         })
 
         await createEvent({
-            username:'julian01',
+            username:'user1',
             password:'password1'
         },{
             title:'1 name',
-            body:'event from julian',
+            body:'event from user1',
             time:{
                 start:1645660801000,
                 end:1645680801000
@@ -93,11 +231,11 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
         })
 
         await createEvent({
-            username:'remy01',
+            username:'user1',
             password:'password1'
         },{
             title:'2 name',
-            body:'project van remy',
+            body:'project van user1',
             time:{
                 start:1645660801000,
                 end:1645680801000
@@ -106,7 +244,7 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
         })
 
         await createEvent({
-            username:'remy01',
+            username:'user1',
             password:'password1'
         },{
             title:'3 name',
@@ -171,7 +309,7 @@ async function login(username, password){
 async function getUserData(){
 
     const userData = await axios({
-        url:url + '/s/v1/user',
+        url:url + '/v1/s/user',
         method:'get'
     })
 
@@ -181,15 +319,13 @@ async function getUserData(){
 
 }
 
-async function createFirstUser(){
+async function createFirstUser(data){
 
     const newUserDocument = new UserModel()
-    newUserDocument.username = 'admin'
-    newUserDocument.passwordHash = await encryptPassword('password1')
-    newUserDocument.firstName = 'Admin'
-    newUserDocument.lastName = 'Admin'
-    newUserDocument.email = 'admin@admin.com'
-    newUserDocument.roles = ['admin']
+    newUserDocument.username = data.username
+    newUserDocument.passwordHash = await encryptPassword(data.password)
+    newUserDocument.email = data.email
+    newUserDocument.roles = data.roles
 
     await newUserDocument.save()
 
@@ -203,7 +339,7 @@ async function createUser(credentials, data){
 
     const result = await axios({
         method:'post',
-        url:url + '/s/v1/user',
+        url:url + '/v1/s/user',
         data:data
     })
 
@@ -221,7 +357,7 @@ async function createEvent(credentials, data){
 
     const result = await axios ({
         method:'post',
-        url:url + '/s/v1/event',
+        url:url + '/v1/s/event',
         data:data
     })
 

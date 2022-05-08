@@ -2,7 +2,7 @@ import styles from './Checkbox.module.css'
 
 import { generateStyles } from '../../utils/generateStyles'
 
-export default function Checkbox({ customStyles, label, name, options, onChange, register, errors, rules }){
+export default function Checkbox({ customStyles, label, name, options, onClick, register, errors, rules }){
 
     return options && (
         <div className={generateStyles([styles, customStyles], 'container')}>
@@ -24,7 +24,7 @@ export default function Checkbox({ customStyles, label, name, options, onChange,
                                 <input
                                     type='checkbox'
                                     className={generateStyles([styles, customStyles], 'checkbox')}
-                                    onClick={event => onChange && onChange(event)}
+                                    onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
                                     {...register(label + o.value, rules)}/>

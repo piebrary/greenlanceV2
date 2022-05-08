@@ -17,9 +17,13 @@ code {
         monospace;
 }
 
+* {
+    font-family: 'Montserrat';
+}
+
 @font-face {
     font-family: 'Montserrat';
-    src: local('Montserrat'), url(./default/fonts/Montserrat-VariableFont_wght.ttf) format('truetype');
+    src: local('Montserrat'), url(./default/assets/fonts/Montserrat-VariableFont_wght.ttf) format('truetype');
     /* other formats include: 'woff2', 'truetype, 'opentype',
                             'embedded-opentype', and 'svg' */
 }

@@ -31,10 +31,11 @@
     /* menu */
     --menuWidth: 250px;
     --menuHeight: 50px;
+    --menuLogoWidth: 100px;
     --menuTitleColor: var(--darkest);
-    --menuTitleBackgroundColor: var(--primary3);
-    --menuTitleBorderRadius: 2px;
-    --menuTitlePadding: 18px;
+    --menuTitleBackgroundColor: var(--secondary3);
+    --menuTitleBorderRadius: 4px;
+    --menuTitlePadding: 10px;
     --menuTitleSpacing: 28px;
 
     /* components */
@@ -48,6 +49,11 @@
 
     --buttonBackgroundColorHover: var(--success1);
     --buttonColorHover: var(--secondary3);
+
+    --buttonTransition: 0.3s ease-in-out;
+
+    /* components.input */
+    --inputTransition: 0.3s ease-in-out;
 
     /* components.checkbox */
     --checkboxTransition: 0.3s ease-in-out;

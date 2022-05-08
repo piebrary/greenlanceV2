@@ -1,10 +1,25 @@
 import axios from 'axios'
 import FormData from 'form-data'
 
-export async function getMyUserData(){
+export async function getUser(_id){
 
     const options = {
-        url:'/api/v1/s/user',
+        url:`/api/v1/s/user${_id ? '/' + _id : ''}`,
+        method:'GET',
+        headers: {
+            Authorization:'Bearer ' + localStorage.getItem('token'),
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return await axios(options)
+
+}
+
+export async function getUsers(){
+
+    const options = {
+        url:'/api/v1/s/users',
         method:'GET',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -32,10 +47,10 @@ export async function postUser(data){
 
 }
 
-export async function putMyUserData(data){
+export async function putUser(data){
 
     const options = {
-        url:'/api/v1/s/user',
+        url:`/api/v1/s/user${data._id ? '/' + data._id : ''}`,
         method:'PUT',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -48,31 +63,30 @@ export async function putMyUserData(data){
 
 }
 
-export async function putOtherUserData(data){
+// export async function putOtherUser(data){
+//
+//     const options = {
+//         url:'/api/v1/s/user/' + data._id,
+//         method:'PUT',
+//         headers: {
+//             Authorization:'Bearer ' + localStorage.getItem('token'),
+//             'Content-Type': 'application/json'
+//         },
+//         data
+//     }
+//
+//     return await axios(options)
+//
+// }
+
+export async function delUser(_id){
 
     const options = {
-        url:'/api/v1/s/user/' + data._id,
-        method:'PUT',
+        url:'/api/v1/s/user/' + _id,
+        method:'DELETE',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
-        },
-        data
-    }
-
-    return await axios(options)
-
-}
-
-export async function getProfilePicture(filename){
-
-
-    const options = {
-        url:`http://localhost:46372/public/images/profile/` + filename,
-        method:'GET',
-        headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
-            'Response-Type': 'blob'
         }
     }
 
@@ -94,21 +108,6 @@ export async function postMyProfilePicture(file){
             'Content-Type': 'multipart/form-data'
         },
         data:form
-    }
-
-    return await axios(options)
-
-}
-
-export async function getUsers(){
-
-    const options = {
-        url:'/api/v1/s/users',
-        method:'GET',
-        headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
-            'Content-Type': 'application/json'
-        }
     }
 
     return await axios(options)

@@ -11,7 +11,6 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    position: fixed;
     height: auto;
 }
 
@@ -23,6 +22,9 @@
     width: 100%;
     display: flex;
     align-items: center;
+    position: absolute;
+    top: 0px;
+    left: 0px;
 }
 
 .items {
@@ -44,6 +46,7 @@
     color: white;
     text-decoration: none;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .logout a:hover {
@@ -114,7 +117,7 @@
 .logo {
     display: block;
     min-width: fit-content;
-    width: 100px;
+    width: var(--menuLogoWidth);
     height: var(--menuHeight);
 }
 
@@ -123,7 +126,8 @@
     color: var(--secondary3);
     padding: 5px;
     box-sizing: border-box;
-    margin-left: 15px;
+    margin-left: calc(var(--menuLogoWidth) + 20px);
+    margin-top: 1px;
 }
 
 .toggle {
@@ -135,7 +139,6 @@
 }
 
 .content {
-    /* overflow-y: auto; */
 }
 
 .content > * {
@@ -163,6 +166,8 @@
 
     .header {
         width: 100%;
+        margin-top: 10px;
+        position: relative;
     }
 
     .content {
