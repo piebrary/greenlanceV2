@@ -39,6 +39,7 @@ module.exports = () => {
         "CSS_STYLES":"Css stijlen",
         "OTHER":"Overig",
         "NOTIFICATIONS":"Notificaties",
+        "LANGUAGES":"Talen",
 
         // settings
         "REGIONAL_SETTINGS":"Regionale instellingen",
@@ -65,6 +66,18 @@ module.exports = () => {
         "RETURN":"Terug",
         "CREATE_NEW_USER":"Nieuwe gebruiker",
         "DELETE_USER":"Verwijder gebruiker",
+
+        // calendar
+        "CALENDAR":"Kalender",
+        "PREVIOUS":"Vorige",
+        "NEXT":"Volgende",
+        "TODAY":"Vandaag",
+        "THIS_WEEK":"Deze week",
+        "THIS_MONTH":"Deze maand",
+        "DAY":"Dag",
+        "WEEK":"Week",
+        "MONTH":"Maand",
+        "LIST":"Lijst",
     }
 
 }

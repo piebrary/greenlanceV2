@@ -47,6 +47,7 @@
     text-decoration: none;
     margin-bottom: 20px;
     margin-top: 20px;
+    margin-right: 0px;
 }
 
 .logout a:hover {
@@ -248,6 +249,13 @@
         margin-top: 80px;
         display: flex;
         justify-content: center;
+        flex-direction: column;
+    }
+
+    .logout a {
+        margin: auto;
+        margin-top: 20px;
+        margin-bottom: 10px;
     }
 
 }

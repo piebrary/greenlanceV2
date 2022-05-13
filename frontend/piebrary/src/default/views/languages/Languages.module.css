@@ -1,0 +1,37 @@
+.grid1Grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.griditemOneCard {
+    grid-column: 1 / 1;
+    grid-row: 1;
+}
+
+.griditemTwoCard {
+    grid-column: 1 / 1;
+    grid-row: 2;
+}
+
+@media only screen and (min-width: 1000px) {
+
+    .grid1Grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .griditemOneCard {
+        grid-column: 1 / 1;
+        grid-row: 1;
+    }
+
+    .griditemTwoCard {
+        grid-column: 2 / 3;
+        grid-row: 1;
+    }
+
+}

@@ -1,0 +1,50 @@
+.grid1Grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.grid1Element {
+    border-radius: 20px;
+    color: white;
+    background-color: var(--primary5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+.grid2Element {
+    border-radius: 20px;
+    color: white;
+    background-color: var(--gold);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .grid1Grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+}
+
+@media only screen and (min-width: 1000px) {
+
+    .grid1Grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+    .grid1Grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}

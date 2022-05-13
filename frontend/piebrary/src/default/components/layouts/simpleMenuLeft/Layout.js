@@ -106,7 +106,7 @@ export default function Layout({ items, children, customStyles, title, controls 
                 </div>
                 <div className={`${generateStyles([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
                     <div>
-                        Logged in as {userData.username}
+                        {userData.username}
                     </div>
                     <NavLink
                         to={''}

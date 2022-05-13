@@ -2,7 +2,7 @@ import styles from './Card.module.css'
 
 import { generateStyles } from '../../utils/generateStyles'
 
-export default function Card({ customStyles, children, onClick, title }){
+export default function Card({ customStyles, children, onClick, title, description }){
 
     const cardStyle = `${onClick ? styles.clickable : ''} ${generateStyles([styles, customStyles], 'card')}`
 
@@ -14,6 +14,13 @@ export default function Card({ customStyles, children, onClick, title }){
                 title && (
                     <div className={generateStyles([styles, customStyles], 'title')}>
                         {title}
+                    </div>
+                )
+            }
+            {
+                description && (
+                    <div className={generateStyles([styles, customStyles], 'description')}>
+                        {description}
                     </div>
                 )
             }

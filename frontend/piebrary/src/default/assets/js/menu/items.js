@@ -16,6 +16,7 @@ import { BsCalendar2Week } from 'react-icons/bs'
 import { BsCardText } from 'react-icons/bs'
 import { BsPalette } from 'react-icons/bs'
 import { MdOutlineNotificationsActive } from 'react-icons/md'
+import { IoLanguageOutline } from 'react-icons/io5'
 
 export function menuitems({ isAdmin, translate }){
 
@@ -129,6 +130,11 @@ export function menuitems({ isAdmin, translate }){
                 to:'/styles',
                 icon:<BsPalette size={20} />,
                 text:translate('CSS_STYLES')
+            },
+            {
+                to:'/languages',
+                icon:<IoLanguageOutline size={20} />,
+                text:translate('LANGUAGES')
             },
         ],
     ]

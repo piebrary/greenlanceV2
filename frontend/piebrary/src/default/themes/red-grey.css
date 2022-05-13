@@ -64,6 +64,10 @@
     --cardTitlePadding: 10px 10px;
     --cardTitleBackgroundColor: var(--primary3);
     --cardTitleColor: var(--secondary3);
+    --cardDescriptionPadding: 10px 10px;
+    --cardDescriptionBackgroundColor: var(--secondary3);
+    --cardDescriptionColor: var(--normal);
+    --cardDescriptionFontStyle: italic;
     --cardBodyPadding: 10px 10px;
     --cardBodyBackgroundColor: var(--secondary3);
     --cardBodyColor: var(--dark);

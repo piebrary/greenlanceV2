@@ -32,13 +32,19 @@
     word-wrap: break-word;
 }
 
+.description {
+    font-style: var(--cardDescriptionFontStyle);
+    background-color: var(--cardDescriptionBackgroundColor);
+    color: var(--cardDescriptionColor);
+    padding: var(--cardDescriptionPadding);
+    user-select: none;
+}
+
 .body {
     background-color: var(--cardBodyBackgroundColor);
     color: var(--cardBodyColor);
     padding: var(--cardBodyPadding);
-    padding: var(--cardBodyPadding);
     transition: var(--cardTransition);
     min-height: fit-content;
-    word-break: break-all;
     word-wrap: break-word;
 }
