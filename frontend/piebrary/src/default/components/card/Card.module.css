@@ -28,7 +28,6 @@
     user-select: none;
     padding: var(--cardTitlePadding);
     transition: var(--cardTransition);
-    word-break: break-all;
     word-wrap: break-word;
 }
 

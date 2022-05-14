@@ -48,6 +48,69 @@ export default function GridView(){
                     6
                 </div>
             </Grid>
+            <Grid customStyles={filterStyles([styles], 'grid2')}>
+                <div className={`${styles.grid2Element} ${styles.grid2Element1}`}>
+                    1
+                </div>
+                <div className={`${styles.grid2Element} ${styles.grid2Element2}`}>
+                    2
+                </div>
+                <div className={`${styles.grid2Element} ${styles.grid2Element3}`}>
+                    3
+                </div>
+            </Grid>
+            <Grid customStyles={filterStyles([styles], 'grid3')}>
+                <div className={`${styles.grid3Element} ${styles.grid3Element1}`}>
+                    1
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element2}`}>
+                    2
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element3}`}>
+                    3
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element4}`}>
+                    4
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element5}`}>
+                    5
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element6}`}>
+                    6
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element7}`}>
+                    7
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element8}`}>
+                    8
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element9}`}>
+                    9
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element10}`}>
+                    10
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element11}`}>
+                    11
+                </div>
+                <div className={`${styles.grid3Element} ${styles.grid3Element12}`}>
+                    12
+                </div>
+            </Grid>
+            <Grid customStyles={filterStyles([styles], 'grid4')}>
+                <div className={`${styles.grid4Element} ${styles.grid4Element1}`}>
+                    1
+                </div>
+                <div className={`${styles.grid4Element} ${styles.grid4Element2}`}>
+                    2
+                </div>
+                <div className={`${styles.grid4Element} ${styles.grid4Element3}`}>
+                    3
+                </div>
+                <div className={`${styles.grid4Element} ${styles.grid4Element4}`}>
+                    4
+                </div>
+            </Grid>
         </Layout>
     )
 }

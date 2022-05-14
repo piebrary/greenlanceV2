@@ -19,7 +19,7 @@ export default function Checkbox({ customStyles, label, name, options, onClick, 
 
                         return (
                             <label
-                                className={generateStyles([styles, customStyles], 'checkboxPair')}
+                                className={`${ o.disabled ? generateStyles([styles, customStyles], 'checkboxPairDisabled') : generateStyles([styles, customStyles], 'checkboxPair')}`}
                                 key={o.name}>
                                 <input
                                     type='checkbox'

@@ -6,7 +6,7 @@ import { AiOutlineForm } from 'react-icons/ai'
 import { BsGrid } from 'react-icons/bs'
 import { FiCreditCard } from 'react-icons/fi'
 import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs'
-import { BiRectangle } from 'react-icons/bi'
+import { MdSmartButton } from 'react-icons/md'
 import { BiSlideshow } from 'react-icons/bi'
 import { IoImages } from 'react-icons/io5'
 import { BsTable } from 'react-icons/bs'
@@ -89,7 +89,7 @@ export function menuitems({ isAdmin, translate }){
             },
             {
                 to:'/button',
-                icon:<BiRectangle size={20} />,
+                icon:<MdSmartButton size={20} />,
                 text:translate('BUTTON')
             },
             {

@@ -15,7 +15,7 @@ import { generateStyles } from '../../../utils/generateStyles'
 
 import styles from './Layout.module.css'
 
-export default function Layout({ items, children, customStyles, title, controls }){
+export default function Layout({ items = [], children, customStyles, title, controls }){
 
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
