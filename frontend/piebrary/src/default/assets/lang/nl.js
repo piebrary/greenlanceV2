@@ -5,6 +5,8 @@ module.exports = () => {
         // gui
         "SAVE":"Opslaan",
         "RESET":"Herstellen",
+        "APPLY":"Toepassen",
+        "CANCEL":"Annuleren",
 
         // auth
         "LOG_IN":"Log in",
@@ -78,6 +80,20 @@ module.exports = () => {
         "WEEK":"Week",
         "MONTH":"Maand",
         "LIST":"Lijst",
+
+        // datepicker
+        "JANUARY":"Januari",
+        "FEBRUARY":"Februari",
+        "MARCH":"Maart",
+        "APRIL":"April",
+        "MAY":"Mei",
+        "JUNE":"Juni",
+        "JULY":"Juli",
+        "AUGUST":"Augustus",
+        "SEPTEMBER":"September",
+        "OCTOBER":"Oktober",
+        "NOVEMBER":"November",
+        "DECEMBER":"December",
     }
 
 }

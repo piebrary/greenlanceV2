@@ -8,9 +8,12 @@ export default function Checkbox({ customStyles, label, name, options, onClick, 
         <div className={generateStyles([styles, customStyles], 'container')}>
             {
                 label && (
-                    <div className={generateStyles([styles, customStyles], 'label')}>
+                    <label
+                        htmlFor={name}
+                        className={generateStyles([styles, customStyles], 'label')}
+                        >
                         {label}
-                    </div>
+                    </label>
                 )
             }
             <div className={generateStyles([styles, customStyles], 'checkboxes')}>

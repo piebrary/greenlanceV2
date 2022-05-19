@@ -8,12 +8,16 @@ export default function Select({ customStyles, label, name, options, defaultValu
         <div className={generateStyles([styles, customStyles], 'container')}>
             {
                 label && (
-                    <div className={generateStyles([styles, customStyles], 'label')}>
+                    <label
+                        htmlFor={name}
+                        className={generateStyles([styles, customStyles], 'label')}
+                        >
                         {label}
-                    </div>
+                    </label>
                 )
             }
             <select
+                id={name}
                 className={generateStyles([styles, customStyles], 'select')}
                 defaultValue={defaultValue?.value}
                 {...register(name, rules)}

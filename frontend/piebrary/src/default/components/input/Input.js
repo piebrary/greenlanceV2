@@ -17,9 +17,12 @@ export default function Input({ customStyles, label, name, type, placeholder, re
         <div className={generateStyles([styles, customStyles], 'container')}>
             {
                 label && (
-                    <div className={generateStyles([styles, customStyles], 'label')}>
+                    <label
+                        htmlFor={name}
+                        className={generateStyles([styles, customStyles], 'label')}
+                        >
                         {label}
-                    </div>
+                    </label>
                 )
             }
             <div className={generateStyles([styles, customStyles], 'inputContainer')}>

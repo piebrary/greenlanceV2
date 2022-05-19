@@ -14,19 +14,22 @@ import styles from './Grid.module.css'
 
 export default function GridView(){
 
-    const { translate } = useContext(LanguageContext)
+    const { translate, addTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const data = []
+
+    addTranslation('GridView.INTRO_TEXT', {
+        en:'The grid component is fully customizable through CSS styles. Below are multiple grids which resize differently according to screen size.',
+        nl:'De Grid module is volledig aanpasbaar via CSS stijlen. Hieronder staan meerdere Grids welke verschillend resizen afhankelijk van het browser formaat.'
+    })
 
     return (
         <Layout
             items={menuitems({ isAdmin, translate })}
             title={translate('GRID')}>
-            <Card
-                title={'Fully configurable Grid'}
-                >
-                The grid component is fully customizable through CSS modules. Below are different grids which resize differently according to screen size.
+            <Card>
+                {translate('GridView.INTRO_TEXT')}
             </Card>
             <Grid customStyles={filterStyles([styles], 'grid1')}>
                 <div className={`${styles.grid1Element} ${styles.grid1Element1}`}>
