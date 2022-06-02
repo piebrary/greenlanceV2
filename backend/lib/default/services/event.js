@@ -1,14 +1,14 @@
-const UserModel = require('../models/user')
-const EventModel = require('../models/event')
-
-const notFoundHandler = require('../handlers/notFound')
-const successHandler = require('../handlers/success')
-const errorHandler = require('../handlers/error')
-
-const eventRequestDto = require('../dto/request/event')
-const eventResponseDto = require('../dto/response/event')
-
 module.exports = mode => {
+
+    let UserModel, EventModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto
+
+    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../models/user') }
+    try { EventModel = require('../../custom/models/event') } catch { EventModel = require('../models/event') }
+    try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../handlers/notFound') }
+    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../handlers/success') }
+    try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../handlers/error') }
+    try { eventRequestDto = require('../../custom/dto/request/event') } catch { eventRequestDto = require('../dto/request/event') }
+    try { eventResponseDto = require('../../custom/dto/response/event') } catch { eventResponseDto = require('../dto/response/event') }
 
     return {
         getEvents,

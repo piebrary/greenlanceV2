@@ -18,14 +18,14 @@ import styles from './Dashboard.module.css'
 
 export default function Dashboard(){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, translate })}
-            title={translate('DASHBOARD')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('DASHBOARD')}>
             <Card
                 title={'Grid component'}
                 customStyles={filterStyles([styles], 'card1')}

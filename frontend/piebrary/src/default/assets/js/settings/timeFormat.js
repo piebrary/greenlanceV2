@@ -1,9 +1,9 @@
 export const timeFormatOptions = [
     {
         value:'HH:mm:ss',
-        name:'24HOUR'
+        name:'24h'
     }, {
         value:'hh:mm:ss A',
-        name:'AMPM'
+        name:'am/pm'
     }
 ]

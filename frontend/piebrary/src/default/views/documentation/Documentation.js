@@ -31,13 +31,13 @@ import styles from './Documentation.module.css'
 
 export default function Documentation(){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     return (
         <Layout
-            items={menuitems({ isAdmin, translate })}
-            title={translate('DOCUMENTATION')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('DOCUMENTATION')}>
             <Card customStyles={filterStyles([styles], 'container')}>
                 Here comes a list element
             </Card>

@@ -1,8 +1,10 @@
 const passport = require('passport')
 
-const EventService = require('../../../../services/event')
-
 module.exports = (express, config) => {
+
+    let EventService
+
+    try { EventService = require('../../../../../custom/services/event') } catch { EventService = require('../../../../services/event') }
 
     const apiPrefix = config.PREFIX
     const secret = config.SECRET

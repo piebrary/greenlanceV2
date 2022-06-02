@@ -13,15 +13,15 @@ import styles from './Calendar.module.css'
 
 export default function CalendarView(){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const data = []
 
     return (
         <Layout
-            items={menuitems({ isAdmin, translate })}
-            title={translate('CALENDAR')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('CALENDAR')}>
             <Calendar
                 events={data}
                 />

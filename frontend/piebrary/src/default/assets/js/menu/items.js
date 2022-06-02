@@ -18,123 +18,123 @@ import { BsPalette } from 'react-icons/bs'
 import { MdOutlineNotificationsActive } from 'react-icons/md'
 import { IoLanguageOutline } from 'react-icons/io5'
 
-export function menuitems({ isAdmin, translate }){
+export function menuitems({ isAdmin, getTranslation }){
 
     return [
         [
             {
-                label:<>{translate('DEFAULT')}</>
+                label:<>{getTranslation('DEFAULT')}</>
             },
             {
                 to:'/',
                 icon:<BiHome size={20} />,
-                text:translate('DASHBOARD')
+                text:getTranslation('DASHBOARD')
             },
             {
                 to:'/profile',
                 icon:<FaUser size={20} />,
-                text:translate('PROFILE')
+                text:getTranslation('PROFILE')
             },
             {
                 to:'/settings',
                 icon:<VscSettings size={20} />,
-                text:translate('SETTINGS')
+                text:getTranslation('SETTINGS')
             },
         ],[
             {
-                label:<>{translate('ADMIN')}</>,
+                label:<>{getTranslation('ADMIN')}</>,
                 hidden:!isAdmin()
             },
             {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
-                text:translate('USERS'),
+                text:getTranslation('USERS'),
                 hidden:!isAdmin()
             },
             {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
-                text:translate('BUILDER'),
+                text:getTranslation('BUILDER'),
                 hidden:!isAdmin()
             },
             {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
-                text:translate('DOCUMENTATION'),
+                text:getTranslation('DOCUMENTATION'),
                 hidden:!isAdmin()
             },
         ],[
             {
-                label:<>{translate('COMPONENTS')}</>
+                label:<>{getTranslation('COMPONENTS')}</>
             },
             {
                 to:'/calendar',
                 icon:<BsCalendar2Week size={20} />,
-                text:translate('CALENDAR')
+                text:getTranslation('CALENDAR')
             },
             {
                 to:'/grid',
                 icon:<BsGrid size={20} />,
-                text:translate('GRID')
+                text:getTranslation('GRID')
             },
             {
                 to:'/form',
                 icon:<AiOutlineForm size={20} />,
-                text:translate('FORM')
+                text:getTranslation('FORM')
             },
             {
                 to:'/card',
                 icon:<FiCreditCard size={20} />,
-                text:translate('CARD')
+                text:getTranslation('CARD')
             },
             {
                 to:'/button',
                 icon:<MdSmartButton size={20} />,
-                text:translate('BUTTON')
+                text:getTranslation('BUTTON')
             },
             {
                 to:'/slideshow',
                 icon:<BiSlideshow size={20} />,
-                text:translate('SLIDESHOW')
+                text:getTranslation('SLIDESHOW')
             },
             {
                 to:'/gallery',
                 icon:<IoImages size={20} />,
-                text:translate('GALLERY')
+                text:getTranslation('GALLERY')
             },
             {
                 to:'/table',
                 icon:<BsTable size={20} />,
-                text:translate('TABLE')
+                text:getTranslation('TABLE')
             },
             {
                 to:'/layout',
                 icon:<BsReverseLayoutTextWindowReverse size={20} />,
-                text:translate('LAYOUT')
+                text:getTranslation('LAYOUT')
             },
             {
                 to:'/textarea',
                 icon:<BsCardText size={20} />,
-                text:translate('TEXTAREA')
+                text:getTranslation('TEXTAREA')
             },
             {
-                to:'/notification',
+                to:'/notifications',
                 icon:<MdOutlineNotificationsActive size={20} />,
-                text:translate('NOTIFICATIONS')
+                text:getTranslation('NOTIFICATIONS')
             },
         ],[
             {
-                label:<>{translate('OTHER')}</>
+                label:<>{getTranslation('OTHER')}</>
             },
             {
                 to:'/styles',
                 icon:<BsPalette size={20} />,
-                text:translate('CSS_STYLES')
+                text:getTranslation('CSS_STYLES')
             },
             {
                 to:'/languages',
                 icon:<IoLanguageOutline size={20} />,
-                text:translate('LANGUAGES')
+                text:getTranslation('LANGUAGES')
             },
         ],
     ]

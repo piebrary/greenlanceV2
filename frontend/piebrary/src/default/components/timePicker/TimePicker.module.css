@@ -7,14 +7,14 @@
     padding: 10px;
 }
 
-.dateContainer {
+.timeContainer {
     margin-left: 10px;
     flex-grow: 1;
     max-width: 300px;
     width: 300px;
 }
 
-.selectedDate {
+.selectedTime {
     color: var(--dark);
     box-shadow: none;
     border-radius: 4px;
@@ -29,14 +29,15 @@
     background-color: var(--secondary3);
 }
 
-.selectedDate:hover {
+.selectedTime:hover {
     color: var(--secondary3);
     background-color: var(--primary3);
     transition: 0.2s ease-in-out;
     cursor: pointer;
+    user-select: none;
 }
 
-.datePicker {
+.timePicker {
     box-sizing: border-box;
     color: var(--dark);
     border: 0px;
@@ -49,6 +50,41 @@
     margin-top: 4px;
     display: flex;
     justify-content: center;
+    flex-direction: column;
+}
+
+.timeGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+/* .timeNumbers {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 8px;
+    flex-wrap: wrap;
+} */
+
+.ampmToggleContainer {
+    grid-column: 1 / 7;
+    grid-row: 1;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    user-select: none;
+}
+
+.timeNumber {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
 }
 
 .boundariesInfo {
@@ -62,38 +98,55 @@
     user-select: none;
 }
 
-.daysGridGrid {
+.hoursGrid24hGrid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2px;
     grid-auto-rows: 40px;
+    margin-top: 8px;
 }
 
-.monthsGridGrid {
+.hoursGridAMPMGrid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2px;
     grid-auto-rows: 40px;
+    margin-top: 8px;
 }
 
-.yearsGridGrid {
+.minutesGridGrid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 2px;
     grid-auto-rows: 40px;
-    width: 100%;
+    margin-top: 8px;
 }
 
 .monthYearTitle {
     grid-column: 3 / 7;
-    grid-row: 1;
     display: flex;
     align-items: center;
     justify-content: center;
     user-select: none;
 }
 
-.period {
+.timeHoursTitle {
+    grid-column: 3 / 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.timeMinutesTitle {
+    grid-column: 3 / 6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.isSelectable {
     padding: 10px;
     border-radius: 4px;
     user-select: none;
@@ -101,20 +154,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--dark);
 }
 
-.period.isSelectable:hover {
+.isSelectable:hover {
     color: var(--secondary3);
     background-color: var(--primary3);
     transition: 0.2s ease-in-out;
     cursor: pointer;
 }
 
-.dayOfCurMon {
-    color: var(--dark);
-}
-
-.dayOfOtherMon {
+.isNotSelectable {
     color: var(--lighter);
 }
 

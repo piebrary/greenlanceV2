@@ -3,11 +3,13 @@ const LocalStrategy = require('passport-local').Strategy
 const JWTStrategy = require('passport-jwt').Strategy
 const bcrypt = require('bcrypt')
 
-const logger = require('../utils/logger')
-
 module.exports = config => {
 
-    const UserModel = require('../models/user')
+    let logger, UserModel
+
+    try { logger = require('../../custom/utils/logger') } catch { logger = require('../utils/logger') }
+
+    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../models/user') }
 
     passport.use(new LocalStrategy(
 

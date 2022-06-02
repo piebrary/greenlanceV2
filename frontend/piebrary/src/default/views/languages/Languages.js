@@ -14,7 +14,7 @@ import styles from './Languages.module.css'
 
 export default function LanguagesView(){
 
-    const { translate, addTranslation } = useContext(LanguageContext)
+    const { getTranslation, addTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const data = []
@@ -41,20 +41,20 @@ export default function LanguagesView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, translate })}
-            title={translate('LANGUAGES')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('LANGUAGES')}>
             <Grid customStyles={filterStyles([styles], 'grid1')}>
                 <Card
                     customStyles={filterStyles([styles], 'griditemOne')}
-                    title={translate('LanguagesView.Card1Title')}
+                    title={getTranslation('LanguagesView.Card1Title')}
                     >
-                    {translate('LanguagesView.Card1Body')}
+                    {getTranslation('LanguagesView.Card1Body')}
                 </Card>
                 <Card
                     customStyles={filterStyles([styles], 'griditemTwo')}
-                    title={translate('LanguagesView.Card2Title')}
+                    title={getTranslation('LanguagesView.Card2Title')}
                     >
-                    {translate('LanguagesView.Card2Body')}
+                    {getTranslation('LanguagesView.Card2Body')}
                 </Card>
             </Grid>
         </Layout>

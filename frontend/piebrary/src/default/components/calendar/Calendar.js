@@ -16,7 +16,7 @@ import styles from './Calendar.module.css'
 
 export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJSX, onSaveEvent, onDeleteEvent }){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
 
     const [viewRange, setViewRange] = useState('month')
     const [viewMode, setViewMode] = useState('calendar')
@@ -347,7 +347,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={translate('PREVIOUS')}
+                                    label={getTranslation('PREVIOUS')}
                                     onClick={() => goPrevious()}
                                     customStyles={filterStyles([styles], 'controlBtn')}
                                     />
@@ -356,7 +356,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={translate(
+                                    label={getTranslation(
                                         (viewRange === 'day' && 'TODAY')
                                         || (viewRange === 'week' && 'THIS_WEEK')
                                         || (viewRange === 'month' && 'THIS_MONTH')
@@ -369,7 +369,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         {
                             viewMode === 'list' && (
                                 <Button
-                                    label={translate('TODAY')}
+                                    label={getTranslation('TODAY')}
                                     onClick={() => goNow()}
                                     customStyles={filterStyles([styles], 'controlBtn')}
                                     />
@@ -378,7 +378,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={translate('NEXT')}
+                                    label={getTranslation('NEXT')}
                                     onClick={() => goNext()}
                                     customStyles={filterStyles([styles], 'controlBtn')}
                                     />
@@ -390,19 +390,19 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                     customStyles={filterStyles([styles], 'controlGroup')}
                                     >
                                     <Button
-                                        label={translate('SAVE')}
+                                        label={getTranslation('SAVE')}
                                         onClick={event => saveEvent(event)}
                                         customStyles={filterStyles([styles], 'controlBtn')}
                                         />
                                     <Button
-                                        label={translate('RESET')}
+                                        label={getTranslation('RESET')}
                                         onClick={event => resetEvent(event)}
                                         customStyles={filterStyles([styles], 'controlBtn')}
                                         />
                                     {
                                         viewMode === 'editEvent' && (
                                             <Button
-                                                label={translate('DELETE')}
+                                                label={getTranslation('DELETE')}
                                                 onClick={event => deleteEvent(event)}
                                                 customStyles={filterStyles([styles], 'controlBtn')}
                                                 />
@@ -417,12 +417,12 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                     customStyles={filterStyles([styles], 'controlGroup')}
                                     >
                                     <Button
-                                        label={translate('EDIT')}
+                                        label={getTranslation('EDIT')}
                                         onClick={event => openDetailsView(event, 'editEvent', currentActiveEvent)}
                                         customStyles={filterStyles([styles], 'controlBtn')}
                                         />
                                     <Button
-                                        label={translate('DELETE')}
+                                        label={getTranslation('DELETE')}
                                         onClick={event => deleteEvent(event)}
                                         customStyles={filterStyles([styles], 'controlBtn')}
                                         />
@@ -436,17 +436,17 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                 customStyles={filterStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={translate('DAY')}
+                                    label={getTranslation('DAY')}
                                     customStyles={filterStyles([styles], viewRange === 'day' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('day')}
                                     />
                                 <Button
-                                    label={translate('WEEK')}
+                                    label={getTranslation('WEEK')}
                                     customStyles={filterStyles([styles], viewRange === 'week' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('week')}
                                     />
                                 <Button
-                                    label={translate('MONTH')}
+                                    label={getTranslation('MONTH')}
                                     customStyles={filterStyles([styles], viewRange === 'month' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('month')}
                                     />
@@ -480,12 +480,12 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                 customStyles={filterStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={translate('CALENDAR')}
+                                    label={getTranslation('CALENDAR')}
                                     customStyles={filterStyles([styles], viewMode === 'calendar' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewMode('calendar')}
                                     />
                                 <Button
-                                    label={translate('LIST')}
+                                    label={getTranslation('LIST')}
                                     customStyles={filterStyles([styles], viewMode === 'list' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewMode('list')}
                                     />
@@ -498,7 +498,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                 customStyles={filterStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={translate('CLOSE')}
+                                    label={getTranslation('CLOSE')}
                                     onClick={event => adjustViewMode(previousViewMode)}
                                     customStyles={filterStyles([styles], 'controlBtn')}
                                     />

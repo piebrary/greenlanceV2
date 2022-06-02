@@ -19,7 +19,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuClassList, setMenuClassList] = useState([generateStyles([styles, customStyles], 'items')])
@@ -113,7 +113,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         onClick={logout}
                         className={generateStyles([styles, customStyles], 'item')}>
                         <div className={styles.itemIcon}><BiLogOutCircle size={20} /></div>
-                        <div className={styles.itemText}>{translate('LOG_OUT')}</div>
+                        <div className={styles.itemText}>{getTranslation('LOG_OUT')}</div>
                     </NavLink>
                 </div>
             </div>

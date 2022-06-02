@@ -1,0 +1,54 @@
+.buttonsGridGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(0px, auto);
+}
+
+.successCardTitle {
+    background-color: var(--success2);
+}
+
+.infoCardTitle {
+    background-color: dodgerblue;
+}
+
+.warningCardTitle {
+    background-color: orange;
+}
+
+.dangerCardTitle {
+    background-color: var(--primary4);
+}
+
+.successBtnButton {
+    background-color: var(--success2);
+    width: 100%;
+}
+
+.infoBtnButton {
+    background-color: dodgerblue;
+    width: 100%;
+}
+
+.infoBtnButton:hover {
+    background-color: blue;
+}
+
+.warningBtnButton {
+    background-color: orange;
+    width: 100%;
+}
+
+.warningBtnButton:hover {
+    background-color: darkorange;
+}
+
+.dangerBtnButton {
+    background-color: var(--primary4);
+    width: 100%;
+}
+
+.dangerBtnButton:hover {
+    background-color: var(--primary2);
+}

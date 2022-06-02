@@ -1,25 +1,22 @@
 const fs = require('fs')
-
 const path = require('path')
-const Resize = require('../utils/Resize')
-
-const UserModel = require('../models/user')
-
-const notFoundHandler = require('../handlers/notFound')
-const successHandler = require('../handlers/success')
-const errorHandler = require('../handlers/error')
-
-const userResponseDto = require('../dto/response/user')
-const userRequestDto = require('../dto/request/user')
-
-const encryptPassword = require('../utils/encryptPassword')
-const passwordsMatch = require('../utils/passwordsMatch')
-
-const logger = require('../utils/logger')
 
 const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
 module.exports = mode => {
+
+    let UserModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto, Resize, encryptPassword, passwordsMatch, logger
+
+    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../models/user') }
+    try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../handlers/notFound') }
+    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../handlers/success') }
+    try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../handlers/error') }
+    try { userRequestDto = require('../../custom/dto/request/user') } catch { userRequestDto = require('../dto/request/user') }
+    try { userResponseDto = require('../../custom/dto/response/user') } catch { userResponseDto = require('../dto/response/user') }
+    try { Resize = require('../../custom/utils/Resize') } catch { Resize = require('../utils/Resize') }
+    try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../utils/encryptPassword') }
+    try { passwordsMatch = require('../../custom/utils/passwordsMatch') } catch { passwordsMatch = require('../utils/passwordsMatch') }
+    try { logger = require('../../custom/utils/logger') } catch { logger = require('../utils/logger') }
 
     async function getUser(req){
 

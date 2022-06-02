@@ -40,9 +40,9 @@ module.exports = new Schema({
         },
         dateFormat:{
             type: String,
-            default: 'DD-MM-YYYY'
+            default: 'DD-MM-yyyy'
         },
-    },
+    }
 },
 {
     timestamps: true

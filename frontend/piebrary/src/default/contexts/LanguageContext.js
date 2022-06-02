@@ -13,11 +13,11 @@ export default function LanguageContextProvider({ children }){
     const languages = { en, nl }
 
     const contextData = {
-        translate,
+        getTranslation,
         addTranslation
     }
 
-    function translate(stringKey){
+    function getTranslation(stringKey){
 
         return languages[settings.language][stringKey] || stringKey
 

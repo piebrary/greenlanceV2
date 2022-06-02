@@ -13,31 +13,28 @@ import { AiOutlineClose } from 'react-icons/ai'
 import { MdOutlineNavigateBefore } from 'react-icons/md'
 import { MdOutlineNavigateNext } from 'react-icons/md'
 
-import { dateFormatOptions } from '../../assets/js/settings/dateFormat'
-
 import styles from './DatePicker.module.css'
 
 import { generateStyles } from '../../utils/generateStyles'
 import { filterStyles } from '../../utils/filterStyles'
-import { formatDate } from '../../utils/formatDate'
 
-export default function DatePicker({ customStyles, label, name, min, max, register, startDate = Date.now() }){
+export default function DatePicker({ customStyles, label, name, min, max, startDate, register, setValue }){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { settings } = useContext(UserContext)
 
-    const startDateWithBoundaries = (
-        min && moment(min) > moment(startDate)
-        ? moment(min)
-        : max && moment(max) < moment(startDate)
-        ? moment(max)
-        : moment(startDate)
-    )
+    min = min ? moment(min) : moment(1)
+    max = max ? moment(max) : moment(Number.MAX_VALUE)
+    startDate = startDate ? moment(startDate) : moment()
 
-    const [isPickerOpen, setIsPickerOpen] = useState(false)
+    const startDateWithBoundaries = createDateWithBoundaries(startDate, min, max)
+
+    const [currentOpenPicker, setCurrentOpenPicker] = useState()
     const [selectedDate, setSelectedDate] = useState(startDateWithBoundaries)
     const [viewDate, setViewDate] = useState(startDateWithBoundaries)
     const [dateSheet, setDateSheet] = useState([])
+    const [monthSheet, setMonthSheet] = useState([...moment.months()])
+    const [yearSheet, setYearSheet] = useState([])
 
     const reg = register && register(name)
 
@@ -86,21 +83,73 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
 
         setDateSheet(dates)
 
+        const years = []
+
+        const curYear = moment(viewDate).year()
+
+        for(let i = curYear - 4; i <= curYear + 4; i++){
+
+            years.push(i)
+
+        }
+
+        setYearSheet(years)
+
     }, [viewDate])
 
-    function selectDate(event, date){
+    useEffect(() => {
 
-        event.preventDefault()
+        // server must check the users format to get the correct date
+        setValue(name, moment(selectedDate).format(settings.dateFormat))
 
-        const dateWithBoundaries = (
-            min && moment(min) > moment(date)
+    }, [selectedDate])
+
+    function createDateWithBoundaries(date, min, max){
+
+        return (
+            min && min > date
             ? moment(min)
-            : max && moment(max) < moment(date)
+            : max && max < date
             ? moment(max)
             : moment(date)
         )
 
+    }
+
+    function selectDate(event, date){
+
+        event && event.preventDefault()
+
+        const dateWithBoundaries = createDateWithBoundaries(date, min, max)
+
         setSelectedDate(dateWithBoundaries)
+        setViewDate(dateWithBoundaries)
+
+    }
+
+    function selectMonth(event, month){
+
+        event && event.preventDefault()
+
+        const newDate = moment(selectedDate.set('month', month))
+        const dateWithBoundaries = createDateWithBoundaries(newDate, min, max)
+
+        setSelectedDate(dateWithBoundaries)
+        setViewDate(dateWithBoundaries)
+        setCurrentOpenPicker('day')
+
+    }
+
+    function selectYear(event, year){
+
+        event && event.preventDefault()
+
+        const newDate = moment(selectedDate.set('year', year))
+        const dateWithBoundaries = createDateWithBoundaries(newDate, min, max)
+
+        setSelectedDate(dateWithBoundaries)
+        setViewDate(dateWithBoundaries)
+        setCurrentOpenPicker('day')
 
     }
 
@@ -108,17 +157,17 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
 
         event.preventDefault()
 
-        setSelectedDate(previous => {
-            return previous
-        })
+        // setSelectedDate(previous => {
+        //     return previous
+        // })
 
-        setIsPickerOpen(false)
+        setCurrentOpenPicker()
 
     }
 
     function goPreviousMonth(event){
 
-        event.preventDefault()
+        event && event.preventDefault()
 
         setViewDate(previous => {
 
@@ -130,7 +179,7 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
 
     function goNextMonth(event){
 
-        event.preventDefault()
+        event && event.preventDefault()
 
         setViewDate(previous => {
 
@@ -153,15 +202,36 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
                 )
             }
             <div className={generateStyles([styles, customStyles], 'dateContainer')}>
-                <div
+                <input
                     className={generateStyles([styles, customStyles], 'selectedDate')}
-                    onClick={() => setIsPickerOpen(!isPickerOpen)}
+                    onClick={() => currentOpenPicker !== 'day' ? setCurrentOpenPicker('day') : setCurrentOpenPicker() }
+                    defaultValue={moment(startDate).format(settings.dateFormat)}
+                    readOnly={true}
                     {...reg}
-                    >
-                    {moment(selectedDate).format(settings.dateFormat)}
-                </div>
+                    />
                 {
-                    isPickerOpen && (
+                    currentOpenPicker && min && !max && (
+                        <div className={styles.boundariesInfo}>
+                            From {moment(min).format(settings.dateFormat)}
+                        </div>
+                    )
+                }
+                {
+                    currentOpenPicker && max && !min && (
+                        <div className={styles.boundariesInfo}>
+                            Until {moment(max).format(settings.dateFormat)}
+                        </div>
+                    )
+                }
+                {
+                    currentOpenPicker && min && max && (
+                        <div className={styles.boundariesInfo}>
+                            Between {moment(min).format(settings.dateFormat)} and {moment(max).format(settings.dateFormat)}
+                        </div>
+                    )
+                }
+                {
+                    currentOpenPicker === 'day' && (
                         <div className={generateStyles([styles, customStyles], 'datePicker')}>
                             <Grid
                                 customStyles={filterStyles([styles, customStyles], 'daysGrid')}
@@ -179,9 +249,26 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
                                 <div
                                     className={styles.monthYearTitle}
                                     >
-                                    {
-                                        translate(moment(viewDate).format('MMMM').toUpperCase()) + ' ' + moment(viewDate).format('YYYY')
-                                    }
+                                    <div
+                                        key={'monthBtn'}
+                                        className={[styles.period, styles.isSelectable].join(' ')}
+                                        onClick={event => {
+                                            event.preventDefault()
+                                            setCurrentOpenPicker('month')
+                                        }}
+                                        >
+                                        {getTranslation(moment(viewDate).format('MMMM').toUpperCase())}
+                                    </div>
+                                    <div
+                                        key={'yearBtn'}
+                                        className={[styles.period, styles.isSelectable].join(' ')}
+                                        onClick={event => {
+                                            event.preventDefault()
+                                            setCurrentOpenPicker('year')
+                                        }}
+                                        >
+                                        {getTranslation(moment(viewDate).format('YYYY').toUpperCase())}
+                                    </div>
                                 </div>
                                 <Button
                                     customStyles={filterStyles([styles, customStyles], 'cancelBtn')}
@@ -191,21 +278,22 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
                                 {
                                     dateSheet.map(date => {
 
-                                        const classList = [styles.day]
+                                        const classList = [styles.period]
 
                                         classList.push(moment(date).month() === moment(viewDate).month() ? styles.dayOfCurMon : styles.dayOfOtherMon)
 
                                         if(
-                                            (!min || (min && moment(date) > moment(min)))
-                                            && (!max || (max && moment(date) < moment(max)))
+                                            (!min || (min && moment(date).startOf('day') >= moment(min).startOf('day')))
+                                            && (!max || (max && moment(date).startOf('day') <= moment(max).startOf('day')))
                                         ){
 
                                             classList.push(styles.isSelectable)
 
-                                        }
+                                        } else {
 
-                                        if(min && moment(date) < moment(min)) classList.push(styles.outOfBounds)
-                                        if(max && moment(date) > moment(max)) classList.push(styles.outOfBounds)
+                                            classList.push(styles.outOfBounds)
+
+                                        }
 
                                         if(moment(date).startOf('day').isSame(moment(selectedDate).startOf('day'))){
 
@@ -220,6 +308,102 @@ export default function DatePicker({ customStyles, label, name, min, max, regist
                                                 onClick={event => selectDate(event, date)}
                                                 >
                                                 {moment(date).date()}
+                                            </div>
+                                        )
+
+                                    })
+                                }
+                            </Grid>
+                        </div>
+                    )
+                }
+                {
+                    currentOpenPicker === 'month' && (
+                        <div className={generateStyles([styles, customStyles], 'datePicker')}>
+                            <Grid
+                                customStyles={filterStyles([styles, customStyles], 'monthsGrid')}
+                                >
+                                {
+                                     monthSheet.map(month => {
+
+                                        const classList = [styles.period]
+
+                                        classList.push(moment(viewDate).set('month', month) > min && moment(viewDate).set('month', month) < max ? styles.dayOfCurMon : styles.dayOfOtherMon)
+
+                                        if(
+                                            (min && moment(viewDate).set('month', month).startOf('month') >= moment(min).startOf('month'))
+                                            && (max && moment(viewDate).set('month', month).startOf('month') <= moment(max).startOf('month'))
+                                        ){
+
+                                            classList.push(styles.isSelectable)
+
+                                        } else {
+
+                                            classList.push(styles.outOfBounds)
+
+                                        }
+
+                                        if(moment(moment(viewDate).set('month', month)).startOf('month').isSame(moment(selectedDate).startOf('month'))){
+
+                                            classList.push(styles.daySelected)
+
+                                        }
+
+                                        return (
+                                            <div
+                                                key={month}
+                                                className={classList.join(' ')}
+                                                onClick={event => selectMonth(event, month)}
+                                                >
+                                                {getTranslation(month.toUpperCase())}
+                                            </div>
+                                        )
+
+                                    })
+                                }
+                            </Grid>
+                        </div>
+                    )
+                }
+                {
+                    currentOpenPicker === 'year' && (
+                        <div className={generateStyles([styles, customStyles], 'datePicker')}>
+                            <Grid
+                                customStyles={filterStyles([styles, customStyles], 'yearsGrid')}
+                                >
+                                {
+                                    yearSheet.map(year => {
+
+                                        const classList = [styles.period]
+
+                                        classList.push(moment(viewDate).set('year', year) > min && moment(viewDate).set('year', year) < max ? styles.dayOfCurMon : styles.dayOfOtherMon)
+
+                                        if(
+                                            (min && moment(viewDate).set('year', year).startOf('year') >= moment(min).startOf('year'))
+                                            && (max && moment(viewDate).set('year', year).startOf('year') <= moment(max).startOf('year'))
+                                        ){
+
+                                            classList.push(styles.isSelectable)
+
+                                        } else {
+
+                                            classList.push(styles.outOfBounds)
+
+                                        }
+
+                                        if(moment(moment(viewDate).set('year', year)).startOf('year').isSame(moment(selectedDate).startOf('year'))){
+
+                                            classList.push(styles.daySelected)
+
+                                        }
+
+                                        return (
+                                            <div
+                                                key={year}
+                                                className={classList.join(' ')}
+                                                onClick={event => selectYear(event, year)}
+                                                >
+                                                {year}
                                             </div>
                                         )
 

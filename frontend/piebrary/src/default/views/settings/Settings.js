@@ -20,21 +20,43 @@ import { timeFormatOptions } from '../../assets/js/settings/timeFormat'
 
 import { filterStyles } from '../../utils/filterStyles'
 import { containsNumber } from '../../utils/containsNumber'
+import { notificationManager } from '../../utils/notifications'
 
 import styles from './Settings.module.css'
 
 export default function Settings(){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { isAdmin, userData, saveUserData } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
 
-    function onSubmit(data){
+    const notifications = notificationManager()
+
+    async function onSubmit(data){
 
         data._id = userData._id
 
-        saveUserData(data)
+        const result = await saveUserData(data)
+
+        if(result){
+
+            notifications.create({
+                title: "Successfully updated settings",
+                type: 'success'
+            })
+
+        }
+
+        if(!result){
+
+            notifications.create({
+                title: "Could not update settings",
+                type: "danger",
+            })
+
+        }
+
 
     }
 
@@ -49,18 +71,18 @@ export default function Settings(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, translate })}
-            title={translate('SETTINGS')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('SETTINGS')}>
             <Card
                 customStyles={filterStyles([styles], 'card1')}>
                 <Form
                     onSubmit={handleSubmit(onSubmit)}
                     customStyles={filterStyles([styles], 'testform')}>
                     <div className={styles.categoryLabel}>
-                        {translate('CREDENTIALS')}
+                        {getTranslation('CREDENTIALS')}
                     </div>
                     <Input
-                        label={translate('USERNAME')}
+                        label={getTranslation('USERNAME')}
                         name={'username'}
                         type={'text'}
                         defaultValue={userData.username}
@@ -69,7 +91,7 @@ export default function Settings(){
                         errors={errors}
                         />
                     <Input
-                        label={translate('EMAIL')}
+                        label={getTranslation('EMAIL')}
                         name={'email'}
                         type={'text'}
                         defaultValue={userData.email}
@@ -77,7 +99,7 @@ export default function Settings(){
                         errors={errors}
                         />
                     <Input
-                        label={translate('NEW_PASSWORD')}
+                        label={getTranslation('NEW_PASSWORD')}
                         name={'newPassword'}
                         type={'password'}
                         hideToggle={true}
@@ -101,7 +123,7 @@ export default function Settings(){
                         }}
                         />
                     <Input
-                        label={translate('REPEAT_PASSWORD')}
+                        label={getTranslation('REPEAT_PASSWORD')}
                         name={'repeatPassword'}
                         type={'password'}
                         hideToggle={true}
@@ -117,7 +139,7 @@ export default function Settings(){
                         }}
                         />
                     <Input
-                        label={translate('CURRENT_PASSWORD')}
+                        label={getTranslation('CURRENT_PASSWORD')}
                         name={'currentPassword'}
                         type={'password'}
                         hideToggle={true}
@@ -139,11 +161,11 @@ export default function Settings(){
                         }}
                         />
                     <div className={styles.categoryLabel}>
-                        {translate('REGIONAL_SETTINGS')}
+                        {getTranslation('REGIONAL_SETTINGS')}
                     </div>
                     <Select
                         name={'settings.language'}
-                        label={translate('LANGUAGE')}
+                        label={getTranslation('LANGUAGE')}
                         options={languageOptions}
                         defaultValue={languageOptions.find(o => o.value === userData.settings.language)}
                         register={register}
@@ -151,7 +173,7 @@ export default function Settings(){
                         />
                     <Select
                         name={'settings.dateFormat'}
-                        label={translate('DATE_FORMAT')}
+                        label={getTranslation('DATE_FORMAT')}
                         options={dateFormatOptions}
                         defaultValue={dateFormatOptions.find(o => o.value === userData.settings.dateFormat)}
                         register={register}
@@ -159,20 +181,20 @@ export default function Settings(){
                         />
                     <Select
                         name={'settings.timeFormat'}
-                        label={translate('TIME_FORMAT')}
+                        label={getTranslation('TIME_FORMAT')}
                         options={timeFormatOptions}
-                        defaultValue={timeFormatOptions.find(o => o.value === userData.settings.timeFormat)}
+                        defaultValue={timeFormatOptions.find(o => o.value === userData.settings.timeFormat).name}
                         register={register}
                         errors={errors}
                         />
                     <ButtonGroup>
                         <Button
-                            label={translate('SAVE')}
+                            label={getTranslation('SAVE')}
                             onClick={() => handleSubmit(onSubmit)}
                             />
                         <Button
                             customStyles={filterStyles([styles], 'reset')}
-                            label={translate('RESET')}
+                            label={getTranslation('RESET')}
                             onClick={onReset}
                             />
                     </ButtonGroup>

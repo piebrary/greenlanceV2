@@ -1,4 +1,6 @@
-const settingsResponseDto = require('./settings')
+let settingsResponseDto
+
+try { settingsResponseDto = require('../../../custom/dto/response/settings') } catch { settingsResponseDto = require('./settings') }
 
 module.exports = (document, completeEntityData = false) => {
 

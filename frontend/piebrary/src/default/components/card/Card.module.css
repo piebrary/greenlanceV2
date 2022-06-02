@@ -6,14 +6,14 @@
     overflow: hidden;
 }
 
-.card.clickable:hover .title {
+.clickable:hover .title {
     background-color: var(--cardTitleBackgroundColorHover);
     color: var(--cardTitleColorHover);
     cursor: pointer;
     transition: var(--cardTransition);
 }
 
-.card.clickable:hover .body {
+.clickable:hover .body {
     background-color: var(--cardBodyBackgroundColorHover);
     color: var(--cardBodyColorHover);
     cursor: pointer;
@@ -44,6 +44,7 @@
     color: var(--cardBodyColor);
     padding: var(--cardBodyPadding);
     transition: var(--cardTransition);
-    min-height: fit-content;
     word-wrap: break-word;
+    display: flex;
+    align-items: center;
 }

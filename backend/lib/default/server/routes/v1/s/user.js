@@ -1,8 +1,10 @@
 const passport = require('passport')
 
-const UserService = require('../../../../services/user')
-
 module.exports = (express, config) => {
+
+    let UserService, upload
+
+    try { UserService = require('../../../../../custom/services/user') } catch { UserService = require('../../../../services/user') }
 
     const prefix = config.PREFIX
     const secret = config.SECRET
@@ -10,7 +12,7 @@ module.exports = (express, config) => {
 
     const userService = UserService(mode)
 
-    const upload = require('../../../../utils/uploadProfilePictureMiddleware')
+    try { upload = require('../../../../../custom/utils/uploadProfilePictureMiddleware') } catch { upload = require('../../../../utils/uploadProfilePictureMiddleware') }
 
     express.get(
         prefix + '/v1/s/user',

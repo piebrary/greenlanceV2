@@ -24,7 +24,7 @@ import styles from './Profile.module.css'
 
 export default function Profile(){
 
-    const { translate } = useContext(LanguageContext)
+    const { getTranslation } = useContext(LanguageContext)
     const { isAdmin, userData, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
@@ -35,29 +35,29 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, translate })}
-            title={translate('PROFILE')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('PROFILE')}>
             <Card
                 customStyles={filterStyles([styles], 'card1')}>
                 <Grid customStyles={filterStyles([styles], 'grid')}>
                     <div className={styles.profilePictureContainer}>
                         <div className={styles.categoryLabel}>
-                            {translate('PICTURE')}
+                            {getTranslation('PICTURE')}
                         </div>
                         <ImageUploader
                             currentPicture={userData.profilePicture ? '/public/images/profile/' + userData.profilePicture : undefined}
                             defaultPicture={<BsPersonCircle size={'100%'} />}
-                            label={translate('UPLOAD')}/>
+                            label={getTranslation('UPLOAD')}/>
                     </div>
                     <div className={styles.formContainer}>
                         <Form
                             onSubmit={handleSubmit(onSubmit)}
                             customStyles={filterStyles([styles], 'testform')}>
                             <div className={styles.categoryLabel}>
-                                {translate('PERSONAL_DATA')}
+                                {getTranslation('PERSONAL_DATA')}
                             </div>
                             <Input
-                                label={translate('USERNAME')}
+                                label={getTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
                                 defaultValue={userData.username}
@@ -65,14 +65,14 @@ export default function Profile(){
                                 readOnly={true}
                                 />
                             <Input
-                                label={translate('FIRSTNAME')}
+                                label={getTranslation('FIRSTNAME')}
                                 name={'firstName'}
                                 type={'text'}
                                 defaultValue={userData.firstName}
                                 customStyles={filterStyles([styles], 'inputField')}
                                 />
                             <Input
-                                label={translate('LASTNAME')}
+                                label={getTranslation('LASTNAME')}
                                 name={'lastName'}
                                 type={'text'}
                                 defaultValue={userData.lastName}
@@ -82,12 +82,12 @@ export default function Profile(){
                                 />
                             <ButtonGroup>
                                 <Button
-                                    label={translate('SAVE')}
+                                    label={getTranslation('SAVE')}
                                     onClick={() => handleSubmit(onSubmit)}
                                     />
                                 <Button
                                     customStyles={filterStyles([styles], 'reset')}
-                                    label={translate('RESET')}
+                                    label={getTranslation('RESET')}
                                     onClick={onReset}
                                     />
                             </ButtonGroup>

@@ -1,6 +1,8 @@
-const serverInfoService = require('../../../services/serverInfo')
+let serverInfoService
 
 module.exports = (express, config) => {
+
+    try { serverInfoService = require('../../../../custom/services/serverInfo') } catch { serverInfoService = require('../../../services/serverInfo') }
 
     const prefix = config.PREFIX
 

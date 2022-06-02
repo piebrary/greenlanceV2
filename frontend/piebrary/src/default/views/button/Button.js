@@ -14,35 +14,22 @@ import styles from './Button.module.css'
 
 export default function ButtonView(){
 
-    const { translate, addTranslation } = useContext(LanguageContext)
+    const { getTranslation, addTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const data = []
 
-    addTranslation('ButtonView.Card1Title', {
-        en:'Card Title',
-        nl:'Kaart Titel'
-    })
-
-    addTranslation('ButtonView.Card1Description', {
-        en:'Card description',
-        nl:'Kaart omschrijving'
-    })
-
     addTranslation('ButtonView.Card1Body', {
-        en:'The card component provides an easy way to display text or other elements and components. The card can have an optional description and is optionally clickable.',
-        nl:'De kaart component biedt een eenvoudige manier om tekst of andere elementen en componenten weer te geven.'
+        en:'The button component lets you easily create buttons which can be customized via css.',
+        nl:'Het knop component maakt het makkelijk om knoppen te maken welke via css kunnen worden gestyled.'
     })
 
     return (
         <Layout
-            items={menuitems({ isAdmin, translate })}
-            title={translate('CARD')}>
-            <Card
-                title={translate('ButtonView.Card1Title')}
-                description={translate('ButtonView.Card1Description')}
-                >
-                {translate('ButtonView.Card1Body')}
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('BUTTON')}>
+            <Card>
+                {getTranslation('ButtonView.Card1Body')}
             </Card>
         </Layout>
     )

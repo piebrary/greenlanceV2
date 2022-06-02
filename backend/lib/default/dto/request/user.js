@@ -1,6 +1,8 @@
 const sanitize = require('mongo-sanitize')
 
-const settingsRequestDto = require('./settings')
+let settingsRequestDto
+
+try { settingsRequestDto = require('../../../custom/dto/request/settings') } catch { settingsRequestDto = require('./settings') }
 
 module.exports = requestBody => {
 

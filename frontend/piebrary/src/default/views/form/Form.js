@@ -15,7 +15,7 @@ import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 import Checkbox from '../../components/checkbox/Checkbox'
 import Select from '../../components/select/Select'
 import DatePicker from '../../components/datePicker/DatePicker'
-import Time from '../../components/time/Time'
+import TimePicker from '../../components/timePicker/TimePicker'
 
 import { menuitems } from '../../assets/js/menu/items'
 
@@ -26,7 +26,7 @@ import styles from './Form.module.css'
 
 export default function FormView(){
 
-    const { translate, addTranslation } = useContext(LanguageContext)
+    const { getTranslation, addTranslation } = useContext(LanguageContext)
     const { isAdmin, settings } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
@@ -116,9 +116,19 @@ export default function FormView(){
         nl:'Datum'
     })
 
+    addTranslation('FormView.DATEPICKER_EXAMPLE', {
+        en:'Select a date',
+        nl:'Selecteer een datum'
+    })
+
     addTranslation('FormView.TIME_LABEL', {
         en:'Time',
         nl:'Tijd'
+    })
+
+    addTranslation('FormView.TIMEPICKER_EXAMPLE', {
+        en:'Select a time',
+        nl:'Selecteer een tijd'
     })
 
     function onSubmit(data){
@@ -138,37 +148,37 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, translate })}
-            title={translate('FORM')}>
+            items={menuitems({ isAdmin, getTranslation })}
+            title={getTranslation('FORM')}>
             <Card
                 customStyles={filterStyles([styles], 'card1')}>
-                {translate('FormView.introMessage')}
+                {getTranslation('FormView.introMessage')}
             </Card>
             <Card>
                 <Form
                     onSubmit={handleSubmit(onSubmit)}
                     >
                     <div className={styles.categoryLabel}>
-                        {translate('FormView.INPUT_LABEL')}
+                        {getTranslation('FormView.INPUT_LABEL')}
                     </div>
                     <Input
-                        label={translate('FormView.DISABLED_INPUT')}
+                        label={getTranslation('FormView.DISABLED_INPUT')}
                         name={'disabledInput'}
                         type={'text'}
                         readOnly={true}
-                        defaultValue={translate('FormView.DISABLED_INPUT_DEFAULT_VALUE')}
+                        defaultValue={getTranslation('FormView.DISABLED_INPUT_DEFAULT_VALUE')}
                         register={register}
                         errors={errors}
                         />
                     <Input
-                        label={translate('FormView.NORMAL_INPUT')}
+                        label={getTranslation('FormView.NORMAL_INPUT')}
                         name={'normalInput'}
                         type={'text'}
                         register={register}
                         errors={errors}
                         />
                     <Input
-                        label={translate('FormView.PASSWORD_INPUT')}
+                        label={getTranslation('FormView.PASSWORD_INPUT')}
                         name={'passwordInput'}
                         type={'password'}
                         register={register}
@@ -191,7 +201,7 @@ export default function FormView(){
                         }}
                         />
                     <Input
-                        label={translate('FormView.PASSWORD_TOGGLE_INPUT')}
+                        label={getTranslation('FormView.PASSWORD_TOGGLE_INPUT')}
                         name={'passwordToggleInput'}
                         type={'password'}
                         hideToggle={true}
@@ -207,43 +217,43 @@ export default function FormView(){
                         }}
                         />
                     <div className={styles.categoryLabel}>
-                        {translate('FormView.CHECKBOX_LABEL')}
+                        {getTranslation('FormView.CHECKBOX_LABEL')}
                     </div>
                     <Checkbox
-                        label={translate('FormView.CHECKBOX_LABEL')}
+                        label={getTranslation('FormView.CHECKBOX_LABEL')}
                         register={register}
                         errors={errors}
                         options={[
                             {
-                                name:translate('FormView.CHECKBOX_NORMAL'),
+                                name:getTranslation('FormView.CHECKBOX_NORMAL'),
                                 value:'normal',
                                 checked:false,
                             },{
-                                name:translate('FormView.CHECKBOX_SELECTED'),
+                                name:getTranslation('FormView.CHECKBOX_SELECTED'),
                                 value:'selected',
                                 checked:true,
                             },{
-                                name:translate('FormView.CHECKBOX_DISABLED'),
+                                name:getTranslation('FormView.CHECKBOX_DISABLED'),
                                 value:'disabled normal',
                                 disabled:true,
                             }
                         ]}
                         />
                     <div className={styles.categoryLabel}>
-                        {translate('FormView.SELECT_LABEL')}
+                        {getTranslation('FormView.SELECT_LABEL')}
                     </div>
                     <Select
                         name={'selectExample'}
-                        label={translate('FormView.SELECT_EXAMPLE')}
+                        label={getTranslation('FormView.SELECT_EXAMPLE')}
                         options={[
                             {
-                                name:translate('FormView.OPTION_1'),
+                                name:getTranslation('FormView.OPTION_1'),
                                 value:'firstOption',
                             }, {
-                                name:translate('FormView.OPTION_2'),
+                                name:getTranslation('FormView.OPTION_2'),
                                 value:'secondOption',
                             }, {
-                                name:translate('FormView.OPTION_3'),
+                                name:getTranslation('FormView.OPTION_3'),
                                 value:'thirdOption'
                             }
                         ]}
@@ -254,33 +264,35 @@ export default function FormView(){
                         errors={errors}
                         />
                     <div className={styles.categoryLabel}>
-                        {translate('FormView.DATE_LABEL')}
+                        {getTranslation('FormView.DATE_LABEL')}
                     </div>
                     <DatePicker
-                        label={'Select a date'}
+                        label={getTranslation('FormView.DATEPICKER_EXAMPLE')}
                         name={'dateInput'}
-                        min={'2022-06-19'}
-                        max={'2022-07-02'}
+                        min={'2022-04-01'}
+                        max={'2023-08-04'}
                         register={register}
-                        errors={errors}
+                        setValue={setValue}
                         />
                     <div className={styles.categoryLabel}>
-                        {translate('FormView.TIME_LABEL')}
+                        {getTranslation('FormView.TIME_LABEL')}
                     </div>
-                    <Time
-                        label={'Select a time'}
+                    <TimePicker
+                        label={getTranslation('FormView.TIMEPICKER_EXAMPLE')}
                         name={'timeInput'}
+                        min={'12:10'}
+                        max={'18:15'}
                         register={register}
-                        errors={errors}
+                        setValue={setValue}
                         />
                     <ButtonGroup>
                         <Button
-                            label={translate('SAVE')}
+                            label={getTranslation('SAVE')}
                             onClick={() => handleSubmit(onSubmit)}
                             />
                         <Button
                             customStyles={filterStyles([styles], 'reset')}
-                            label={translate('RESET')}
+                            label={getTranslation('RESET')}
                             onClick={onReset}
                             />
                     </ButtonGroup>
