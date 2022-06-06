@@ -18,13 +18,13 @@ import { BsPersonCircle } from 'react-icons/bs'
 
 import { menuitems } from '../../assets/js/menu/items'
 
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Profile.module.css'
 
 export default function Profile(){
 
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation } = useContext(LanguageContext)
     const { isAdmin, userData, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
@@ -35,59 +35,59 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('PROFILE')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('PROFILE')}>
             <Card
-                customStyles={filterStyles([styles], 'card1')}>
-                <Grid customStyles={filterStyles([styles], 'grid')}>
+                customStyles={applyStyles([styles], 'card1')}>
+                <Grid customStyles={applyStyles([styles], 'grid')}>
                     <div className={styles.profilePictureContainer}>
                         <div className={styles.categoryLabel}>
-                            {getTranslation('PICTURE')}
+                            {applyTranslation('PICTURE')}
                         </div>
                         <ImageUploader
                             currentPicture={userData.profilePicture ? '/public/images/profile/' + userData.profilePicture : undefined}
                             defaultPicture={<BsPersonCircle size={'100%'} />}
-                            label={getTranslation('UPLOAD')}/>
+                            label={applyTranslation('UPLOAD')}/>
                     </div>
                     <div className={styles.formContainer}>
                         <Form
                             onSubmit={handleSubmit(onSubmit)}
-                            customStyles={filterStyles([styles], 'testform')}>
+                            customStyles={applyStyles([styles], 'testform')}>
                             <div className={styles.categoryLabel}>
-                                {getTranslation('PERSONAL_DATA')}
+                                {applyTranslation('PERSONAL_DATA')}
                             </div>
                             <Input
-                                label={getTranslation('USERNAME')}
+                                label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
                                 defaultValue={userData.username}
-                                customStyles={filterStyles([styles], 'inputField')}
+                                customStyles={applyStyles([styles], 'inputField')}
                                 readOnly={true}
                                 />
                             <Input
-                                label={getTranslation('FIRSTNAME')}
+                                label={applyTranslation('FIRSTNAME')}
                                 name={'firstName'}
                                 type={'text'}
                                 defaultValue={userData.firstName}
-                                customStyles={filterStyles([styles], 'inputField')}
+                                customStyles={applyStyles([styles], 'inputField')}
                                 />
                             <Input
-                                label={getTranslation('LASTNAME')}
+                                label={applyTranslation('LASTNAME')}
                                 name={'lastName'}
                                 type={'text'}
                                 defaultValue={userData.lastName}
                                 register={register}
                                 errors={errors}
-                                customStyles={filterStyles([styles], 'inputField')}
+                                customStyles={applyStyles([styles], 'inputField')}
                                 />
                             <ButtonGroup>
                                 <Button
-                                    label={getTranslation('SAVE')}
+                                    label={applyTranslation('SAVE')}
                                     onClick={() => handleSubmit(onSubmit)}
                                     />
                                 <Button
-                                    customStyles={filterStyles([styles], 'reset')}
-                                    label={getTranslation('RESET')}
+                                    customStyles={applyStyles([styles], 'reset')}
+                                    label={applyTranslation('RESET')}
                                     onClick={onReset}
                                     />
                             </ButtonGroup>

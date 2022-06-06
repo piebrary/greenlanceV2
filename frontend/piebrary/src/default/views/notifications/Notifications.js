@@ -9,61 +9,61 @@ import Button from '../../components/button/Button'
 import Grid from '../../components/grid/Grid'
 
 import { menuitems } from '../../assets/js/menu/items'
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 import { notificationManager } from '../../utils/notifications'
 
 import styles from './Notifications.module.css'
 
 export default function ButtonView(){
 
-    const { getTranslation, addTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const notifications = notificationManager()
 
-    addTranslation('NotificationView.Card1Body', {
+    createTranslation('NotificationView.Card1Body', {
         en:'The notification utility function lets you spawn notifications easily and they are fully customizeable.',
         nl:'De notificatie voorzienings functie maakt het makkelijk om notificaties te tonen. Ook zijn ze volledig naar eigen wens te stylen.'
     })
 
-    addTranslation('NotificationView.SuccessCardTitle', {
+    createTranslation('NotificationView.SuccessCardTitle', {
         en:'A success notification',
         nl:'Een success notificatie'
     })
 
-    addTranslation('NotificationView.InfoCardTitle', {
+    createTranslation('NotificationView.InfoCardTitle', {
         en:'An info notification',
         nl:'Een info notificatie'
     })
 
-    addTranslation('NotificationView.WarningCardTitle', {
+    createTranslation('NotificationView.WarningCardTitle', {
         en:'A warning notification',
         nl:'Een waarschuwingsnotificatie'
     })
 
-    addTranslation('NotificationView.DangerCardTitle', {
+    createTranslation('NotificationView.DangerCardTitle', {
         en:'A danger notification',
         nl:'Een gevaar/error notificatie'
     })
 
-    addTranslation('NotificationView.CreateNotificationButton', {
+    createTranslation('NotificationView.CreateNotificationButton', {
         en:'Create Notification',
         nl:'Maak notificatie'
     })
 
     return (
         <Layout
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('NOTIFICATIONS')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('NOTIFICATIONS')}>
             <Card>
-                {getTranslation('NotificationView.Card1Body')}
+                {applyTranslation('NotificationView.Card1Body')}
             </Card>
             <Grid
-                customStyles={filterStyles([styles], 'buttonsGrid')}
+                customStyles={applyStyles([styles], 'buttonsGrid')}
                 >
                 <Card
-                    customStyles={filterStyles([styles], 'successCard')}
-                    title={getTranslation('NotificationView.SuccessCardTitle')}
+                    customStyles={applyStyles([styles], 'successCard')}
+                    title={applyTranslation('NotificationView.SuccessCardTitle')}
                     onClick={() => {
 
                         notifications.create({
@@ -73,11 +73,11 @@ export default function ButtonView(){
 
                     }}
                     >
-                    {getTranslation('NotificationView.CreateNotificationButton')}
+                    {applyTranslation('NotificationView.CreateNotificationButton')}
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'infoCard')}
-                    title={getTranslation('NotificationView.InfoCardTitle')}
+                    customStyles={applyStyles([styles], 'infoCard')}
+                    title={applyTranslation('NotificationView.InfoCardTitle')}
                     onClick={() => {
 
                         notifications.create({
@@ -87,11 +87,11 @@ export default function ButtonView(){
 
                     }}
                     >
-                    {getTranslation('NotificationView.CreateNotificationButton')}
+                    {applyTranslation('NotificationView.CreateNotificationButton')}
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'warningCard')}
-                    title={getTranslation('NotificationView.WarningCardTitle')}
+                    customStyles={applyStyles([styles], 'warningCard')}
+                    title={applyTranslation('NotificationView.WarningCardTitle')}
                     onClick={() => {
 
                         notifications.create({
@@ -101,11 +101,11 @@ export default function ButtonView(){
 
                     }}
                     >
-                    {getTranslation('NotificationView.CreateNotificationButton')}
+                    {applyTranslation('NotificationView.CreateNotificationButton')}
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'dangerCard')}
-                    title={getTranslation('NotificationView.DangerCardTitle')}
+                    customStyles={applyStyles([styles], 'dangerCard')}
+                    title={applyTranslation('NotificationView.DangerCardTitle')}
                     onClick={() => {
 
                         notifications.create({
@@ -115,7 +115,7 @@ export default function ButtonView(){
 
                     }}
                     >
-                    {getTranslation('NotificationView.CreateNotificationButton')}
+                    {applyTranslation('NotificationView.CreateNotificationButton')}
                 </Card>
             </Grid>
         </Layout>

@@ -6,6 +6,7 @@ import App from './App'
 import AuthenticationContextProvider from './default/contexts/AuthenticationContext'
 import UserContextProvider from './default/contexts/UserContext'
 import LanguageContextProvider from './default/contexts/LanguageContext'
+import ThemeContextProvider from './default/contexts/ThemeContext'
 
 import './index.css'
 
@@ -17,9 +18,11 @@ createRoot(
     <React.StrictMode>
         <AuthenticationContextProvider>
             <UserContextProvider>
-                <LanguageContextProvider>
-                    <App />
-                </LanguageContextProvider>
+                <ThemeContextProvider>
+                    <LanguageContextProvider>
+                        <App />
+                    </LanguageContextProvider>
+                </ThemeContextProvider>
             </UserContextProvider>
         </AuthenticationContextProvider>
     </React.StrictMode>

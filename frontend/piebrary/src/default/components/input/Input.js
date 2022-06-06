@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { AiOutlineEye } from 'react-icons/ai'
@@ -14,21 +14,21 @@ export default function Input({ customStyles, label, name, type, placeholder, re
     const reg = register && register(name, rules)
 
     return (
-        <div className={generateStyles([styles, customStyles], 'container')}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
                         htmlFor={name}
-                        className={generateStyles([styles, customStyles], 'label')}
+                        className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
                     </label>
                 )
             }
-            <div className={generateStyles([styles, customStyles], 'inputContainer')}>
-                <div className={generateStyles([styles, customStyles], 'inputField')}>
+            <div className={createStyle([styles, customStyles], 'inputContainer')}>
+                <div className={createStyle([styles, customStyles], 'inputField')}>
                     <input
-                        className={generateStyles([styles, customStyles], 'input')}
+                        className={createStyle([styles, customStyles], 'input')}
                         id={name}
                         type={isHidden && type === 'password' ? 'password' : 'text'}
                         placeholder={placeholder}
@@ -38,7 +38,7 @@ export default function Input({ customStyles, label, name, type, placeholder, re
                     {
                         hideToggle && (
                             <div
-                                className={generateStyles([styles, customStyles], 'hideToggle')}
+                                className={createStyle([styles, customStyles], 'hideToggle')}
                                 onClick={() => setIsHidden(!isHidden)}>
                                 {
                                     isHidden && <AiOutlineEyeInvisible size={24} />
@@ -51,7 +51,7 @@ export default function Input({ customStyles, label, name, type, placeholder, re
                     }
                 </div>
                 {reg && errors[name] && (
-                    <span className={generateStyles([styles, customStyles], 'errorMessage')}>
+                    <span className={createStyle([styles, customStyles], 'errorMessage')}>
                         {errors[name].message}
                     </span>
                 )}

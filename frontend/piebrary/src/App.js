@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 
 import { ReactNotifications } from 'react-notifications-component'
@@ -13,12 +13,16 @@ import DocumentationView from './default/views/documentation/Documentation'
 import CalendarView from './default/views/calendar/Calendar'
 import CardView from './default/views/card/Card'
 import ButtonView from './default/views/button/Button'
+import ListView from './default/views/list/List'
 import LanguagesView from './default/views/languages/Languages'
 import GridView from './default/views/grid/Grid'
 import NotificationsView from './default/views/notifications/Notifications'
+import ThemesView from './default/views/themes/Themes'
+import ConfirmView from './default/views/confirm/Confirm'
 
 import { AuthenticationContext } from './default/contexts/AuthenticationContext'
 import { UserContext } from './default/contexts/UserContext'
+import { ThemeContext } from './default/contexts/ThemeContext'
 
 import config from './config/config'
 
@@ -30,10 +34,15 @@ import styles from './App.module.css'
 
 export default function App() {
 
-    import(`${config.THEME}.css`)
-
     const { authState } = useContext(AuthenticationContext)
     const { isAdmin } = useContext(UserContext)
+    const { setTheme } = useContext(ThemeContext)
+
+    useEffect(() => {
+
+        setTheme(config.THEME)
+
+    }, [])
 
     return (
         <div>
@@ -55,8 +64,11 @@ export default function App() {
                             <Route path="/form" element={<FormView />} />
                             <Route path="/card" element={<CardView />} />
                             <Route path="/button" element={<ButtonView />} />
+                            <Route path="/list" element={<ListView />} />
                             <Route path="/notifications" element={<NotificationsView />} />
+                            <Route path="/confirm" element={<ConfirmView />} />
                             <Route path="/languages" element={<LanguagesView />} />
+                            <Route path="/themes" element={<ThemesView />} />
                             <Route path="*" element={<Navigate to="/" />} />
                         </Routes>
                     </Router>

@@ -15,8 +15,8 @@ import { timeFormatOptions } from '../../assets/js/settings/timeFormat'
 
 import styles from './TimePicker.module.css'
 
-import { generateStyles } from '../../utils/generateStyles'
-import { filterStyles } from '../../utils/filterStyles'
+import { createStyle } from '../../utils/createStyle'
+import { applyStyles } from '../../utils/applyStyles'
 
 export default function TimePicker({ customStyles, label, name, min, max, register, startTime, setValue }){
 
@@ -210,27 +210,27 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
     }
 
     return (
-        <div className={generateStyles([styles, customStyles], 'container')}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
                         htmlFor={name}
-                        className={generateStyles([styles, customStyles], 'label')}
+                        className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
                     </label>
                 )
             }
-            <div className={generateStyles([styles, customStyles], 'timeContainer')}>
+            <div className={createStyle([styles, customStyles], 'timeContainer')}>
                 <input
-                    className={generateStyles([styles, customStyles], 'selectedTime')}
+                    className={createStyle([styles, customStyles], 'selectedTime')}
                     onClick={() => currentOpenPicker !== 'hour' ? setCurrentOpenPicker('hour') : setCurrentOpenPicker() }
                     defaultValue={startTime.join(':')}
                     readOnly={true}
                     {...reg}
                     />
                 {/*<div
-                    className={generateStyles([styles, customStyles], 'selectedTime')}
+                    className={createStyle([styles, customStyles], 'selectedTime')}
                     >
                     <ButtonGroup>
                         <div
@@ -265,12 +265,12 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                 }
                 {
                     currentOpenPicker === 'hour' && (
-                        <div className={generateStyles([styles, customStyles], 'timePicker')}>
+                        <div className={createStyle([styles, customStyles], 'timePicker')}>
                             <div
                                 className={styles.timeGroup}
                                 >
                                 <Grid
-                                    customStyles={filterStyles([styles, customStyles], `${isAMPM ? 'hoursGridAMPM' : 'hoursGrid24h'}`)}
+                                    customStyles={applyStyles([styles, customStyles], `${isAMPM ? 'hoursGridAMPM' : 'hoursGrid24h'}`)}
                                     >
                                     {
                                         isAMPM && (
@@ -282,12 +282,12 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                                         )
                                     }
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'previousBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'previousBtn')}
                                         label={<MdOutlineNavigateBefore size={20} />}
                                         onClick={goPrevious}
                                         />
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'nextBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'nextBtn')}
                                         label={<MdOutlineNavigateNext size={20} />}
                                         onClick={goNext}
                                         />
@@ -297,7 +297,7 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                                         Hours
                                     </div>
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'cancelBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'cancelBtn')}
                                         label={<AiOutlineClose size={20} />}
                                         onClick={cancelTimeSelection}
                                         />
@@ -352,20 +352,20 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                 }
                 {
                     currentOpenPicker === 'minute' && (
-                        <div className={generateStyles([styles, customStyles], 'timePicker')}>
+                        <div className={createStyle([styles, customStyles], 'timePicker')}>
                             <div
                                 className={styles.timeGroup}
                                 >
                                 <Grid
-                                    customStyles={filterStyles([styles, customStyles], 'minutesGrid')}
+                                    customStyles={applyStyles([styles, customStyles], 'minutesGrid')}
                                     >
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'previousBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'previousBtn')}
                                         label={<MdOutlineNavigateBefore size={20} />}
                                         onClick={goPrevious}
                                         />
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'nextBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'nextBtn')}
                                         label={<MdOutlineNavigateNext size={20} />}
                                         onClick={goNext}
                                         />
@@ -375,7 +375,7 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                                         Minutes
                                     </div>
                                     <Button
-                                        customStyles={filterStyles([styles, customStyles], 'cancelBtn')}
+                                        customStyles={applyStyles([styles, customStyles], 'cancelBtn')}
                                         label={<AiOutlineClose size={20} />}
                                         onClick={cancelTimeSelection}
                                         />

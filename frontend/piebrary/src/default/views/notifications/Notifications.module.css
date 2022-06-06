@@ -5,20 +5,10 @@
     grid-auto-rows: minmax(0px, auto);
 }
 
+
+
 .successCardTitle {
-    background-color: var(--success2);
-}
-
-.infoCardTitle {
-    background-color: dodgerblue;
-}
-
-.warningCardTitle {
-    background-color: orange;
-}
-
-.dangerCardTitle {
-    background-color: var(--primary4);
+    background-color: var(--success1);
 }
 
 .successBtnButton {
@@ -26,29 +16,72 @@
     width: 100%;
 }
 
+.successBtnButton:hover {
+    background-color: var(--success2);
+    width: 100%;
+}
+
+.successCardClickable:hover {
+    --titleBackgroundColorHover: var(--success2);
+    --bodyBackgroundColorHover: var(--success2);
+}
+
+
+
+.infoCardTitle {
+    background-color: var(--info1);
+}
+
 .infoBtnButton {
-    background-color: dodgerblue;
+    background-color: var(--info1);
     width: 100%;
 }
 
 .infoBtnButton:hover {
-    background-color: blue;
+    background-color: var(--info2);
+}
+
+.infoCardClickable:hover {
+    --titleBackgroundColorHover: var(--info2);
+    --bodyBackgroundColorHover: var(--info2);
+}
+
+
+
+.warningCardTitle {
+    background-color: var(--warning1);
 }
 
 .warningBtnButton {
-    background-color: orange;
+    background-color: var(--warning1);
     width: 100%;
 }
 
 .warningBtnButton:hover {
-    background-color: darkorange;
+    background-color: var(--warning2);
+}
+
+.warningCardClickable:hover {
+    --titleBackgroundColorHover: var(--warning2);
+    --bodyBackgroundColorHover: var(--warning2);
+}
+
+
+
+.dangerCardTitle {
+    background-color: var(--danger1);
 }
 
 .dangerBtnButton {
-    background-color: var(--primary4);
+    background-color: var(--danger1);
     width: 100%;
 }
 
 .dangerBtnButton:hover {
-    background-color: var(--primary2);
+    background-color: var(--danger2);
+}
+
+.dangerCardClickable:hover {
+    --titleBackgroundColorHover: var(--danger2);
+    --bodyBackgroundColorHover: var(--danger2);
 }

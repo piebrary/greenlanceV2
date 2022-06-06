@@ -4,18 +4,26 @@
     background-color: var(--secondary3);
     color: var(--dark);
     overflow: hidden;
+    height: 100%;
+}
+
+.clickable:hover {
+    --titleBackgroundColorHover: var(--cardTitleBackgroundColorHover);
+    --titleColorHover: var(--cardTitleColorHover);
+    --bodyBackgroundColorHover: var(--cardBodyBackgroundColorHover);
+    --bodyColorHover: var(--cardBodyColorHover);
 }
 
 .clickable:hover .title {
-    background-color: var(--cardTitleBackgroundColorHover);
-    color: var(--cardTitleColorHover);
+    background-color: var(--titleBackgroundColorHover);
+    color: var(--titleColorHover);
     cursor: pointer;
     transition: var(--cardTransition);
 }
 
 .clickable:hover .body {
-    background-color: var(--cardBodyBackgroundColorHover);
-    color: var(--cardBodyColorHover);
+    background-color: var(--bodyBackgroundColorHover);
+    color: var(--bodyColorHover);
     cursor: pointer;
     transition: var(--cardTransition);
 }

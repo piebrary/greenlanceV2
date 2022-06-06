@@ -11,7 +11,7 @@ import { BiMenu } from 'react-icons/bi'
 import { IoIosArrowUp } from 'react-icons/io'
 import { BiLogOutCircle } from 'react-icons/bi'
 
-import { generateStyles } from '../../../utils/generateStyles'
+import { createStyle } from '../../../utils/createStyle'
 
 import styles from './Layout.module.css'
 
@@ -19,23 +19,23 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation } = useContext(LanguageContext)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [menuClassList, setMenuClassList] = useState([generateStyles([styles, customStyles], 'items')])
+    const [menuClassList, setMenuClassList] = useState([createStyle([styles, customStyles], 'items')])
 
     useEffect(() => {
 
         if(isMenuOpen){
             setMenuClassList(previous => {
-                return [...previous, generateStyles([styles, customStyles], 'menuOpen')]
+                return [...previous, createStyle([styles, customStyles], 'menuOpen')]
             })
         }
 
         if(!isMenuOpen){
             setMenuClassList(previous => {
                 const list = [...previous]
-                const index = list.indexOf(generateStyles([styles, customStyles], 'menuOpen'))
+                const index = list.indexOf(createStyle([styles, customStyles], 'menuOpen'))
                 if(index > -1) list.splice(index, 1)
                 return list
             })
@@ -45,8 +45,8 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     return (
         <div className={styles.layoutContainer}>
-            <div className={generateStyles([styles, customStyles], 'menu')}>
-                <div className={generateStyles([styles, customStyles], 'logo')}>
+            <div className={createStyle([styles, customStyles], 'menu')}>
+                <div className={createStyle([styles, customStyles], 'logo')}>
                     <Logo />
                 </div>
                 <div className={menuClassList.join(' ')}>
@@ -67,7 +67,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
                                     groupJSX.push(
                                         <div
-                                            className={generateStyles([styles, customStyles], 'label')}
+                                            className={createStyle([styles, customStyles], 'label')}
                                             key={item.label}>
                                             {item.label}
                                         </div>
@@ -81,7 +81,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                                         <NavLink
                                             to={item.to}
                                             key={item.to}
-                                            className={generateStyles([styles, customStyles], 'item')}>
+                                            className={createStyle([styles, customStyles], 'item')}>
                                             <div className={styles.itemIcon}>{item.icon}</div>
                                             <div className={styles.itemText}>{item.text}</div>
                                         </NavLink>
@@ -96,7 +96,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                             return (
                                 <div
                                     key={i}
-                                    className={generateStyles([styles, customStyles], 'group')}>
+                                    className={createStyle([styles, customStyles], 'group')}>
                                     {groupJSX}
                                 </div>
                             )
@@ -104,33 +104,33 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         })
                     }
                 </div>
-                <div className={`${generateStyles([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
+                <div className={`${createStyle([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
                     <div>
                         {userData.username}
                     </div>
                     <NavLink
                         to={''}
                         onClick={logout}
-                        className={generateStyles([styles, customStyles], 'item')}>
+                        className={createStyle([styles, customStyles], 'item')}>
                         <div className={styles.itemIcon}><BiLogOutCircle size={20} /></div>
-                        <div className={styles.itemText}>{getTranslation('LOG_OUT')}</div>
+                        <div className={styles.itemText}>{applyTranslation('LOG_OUT')}</div>
                     </NavLink>
                 </div>
             </div>
-            <div className={generateStyles([styles, customStyles], 'page')}>
-                <div className={generateStyles([styles, customStyles], 'header')}>
+            <div className={createStyle([styles, customStyles], 'page')}>
+                <div className={createStyle([styles, customStyles], 'header')}>
                     {
                         title && (
-                            <div className={generateStyles([styles, customStyles], 'title')}>
+                            <div className={createStyle([styles, customStyles], 'title')}>
                                 {title}
                             </div>
                         )
                     }
-                    <div className={generateStyles([styles, customStyles], 'controls')}>
+                    <div className={createStyle([styles, customStyles], 'controls')}>
                         {controls}
                     </div>
                     <div
-                        className={generateStyles([styles, customStyles], 'toggle')}
+                        className={createStyle([styles, customStyles], 'toggle')}
                         onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
                         {
                             isMenuOpen
@@ -139,7 +139,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         }
                     </div>
                 </div>
-                <div className={generateStyles([styles, customStyles], 'content')}>
+                <div className={createStyle([styles, customStyles], 'content')}>
                     {children}
                 </div>
             </div>

@@ -5,38 +5,34 @@ import { useForm } from "react-hook-form"
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
 
-import { putOtherUserData } from '../../services/UserService'
-
 import Form from '../../components/form/Form'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout'
 import Card from '../../components/card/Card'
-import Grid from '../../components/grid/Grid'
 import Input from '../../components/input/Input'
 import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
-import ImageUploader from '../../components/imageUploader/ImageUploader'
 import Table from '../../components/table/Table'
-import Select from '../../components/select/Select'
 import Checkbox from '../../components/checkbox/Checkbox'
 
-import { BsPersonCircle } from 'react-icons/bs'
-import { BsCheck } from 'react-icons/bs'
 import { BiUserPlus } from 'react-icons/bi'
 
 import { menuitems } from '../../assets/js/menu/items'
 import { rolesOptions } from '../../assets/js/user/roles'
 
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 import { containsNumber } from '../../utils/containsNumber'
+import { notificationManager } from '../../utils/notifications'
 
 import styles from './Users.module.css'
 
 export default function Users(){
 
-    const { getTranslation } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData, getProfilePicture, getUsers, postUser, delUser } = useContext(UserContext)
+    const { applyTranslation } = useContext(LanguageContext)
+    const { isAdmin, userData, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
+
+    const notifications = notificationManager()
 
     const [data, setData] = useState([])
     const [viewMode, setViewMode] = useState('view users')
@@ -44,11 +40,11 @@ export default function Users(){
 
     const columns = [
         {
-            Header: getTranslation('USERNAME'),
+            Header: applyTranslation('USERNAME'),
             accessor: 'username',
         },
         {
-            Header: getTranslation('EMAIL'),
+            Header: applyTranslation('EMAIL'),
             accessor: 'email',
         },
         ...rolesOptions.map(r => {
@@ -133,6 +129,8 @@ export default function Users(){
 
             }
 
+            return o
+
         })
 
         if(roles.length === 0){
@@ -141,15 +139,33 @@ export default function Users(){
 
         }
 
-        const result = await saveUserData({
-            _id,
-            username,
-            email,
-            newPassword,
-            repeatPassword,
-            currentPassword,
-            roles
-        })
+        try {
+
+            const result = await saveUserData({
+                _id,
+                username,
+                email,
+                newPassword,
+                repeatPassword,
+                currentPassword,
+                roles
+            })
+
+            notifications.create({
+                title: 'Success',
+                message:`User ${result.data.username} updated`,
+                type: 'success'
+            })
+
+        } catch (error) {
+
+            notifications.create({
+                title: 'Error',
+                message:'Could not update user',
+                type: 'danger'
+            })
+
+        }
 
         openViewUsers()
 
@@ -175,6 +191,8 @@ export default function Users(){
 
             }
 
+            return o
+
         })
 
         if(roles.length === 0){
@@ -183,14 +201,32 @@ export default function Users(){
 
         }
 
-        const result = await postUser({
-            username,
-            email,
-            newPassword,
-            repeatPassword,
-            currentPassword,
-            roles
-        })
+        try {
+
+            const result = await postUser({
+                username,
+                email,
+                newPassword,
+                repeatPassword,
+                currentPassword,
+                roles
+            })
+
+            notifications.create({
+                title: 'Success',
+                message:`User ${result.data.username} created`,
+                type: 'success'
+            })
+
+        } catch (error) {
+
+            notifications.create({
+                title: 'Error',
+                message:'Could not create user',
+                type: 'danger'
+            })
+
+        }
 
         openViewUsers()
 
@@ -205,21 +241,21 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('USERS')}>
-            <Card customStyles={filterStyles([styles], 'buttonsCard')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('USERS')}>
+            <Card customStyles={applyStyles([styles], 'buttonsCard')}>
                 <ButtonGroup>
                     {
                         viewMode === 'edit user' && (
                             <>
                                 <Button
-                                    label={getTranslation('SAVE')}
-                                    customStyles={filterStyles([styles], 'controlsSave')}
+                                    label={applyTranslation('SAVE')}
+                                    customStyles={applyStyles([styles], 'controlsSave')}
                                     onClick={handleSubmit(updateUser)}/>
                                 <Button
-                                    label={getTranslation('RESET')}
+                                    label={applyTranslation('RESET')}
                                     onClick={onReset}
-                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
@@ -227,13 +263,13 @@ export default function Users(){
                         viewMode === 'create user' && (
                             <>
                                 <Button
-                                    label={getTranslation('SAVE')}
-                                    customStyles={filterStyles([styles], 'controlsSave')}
+                                    label={applyTranslation('SAVE')}
+                                    customStyles={applyStyles([styles], 'controlsSave')}
                                     onClick={handleSubmit(createUser)}/>
                                 <Button
-                                    label={getTranslation('RESET')}
+                                    label={applyTranslation('RESET')}
                                     onClick={onReset}
-                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
@@ -242,18 +278,18 @@ export default function Users(){
                     {
                         viewMode === 'view users' && (
                             <Button
-                                label={<><BiUserPlus size={24} /> <p>{getTranslation('CREATE_NEW_USER')}</p></>}
+                                label={<><BiUserPlus size={24} /> <p>{applyTranslation('CREATE_NEW_USER')}</p></>}
                                 onClick={openCreateUser}
-                                customStyles={filterStyles([styles], 'controlsSave')}/>
+                                customStyles={applyStyles([styles], 'controlsSave')}/>
                         )
                     }
                     {
                         viewMode === 'edit user' && (
                             <>
                                 <Button
-                                    label={getTranslation('DELETE_USER')}
+                                    label={applyTranslation('DELETE_USER')}
                                     onClick={deleteUser}
-                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
@@ -263,9 +299,9 @@ export default function Users(){
                         viewMode === 'edit user' && (
                             <>
                                 <Button
-                                    label={getTranslation('CLOSE')}
+                                    label={applyTranslation('CLOSE')}
                                     onClick={openViewUsers}
-                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
@@ -273,15 +309,15 @@ export default function Users(){
                         viewMode === 'create user' && (
                             <>
                                 <Button
-                                    label={getTranslation('CLOSE')}
+                                    label={applyTranslation('CLOSE')}
                                     onClick={openViewUsers}
-                                    customStyles={filterStyles([styles], 'controlsClose')}/>
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
                 </ButtonGroup>
             </Card>
-            <Card customStyles={filterStyles([styles], 'card1')}>
+            <Card customStyles={applyStyles([styles], 'card1')}>
                 {
                     viewMode === 'view users' && (
                         <Table
@@ -294,9 +330,9 @@ export default function Users(){
                 {
                     viewMode === 'edit user' && (
                         <Form
-                            customStyles={filterStyles([styles], 'testform')}>
+                            customStyles={applyStyles([styles], 'testform')}>
                             <Input
-                                label={getTranslation('USERNAME')}
+                                label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
                                 defaultValue={selectedUser?.username}
@@ -305,7 +341,7 @@ export default function Users(){
                                 errors={errors}
                                 />
                             <Input
-                                label={getTranslation('EMAIL')}
+                                label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
                                 defaultValue={selectedUser?.email}
@@ -327,7 +363,7 @@ export default function Users(){
                                 })}
                                 />
                             <Input
-                                label={getTranslation('NEW_PASSWORD')}
+                                label={applyTranslation('NEW_PASSWORD')}
                                 name={'newPassword'}
                                 type={'password'}
                                 hideToggle={true}
@@ -347,7 +383,7 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={getTranslation('REPEAT_PASSWORD')}
+                                label={applyTranslation('REPEAT_PASSWORD')}
                                 name={'repeatPassword'}
                                 type={'password'}
                                 hideToggle={true}
@@ -363,7 +399,7 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={getTranslation('YOUR_PASSWORD')}
+                                label={applyTranslation('YOUR_PASSWORD')}
                                 name={'currentPassword'}
                                 type={'password'}
                                 hideToggle={true}
@@ -384,16 +420,16 @@ export default function Users(){
                 {
                     viewMode === 'create user' && (
                         <Form
-                            customStyles={filterStyles([styles], 'testform')}>
+                            customStyles={applyStyles([styles], 'testform')}>
                             <Input
-                                label={getTranslation('USERNAME')}
+                                label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
                                 register={register}
                                 errors={errors}
                                 />
                             <Input
-                                label={getTranslation('EMAIL')}
+                                label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
                                 register={register}
@@ -406,7 +442,7 @@ export default function Users(){
                                 options={rolesOptions}
                                 />
                             <Input
-                                label={getTranslation('PASSWORD')}
+                                label={applyTranslation('PASSWORD')}
                                 name={'newPassword'}
                                 type={'password'}
                                 hideToggle={true}
@@ -430,7 +466,7 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={getTranslation('REPEAT_PASSWORD')}
+                                label={applyTranslation('REPEAT_PASSWORD')}
                                 name={'repeatPassword'}
                                 type={'password'}
                                 hideToggle={true}
@@ -446,7 +482,7 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={getTranslation('YOUR_PASSWORD')}
+                                label={applyTranslation('YOUR_PASSWORD')}
                                 name={'currentPassword'}
                                 type={'password'}
                                 hideToggle={true}

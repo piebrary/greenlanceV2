@@ -12,119 +12,115 @@ import Logo from '../../components/logo/Logo'
 
 import { menuitems } from '../../assets/js/menu/items'
 
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Dashboard.module.css'
 
 export default function Dashboard(){
 
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('DASHBOARD')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('DASHBOARD')}>
             <Card
                 title={'Grid component'}
-                customStyles={filterStyles([styles], 'card1')}
+                customStyles={applyStyles([styles], 'card1')}
                 onClick={event => alert('You clicked on a card component!')}>
                 This page uses the Grid component. <br />
                 <br />
                 This component resizes with screen resizes if the correct properties and styles are given.
 
             </Card>
-            <Grid customStyles={filterStyles([styles], 'grid1')}>
+            <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemOne')}>
+                    customStyles={applyStyles([styles], 'griditemOne')}>
                     One
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemTwo')}>
+                    customStyles={applyStyles([styles], 'griditemTwo')}>
                     Two
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemThree')}
+                    customStyles={applyStyles([styles], 'griditemThree')}
                     title={'Three'}>
                     Three
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFour')}>
+                    customStyles={applyStyles([styles], 'griditemFour')}>
                     Four
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFive')}
+                    customStyles={applyStyles([styles], 'griditemFive')}
                     title={'Five'}>
                     Five
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemSix')}>
+                    customStyles={applyStyles([styles], 'griditemSix')}>
                     Six
                 </Card>
             </Grid>
             <Card
-                title={'Grid component'}>
-
-                <Button
-                    label={'testButton'}
-                    customStyles={filterStyles([styles], 'button1')}
-                    onClick={event => console.log(event, 'test')}/>
-
+                title={'Grid component'}
+                description={'This is a description'}>
+                This is the body
             </Card>
-            <Grid customStyles={filterStyles([styles], 'grid1')}>
+            <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemOne')}>
+                    customStyles={applyStyles([styles], 'griditemOne')}>
                     One
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemTwo')}>
+                    customStyles={applyStyles([styles], 'griditemTwo')}>
                     Two
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemThree')}
+                    customStyles={applyStyles([styles], 'griditemThree')}
                     title={'Three'}>
                     Three
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFour')}>
+                    customStyles={applyStyles([styles], 'griditemFour')}>
                     Four
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFive')}
+                    customStyles={applyStyles([styles], 'griditemFive')}
                     title={'Five'}>
                     Five
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemSix')}>
+                    customStyles={applyStyles([styles], 'griditemSix')}>
                     Six
                 </Card>
             </Grid>
-            <Grid customStyles={filterStyles([styles], 'grid1')}>
+            <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemOne')}>
+                    customStyles={applyStyles([styles], 'griditemOne')}>
                     One
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemTwo')}>
+                    customStyles={applyStyles([styles], 'griditemTwo')}>
                     Two
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemThree')}
+                    customStyles={applyStyles([styles], 'griditemThree')}
                     title={'Three'}>
                     Three
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFour')}>
+                    customStyles={applyStyles([styles], 'griditemFour')}>
                     Four
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemFive')}
+                    customStyles={applyStyles([styles], 'griditemFive')}
                     title={'Five'}>
                     Five
                 </Card>
                 <Card
-                    customStyles={filterStyles([styles], 'griditemSix')}>
+                    customStyles={applyStyles([styles], 'griditemSix')}>
                     Six
                 </Card>
             </Grid>
@@ -137,13 +133,13 @@ export default function Dashboard(){
 
 // items={[
 //     {
-//         customStyles:filterStyles([styles], 'item1'),
+//         customStyles:applyStyles([styles], 'item1'),
 //         element:
 //     }
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'1/3', gridRow:1 }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={1}
 //         >
 //         One
@@ -151,7 +147,7 @@ export default function Dashboard(){
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'2/4', gridRow:'1/3' }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={2}
 //         >
 //         Two
@@ -159,7 +155,7 @@ export default function Dashboard(){
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'1', gridRow:'2/5' }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={3}
 //         >
 //         Three
@@ -167,7 +163,7 @@ export default function Dashboard(){
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'3', gridRow:'3' }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={4}
 //         >
 //         Four
@@ -175,7 +171,7 @@ export default function Dashboard(){
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'2', gridRow:'4' }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={5}
 //         >
 //         Five
@@ -183,7 +179,7 @@ export default function Dashboard(){
 //     <p
 //         className={styles.griditem}
 //         style={{ gridColumn:'3', gridRow:'4' }}
-//         customStyles={filterStyles([styles], 'item1')}
+//         customStyles={applyStyles([styles], 'item1')}
 //         key={6}
 //         >
 //         Six

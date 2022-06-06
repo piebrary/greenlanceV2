@@ -1,11 +1,11 @@
 import styles from './Grid.module.css'
 
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 export default function Grid({ customStyles, children }){
 
     return (
-        <div className={generateStyles([styles, customStyles], 'grid')}>
+        <div className={createStyle([styles, customStyles], 'grid')}>
             {
                 children
             }

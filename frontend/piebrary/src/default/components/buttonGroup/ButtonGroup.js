@@ -1,11 +1,11 @@
 import styles from './ButtonGroup.module.css'
 
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 export default function ButtonGroup({ customStyles, children }){
 
     return (
-        <div className={generateStyles([styles, customStyles], 'buttonGroup')}>
+        <div className={createStyle([styles, customStyles], 'buttonGroup')}>
             {children}
         </div>
     )

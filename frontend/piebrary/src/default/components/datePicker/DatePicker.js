@@ -15,12 +15,12 @@ import { MdOutlineNavigateNext } from 'react-icons/md'
 
 import styles from './DatePicker.module.css'
 
-import { generateStyles } from '../../utils/generateStyles'
-import { filterStyles } from '../../utils/filterStyles'
+import { createStyle } from '../../utils/createStyle'
+import { applyStyles } from '../../utils/applyStyles'
 
 export default function DatePicker({ customStyles, label, name, min, max, startDate, register, setValue }){
 
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation } = useContext(LanguageContext)
     const { settings } = useContext(UserContext)
 
     min = min ? moment(min) : moment(1)
@@ -190,20 +190,20 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
     }
 
     return (
-        <div className={generateStyles([styles, customStyles], 'container')}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
                         htmlFor={name}
-                        className={generateStyles([styles, customStyles], 'label')}
+                        className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
                     </label>
                 )
             }
-            <div className={generateStyles([styles, customStyles], 'dateContainer')}>
+            <div className={createStyle([styles, customStyles], 'dateContainer')}>
                 <input
-                    className={generateStyles([styles, customStyles], 'selectedDate')}
+                    className={createStyle([styles, customStyles], 'selectedDate')}
                     onClick={() => currentOpenPicker !== 'day' ? setCurrentOpenPicker('day') : setCurrentOpenPicker() }
                     defaultValue={moment(startDate).format(settings.dateFormat)}
                     readOnly={true}
@@ -232,17 +232,17 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                 }
                 {
                     currentOpenPicker === 'day' && (
-                        <div className={generateStyles([styles, customStyles], 'datePicker')}>
+                        <div className={createStyle([styles, customStyles], 'datePicker')}>
                             <Grid
-                                customStyles={filterStyles([styles, customStyles], 'daysGrid')}
+                                customStyles={applyStyles([styles, customStyles], 'daysGrid')}
                                 >
                                 <Button
-                                    customStyles={filterStyles([styles, customStyles], 'previousBtn')}
+                                    customStyles={applyStyles([styles, customStyles], 'previousBtn')}
                                     label={<MdOutlineNavigateBefore size={20} />}
                                     onClick={goPreviousMonth}
                                     />
                                 <Button
-                                    customStyles={filterStyles([styles, customStyles], 'nextBtn')}
+                                    customStyles={applyStyles([styles, customStyles], 'nextBtn')}
                                     label={<MdOutlineNavigateNext size={20} />}
                                     onClick={goNextMonth}
                                     />
@@ -257,7 +257,7 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                                             setCurrentOpenPicker('month')
                                         }}
                                         >
-                                        {getTranslation(moment(viewDate).format('MMMM').toUpperCase())}
+                                        {applyTranslation(moment(viewDate).format('MMMM').toUpperCase())}
                                     </div>
                                     <div
                                         key={'yearBtn'}
@@ -267,11 +267,11 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                                             setCurrentOpenPicker('year')
                                         }}
                                         >
-                                        {getTranslation(moment(viewDate).format('YYYY').toUpperCase())}
+                                        {applyTranslation(moment(viewDate).format('YYYY').toUpperCase())}
                                     </div>
                                 </div>
                                 <Button
-                                    customStyles={filterStyles([styles, customStyles], 'cancelBtn')}
+                                    customStyles={applyStyles([styles, customStyles], 'cancelBtn')}
                                     label={<AiOutlineClose size={20} />}
                                     onClick={cancelDateSelection}
                                     />
@@ -319,9 +319,9 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                 }
                 {
                     currentOpenPicker === 'month' && (
-                        <div className={generateStyles([styles, customStyles], 'datePicker')}>
+                        <div className={createStyle([styles, customStyles], 'datePicker')}>
                             <Grid
-                                customStyles={filterStyles([styles, customStyles], 'monthsGrid')}
+                                customStyles={applyStyles([styles, customStyles], 'monthsGrid')}
                                 >
                                 {
                                      monthSheet.map(month => {
@@ -355,7 +355,7 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                                                 className={classList.join(' ')}
                                                 onClick={event => selectMonth(event, month)}
                                                 >
-                                                {getTranslation(month.toUpperCase())}
+                                                {applyTranslation(month.toUpperCase())}
                                             </div>
                                         )
 
@@ -367,9 +367,9 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                 }
                 {
                     currentOpenPicker === 'year' && (
-                        <div className={generateStyles([styles, customStyles], 'datePicker')}>
+                        <div className={createStyle([styles, customStyles], 'datePicker')}>
                             <Grid
-                                customStyles={filterStyles([styles, customStyles], 'yearsGrid')}
+                                customStyles={applyStyles([styles, customStyles], 'yearsGrid')}
                                 >
                                 {
                                     yearSheet.map(year => {

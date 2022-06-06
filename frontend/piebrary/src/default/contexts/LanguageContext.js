@@ -13,17 +13,17 @@ export default function LanguageContextProvider({ children }){
     const languages = { en, nl }
 
     const contextData = {
-        getTranslation,
-        addTranslation
+        applyTranslation,
+        createTranslation
     }
 
-    function getTranslation(stringKey){
+    function applyTranslation(stringKey){
 
         return languages[settings.language][stringKey] || stringKey
 
     }
 
-    function addTranslation(key, translationObject){
+    function createTranslation(key, translationObject){
 
         for(let language in languages){
 

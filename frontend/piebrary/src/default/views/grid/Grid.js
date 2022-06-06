@@ -8,30 +8,30 @@ import Card from '../../components/card/Card'
 import Grid from '../../components/grid/Grid'
 
 import { menuitems } from '../../assets/js/menu/items'
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Grid.module.css'
 
 export default function GridView(){
 
-    const { getTranslation, addTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     const data = []
 
-    addTranslation('GridView.INTRO_TEXT', {
+    createTranslation('GridView.INTRO_TEXT', {
         en:'The grid component is fully customizable through CSS styles. Below are multiple grids which resize differently according to screen size.',
         nl:'De Grid module is volledig aanpasbaar via CSS stijlen. Hieronder staan meerdere Grids welke verschillend resizen afhankelijk van het browser formaat.'
     })
 
     return (
         <Layout
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('GRID')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('GRID')}>
             <Card>
-                {getTranslation('GridView.INTRO_TEXT')}
+                {applyTranslation('GridView.INTRO_TEXT')}
             </Card>
-            <Grid customStyles={filterStyles([styles], 'grid1')}>
+            <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <div className={`${styles.grid1Element} ${styles.grid1Element1}`}>
                     1
                 </div>
@@ -51,7 +51,7 @@ export default function GridView(){
                     6
                 </div>
             </Grid>
-            <Grid customStyles={filterStyles([styles], 'grid2')}>
+            <Grid customStyles={applyStyles([styles], 'grid2')}>
                 <div className={`${styles.grid2Element} ${styles.grid2Element1}`}>
                     1
                 </div>
@@ -62,7 +62,7 @@ export default function GridView(){
                     3
                 </div>
             </Grid>
-            <Grid customStyles={filterStyles([styles], 'grid3')}>
+            <Grid customStyles={applyStyles([styles], 'grid3')}>
                 <div className={`${styles.grid3Element} ${styles.grid3Element1}`}>
                     1
                 </div>
@@ -100,7 +100,7 @@ export default function GridView(){
                     12
                 </div>
             </Grid>
-            <Grid customStyles={filterStyles([styles], 'grid4')}>
+            <Grid customStyles={applyStyles([styles], 'grid4')}>
                 <div className={`${styles.grid4Element} ${styles.grid4Element1}`}>
                     1
                 </div>

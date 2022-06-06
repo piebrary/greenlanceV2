@@ -1,32 +1,32 @@
 import styles from './Checkbox.module.css'
 
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 export default function Checkbox({ customStyles, label, name, options, onClick, register, errors, rules }){
 
     return options && (
-        <div className={generateStyles([styles, customStyles], 'container')}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
                         htmlFor={name}
-                        className={generateStyles([styles, customStyles], 'label')}
+                        className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
                     </label>
                 )
             }
-            <div className={generateStyles([styles, customStyles], 'checkboxes')}>
+            <div className={createStyle([styles, customStyles], 'checkboxes')}>
                 {
                     options.map(o => {
 
                         return (
                             <label
-                                className={`${ o.disabled ? generateStyles([styles, customStyles], 'checkboxPairDisabled') : generateStyles([styles, customStyles], 'checkboxPair')}`}
+                                className={`${ o.disabled ? createStyle([styles, customStyles], 'checkboxPairDisabled') : createStyle([styles, customStyles], 'checkboxPair')}`}
                                 key={o.name}>
                                 <input
                                     type='checkbox'
-                                    className={generateStyles([styles, customStyles], 'checkbox')}
+                                    className={createStyle([styles, customStyles], 'checkbox')}
                                     onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}

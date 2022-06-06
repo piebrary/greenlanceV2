@@ -10,7 +10,7 @@ import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 
 import LogoSmall from '../../components/logo/Logo'
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Login.module.css'
 
@@ -37,14 +37,14 @@ export default function Login(){
             </header>
             <main className={styles.main}>
                 <LogoSmall
-                    customStyles={filterStyles([styles], 'customLogo')}/>
+                    customStyles={applyStyles([styles], 'customLogo')}/>
                 <Form
                     onSubmit={handleSubmit(onSubmit)}>
                     <Input
                         label={'Username'}
                         name={'username'}
                         subtype={'text'}
-                        customStyles={filterStyles([styles], 'customInput')}
+                        customStyles={applyStyles([styles], 'customInput')}
                         register={register}
                         errors={errors}
                         rules={{
@@ -56,7 +56,7 @@ export default function Login(){
                         name={'password'}
                         type={'password'}
                         hideToggle={true}
-                        customStyles={filterStyles([styles], 'customInput')}
+                        customStyles={applyStyles([styles], 'customInput')}
                         register={register}
                         errors={errors}
                         rules={{

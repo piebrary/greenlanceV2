@@ -17,124 +17,152 @@ import { BsCardText } from 'react-icons/bs'
 import { BsPalette } from 'react-icons/bs'
 import { MdOutlineNotificationsActive } from 'react-icons/md'
 import { IoLanguageOutline } from 'react-icons/io5'
+import { BsListOl } from 'react-icons/bs'
+import { AiOutlineCheck } from 'react-icons/ai'
+import { IoLogoCss3 } from 'react-icons/io5'
+import { BiTime } from 'react-icons/bi'
 
-export function menuitems({ isAdmin, getTranslation }){
+export function menuitems({ isAdmin, applyTranslation }){
 
     return [
         [
             {
-                label:<>{getTranslation('DEFAULT')}</>
+                label:<>{applyTranslation('DEFAULT')}</>
             },
             {
                 to:'/',
                 icon:<BiHome size={20} />,
-                text:getTranslation('DASHBOARD')
+                text:applyTranslation('DASHBOARD')
             },
             {
                 to:'/profile',
                 icon:<FaUser size={20} />,
-                text:getTranslation('PROFILE')
+                text:applyTranslation('PROFILE')
             },
             {
                 to:'/settings',
                 icon:<VscSettings size={20} />,
-                text:getTranslation('SETTINGS')
+                text:applyTranslation('SETTINGS')
             },
         ],[
             {
-                label:<>{getTranslation('ADMIN')}</>,
+                label:<>{applyTranslation('ADMIN')}</>,
                 hidden:!isAdmin()
             },
             {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
-                text:getTranslation('USERS'),
+                text:applyTranslation('USERS'),
                 hidden:!isAdmin()
             },
             {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
-                text:getTranslation('BUILDER'),
+                text:applyTranslation('BUILDER'),
                 hidden:!isAdmin()
             },
             {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
-                text:getTranslation('DOCUMENTATION'),
+                text:applyTranslation('DOCUMENTATION'),
                 hidden:!isAdmin()
             },
         ],[
             {
-                label:<>{getTranslation('COMPONENTS')}</>
+                label:<>{applyTranslation('COMPONENTS')}</>
             },
             {
                 to:'/calendar',
                 icon:<BsCalendar2Week size={20} />,
-                text:getTranslation('CALENDAR')
+                text:applyTranslation('CALENDAR')
             },
             {
                 to:'/grid',
                 icon:<BsGrid size={20} />,
-                text:getTranslation('GRID')
+                text:applyTranslation('GRID')
             },
             {
                 to:'/form',
                 icon:<AiOutlineForm size={20} />,
-                text:getTranslation('FORM')
+                text:applyTranslation('FORM')
             },
             {
                 to:'/card',
                 icon:<FiCreditCard size={20} />,
-                text:getTranslation('CARD')
+                text:applyTranslation('CARD')
             },
             {
                 to:'/button',
                 icon:<MdSmartButton size={20} />,
-                text:getTranslation('BUTTON')
+                text:applyTranslation('BUTTON')
+            },
+            {
+                to:'/list',
+                icon:<BsListOl size={20} />,
+                text:applyTranslation('LIST')
             },
             {
                 to:'/slideshow',
                 icon:<BiSlideshow size={20} />,
-                text:getTranslation('SLIDESHOW')
+                text:applyTranslation('SLIDESHOW')
             },
             {
                 to:'/gallery',
                 icon:<IoImages size={20} />,
-                text:getTranslation('GALLERY')
+                text:applyTranslation('GALLERY')
             },
             {
                 to:'/table',
                 icon:<BsTable size={20} />,
-                text:getTranslation('TABLE')
+                text:applyTranslation('TABLE')
             },
             {
                 to:'/layout',
                 icon:<BsReverseLayoutTextWindowReverse size={20} />,
-                text:getTranslation('LAYOUT')
+                text:applyTranslation('LAYOUT')
             },
             {
                 to:'/textarea',
                 icon:<BsCardText size={20} />,
-                text:getTranslation('TEXTAREA')
+                text:applyTranslation('TEXTAREA')
             },
             {
                 to:'/notifications',
                 icon:<MdOutlineNotificationsActive size={20} />,
-                text:getTranslation('NOTIFICATIONS')
+                text:applyTranslation('NOTIFICATIONS')
+            },
+            {
+                to:'/confirm',
+                icon:<AiOutlineCheck size={20} />,
+                text:applyTranslation('CONFIRM_DIALOG')
             },
         ],[
             {
-                label:<>{getTranslation('OTHER')}</>
+                label:<>{applyTranslation('STYLING')}</>
             },
             {
-                to:'/styles',
+                to:'/css',
+                icon:<IoLogoCss3 size={20} />,
+                text:applyTranslation('CSS')
+            },
+            {
+                to:'/themes',
                 icon:<BsPalette size={20} />,
-                text:getTranslation('CSS_STYLES')
+                text:applyTranslation('THEMES')
+            },
+        ],[
+            {
+                label:<>{applyTranslation('LOCALIZATION')}</>
             },
             {
                 to:'/languages',
                 icon:<IoLanguageOutline size={20} />,
-                text:getTranslation('LANGUAGES')
+                text:applyTranslation('LANGUAGES')
+            },
+            {
+                to:'/datetime',
+                icon:<BiTime size={20} />,
+                text:applyTranslation('DATETIME')
             },
         ],
     ]

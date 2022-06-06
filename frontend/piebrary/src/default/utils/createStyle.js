@@ -1,4 +1,4 @@
-export function generateStyles(styles, key){
+export function createStyle(styles, key){
 
     return styles
         .filter(s => s && s[key])           // only use styles that exist

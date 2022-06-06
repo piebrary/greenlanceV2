@@ -1,0 +1,47 @@
+.container {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-gap: 10px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    background-color: var(--lightest);
+    border-radius: 4px;
+    padding: 10px;
+    user-select: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.bullet {
+    display: inline-block;
+    margin-left: 2px;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.icon {
+    margin-left: 2px;
+    margin-right: 10px;
+    color: var(--primary4);
+}
+
+.clickable:hover {
+    background-color: var(--primary5);
+    color: var(--secondary3);
+}
+
+.clickable:hover .icon {
+    color: var(--secondary3);
+}
+
+.clickable:hover .bullet {
+    color: var(--secondary3);
+}

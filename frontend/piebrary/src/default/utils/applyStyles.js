@@ -1,7 +1,7 @@
 import { decapitalizeFirstLetter } from './decapitalizeFirstLetter'
 import { deepCopy } from './deepCopy'
 
-export function filterStyles(styles, name){
+export function applyStyles(styles, name){
 
     const resultObj = {}
 

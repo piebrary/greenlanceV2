@@ -24,21 +24,21 @@ import { BiUserPlus } from 'react-icons/bi'
 import { menuitems } from '../../assets/js/menu/items'
 import { rolesOptions } from '../../assets/js/user/roles'
 
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 import { containsNumber } from '../../utils/containsNumber'
 
 import styles from './Documentation.module.css'
 
 export default function Documentation(){
 
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
 
     return (
         <Layout
-            items={menuitems({ isAdmin, getTranslation })}
-            title={getTranslation('DOCUMENTATION')}>
-            <Card customStyles={filterStyles([styles], 'container')}>
+            items={menuitems({ isAdmin, applyTranslation })}
+            title={applyTranslation('DOCUMENTATION')}>
+            <Card customStyles={applyStyles([styles], 'container')}>
                 Here comes a list element
             </Card>
         </Layout>

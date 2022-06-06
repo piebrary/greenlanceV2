@@ -4,7 +4,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import Button from '../button/Button'
 
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 import styles from './ImageUploader.module.css'
 
@@ -41,7 +41,7 @@ export default function ImageUploader({ customStyles, currentPicture, defaultPic
     }, [currentPicture])
 
     return (
-        <div className={generateStyles([styles, customStyles], 'container')}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             <form method="post" onSubmit={event => uploadFile(event)} encType="multipart/form-data">
                 {
                     selectedPicture
@@ -77,7 +77,7 @@ export default function ImageUploader({ customStyles, currentPicture, defaultPic
                     id={'image-upload'}
                     type={'file'}
                     accept={'image/*'}
-                    className={generateStyles([styles, customStyles], 'selector')}
+                    className={createStyle([styles, customStyles], 'selector')}
                     onChange={event => onFileChange(event)}/>
                 {
                     selectedPicture && (

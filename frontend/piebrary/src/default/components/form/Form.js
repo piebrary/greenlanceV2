@@ -1,4 +1,4 @@
-import { generateStyles } from '../../utils/generateStyles'
+import { createStyle } from '../../utils/createStyle'
 
 import styles from './Form.module.css'
 
@@ -7,7 +7,7 @@ export default function Form({ customStyles, children, onSubmit }){
     return (
         <form
             onSubmit={onSubmit}
-            className={generateStyles([styles, customStyles], 'form')}>
+            className={createStyle([styles, customStyles], 'form')}>
             {children}
         </form>
     )

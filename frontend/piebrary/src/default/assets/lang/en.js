@@ -38,10 +38,14 @@ module.exports = () => {
         "ADMIN":"Admin pages",
         "COMPONENTS":"Components",
         "DEFAULT":"Default",
-        "CSS_STYLES":"Css styling",
-        "OTHER":"Other",
         "NOTIFICATIONS":"Notifications",
+        "CONFIRM_DIALOG":"Confirm dialog",
+        "STYLING":"Styling",
+        "CSS":"Css",
+        "THEMES":"Themes",
+        "LOCALIZATION":"Localization",
         "LANGUAGES":"Languages",
+        "DATETIME":"Date & time",
 
         // settings
         "REGIONAL_SETTINGS":"Regional settings",

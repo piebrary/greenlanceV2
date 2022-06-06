@@ -1,34 +1,48 @@
 import { createContext, useState, useEffect } from 'react'
 
-import config from '../config/config'
-
-import { useWindowDimension } from '../utils/useWindowDimension'
-
 export const ThemeContext = createContext({})
 
 export default function ThemeContextProvider({ children }){
 
-    const [theme, setTheme] = useState(require('../themes/' + config.THEME))
-    const [viewmode, setViewmode] = useState(window.innerWidth > theme.settings.viewmodeBreakpoint ? 'desktop' : 'mobile')
+    const themes = {
+        'red-grey':require('../themes/red-grey'),
+        'blue-grey':require('../../custom/themes/blue-grey'),
+    }
 
-    const [width, height] = useWindowDimension()
+    const [currentTheme, setCurrentTheme] = useState()
 
-    useEffect(() => {
+    function setTheme(themeName){
 
-        setViewmode(width > theme.settings.viewmodeBreakpoint ? 'desktop' : 'mobile')
+        if(themes[themeName]){
 
-    }, [width])
+            for(let cssVar in themes[themeName]){
 
-    function switchTheme(newTheme){
+                document.documentElement.style.setProperty(`--${cssVar}`, themes[themeName][cssVar])
 
-        setTheme(require('../themes/' + newTheme))
+            }
+
+            setCurrentTheme(themeName)
+
+        }
+
+    }
+
+    function getCurrentTheme(){
+
+        return currentTheme
+
+    }
+
+    function getAvailableThemes(){
+
+        return Object.keys(themes)
 
     }
 
     const contextData = {
-        theme,
-        switchTheme,
-        viewmode
+        setTheme,
+        getCurrentTheme,
+        getAvailableThemes,
     }
 
     return (

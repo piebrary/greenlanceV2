@@ -38,10 +38,14 @@ module.exports = () => {
         "ADMIN":"Admin",
         "COMPONENTS":"Componenten",
         "DEFAULT":"Standaard",
-        "CSS_STYLES":"Css stijlen",
-        "OTHER":"Overig",
         "NOTIFICATIONS":"Notificaties",
+        "CONFIRM_DIALOG":"Bevestigingsvenster",
+        "STYLING":"Stijlen",
+        "CSS":"Css",
+        "THEMES":"Thema's",
+        "LOCALIZATION":"Localisatie",
         "LANGUAGES":"Talen",
+        "DATETIME":"Datum & tijd",
 
         // settings
         "REGIONAL_SETTINGS":"Regionale instellingen",

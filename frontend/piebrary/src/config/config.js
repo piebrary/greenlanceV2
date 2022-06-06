@@ -1,7 +1,7 @@
 module.exports = (() => {
 
     return {
-        THEME:'./default/themes/red-grey',
+        THEME:'red-grey',
         MOBILE_BREAKPOINT:800
     }
 

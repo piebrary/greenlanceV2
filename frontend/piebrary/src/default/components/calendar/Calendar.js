@@ -10,13 +10,13 @@ import Button from '../button/Button'
 import { AiFillPlusCircle } from 'react-icons/ai'
 import { AiFillEdit } from 'react-icons/ai'
 
-import { filterStyles } from '../../utils/filterStyles'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Calendar.module.css'
 
 export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJSX, onSaveEvent, onDeleteEvent }){
 
-    const { getTranslation } = useContext(LanguageContext)
+    const { applyTranslation } = useContext(LanguageContext)
 
     const [viewRange, setViewRange] = useState('month')
     const [viewMode, setViewMode] = useState('calendar')
@@ -342,69 +342,69 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
             <div className={styles.container}>
                 <div className={styles.header}>
                     <ButtonGroup
-                        customStyles={filterStyles([styles], 'controlGroup')}
+                        customStyles={applyStyles([styles], 'controlGroup')}
                         >
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={getTranslation('PREVIOUS')}
+                                    label={applyTranslation('PREVIOUS')}
                                     onClick={() => goPrevious()}
-                                    customStyles={filterStyles([styles], 'controlBtn')}
+                                    customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             )
                         }
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={getTranslation(
+                                    label={applyTranslation(
                                         (viewRange === 'day' && 'TODAY')
                                         || (viewRange === 'week' && 'THIS_WEEK')
                                         || (viewRange === 'month' && 'THIS_MONTH')
                                     )}
                                     onClick={() => goNow()}
-                                    customStyles={filterStyles([styles], 'controlBtn')}
+                                    customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             )
                         }
                         {
                             viewMode === 'list' && (
                                 <Button
-                                    label={getTranslation('TODAY')}
+                                    label={applyTranslation('TODAY')}
                                     onClick={() => goNow()}
-                                    customStyles={filterStyles([styles], 'controlBtn')}
+                                    customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             )
                         }
                         {
                             viewMode === 'calendar' && (
                                 <Button
-                                    label={getTranslation('NEXT')}
+                                    label={applyTranslation('NEXT')}
                                     onClick={() => goNext()}
-                                    customStyles={filterStyles([styles], 'controlBtn')}
+                                    customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             )
                         }
                         {
                             (viewMode === 'newEvent' || viewMode === 'editEvent') && (
                                 <ButtonGroup
-                                    customStyles={filterStyles([styles], 'controlGroup')}
+                                    customStyles={applyStyles([styles], 'controlGroup')}
                                     >
                                     <Button
-                                        label={getTranslation('SAVE')}
+                                        label={applyTranslation('SAVE')}
                                         onClick={event => saveEvent(event)}
-                                        customStyles={filterStyles([styles], 'controlBtn')}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
                                         />
                                     <Button
-                                        label={getTranslation('RESET')}
+                                        label={applyTranslation('RESET')}
                                         onClick={event => resetEvent(event)}
-                                        customStyles={filterStyles([styles], 'controlBtn')}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
                                         />
                                     {
                                         viewMode === 'editEvent' && (
                                             <Button
-                                                label={getTranslation('DELETE')}
+                                                label={applyTranslation('DELETE')}
                                                 onClick={event => deleteEvent(event)}
-                                                customStyles={filterStyles([styles], 'controlBtn')}
+                                                customStyles={applyStyles([styles], 'controlBtn')}
                                                 />
                                         )
                                     }
@@ -414,17 +414,17 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         {
                             viewMode === 'viewEvent' && (
                                 <ButtonGroup
-                                    customStyles={filterStyles([styles], 'controlGroup')}
+                                    customStyles={applyStyles([styles], 'controlGroup')}
                                     >
                                     <Button
-                                        label={getTranslation('EDIT')}
+                                        label={applyTranslation('EDIT')}
                                         onClick={event => openDetailsView(event, 'editEvent', currentActiveEvent)}
-                                        customStyles={filterStyles([styles], 'controlBtn')}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
                                         />
                                     <Button
-                                        label={getTranslation('DELETE')}
+                                        label={applyTranslation('DELETE')}
                                         onClick={event => deleteEvent(event)}
-                                        customStyles={filterStyles([styles], 'controlBtn')}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
                                         />
                                 </ButtonGroup>
                             )
@@ -433,21 +433,21 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     {
                         viewMode === 'calendar' && (
                             <ButtonGroup
-                                customStyles={filterStyles([styles], 'controlGroup')}
+                                customStyles={applyStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={getTranslation('DAY')}
-                                    customStyles={filterStyles([styles], viewRange === 'day' ? 'controlBtnActive' : 'controlBtn')}
+                                    label={applyTranslation('DAY')}
+                                    customStyles={applyStyles([styles], viewRange === 'day' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('day')}
                                     />
                                 <Button
-                                    label={getTranslation('WEEK')}
-                                    customStyles={filterStyles([styles], viewRange === 'week' ? 'controlBtnActive' : 'controlBtn')}
+                                    label={applyTranslation('WEEK')}
+                                    customStyles={applyStyles([styles], viewRange === 'week' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('week')}
                                     />
                                 <Button
-                                    label={getTranslation('MONTH')}
-                                    customStyles={filterStyles([styles], viewRange === 'month' ? 'controlBtnActive' : 'controlBtn')}
+                                    label={applyTranslation('MONTH')}
+                                    customStyles={applyStyles([styles], viewRange === 'month' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewRange('month')}
                                     />
                             </ButtonGroup>
@@ -477,16 +477,16 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     {
                         (viewMode === 'calendar' || viewMode === 'list') && (
                             <ButtonGroup
-                                customStyles={filterStyles([styles], 'controlGroup')}
+                                customStyles={applyStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={getTranslation('CALENDAR')}
-                                    customStyles={filterStyles([styles], viewMode === 'calendar' ? 'controlBtnActive' : 'controlBtn')}
+                                    label={applyTranslation('CALENDAR')}
+                                    customStyles={applyStyles([styles], viewMode === 'calendar' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewMode('calendar')}
                                     />
                                 <Button
-                                    label={getTranslation('LIST')}
-                                    customStyles={filterStyles([styles], viewMode === 'list' ? 'controlBtnActive' : 'controlBtn')}
+                                    label={applyTranslation('LIST')}
+                                    customStyles={applyStyles([styles], viewMode === 'list' ? 'controlBtnActive' : 'controlBtn')}
                                     onClick={event => adjustViewMode('list')}
                                     />
                             </ButtonGroup>
@@ -495,12 +495,12 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     {
                         (viewMode === 'newEvent' || viewMode === 'editEvent' || viewMode === 'viewEvent') && (
                             <ButtonGroup
-                                customStyles={filterStyles([styles], 'controlGroup')}
+                                customStyles={applyStyles([styles], 'controlGroup')}
                                 >
                                 <Button
-                                    label={getTranslation('CLOSE')}
+                                    label={applyTranslation('CLOSE')}
                                     onClick={event => adjustViewMode(previousViewMode)}
-                                    customStyles={filterStyles([styles], 'controlBtn')}
+                                    customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             </ButtonGroup>
                         )
