@@ -1,15 +1,15 @@
 .button {
-    border: var(--buttonBorder);
-    border-radius: var(--buttonBorderRadius);
-    padding: var(--buttonPadding);
-    background-color: var(--buttonBackgroundColor);
-    color: var(--buttonColor);
+    border: var(--componentButtonBorder);
+    border-radius: var(--componentButtonBorderRadius);
+    padding: var(--componentButtonPadding);
+    background-color: var(--componentButtonBackgroundColor);
+    color: var(--componentButtonColor);
     cursor: pointer;
     user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: var(--buttonTransition);
+    transition: var(--componentButtonTransition);
 }
 
 .button > * + * {
@@ -17,7 +17,7 @@
 }
 
 .button:hover {
-    background-color: var(--buttonBackgroundColorHover);
-    color: var(--buttonColorHover);
-    transition: var(--buttonTransition);
+    background-color: var(--componentButtonBackgroundColorHover);
+    color: var(--componentButtonColorHover);
+    transition: var(--componentButtonTransition);
 }

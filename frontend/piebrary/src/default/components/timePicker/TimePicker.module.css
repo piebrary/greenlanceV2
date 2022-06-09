@@ -1,53 +1,53 @@
 .container {
-    background-color: var(--lighter);
+    background-color: var(--componentTimePickerContainerBackgroundColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: var(--componentTimePickerContainerBorderRadius);
+    padding: var(--componentTimePickerContainerPadding);
 }
 
 .timeContainer {
-    margin-left: 10px;
+    margin-left: var(--componentTimePickerTimeContainerMarginLeft);
     flex-grow: 1;
-    max-width: 300px;
-    width: 300px;
+    max-width: var(--componentTimePickerTimeContainerMaxWidth);
+    width: var(--componentTimePickerTimeContainerWidth);
 }
 
 .selectedTime {
-    color: var(--dark);
+    color: var(--componentTimePickerSelectedTimeColor);
     box-shadow: none;
-    border-radius: 4px;
+    border-radius: var(--componentTimePickerSelectedTimeBorderRadius);
     cursor: pointer;
     user-select: none;
-    outline: none;
-    text-align: center;
+    outline: var(--componentTimePickerSelectedTimeOutline);
+    text-align: var(--componentTimePickerSelectedTimeTextAlign);
     width: 100%;
-    border: 0px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: var(--secondary3);
+    border: var(--componentTimePickerSelectedTimeBorder);
+    padding: var(--componentTimePickerSelectedTimePadding);
+    font-size: var(--componentTimePickerSelectedTimeFontSize);
+    background-color: var(--componentTimePickerSelectedTimeBackgroundColor);
 }
 
 .selectedTime:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
-    transition: 0.2s ease-in-out;
+    color: var(--componentTimePickerSelectedTimeColorHover);
+    background-color: var(--componentTimePickerSelectedTimeBackgroundColorHover);
+    transition: var(--componentTimePickerSelectedTimeTransitionHover);
     cursor: pointer;
     user-select: none;
 }
 
 .timePicker {
     box-sizing: border-box;
-    color: var(--dark);
-    border: 0px;
-    padding: 10px;
-    font-size: 16px;
-    outline: none;
+    color: var(--componentTimePickerTimePickerColor);
+    border: var(--componentTimePickerTimePickerBorder);
+    padding: var(--componentTimePickerTimePickerPadding);
+    font-size: var(--componentTimePickerTimePickerFontSize);
+    outline: var(--componentTimePickerTimePickerOutline);
     width: 100%;
-    border-radius: 4px;
-    background-color: var(--secondary3);
-    margin-top: 4px;
+    border-radius: var(--componentTimePickerTimePickerBorderRadius);
+    background-color: var(--componentTimePickerTimePickerBackgroundColor);
+    margin-top: var(--componentTimePickerTimePickerMarginTop);
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -88,38 +88,38 @@
 }
 
 .boundariesInfo {
-    color: var(--dark);
+    color: var(--componentTimePickerBoundariesInfoColor);
     display: flex;
     align-items: center;
-    justify-content: right;
-    padding-right: 10px;
-    margin-top: 10px;
-    font-size: 13px;
+    justify-content: var(--componentTimePickerBoundariesInfoJustifyContent);
+    padding-right: var(--componentTimePickerBoundariesInfoPaddingRight);
+    margin-top: var(--componentTimePickerBoundariesInfoMarginTop);
+    font-size: var(--componentTimePickerBoundariesInfoFontSize);
     user-select: none;
 }
 
 .hoursGrid24hGrid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
-    margin-top: 8px;
+    grid-template-columns: var(--componentTimePickerHoursGrid24TemplateColumns);
+    gap: var(--componentTimePickerHoursGrid24Gap);
+    grid-auto-rows: var(--componentTimePickerHoursGrid24AutoRows);
+    margin-top: var(--componentTimePickerHoursGrid24MarginTop);
 }
 
 .hoursGridAMPMGrid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
-    margin-top: 8px;
+    grid-template-columns: var(--componentTimePickerHoursGridAMPMTemplateColumns);
+    gap: var(--componentTimePickerHoursGridAMPMGap);
+    grid-auto-rows: var(--componentTimePickerHoursGridAMPMAutoRows);
+    margin-top: var(--componentTimePickerHoursGridAMPMMarginTop);
 }
 
 .minutesGridGrid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
-    margin-top: 8px;
+    grid-template-columns: var(--componentTimePickerMinutesGridTemplateColumns);
+    gap: var(--componentTimePickerMinutesGridGap);
+    grid-auto-rows: var(--componentTimePickerMinutesGridAutoRows);
+    margin-top: var(--componentTimePickerMinutesGridMarginTop);
 }
 
 .monthYearTitle {
@@ -147,62 +147,62 @@
 }
 
 .isSelectable {
-    padding: 10px;
-    border-radius: 4px;
+    padding: var(--componentTimePickerIsSelectablePadding);
+    border-radius: var(--componentTimePickerIsSelectableBorderRadius);
     user-select: none;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--dark);
+    color: var(--componentTimePickerIsSelectableColor);
 }
 
 .isSelectable:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
-    transition: 0.2s ease-in-out;
+    color: var(--componentTimePickerIsSelectableColorHover);
+    background-color: var(--componentTimePickerIsSelectableBackgroundColorHover);
+    transition: var(--componentTimePickerIsSelectableTransitionHover);
     cursor: pointer;
 }
 
 .isNotSelectable {
-    color: var(--lighter);
+    color: var(--componentTimePickerIsNotSelectableColor);
 }
 
 .daySelected {
-    color: var(--secondary3) !important;
-    background-color: var(--primary6);
+    color: var(--componentTimePickerDaySelectedColor) !important;
+    background-color: var(--componentTimePickerDaySelectedBackgroundColor);
 }
 
 .outOfBounds {
-    color: var(--lighter);
+    color: var(--componentTimePickerOutOfBoundsColor);
 }
 
 .cancelBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentTimePickerCancelBtnColor);
+    background-color: var(--componentTimePickerCancelBtnBackgroundColor);
 }
 
 .cancelBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentTimePickerCancelBtnColorHover);
+    background-color: var(--componentTimePickerCancelBtnBackgroundColorHover);
 }
 
 .previousBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentTimePickerCancelBtnColor);
+    background-color: var(--componentTimePickerPreviousBtnBackgroundColor);
 }
 
 .previousBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentTimePickerPreviousBtnColorHover);
+    background-color: var(--componentTimePickerPreviousBtnBackgroundColorHover);
 }
 
 .nextBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentTimePickerNextBtnColor);
+    background-color: var(--componentTimePickerNextBtnBackgroundColor);
 }
 
 .nextBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentTimePickerNextBtnColorHover);
+    background-color: var(--componentTimePickerNextBtnBackgroundColorHover);
 }

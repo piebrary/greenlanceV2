@@ -7,8 +7,8 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* background-color: #1E1E1B; */
-    background-color: var(--background);
-    min-width: var(--minWidth);
+    background-color: var(--layoutBackground);
+    min-width: var(--layoutMinWidth);
     overflow: auto;
 }
 

@@ -8,80 +8,60 @@
 
 
 .successCardTitle {
-    background-color: var(--success1);
-}
-
-.successBtnButton {
-    background-color: var(--success2);
-    width: 100%;
+    background-color: var(--colorSuccessLight);
 }
 
 .successBtnButton:hover {
-    background-color: var(--success2);
+    background-color: var(--colorSuccessDark);
     width: 100%;
 }
 
 .successCardClickable:hover {
-    --titleBackgroundColorHover: var(--success2);
-    --bodyBackgroundColorHover: var(--success2);
+    --titleBackgroundColorHover: var(--colorSuccessDark);
+    --bodyBackgroundColorHover: var(--colorSuccessDark);
 }
 
 
 
 .infoCardTitle {
-    background-color: var(--info1);
-}
-
-.infoBtnButton {
-    background-color: var(--info1);
-    width: 100%;
+    background-color: var(--colorInfoLight);
 }
 
 .infoBtnButton:hover {
-    background-color: var(--info2);
+    background-color: var(--colorInfoDark);
 }
 
 .infoCardClickable:hover {
-    --titleBackgroundColorHover: var(--info2);
-    --bodyBackgroundColorHover: var(--info2);
+    --titleBackgroundColorHover: var(--colorInfoDark);
+    --bodyBackgroundColorHover: var(--colorInfoDark);
 }
 
 
 
 .warningCardTitle {
-    background-color: var(--warning1);
-}
-
-.warningBtnButton {
-    background-color: var(--warning1);
-    width: 100%;
+    background-color: var(--colorWarningLight);
 }
 
 .warningBtnButton:hover {
-    background-color: var(--warning2);
+    background-color: var(--colorWarningDark);
 }
 
 .warningCardClickable:hover {
-    --titleBackgroundColorHover: var(--warning2);
-    --bodyBackgroundColorHover: var(--warning2);
+    --titleBackgroundColorHover: var(--colorWarningDark);
+    --bodyBackgroundColorHover: var(--colorWarningDark);
 }
 
 
 
 .dangerCardTitle {
-    background-color: var(--danger1);
-}
-
-.dangerBtnButton {
-    background-color: var(--danger1);
-    width: 100%;
+    background-color: var(--colorDangerLight);
 }
 
 .dangerBtnButton:hover {
-    background-color: var(--danger2);
+    background-color: var(--colorDangerDark);
 }
 
 .dangerCardClickable:hover {
-    --titleBackgroundColorHover: var(--danger2);
-    --bodyBackgroundColorHover: var(--danger2);
+    --titleBackgroundColorHover: var(--colorDangerDark);
+    --bodyBackgroundColorHover: var(--colorDangerDark);
 }

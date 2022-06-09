@@ -1,13 +1,13 @@
 .container {
     display: flex;
-    padding: 10px 5px;
-    justify-content: space-around;
-    align-items: center;
-    background-color: var(--primary3);
-    color: var(--darkest);
-    font-size: 22px;
+    padding: var(--logoContainerPadding);
+    justify-content: var(--logoContainerJustifyContent);
+    align-items: var(--logoContainerAlignItems);
+    background-color: var(--logoContainerBackgroundColor);
+    color: var(--logoContainerColor);
+    font-size: var(--logoContainerFontSize);
     height: 100%;
     box-sizing: border-box;
     user-select: none;
-    font-weight: 600;
+    font-weight: var(--logoContainerFontWeight);
 }

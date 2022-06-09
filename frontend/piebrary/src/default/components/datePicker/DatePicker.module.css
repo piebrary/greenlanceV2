@@ -1,10 +1,10 @@
 .container {
-    background-color: var(--lighter);
+    background-color: var(--componentDatePickerContainerBackgroundColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: var(--componentDatePickerContainerBorderRadius);
+    padding: var(--componentDatePickerContainerPadding);
 }
 
 .dateContainer {
@@ -15,72 +15,72 @@
 }
 
 .selectedDate {
-    color: var(--dark);
+    color: var(--colorGreyDark);
     box-shadow: none;
-    border-radius: 4px;
+    border-radius: var(--componentDatePickerSelectedDateBorderRadius);
     cursor: pointer;
     user-select: none;
     outline: none;
     text-align: center;
     width: 100%;
-    border: 0px;
-    padding: 10px;
-    font-size: 16px;
-    background-color: var(--secondary3);
+    border: var(--componentDatePickerSelectedDateBorder);
+    padding: var(--componentDatePickerSelectedDatePadding);
+    font-size: var(--componentDatePickerSelectedDateFontSize);
+    background-color: var(--componentDatePickerSelectedDateBackgroundColor);
 }
 
 .selectedDate:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
-    transition: 0.2s ease-in-out;
+    color: var(--componentDatePickerSelectedDateColorHover);
+    background-color: var(--componentDatePickerSelectedDateBackgroundColorHover);
+    transition: var(--componentDatePickerSelectedDateTransitionHover);
     cursor: pointer;
 }
 
 .datePicker {
     box-sizing: border-box;
-    color: var(--dark);
-    border: 0px;
-    padding: 10px;
-    font-size: 16px;
+    color: var(--componentDatePickerDatePickerColor);
+    border: var(--componentDatePickerDatePickerBorder);
+    padding: var(--componentDatePickerDatePickerPadding);
+    font-size: var(--componentDatePickerDatePickerFontSize);
     outline: none;
     width: 100%;
-    border-radius: 4px;
-    background-color: var(--secondary3);
-    margin-top: 4px;
+    border-radius: var(--componentDatePickerDatePickerBorderRadius);
+    background-color: var(--componentDatePickerDatePickerBackgroundColor);
+    margin-top: var(--componentDatePickerDatePickerMarginTop);
     display: flex;
     justify-content: center;
 }
 
 .boundariesInfo {
-    color: var(--dark);
+    color: var(--componentDatePickerBoundariesColor);
     display: flex;
     align-items: center;
     justify-content: right;
-    padding-right: 10px;
-    margin-top: 10px;
-    font-size: 13px;
+    padding-right: var(--componentDatePickerBoundariesPaddingRight);
+    margin-top: var(--componentDatePickerBoundariesMarginTop);
+    font-size: var(--componentDatePickerBoundariesFontSize);
     user-select: none;
 }
 
 .daysGridGrid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
+    gap: var(--componentDatePickerDaysGridGap);
+    grid-auto-rows: var(--componentDatePickerDaysGridAutoRows);
 }
 
 .monthsGridGrid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
+    gap: var(--componentDatePickerMonthsGridGap);
+    grid-auto-rows: var(--componentDatePickerMonthsGridAutoRows);
 }
 
 .yearsGridGrid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    grid-auto-rows: 40px;
+    gap: var(--componentDatePickerYearsGridGap);
+    grid-auto-rows: var(--componentDatePickerYearsGridAutoRows);
     width: 100%;
 }
 
@@ -94,8 +94,8 @@
 }
 
 .period {
-    padding: 10px;
-    border-radius: 4px;
+    padding: var(--componentDatePickerPeriodPadding);
+    border-radius: var(--componentDatePickerPeriodBorderRadius);
     user-select: none;
     width: 100%;
     display: flex;
@@ -104,55 +104,55 @@
 }
 
 .period.isSelectable:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
-    transition: 0.2s ease-in-out;
+    color: var(--componentDatePickerPeriodSelectableColor);
+    background-color: var(--componentDatePickerPeriodSelectableBackgroundColor);
+    transition: var(--componentDatePickerPeriodSelectableTransition);
     cursor: pointer;
 }
 
 .dayOfCurMon {
-    color: var(--dark);
+    color: var(--componentDatePickerDayOfCurMonColor);
 }
 
 .dayOfOtherMon {
-    color: var(--lighter);
+    color: var(--componentDatePickerDayOfOtherMonColor);
 }
 
 .daySelected {
-    color: var(--secondary3) !important;
-    background-color: var(--primary6);
+    color: var(--componentDatePickerDaySelectedColor) !important;
+    background-color: var(--componentDatePickerDaySelectedBackgroundColor);
 }
 
 .outOfBounds {
-    color: var(--lighter);
+    color: var(--componentDatePickerOutOfBoundsColor);
 }
 
 .cancelBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentDatePickerCancelBtnColor);
+    background-color: var(--componentDatePickerCancelBtnBackgroundColor);
 }
 
 .cancelBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentDatePickerCancelBtnColorHover);
+    background-color: var(--componentDatePickerCancelBtnBackgroundColorHover);
 }
 
 .previousBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentDatePickerPreviousBtnColor);
+    background-color: var(--componentDatePickerPreviousBtnBackgroundColor);
 }
 
 .previousBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentDatePickerPreviousBtnColorHover);
+    background-color: var(--componentDatePickerPreviousBtnBackgroundColorHover);
 }
 
 .nextBtnButton {
-    color: var(--dark);
-    background-color: rgba(0,0,0,0);
+    color: var(--componentDatePickerNextBtnColor);
+    background-color: var(--componentDatePickerNextBtnBackgroundColor);
 }
 
 .nextBtnButton:hover {
-    color: var(--secondary3);
-    background-color: var(--primary3);
+    color: var(--componentDatePickerNextBtnColorHover);
+    background-color: var(--componentDatePickerNextBtnBackgroundColorHover);
 }

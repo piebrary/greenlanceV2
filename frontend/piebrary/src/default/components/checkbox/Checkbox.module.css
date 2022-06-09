@@ -1,10 +1,10 @@
 .container {
-    background-color: var(--lighter);
+    background-color: var(--componentCheckboxContainerBackgroundColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: var(--componentCheckboxContainerBorderRadius);
+    padding: var(--componentCheckboxContainerPadding);
     word-wrap: break-word;
     width: 100%;
 }
@@ -14,7 +14,7 @@
     flex-wrap: wrap;
     justify-content: left;
     max-width: fit-content; */
-    min-width: 200px;
+    min-width: var(--componentCheckboxesMinWidth);
 }
 
 .checkboxPair {
@@ -22,21 +22,21 @@
     user-select: none;
     display: flex;
     align-items: center;
-    margin: 0px 10px;
-    padding: 8px;
+    margin: var(--componentCheckboxPairMargin);
+    padding: var(--componentCheckboxPairPadding);
+    border-radius: var(--componentCheckboxPairBorderRadius);
 }
 
 .checkboxPairDisabled {
     user-select: none;
     display: flex;
     align-items: center;
-    margin: 0px 10px;
-    padding: 8px;
+    margin: var(--componentCheckboxPairMargin);
+    padding: var(--componentCheckboxPairPadding);
 }
 
 .checkboxPair:hover, .checkboxPair:focus-within {
-    background-color: var(--lightest);
-    border-radius: 4px;
+    background-color: var(--componentCheckboxPairBackgroundColorHover);
 }
 
 /* .checkboxPair + .checkboxPair,
@@ -51,33 +51,33 @@
     -webkit-appearance: none;
     appearance: none;
     /* For iOS < 15 to remove gradient background */
-    background-color: #fff;
+    background-color: var(--componentCheckboxBackgroundColor);
     /* Not removed via appearance */
-    color: var(--normal);
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    min-height: 18px;
-    max-width: 18px;
-    max-height: 18px;
-    border: 2px solid var(--normal);
-    border-radius: 5px;
+    color: var(--componentCheckboxColor);
+    width: var(--componentCheckboxWidth);
+    height: var(--componentCheckboxHeight);
+    min-width: var(--componentCheckboxWidth);
+    min-height: var(--componentCheckboxHeight);
+    max-width: var(--componentCheckboxWidth);
+    max-height: var(--componentCheckboxHeight);
+    border: var(--componentCheckboxBorder);
+    border-radius: var(--componentCheckboxBorderRadius);
     cursor: pointer;
-    margin-right: 4px;
+    margin-right: var(--componentCheckboxMarginRight);
     transform: translateY(-0.075em);
-    transition: var(--checkboxTransition);
+    transition: var(--componentCheckboxTransition);
 }
 
 .checkbox:hover {
-    border: 2px solid var(--primary2);
-    transition: var(--checkboxTransition);
+    border: var(--componentCheckboxBorderHover);
+    transition: var(--componentCheckboxTransition);
     outline: none;
 }
 
 .checkbox:focus {
     outline: none;
-    border: 2px solid var(--primary2);
-    transition: var(--checkboxTransition);
+    border: var(--componentCheckboxBorderHover);
+    transition: var(--componentCheckboxTransition);
 }
 
 .checkbox:checked {
@@ -85,21 +85,21 @@
     -webkit-appearance: none;
     appearance: none;
     /* For iOS < 15 to remove gradient background */
-    background-color: var(--primary6);
+    background-color: var(--componentCheckboxCheckedBackgroundColor);
     /* Not removed via appearance */
-    color: var(--normal);
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    min-height: 18px;
-    max-width: 18px;
-    max-height: 18px;
-    border: 2px solid var(--primary2);
-    border-radius: 5px;
+    color: var(--componentCheckboxCheckedColor);
+    width: var(--componentCheckboxWidth);
+    height: var(--componentCheckboxHeight);
+    min-width: var(--componentCheckboxWidth);
+    min-height: var(--componentCheckboxHeight);
+    max-width: var(--componentCheckboxWidth);
+    max-height: var(--componentCheckboxHeight);
+    border: var(--componentCheckboxBorderHover);
+    border-radius: var(--componentCheckboxBorderRadius);
     cursor: pointer;
-    margin-right: 4px;
+    margin-right: var(--componentCheckboxMarginRight);
     transform: translateY(-0.075em);
-    transition: var(--checkboxTransition);
+    transition: var(--componentCheckboxTransition);
 }
 
 .checkbox:disabled {
@@ -107,18 +107,18 @@
     -webkit-appearance: none;
     appearance: none;
     /* For iOS < 15 to remove gradient background */
-    background-color: var(--lighter);
+    background-color: var(--componentCheckboxDisabledBackgroundColor);
     /* Not removed via appearance */
-    color: var(--normal);
-    width: 18px;
-    height: 18px;
-    min-width: 18px;
-    min-height: 18px;
-    max-width: 18px;
-    max-height: 18px;
-    border: 2px solid var(--light);
-    border-radius: 5px;
-    margin-right: 4px;
+    color: var(--componentCheckboxDisabledColor);
+    width: var(--componentCheckboxWidth);
+    height: var(--componentCheckboxHeight);
+    min-width: var(--componentCheckboxWidth);
+    min-height: var(--componentCheckboxHeight);
+    max-width: var(--componentCheckboxWidth);
+    max-height: var(--componentCheckboxHeight);
+    border: var(--componentCheckboxDisabledBorder);
+    border-radius: var(--componentCheckboxBorderRadius);
+    margin-right: var(--componentCheckboxMarginRight);
     transform: translateY(-0.075em);
     cursor: auto;
 }

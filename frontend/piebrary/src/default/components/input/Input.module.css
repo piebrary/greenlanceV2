@@ -1,81 +1,80 @@
 .container {
-    background-color: var(--lighter);
+    background-color: var(--componentInputContainerBackgroundColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: var(--componentInputContainerBorderRadius);
+    padding: var(--componentInputContainerPadding);
 }
 
 .inputContainer {
-    margin-left: 10px;
+    margin-left: var(--componentInputInputContainerMarginLeft);
     flex-grow: 1;
-    max-width: 200px;
+    max-width: var(--componentInputInputContainerMaxWidth);
 }
 
 .inputField {
     display: flex;
-    align-items: center;
-    border-radius: 4px;
-    background-color: var(--secondary3);
+    align-items: var(--componentInputInputFieldAlignItems);
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    background-color: var(--componentInputInputFieldBackgroundColor);
 }
 
 .inputField:focus-within > * {
-    transition: var(--inputTransition);
-    box-shadow: 0 -4px 1px -2px var(--primary3) inset;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
+    transition: var(--componentInputTransition);
+    box-shadow: var(--componentInputInputFieldBoxShadowFocus);
+    border-bottom-left-radius: var(--componentInputInputFieldBorderBottomLeftRadius);
+    border-bottom-right-radius: var(--componentInputInputFieldBorderBottomRightRadius);
 }
 
 .input {
     box-sizing: border-box;
-    color: var(--dark);
-    border: 0px;
-    padding: 10px;
-    font-size: 16px;
+    color: var(--componentInputInputColor);
+    border: var(--componentInputInputBorder);
+    padding: var(--componentInputInputPadding);
+    font-size: var(--componentInputInputFontSize);
     outline: none;
-    text-align: center;
+    text-align: var(--componentInputInputTextAlign);
     width: 100%;
-    background-color: rgba(0,0,0,0);
-    transition: var(--inputTransition);
-    height: 40px;
+    background-color: var(--componentInputInputBackgroundColor);
+    transition: var(--componentInputTransition);
+    height: var(--componentInputInputHeight);
 }
 
 .input:focus {
-    border: none;
+    border: var(--componentInputInputBorderFocus);
     outline: none;
 }
 
 .input:read-only {
-    background-color: var(--lightest);
-    color: var(--normal);
-    box-shadow: none;
-    border-radius: 4px;
+    background-color: var(--componentInputInputBackgroundColorReadOnly);
+    color: var(--componentInputInputColorReadOnly);
+    box-shadow: var(--componentInputInputBoxShadowReadOnly);
+    border-radius: var(--componentInputInputBorderRadiusReadOnly);
 }
 
 .input:read-only ~ .hideToggle {
-    background-color: var(--lighter);
+    background-color: var(--componentInputInputBackgroundColorReadOnlyHideToggle);
 }
 
 .hideToggle {
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: var(--inputTransition);
-    padding: 4px 10px 4px 0px;
-    padding: 8px;
+    transition: var(--componentInputHideToggleTransition);
+    padding: var(--componentInputHideTogglePadding);
 }
 
 .hideToggle:hover {
-    color: var(--primary2);
+    color: var(--componentInputHideToggleColorHover);
 }
 
 .errorMessage {
     min-width: 100%;
-    color: var(--primary3);
+    color: var(--componentInputErrorMessageColor);
     box-sizing: border-box;
     display: block;
-    font-size: 13px;
-    text-align: center;
-    margin-top: 10px;
+    font-size: var(--componentInputErrorMessageFontSize);
+    text-align: var(--componentInputErrorMessageTextAlign);
+    margin-top: var(--componentInputErrorMessageMarginTop);
 }

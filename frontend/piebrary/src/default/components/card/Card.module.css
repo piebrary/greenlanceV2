@@ -1,58 +1,63 @@
 .card {
-    border: var(--cardBorder);
-    border-radius: var(--cardBorderRadius);
-    background-color: var(--secondary3);
-    color: var(--dark);
+    border: var(--componentCardBorder);
+    border-radius: var(--componentCardBorderRadius);
+    background-color: var(--colorWhite);
+    color: var(--colorGreyDark);
     overflow: hidden;
-    height: 100%;
+    display:flex;
+    flex-direction:column;
 }
 
 .clickable:hover {
-    --titleBackgroundColorHover: var(--cardTitleBackgroundColorHover);
-    --titleColorHover: var(--cardTitleColorHover);
-    --bodyBackgroundColorHover: var(--cardBodyBackgroundColorHover);
-    --bodyColorHover: var(--cardBodyColorHover);
+    --titleBackgroundColorHover: var(--componentCardTitleBackgroundColorHover);
+    --titleColorHover: var(--componentCardTitleColorHover);
+    --bodyBackgroundColorHover: var(--componentCardBodyBackgroundColorHover);
+    --bodyColorHover: var(--componentCardBodyColorHover);
 }
 
 .clickable:hover .title {
     background-color: var(--titleBackgroundColorHover);
     color: var(--titleColorHover);
     cursor: pointer;
-    transition: var(--cardTransition);
+    transition: var(--componentCardTransition);
 }
 
 .clickable:hover .body {
     background-color: var(--bodyBackgroundColorHover);
     color: var(--bodyColorHover);
     cursor: pointer;
-    transition: var(--cardTransition);
+    transition: var(--componentCardTransition);
 }
 
 
 .title {
-    color: var(--cardTitleColor);
-    background-color: var(--cardTitleBackgroundColor);
-    padding: var(--cardTitlePadding);
+    color: var(--componentCardTitleColor);
+    background-color: var(--componentCardTitleBackgroundColor);
+    padding: var(--componentCardTitlePadding);
     user-select: none;
-    padding: var(--cardTitlePadding);
-    transition: var(--cardTransition);
-    word-wrap: break-word;
+    padding: var(--componentCardTitlePadding);
+    transition: var(--componentCardTransition);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: fit-content;
 }
 
 .description {
-    font-style: var(--cardDescriptionFontStyle);
-    background-color: var(--cardDescriptionBackgroundColor);
-    color: var(--cardDescriptionColor);
-    padding: var(--cardDescriptionPadding);
+    font-style: var(--componentCardDescriptionFontStyle);
+    background-color: var(--componentCardDescriptionBackgroundColor);
+    color: var(--componentCardDescriptionColor);
+    padding: var(--componentCardDescriptionPadding);
     user-select: none;
 }
 
 .body {
-    background-color: var(--cardBodyBackgroundColor);
-    color: var(--cardBodyColor);
-    padding: var(--cardBodyPadding);
-    transition: var(--cardTransition);
+    background-color: var(--componentCardBodyBackgroundColor);
+    color: var(--componentCardBodyColor);
+    padding: var(--componentCardBodyPadding);
+    transition: var(--componentCardTransition);
     word-wrap: break-word;
     display: flex;
     align-items: center;
+    flex: 1;
 }

@@ -1,18 +1,18 @@
 .container {
-    background-color: var(--lighter);
+    background-color: var(--componentSelectContainerBackgroundColor);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-radius: 4px;
-    padding: 10px;
+    border-radius: var(--componentSelectContainerBorderRadius);
+    padding: var(--componentSelectContainerPadding);
 }
 
 .select {
-    border: 0px;
-    border-radius: 4px;
-    font-size: 14px;
-    padding: 4px;
-    color: var(--dark);
+    border: var(--componentSelectSelectBorder);
+    border-radius: var(--componentSelectSelectBorderRadius);
+    font-size: var(--componentSelectSelectFontSize);
+    padding: var(--componentSelectSelectPadding);
+    color: var(--componentSelectSelectColor);
     cursor: pointer;
-    outline: none;
+    outline: var(--componentSelectSelectOutline);
 }

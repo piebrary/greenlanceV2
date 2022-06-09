@@ -36,7 +36,7 @@ export default function App() {
 
     const { authState } = useContext(AuthenticationContext)
     const { isAdmin } = useContext(UserContext)
-    const { setTheme } = useContext(ThemeContext)
+    const { setTheme, getCurrentTheme } = useContext(ThemeContext)
 
     useEffect(() => {
 
@@ -45,10 +45,10 @@ export default function App() {
     }, [])
 
     return (
-        <div>
+        <>
             <ReactNotifications
-                isMobile={config.MOBILE_BREAKPOINT ? true : false}
-                breakpoint={config.MOBILE_BREAKPOINT}
+                isMobile={getCurrentTheme().values.layoutBreakpoint ? true : false}
+                breakpoint={getCurrentTheme().values.layoutBreakpoint}
                 />
             {
                 authState === 'success'
@@ -76,6 +76,6 @@ export default function App() {
                 ? <LoginView />
                 : <p>Loading...</p>
             }
-        </div>
+        </>
     )
 }

@@ -1,10 +1,10 @@
 .container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: rgb(0, 0, 0, 0.8);
+    position: var(--componentConfirmContainerPosition);
+    top: var(--componentConfirmContainerTop);
+    left: var(--componentConfirmContainerLeft);
+    width: var(--componentConfirmContainerWidth);
+    height: var(--componentConfirmContainerHeight);
+    background-color: var(--componentConfirmContainerBackgroundColor);
     margin: 0px;
 }
 
@@ -16,39 +16,43 @@ html, body {
 .cardContainer {
     /* background-color: white; */
     /* position: fixed; */
-    min-width: fit-content;
-    max-width: 80%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
+    min-width: var(--componentConfirmCardContainerMinWidth);
+    max-width: var(--componentConfirmCardContainerMaxWidth);
+    position: var(--componentConfirmCardContainerPosition);
+    top: var(--componentConfirmCardContainerTop);
+    left: var(--componentConfirmCardContainerLeft);
     transform: translate(-50%, -50%);
 }
 
 .cardBody {
     display: flex;
     flex-direction: column;
-    font-size: 22px;
-    padding: 20px;
+    font-size: var(--componentConfirmBodyFontSize);
+    padding: var(--componentConfirmBodyPadding);
 }
 
 .buttonsButtonGroup {
-    margin-top: 50px;
+    margin-top: var(--componentConfirmButtonsGroupMarginTop);
     display: flex;
     justify-content: space-between;
 }
 
 .okBtnButton {
-    background-color: black;
-    padding: 10px;
-    font-size: 20px;
+    background-color: var(--componentConfirmOkBtnBackgroundColor);
+    padding: var(--componentConfirmOkBtnPadding);
+    font-size: var(--componentConfirmOkBtnFontSize);
+}
+
+.okBtnButton:hover {
+    background-color: var(--componentConfirmOkBtnBackgroundColorHover);
 }
 
 .cancelBtnButton {
-    background-color: black;
-    padding: 10px;
-    font-size: 20px;
+    background-color: var(--componentConfirmCancelBtnBackgroundColor);
+    padding: var(--componentConfirmCancelBtnPadding);
+    font-size: var(--componentConfirmCancelBtnFontSize);
 }
 
 .cancelBtnButton:hover {
-    background-color: var(--danger1);
+    background-color: var(--componentConfirmCancelBtnBackgroundColorHover);
 }

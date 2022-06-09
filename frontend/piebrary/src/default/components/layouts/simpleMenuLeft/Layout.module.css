@@ -15,7 +15,7 @@
 }
 
 .spacing {
-    height: calc(var(--menuHeight) - var(--contentSpacing));
+    height: calc(var(--menuHeight) - var(--layoutContentSpacing));
 }
 
 .header {
@@ -29,7 +29,7 @@
 
 .items {
     display: none;
-    color: white;
+    /* color: white; */
     flex-wrap: wrap;
     width: 100%;
 }
@@ -39,19 +39,17 @@
     width: 100%;
     user-select: none;
     text-align: center;
-    margin: 30px 0px 10px 0px;
+    margin: var(--menuLogoutBtnMargin);
 }
 
 .logout a {
-    color: white;
+    color: var(--menuLogoutBtnAColor);
     text-decoration: none;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    margin-right: 0px;
+    margin: var(--menuLogoutBtnAMargin);
 }
 
 .logout a:hover {
-    color: var(--primary3);
+    color: var(--menuLogoutBtnAColorHover);
 }
 
 .menuOpen {
@@ -61,58 +59,56 @@
 .controls {
     display: flex;
     justify-content: space-between;
-    margin: 0px 10px;
-    margin-left: auto;
+    margin: var(--menuControlsMargin);
 }
 
 .controls > *:only-child {
-    margin: 0px auto 0px 0px;
+    margin: var(--menuControlsMarginOnlyChild);
 }
 
 .group {
-    max-width: 100vw;
-    margin-top: 15px;
-    margin-bottom: 15px;
+    max-width: var(--menuGroupMaxWidth);
+    margin: var(--menuGroupMargin);
     display: block;
-    padding-left: 20px;
+    padding-left: var(--menuGroupPaddingLeft);
 }
 
 .group:first-child {
-    margin-top: 30px;
+    margin-top: var(--menuGroupMarginTopFirstChild);
 }
 
 .label {
     user-select: none;
-    color: var(--primary3);
+    color: var(--menuLabelColor);
     width: fit-content;
     display: block;
-    margin: 30px 20px 0px 0px;
+    margin: var(--menuLabelMargin);
 }
 
 .item {
     user-select: none;
-    color: white;
+    color: var(--menuItemColor);
     text-decoration: none;
     display: inline-block;
     width: fit-content;
-    margin: 10px 8px 0px 0px;
-    background-color: var(--darker);
-    border-radius: 4px;
-    padding: 10px;
+    margin: var(--menuItemMargin);
+    background-color: var(--menuItemBackgroundColor);
+    border-radius: var(--menuItemBorderRadius);
+    padding: var(--menuItemPadding);
 }
 
 .item:hover {
-    color: var(--primary3);
+    color: var(--menuItemColorHover);
 }
 
 .itemIcon {
     display: none;
-    height: 20px;
+    height: var(--menuItemIconHeight);
 }
 
 .itemText {
     display: inline-block;
-    padding-top: 1px;
+    padding-top: var(--menuItemTextPaddingTop);
 }
 
 .logo {
@@ -124,26 +120,26 @@
 
 .title {
     user-select: none;
-    color: var(--secondary3);
-    padding: 5px;
+    color: var(--menuTitleColorMobile);
+    padding: var(--menuTitlePaddingMobile);
     box-sizing: border-box;
     margin-left: calc(var(--menuLogoWidth) + 20px);
-    margin-top: 1px;
+    margin-top: var(--menuTitleMargin);
 }
 
 .toggle {
     display: block;
-    line-height: 10px;
+    line-height: var(--menuToggleLineHeight);
     cursor: pointer;
-    color: var(--secondary3);
-    padding: 5px;
+    color: var(--menuToggleColor);
+    padding: var(--menuTogglePadding);
 }
 
 .content {
 }
 
 .content > * {
-    margin: var(--contentSpacing);
+    margin: var(--layoutContentSpacing);
 }
 
 @media only screen and (min-width: 800px) {
@@ -167,13 +163,13 @@
 
     .header {
         width: 100%;
-        margin-top: 10px;
+        margin-top: var(--menuHeaderMarginTop);
         position: relative;
     }
 
     .content {
         width: 100%;
-        max-width: var(--maxContentWidth);
+        max-width: var(--layoutMaxWidth);
     }
 
     .logo {
@@ -182,18 +178,17 @@
     }
 
     .group:first-child {
-        margin-top: 30px;
+        margin-top: var(--menuGroupMarginTopFirstChild);
     }
 
     .group {
-        margin-top: 40px;
-        padding-left: 20px;
+        margin-top: var(--menuGroupMarginTop);
+        padding-left: var(--menuGroupPaddingLeft);
     }
 
     .controls {
-        margin: 0px;
-        margin-left: auto;
-        padding: 0px 10px;
+        margin: var(--menuControlsMargin);
+        padding: var(--menuControlsPadding);
         /* position: absolute; */
     }
 

@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 
+import { deepCopy } from '../utils/deepCopy'
+
 export const ThemeContext = createContext({})
 
 export default function ThemeContextProvider({ children }){
@@ -9,7 +11,7 @@ export default function ThemeContextProvider({ children }){
         'blue-grey':require('../../custom/themes/blue-grey'),
     }
 
-    const [currentTheme, setCurrentTheme] = useState()
+    const [currentTheme, setCurrentTheme] = useState('red-grey')
 
     function setTheme(themeName){
 
@@ -29,13 +31,23 @@ export default function ThemeContextProvider({ children }){
 
     function getCurrentTheme(){
 
-        return currentTheme
+        return {
+            name:currentTheme,
+            values:deepCopy(themes[currentTheme])
+        }
 
     }
 
     function getAvailableThemes(){
 
-        return Object.keys(themes)
+        return deepCopy(
+            Object.keys(themes).map(t => {
+                return {
+                    name:t,
+                    values:themes[t]
+                }
+            })
+        )
 
     }
 

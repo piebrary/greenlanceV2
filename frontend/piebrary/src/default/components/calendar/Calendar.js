@@ -10,11 +10,12 @@ import Button from '../button/Button'
 import { AiFillPlusCircle } from 'react-icons/ai'
 import { AiFillEdit } from 'react-icons/ai'
 
+import { createStyle } from '../../utils/createStyle'
 import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './Calendar.module.css'
 
-export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJSX, onSaveEvent, onDeleteEvent }){
+export default function Calendar({ customStyles, events, newEventJSX, editEventJSX, viewEventJSX, onSaveEvent, onDeleteEvent }){
 
     const { applyTranslation } = useContext(LanguageContext)
 
@@ -220,7 +221,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     row.push(
                         <td
                             key={d.dateFormatted}
-                            className={`${viewRange === 'month' && !d.isMainMonth ? styles.lowTransparency : ''}`}
+                            className={`${viewRange === 'month' && !d.isMainMonth && createStyle([styles, customStyles], 'lowTransparency')}`}
                             onClick={evt => {
 
                                 if(viewRange === 'month' && d.isMainMonth || viewRange !== 'month'){
@@ -236,13 +237,13 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                 || viewRange === 'month'
                                 ? (
                                     <div
-                                        className={`${styles.date} ${d.dateFormatted === moment().format('DD-MM-YYYY') ? styles.currentDay : ''}`}
+                                        className={`${createStyle([styles, customStyles], 'date')} ${d.dateFormatted === moment().format('DD-MM-YYYY') && createStyle([styles, customStyles], 'currentDay')}`}
                                     >
                                         {
                                             d.isMainMonth || viewRange === 'week'
                                             ? (
                                                 <AiFillPlusCircle
-                                                    className={`${viewRange === 'day' ? styles.createEventButton : styles.invisibleCreateEventButton}`}
+                                                    className={`${viewRange === 'day' ? createStyle([styles, customStyles], 'createEventButton') : createStyle([styles, customStyles], 'invisibleCreateEventButton')}`}
                                                     size={19}
                                                 />
                                             )
@@ -257,13 +258,13 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                                 range.length > 1 && range[j - 1].month !== d.month
                                             )
                                             ? (
-                                                <div className={styles.month}>
+                                                <div className={createStyle([styles, customStyles], 'month')}>
                                                     {d.month}
                                                 </div>
                                             )
                                             : null
                                         }
-                                        <div className={styles.dayOfMonth}>
+                                        <div className={createStyle([styles, customStyles], 'dayOfMonth')}>
                                             {d.dayOfMonth}
                                         </div>
                                     </div>
@@ -286,7 +287,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                         return (
                                             <div
                                                 key={event._id}
-                                                className={styles.eventContainer}
+                                                className={createStyle([styles, customStyles], 'eventContainer')}
                                                 onClick={evt => {
 
                                                     if(viewRange === 'month' && d.isMainMonth || viewRange !== 'month'){
@@ -308,8 +309,8 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                             {
                                 viewRange === 'day'
                                 ? (
-                                    <div className={styles.headerButtonGroup} style={{ margin: '10px auto 10px auto' }}>
-                                        <button className={styles.headerButton} onClick={evt => openDetailsView(evt, 'newEvent')} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems:'center', padding: '10px 25px 10px 10px' }}>
+                                    <div className={createStyle([styles, customStyles], 'headerButtonGroup')} style={{ margin: '10px auto 10px auto' }}>
+                                        <button className={createStyle([styles, customStyles], 'headerButton')} onClick={evt => openDetailsView(evt, 'newEvent')} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems:'center', padding: '10px 25px 10px 10px' }}>
                                             <AiFillPlusCircle size={25} style={{ margin: '15px' }}/>
                                             Create new event
                                         </button>
@@ -339,8 +340,8 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
     return (
         <>
         {
-            <div className={styles.container}>
-                <div className={styles.header}>
+            <div className={createStyle([styles, customStyles], 'container')}>
+                <div className={createStyle([styles, customStyles], 'header')}>
                     <ButtonGroup
                         customStyles={applyStyles([styles], 'controlGroup')}
                         >
@@ -506,13 +507,13 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                         )
                     }
                 </div>
-                <div className={styles.content}>
+                <div className={createStyle([styles, customStyles], 'content')}>
                     {
                         viewMode === 'calendar' && (
-                            <div className={styles.calendarContainer}>
+                            <div className={createStyle([styles, customStyles], 'calendarContainer')}>
                                 {
                                     viewRange === 'day' && (
-                                        <div className={styles.calendar}>
+                                        <div className={createStyle([styles, customStyles], 'calendar')}>
                                             <table>
                                                 <thead>
                                                     <tr>
@@ -528,7 +529,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                                 }
                                 {
                                     (viewRange === 'week' || viewRange === 'month') && (
-                                        <div className={styles.calendar}>
+                                        <div className={createStyle([styles, customStyles], 'calendar')}>
                                             <table>
                                                 <thead>
                                                     <tr>
@@ -553,16 +554,16 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     }
                     {
                         viewMode === 'list' && (
-                            <div className={styles.listContainer}>
+                            <div className={createStyle([styles, customStyles], 'listContainer')}>
                                 {
                                     events.map(event => {
 
                                         return (
-                                            <div className={styles.listItem} key={event._id}>
-                                                <div className={styles.listItemTitle}>
+                                            <div className={createStyle([styles, customStyles], 'listItem')} key={event._id}>
+                                                <div className={createStyle([styles, customStyles], 'listItemTitle')}>
                                                     {event.title}
                                                 </div>
-                                                <div className={styles.listItemContent}>
+                                                <div className={createStyle([styles, customStyles], 'listItemContent')}>
                                                     Start: {moment(event.start).format()} <br />
                                                     Until: {moment(event.end).format()} <br />
                                                     Description: {event.description} <br />
@@ -577,7 +578,7 @@ export default function Calendar({ events, newEventJSX, editEventJSX, viewEventJ
                     }
                     {
                         (viewMode === 'newEvent' || viewMode === 'editEvent' || viewMode === 'viewEvent') && (
-                            <div className={styles.detailsContainer}>
+                            <div className={createStyle([styles, customStyles], 'detailsContainer')}>
                                 {detailsJSX}
                             </div>
                         )

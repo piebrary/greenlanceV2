@@ -5,29 +5,16 @@
     flex-wrap: wrap;
 }
 
-.categoryContainer {
-    width: fit-content;
-    min-width: fit-content;
-    box-sizing: border-box;
-    max-width: 100%;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    padding: 4px;
-    height: 100%;
+.themesCardBody {
+    justify-content: center;
+    align-items: center;
 }
 
-.categoryLabel {
-    background-color: var(--darker);
-    padding: 10px;
-    width: fit-content;
-    border-radius: 4px;
-    margin-top: 20px;
-    margin-bottom: 5px;
-    color: white;
+.themeGridGrid {
+    grid-template-columns: repeat(auto-fill, 200px);
+    grid-auto-rows: 200px;
 }
 
-.content {
-    max-width: 400px;
-    margin: auto;
+.themesCardCard {
+    border-radius: 1000px;
 }

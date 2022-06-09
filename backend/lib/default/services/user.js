@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
+const profilePicturePath = path.join(__dirname, '../../../public/images/profile/')
 
 module.exports = mode => {
 

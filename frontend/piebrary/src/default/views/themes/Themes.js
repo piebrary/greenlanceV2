@@ -9,7 +9,7 @@ import { ThemeContext } from '../../contexts/ThemeContext'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout.js'
 import Card from '../../components/card/Card.js'
 import Button from '../../components/button/Button.js'
-import ButtonGroup from '../../components/buttonGroup/ButtonGroup.js'
+import Grid from '../../components/grid/Grid.js'
 
 import { menuitems } from '../../assets/js/menu/items'
 
@@ -23,33 +23,41 @@ export default function FormView(){
     const { isAdmin, settings } = useContext(UserContext)
     const { setTheme, getAvailableThemes } = useContext(ThemeContext)
 
+    createTranslation('ThemeView.Description', {
+        'en':'Click on a card below to load that theme',
+        'nl':'Klik op een kaart om het betreffende thema te laden'
+    })
+
     return (
         <Layout
             className={styles.container}
             items={menuitems({ isAdmin, applyTranslation })}
             title={applyTranslation('THEMES')}>
             <Card
-                customStyles={applyStyles([styles], 'card1')}
+                customStyles={applyStyles([styles], 'descriptionCard')}
                 >
-                <ButtonGroup>
-                    {
-                        getAvailableThemes().map(t => {
-
-                            return (
-                                    <Button
-                                        key={t}
-                                        label={t}
-                                        onClick={() => {
-
-                                            setTheme(t)
-
-                                        }}
-                                        />
-                            )
-                        })
-                    }
-                </ButtonGroup>
+                {applyTranslation('ThemeView.Description')}
             </Card>
+            <Grid
+                customStyles={applyStyles([styles], 'themeGrid')}
+                >
+                {
+                    getAvailableThemes().map(theme => {
+
+                        return (
+                            <Card
+                                key={theme.name}
+                                customStyles={applyStyles([styles], 'themesCard')}
+                                onClick={() => {
+                                    setTheme(theme.name)
+                                }}
+                                >
+                                {theme.name}
+                            </Card>
+                        )
+                    })
+                }
+            </Grid>
         </Layout>
     )
 }
