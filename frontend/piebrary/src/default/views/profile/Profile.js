@@ -66,16 +66,18 @@ export default function Profile(){
                                 />
                             <Input
                                 label={applyTranslation('FIRSTNAME')}
-                                name={'firstName'}
+                                name={'name.first'}
                                 type={'text'}
-                                defaultValue={userData.firstName}
+                                defaultValue={userData.name.first}
+                                register={register}
+                                errors={errors}
                                 customStyles={applyStyles([styles], 'inputField')}
                                 />
                             <Input
                                 label={applyTranslation('LASTNAME')}
-                                name={'lastName'}
+                                name={'name.last'}
                                 type={'text'}
-                                defaultValue={userData.lastName}
+                                defaultValue={userData.name.last}
                                 register={register}
                                 errors={errors}
                                 customStyles={applyStyles([styles], 'inputField')}

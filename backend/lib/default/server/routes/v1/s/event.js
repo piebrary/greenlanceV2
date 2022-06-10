@@ -4,7 +4,11 @@ module.exports = (express, config) => {
 
     let EventService
 
-    try { EventService = require('../../../../../custom/services/event') } catch { EventService = require('../../../../services/event') }
+    try {
+        EventService = require('../../../../../custom/services/event')
+    } catch {
+        EventService = require('../../../../../default/services/event')
+    }
 
     const apiPrefix = config.PREFIX
     const secret = config.SECRET

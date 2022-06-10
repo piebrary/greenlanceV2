@@ -2,13 +2,13 @@ module.exports = mode => {
 
     let UserModel, EventModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto
 
-    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../models/user') }
-    try { EventModel = require('../../custom/models/event') } catch { EventModel = require('../models/event') }
-    try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../handlers/notFound') }
-    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../handlers/success') }
-    try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../handlers/error') }
-    try { eventRequestDto = require('../../custom/dto/request/event') } catch { eventRequestDto = require('../dto/request/event') }
-    try { eventResponseDto = require('../../custom/dto/response/event') } catch { eventResponseDto = require('../dto/response/event') }
+    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
+    try { EventModel = require('../../custom/models/event') } catch { EventModel = require('../../default/models/event') }
+    try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
+    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
+    try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
+    try { eventRequestDto = require('../../custom/dto/request/event/event/') } catch { eventRequestDto = require('../../default/dto/request/event/event') }
+    try { eventResponseDto = require('../../custom/dto/response/event/event') } catch { eventResponseDto = require('../../default/dto/response/event/event') }
 
     return {
         getEvents,
@@ -64,7 +64,7 @@ module.exports = mode => {
             const user_id = req.user._id
 
             const eventDocument = await EventModel
-                .find({ users:user_id })
+                .find({ 'rights.view':user_id })
                 .exec()
 
             if(!eventDocument) return notFoundHandler('Event')
@@ -100,19 +100,29 @@ module.exports = mode => {
             const {
                 title,
                 body,
+                category,
                 time,
-                active,
-                creator
+                location,
+                recurring,
+                rights,
+                active
             } = eventRequestDto(req.body)
 
-            const { _id } = req.user
+            const user_id = req.user._id
 
             const newEventDocument = new EventModel({
                 title,
                 body,
+                category,
                 time,
+                location,
+                recurring,
+                rights:{
+                    view:[user_id],
+                    edit:[user_id]
+                },
                 active,
-                creator
+                creator:user_id
             })
 
             const result = await newEventDocument.save()
@@ -146,58 +156,40 @@ module.exports = mode => {
 
             const {
                 _id,
-                name,
-                description,
-                project,
+                title,
+                body,
+                category,
                 time,
-                location
+                location,
+                recurring,
+                rights,
+                active
             } = req.body
 
+            const user_id = req.user
+
             const eventDocument = await EventModel
-                .find({ _id })
+                .find({
+                    _id,
+                    'rights.edit':user_id
+                 })
                 .exec()
 
-            const { business_id } = req.user
+            if(!eventDocument){
 
-            const currentBusiness = await BusinessModel
-                .findOne({ users:business_id })
-                .exec()
-
-            if(eventDocument.business !== currentBusiness._id){
-
-                return errorHandler(403, 'Forbidden')
+                return notFoundHandler('Event')
 
             }
 
-            if(name){
+            if(title) eventDocument.title = title
+            if(body) eventDocument.body = body
+            if(category) eventDocument.category = category
+            if(time) eventDocument.time = time
+            if(location) eventDocument.location = location
+            if(recurring) eventDocument.recurring = recurring
+            if(rights) eventDocument.rights = rights
+            if(active) eventDocument.active = active
 
-                eventDocument.name = name
-
-            }
-
-            if(description){
-
-                eventDocument.description = description
-
-            }
-
-            if(project && currentBusiness.projects.includes(project)){
-
-                eventDocument.project = project
-
-            }
-
-            if(time){
-
-                eventDocument.time = time
-
-            }
-
-            if(location){
-
-                eventDocument.location = location
-
-            }
 
             const result = await eventDocument.save()
             const eventDocumentDto = eventResponseDto(result)
@@ -228,22 +220,17 @@ module.exports = mode => {
 
         try {
 
-            const { _id } = req.params
-
-            const { business_id } = req.user
-
-            const currentBusiness = await BusinessModel
-                .findOne({ users:business_id })
-                .exec()
+            const event_id = req.params._id
+            const user_id = req.user
 
             const eventDocument = await EventModel
                 .findOneAndDelete({
-                    business:currentBusiness._id,
-                    _id
+                    event_id,
+                    'rights.edit':user_id
                 })
                 .exec()
 
-            return successHandler(undefined, )
+            return successHandler(undefined)
 
         } catch (error) {
 

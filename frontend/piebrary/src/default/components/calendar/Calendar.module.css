@@ -28,7 +28,7 @@
 }
 
 .controlBtnButton {
-    background-color: var(--componentCalendarBackgroundColor);
+    background-color: var(--componentCalendarControlBtnBackgroundColor);
     color: var(--componentCalendarControlBtnColor);
     padding: var(--componentCalendarControlBtnPadding);
     cursor: pointer;

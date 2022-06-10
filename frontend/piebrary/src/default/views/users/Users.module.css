@@ -6,16 +6,16 @@
 
 .controlsSaveButton {
     padding: 8px 20px;
-    color: var(--dark);
-    background-color: var(--lighter);
+    color: var(--colorGreyDark);
+    background-color: var(--colorGreyLighter);
 }
 
 .controlsCloseButton {
-    color: var(--dark);
-    background-color: var(--lighter);
+    color: var(--colorGreyDark);
+    background-color: var(--colorGreyLighter);
     padding: 8px 20px;
 }
 
 .controlsCloseButton:hover {
-    background-color: var(--primary3);
+    background-color: var(--colorPrimary3);
 }

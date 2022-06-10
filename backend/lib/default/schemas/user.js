@@ -12,16 +12,6 @@ module.exports = new Schema({
         type: String,
         required: true,
     },
-    firstName: {
-        type: String
-    },
-    lastName: {
-        type: String
-    },
-    email: {
-        type: String,
-        required: true
-    },
     profilePicture: {
         type: String
     },
@@ -29,6 +19,59 @@ module.exports = new Schema({
         type: Array,
         required: true,
     },
+    name: {
+        first: {
+            type: String
+        },
+        last: {
+            type: String
+        }
+    },
+    email: [
+        {
+            label: {
+                type: String
+            },
+            email: {
+                type: String
+            }
+        }
+    ],
+    phone: [
+        {
+            label: {
+                type: String
+            },
+            number: {
+                type: String
+            }
+        }
+    ],
+    address: [
+        {
+            label: {
+                type: String
+            },
+            street: {
+                type: String
+            },
+            number: {
+                type: String
+            },
+            zipCode: {
+                type: String
+            },
+            city: {
+                type: String
+            },
+            province: {
+                type: String
+            },
+            country: {
+                type: String
+            },
+        }
+    ],
     settings: {
         language: {
             type: String,

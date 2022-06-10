@@ -1,8 +1,7 @@
 module.exports = () => {
 
-    return {
-        code:200,
-        message:'Server is online'
-    }
+    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
+
+    return successHandler(undefined, 'Server is online')
 
 }

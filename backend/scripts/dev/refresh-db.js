@@ -1,12 +1,10 @@
 const axios = require('axios')
 
-const UserModel = require('../../lib/models/user')
-const EventModel = require('../../lib/models/event')
-
-const encryptPassword = require('../../lib/utils/encryptPassword')
 const dbConfig = require('../../../config/db')
 const serverConfig = require('../../../config/server')
 const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
+
+let UserModel, EventModel, encryptPassword, db
 
 ;(async () => {
 
@@ -20,7 +18,29 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
 
         }
 
-        const db = await require('../../lib/server/db.js')(dbConfig)
+        try {
+            UserModel = require('../../lib/custom/models/user')
+        } catch {
+            UserModel = require('../../lib/default/models/user')
+        }
+
+        try {
+            EventModel = require('../../lib/custom/models/event')
+        } catch {
+            EventModel = require('../../lib/default/models/event')
+        }
+
+        try {
+            encryptPassword = require('../../lib/custom/utils/encryptPassword')
+        } catch {
+            encryptPassword = require('../../lib/default/utils/encryptPassword')
+        }
+
+        try {
+            db = await require('../../lib/custom/server/db.js')(dbConfig)
+        } catch {
+            db = await require('../../lib/default/server/db.js')(dbConfig)
+        }
 
         await UserModel.collection?.dropIndexes()
         await UserModel.collection?.drop()
@@ -31,10 +51,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
         await createFirstUser({
             username:'admin1',
             password:'password1',
-            email:'admin1@admins.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['admin'],
-            firstName:'Admin',
-            lastName:'One',
+            name: { first:'Admin', last:'One' }
         })
 
         await createUser({
@@ -46,10 +65,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'admin2@admins.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['admin'],
-            firstName:'Admin',
-            lastName:'Two',
+            name: { first:'Admin', last:'Two' }
         })
 
         await createUser({
@@ -61,10 +79,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'admin3@admins.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['admin'],
-            firstName:'Admin',
-            lastName:'Three',
+            name: { first:'Admin', last:'Three' }
         })
 
         await createUser({
@@ -76,10 +93,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'admin4@admins.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['admin'],
-            firstName:'Admin',
-            lastName:'Four',
+            name: { first:'Admin', last:'Four' }
         })
 
         await createUser({
@@ -91,10 +107,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'admin5@admins.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['admin'],
-            firstName:'Admin',
-            lastName:'Five',
+            name: { first:'Admin', last:'Three' }
         })
 
         await createUser({
@@ -106,10 +121,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'superuser1@superusers.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['superuser'],
-            firstName:'Superuser',
-            lastName:'One',
+            name: { first:'Superuser', last:'One' }
         })
 
         await createUser({
@@ -121,10 +135,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'superuser2@superusers.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['superuser'],
-            firstName:'Superuser',
-            lastName:'Two',
+            name: { first:'Superuser', last:'Two' }
         })
 
         await createUser({
@@ -136,10 +149,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'superuser3@superusers.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['superuser'],
-            firstName:'Superuser',
-            lastName:'Three',
+            name: { first:'Superuser', last:'Three' }
         })
 
         await createUser({
@@ -151,10 +163,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'user1@users.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['user'],
-            firstName:'User',
-            lastName:'One',
+            name: { first:'User', last:'One' }
         })
 
         await createUser({
@@ -166,10 +177,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'user2@users.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['user'],
-            firstName:'User',
-            lastName:'Two',
+            name: { first:'User', last:'Two' }
         })
 
         await createUser({
@@ -181,10 +191,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'user3@users.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['user'],
-            firstName:'User',
-            lastName:'Three',
+            name: { first:'User', last:'Three' }
         })
 
         await createUser({
@@ -196,10 +205,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'user4@users.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['user'],
-            firstName:'User',
-            lastName:'Four',
+            name: { first:'User', last:'Four' }
         })
 
         await createUser({
@@ -211,10 +219,9 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:'user5@users.com',
+            email:{ label:'email1', email:'admin1@admins.com' },
             roles:['user'],
-            firstName:'User',
-            lastName:'Five',
+            name: { first:'User', last:'Five' }
         })
 
         await createEvent({
@@ -224,8 +231,8 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             title:'1 name',
             body:'event from user1',
             time:{
-                start:1645660801000,
-                end:1645680801000
+                from:1645660801000,
+                until:1645680801000
             },
             active:true
         })
@@ -237,8 +244,8 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             title:'2 name',
             body:'project van user1',
             time:{
-                start:1645660801000,
-                end:1645680801000
+                from:1645660801000,
+                until:1645680801000
             },
             active:true
         })
@@ -250,8 +257,8 @@ const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
             title:'3 name',
             body:'3 description',
             time:{
-                start:1645660801000,
-                end:1645680801000
+                from:1645660801000,
+                until:1645680801000
             },
             active:true
         })
@@ -326,6 +333,7 @@ async function createFirstUser(data){
     newUserDocument.passwordHash = await encryptPassword(data.password)
     newUserDocument.email = data.email
     newUserDocument.roles = data.roles
+    newUserDocument.name = data.name
 
     await newUserDocument.save()
 

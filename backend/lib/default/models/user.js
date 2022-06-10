@@ -2,7 +2,11 @@ const mongoose = require('mongoose')
 
 let userSchema
 
-try { userSchema = require('../../custom/schemas/user') } catch { userSchema = require('../schemas/user') }
+try {
+    userSchema = require('../../custom/schemas/user')
+} catch {
+    userSchema = require('../../default/schemas/user')
+}
 
 userSchema.virtual('isAdmin')
     .get(function(){

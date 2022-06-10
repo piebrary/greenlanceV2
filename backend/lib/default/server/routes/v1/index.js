@@ -2,7 +2,11 @@ let serverInfoService
 
 module.exports = (express, config) => {
 
-    try { serverInfoService = require('../../../../custom/services/serverInfo') } catch { serverInfoService = require('../../../services/serverInfo') }
+    try {
+        serverInfoService = require('../../../../custom/services/serverInfo')
+    } catch {
+        serverInfoService = require('../../../../default/services/serverInfo')
+    }
 
     const prefix = config.PREFIX
 
@@ -12,7 +16,7 @@ module.exports = (express, config) => {
 
         res
             .status(serverInfo.status)
-            .send(serverInfo.message)
+            .send(serverInfo.body)
 
     })
 

@@ -36,19 +36,13 @@ export default function App() {
 
     const { authState } = useContext(AuthenticationContext)
     const { isAdmin } = useContext(UserContext)
-    const { setTheme, getCurrentTheme } = useContext(ThemeContext)
-
-    useEffect(() => {
-
-        setTheme(config.THEME)
-
-    }, [])
+    const { setTheme, currentTheme } = useContext(ThemeContext)
 
     return (
         <>
             <ReactNotifications
-                isMobile={getCurrentTheme().values.layoutBreakpoint ? true : false}
-                breakpoint={getCurrentTheme().values.layoutBreakpoint}
+                isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
+                breakpoint={currentTheme?.values?.layoutBreakpoint}
                 />
             {
                 authState === 'success'

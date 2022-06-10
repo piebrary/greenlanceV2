@@ -1,5 +1,7 @@
 import { createContext, useState, useEffect } from 'react'
 
+import config from '../../config/config'
+
 import { deepCopy } from '../utils/deepCopy'
 
 export const ThemeContext = createContext({})
@@ -7,11 +9,21 @@ export const ThemeContext = createContext({})
 export default function ThemeContextProvider({ children }){
 
     const themes = {
-        'red-grey':require('../themes/red-grey'),
-        'blue-grey':require('../../custom/themes/blue-grey'),
+        'default':require('../themes/default'),
+        'red':require('../themes/red'),
+        'green':require('../themes/green'),
     }
 
-    const [currentTheme, setCurrentTheme] = useState('red-grey')
+    const [currentTheme, setCurrentTheme] = useState({
+        name:'default',
+        values:deepCopy(themes['default'])
+    })
+
+    useEffect(() => {
+
+        if(config?.THEME && themes[config.THEME]) setTheme(config.THEME)
+
+    }, [])
 
     function setTheme(themeName){
 
@@ -23,17 +35,11 @@ export default function ThemeContextProvider({ children }){
 
             }
 
-            setCurrentTheme(themeName)
+            setCurrentTheme({
+                name:themeName,
+                values:deepCopy(themes[currentTheme])
+            })
 
-        }
-
-    }
-
-    function getCurrentTheme(){
-
-        return {
-            name:currentTheme,
-            values:deepCopy(themes[currentTheme])
         }
 
     }
@@ -53,7 +59,7 @@ export default function ThemeContextProvider({ children }){
 
     const contextData = {
         setTheme,
-        getCurrentTheme,
+        currentTheme,
         getAvailableThemes,
     }
 

@@ -12,7 +12,10 @@ export default function UserContextProvider({ children }){
 
     const [id, setId] = useState()
     const [username, setUsername] = useState()
+    const [name, setName] = useState()
     const [email, setEmail] = useState()
+    const [phone, setPhone] = useState()
+    const [address, setAddress] = useState()
     const [roles, setRoles] = useState()
     const [settings, setSettings] = useState()
     const [profilePicture, setProfilePicture] = useState()
@@ -21,7 +24,10 @@ export default function UserContextProvider({ children }){
     const contextData = {
         id,
         username,
+        name,
         email,
+        phone,
+        address,
         roles,
         isAdmin,
         isSuperuser,
@@ -78,7 +84,10 @@ export default function UserContextProvider({ children }){
 
         setId(data._id)
         setUsername(data.username)
+        setName(data.name)
         setEmail(data.email)
+        setPhone(data.phone)
+        setAddress(data.address)
         setRoles(data.roles)
 
         setSettings(data.settings)
@@ -93,7 +102,10 @@ export default function UserContextProvider({ children }){
 
         setId(undefined)
         setUsername(undefined)
+        setName(undefined)
         setEmail(undefined)
+        setPhone(undefined)
+        setAddress(undefined)
         setRoles(undefined)
 
         setSettings(undefined)

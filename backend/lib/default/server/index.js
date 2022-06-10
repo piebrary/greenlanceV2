@@ -9,13 +9,21 @@ const dbConfig = require('../../../../config/db')
 
 module.exports = async () => {
 
+    let logger, db
+
     try {
 
-        let logger, db
+        try {
+            logger = require('../../custom/utils/logger')(serverConfig)
+        } catch {
+            logger = require('../../default/utils/logger')
+        }
 
-        try { logger = require('../../custom/utils/logger')(serverConfig) } catch { logger = require('../utils/logger') }
-
-        try { db = await require('../../custom/db.js')(dbConfig) } catch { db = await require('./db.js')(dbConfig) }
+        try {
+            db = await require('../../custom/server/db.js')(dbConfig)
+        } catch {
+            db = await require('../../default/server/db.js')(dbConfig)
+        }
 
         const port = serverConfig.PORT
         const express = Express()
@@ -26,12 +34,40 @@ module.exports = async () => {
 
         express.use('/public', Express.static(path.join(__dirname, '../../../public')))
 
-        try { require('../../custom/server/auth.js')(serverConfig) } catch { require('./auth.js')(serverConfig) }
+        try {
+            require('../../custom/server/auth.js')(serverConfig)
+            require('../../default/server/auth.js')(serverConfig)
+        } catch {
+            require('../../default/server/auth.js')(serverConfig)
+        }
 
-        try { require('../../custom/server/routes/login')(express, serverConfig) } catch { require('./routes/login')(express, serverConfig) }
-        try { require('../../custom/server/routes/v1')(express, serverConfig) } catch { require('./routes/v1')(express, serverConfig) }
-        try { require('../../custom/server/routes/v1/s/user')(express, serverConfig) } catch { require('./routes/v1/s/user')(express, serverConfig) }
-        try { require('../../custom/server/routes/v1/s/event')(express, serverConfig) } catch { require('./routes/v1/s/event')(express, serverConfig) }
+        try {
+            require('../../custom/server/routes/login')(express, serverConfig)
+            require('../../default/server/routes/login')(express, serverConfig)
+        } catch {
+            require('../../default/server/routes/login')(express, serverConfig)
+        }
+
+        try {
+            require('../../custom/server/routes/v1')(express, serverConfig)
+            require('../../default/server/routes/v1')(express, serverConfig)
+        } catch {
+            require('../../default/server/routes/v1')(express, serverConfig)
+        }
+
+        try {
+            require('../../custom/server/routes/v1/s/user')(express, serverConfig)
+            require('../../default/server/routes/v1/s/user')(express, serverConfig)
+        } catch {
+            require('../../default/server/routes/v1/s/user')(express, serverConfig)
+        }
+
+        try {
+            require('../../custom/server/routes/v1/s/event')(express, serverConfig)
+            require('../../default/server/routes/v1/s/event')(express, serverConfig)
+        } catch {
+            require('../../default/server/routes/v1/s/event')(express, serverConfig)
+        }
 
         express.listen(
             port,

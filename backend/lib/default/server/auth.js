@@ -7,9 +7,17 @@ module.exports = config => {
 
     let logger, UserModel
 
-    try { logger = require('../../custom/utils/logger') } catch { logger = require('../utils/logger') }
+    try {
+        logger = require('../../custom/utils/logger')
+    } catch {
+        logger = require('../../default/utils/logger')
+    }
 
-    try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../models/user') }
+    try {
+        UserModel = require('../../custom/models/user')
+    } catch {
+        UserModel = require('../../default/models/user')
+    }
 
     passport.use(new LocalStrategy(
 

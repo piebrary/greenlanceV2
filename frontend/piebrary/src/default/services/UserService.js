@@ -49,6 +49,8 @@ export async function postUser(data){
 
 export async function putUser(data){
 
+    console.log(data)
+
     const options = {
         url:`/api/v1/s/user${data._id ? '/' + data._id : ''}`,
         method:'PUT',

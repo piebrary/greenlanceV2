@@ -45,7 +45,7 @@ export default function Users(){
         },
         {
             Header: applyTranslation('EMAIL'),
-            accessor: 'email',
+            accessor: data => data.email.map(e => e.email).join(', '),
         },
         ...rolesOptions.map(r => {
             return {

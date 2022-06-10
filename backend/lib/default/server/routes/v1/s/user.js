@@ -4,7 +4,11 @@ module.exports = (express, config) => {
 
     let UserService, upload
 
-    try { UserService = require('../../../../../custom/services/user') } catch { UserService = require('../../../../services/user') }
+    try {
+        UserService = require('../../../../../custom/services/user')
+    } catch {
+        UserService = require('../../../../../default/services/user')
+    }
 
     const prefix = config.PREFIX
     const secret = config.SECRET
@@ -12,7 +16,11 @@ module.exports = (express, config) => {
 
     const userService = UserService(mode)
 
-    try { upload = require('../../../../../custom/utils/uploadProfilePictureMiddleware') } catch { upload = require('../../../../utils/uploadProfilePictureMiddleware') }
+    try {
+        upload = require('../../../../../custom/utils/uploadProfilePictureMiddleware')
+    } catch {
+        upload = require('../../../../../default/utils/uploadProfilePictureMiddleware')
+    }
 
     express.get(
         prefix + '/v1/s/user',
@@ -24,6 +32,20 @@ module.exports = (express, config) => {
             res
                 .status(userData.status)
                 .send(userData.body)
+
+        }
+    )
+
+    express.get(
+        prefix + '/v1/s/user',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const userData = await userService.getUser(req)
+
+            res
+                .status(userData.status)
+                .send('test')
 
         }
     )

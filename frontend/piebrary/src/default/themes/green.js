@@ -2,12 +2,12 @@ module.exports = (() => {
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
-    const colorPrimary1 = 'rgb(169, 0, 17)'
-    const colorPrimary2 = 'rgb(209, 29, 39)'
-    const colorPrimary3 = 'rgb(229, 60, 56)'
-    const colorPrimary4 = 'rgb(255, 100, 76)'
-    const colorPrimary5 = 'rgb(255, 120, 96)'
-    const colorPrimary6 = 'rgb(255, 140, 116)'
+    const colorPrimary1 = '#6D8700'
+    const colorPrimary2 = '#9DB300'
+    const colorPrimary3 = '#BAC600'
+    const colorPrimary4 = '#C8D741'
+    const colorPrimary5 = '#D8E46B'
+    const colorPrimary6 = '#E2F1A0'
     const colorWhite = 'rgb(255, 255, 255)'
     const colorGreyLightest = 'rgb(245, 245, 245)'
     const colorGreyLighter = 'rgb(232, 232, 232)'
@@ -183,6 +183,7 @@ module.exports = (() => {
     const componentCalendarHeaderPadding = '4px'
     const componentCalendarContentPadding = '10px'
     const componentCalendarControlBtnColor = colorGreyDark
+    const componentCalendarControlBtnBackgroundColor = colorWhite
     const componentCalendarControlBtnPadding = '6px 12px'
     const componentCalendarControlBtnMargin = '0px'
     const componentCalendarControlBtnFont = 'Montserrat'
@@ -578,6 +579,7 @@ module.exports = (() => {
         componentCalendarWidth,
         componentCalendarFontSize,
         componentCalendarBackgroundColor,
+        componentCalendarControlBtnBackgroundColor,
         componentCalendarHeaderPadding,
         componentCalendarContentPadding,
         componentCalendarControlBtnColor,

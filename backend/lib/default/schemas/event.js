@@ -9,24 +9,48 @@ module.exports = new Schema({
     body:{
         type: String
     },
+    category:{
+        type: String
+    },
     time:{
-        start: {
+        from: {
             type: Number,
             required: true,
         },
-        end: {
+        until: {
             type: Number,
             required: true
         },
     },
-    users:{
-        type: [mongoose.Schema.Types.ObjectId],
-        ref: 'User',
+    location:{
+        start: {
+            type: String,
+        },
+        end: {
+            type: String,
+        },
+    },
+    recurring:{
+        interval: {
+            type: String,
+        },
+        until: {
+            type: Number,
+        },
     },
     creator:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        required: true
+        ref: 'User'
+    },
+    rights:{
+        view:{
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User',
+        },
+        edit:{
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User',
+        },
     },
     active:{
         type: Boolean,
