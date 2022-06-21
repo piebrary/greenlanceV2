@@ -46,8 +46,26 @@ export default function Layout({ items = [], children, customStyles, title, cont
     return (
         <div className={styles.layoutContainer}>
             <div className={createStyle([styles, customStyles], 'menu')}>
-                <div className={createStyle([styles, customStyles], 'logo')}>
-                    <Logo />
+                <div className={createStyle([styles, customStyles], 'headerResponsive')}>
+                    <div className={createStyle([styles, customStyles], 'logo')}>
+                        <Logo />
+                    </div>
+                    {
+                        title && (
+                            <div className={createStyle([styles, customStyles], 'titleResponsive')}>
+                                {title}
+                            </div>
+                        )
+                    }
+                    <div
+                        className={createStyle([styles, customStyles], 'toggle')}
+                        onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
+                        {
+                            isMenuOpen
+                            ? <IoIosArrowUp size={40} />
+                            : <BiMenu size={40} />
+                        }
+                    </div>
                 </div>
                 <div className={menuClassList.join(' ')}>
                     {
@@ -126,19 +144,8 @@ export default function Layout({ items = [], children, customStyles, title, cont
                             </div>
                         )
                     }
-                    <div className={createStyle([styles, customStyles], 'controls')}>
-                        {controls}
-                    </div>
-                    <div
-                        className={createStyle([styles, customStyles], 'toggle')}
-                        onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
-                        {
-                            isMenuOpen
-                            ? <IoIosArrowUp size={40} />
-                            : <BiMenu size={40} />
-                        }
-                    </div>
                 </div>
+                {/*<div className={styles.headerSpacing}></div> */}
                 <div className={createStyle([styles, customStyles], 'content')}>
                     {children}
                 </div>

@@ -1,0 +1,33 @@
+.container {
+    background-color: var(--componentSelectContainerBackgroundColor);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--componentSelectContainerBorderRadius);
+    padding: var(--componentSelectContainerPadding);
+}
+
+.select {
+    border: var(--componentSelectSelectBorder);
+    border-radius: var(--componentSelectSelectBorderRadius);
+    font-size: var(--componentSelectSelectFontSize);
+    padding: var(--componentSelectSelectPadding);
+    color: var(--componentSelectSelectColor);
+    cursor: pointer;
+    outline: var(--componentSelectSelectOutline);
+    width: 300px;
+    height: 40px;
+    transition: 0.3s ease-in-out;
+    background-color: var(--componentInputInputFieldBackgroundColor);
+}
+
+.select:focus-within, .select:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorPrimary3);
+    transition: 0.3s ease-in-out;
+}
+
+.select option {
+    color: black;
+    background-color: white;
+}

@@ -51,7 +51,7 @@ let UserModel, EventModel, encryptPassword, db
         await createFirstUser({
             username:'admin1',
             password:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'admin1@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'One' }
         })
@@ -65,7 +65,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'admin2@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Two' }
         })
@@ -79,7 +79,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'admin3@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -93,7 +93,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'admin4@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Four' }
         })
@@ -107,7 +107,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'admin5@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -121,7 +121,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'superuser1@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'One' }
         })
@@ -135,7 +135,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'superuser2@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'Two' }
         })
@@ -149,7 +149,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'superuser3@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'Three' }
         })
@@ -163,7 +163,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'One' }
         })
@@ -177,7 +177,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Two' }
         })
@@ -191,7 +191,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Three' }
         })
@@ -205,7 +205,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Four' }
         })
@@ -219,7 +219,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:{ label:'email1', email:'admin1@admins.com' },
+            email:[{ label:'email1', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Five' }
         })
@@ -231,8 +231,18 @@ let UserModel, EventModel, encryptPassword, db
             title:'1 name',
             body:'event from user1',
             time:{
-                from:1645660801000,
-                until:1645680801000
+                from:Date.now() - (1000 * 60 * 60 * 24 * 2),
+                until:Date.now() - (1000 * 60 * 60 * 24 * 2) + (1000 * 60 * 60)
+            },
+            location:{
+                start:{
+                    street:'Klein Grachtje',
+                    number:'5',
+                    zipCode:'8021 JD',
+                    city:'Zwolle',
+                    province:'Overijssel',
+                    country:'Nederland'
+                }
             },
             active:true
         })
@@ -244,8 +254,8 @@ let UserModel, EventModel, encryptPassword, db
             title:'2 name',
             body:'project van user1',
             time:{
-                from:1645660801000,
-                until:1645680801000
+                from:Date.now() + (1000 * 60 * 60 * 24 * 1),
+                until:Date.now() + (1000 * 60 * 60 * 24 * 1) + (1000 * 60 * 60)
             },
             active:true
         })
@@ -257,8 +267,8 @@ let UserModel, EventModel, encryptPassword, db
             title:'3 name',
             body:'3 description',
             time:{
-                from:1645660801000,
-                until:1645680801000
+                from:Date.now() + (1000 * 60 * 60 * 24 * 3),
+                until:Date.now() + (1000 * 60 * 60 * 24 * 3) + (1000 * 60 * 60)
             },
             active:true
         })

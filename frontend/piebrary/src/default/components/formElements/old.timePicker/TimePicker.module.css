@@ -7,6 +7,10 @@
     padding: var(--componentTimePickerContainerPadding);
 }
 
+.label {
+    font-size: var(--componentInputInputFontSize);
+}
+
 .timeContainer {
     margin-left: var(--componentTimePickerTimeContainerMarginLeft);
     flex-grow: 1;

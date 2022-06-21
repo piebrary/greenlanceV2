@@ -18,7 +18,7 @@
 }
 
 .categoryLabel {
-    background-color: var(--darker);
+    background-color: var(--colorGreyDarker);
     padding: 10px;
     width: fit-content;
     border-radius: 4px;

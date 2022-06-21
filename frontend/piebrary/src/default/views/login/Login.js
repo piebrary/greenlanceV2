@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form"
 import { AuthenticationContext } from '../../contexts/AuthenticationContext'
 
 import Form from '../../components/form/Form'
-import Input from '../../components/input/Input'
+import Input from '../../components/formElements/input/Input'
 import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 

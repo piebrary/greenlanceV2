@@ -2,12 +2,12 @@ import { useState, useEffect, useContext } from 'react'
 
 import moment from 'moment'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
-import { UserContext } from '../../contexts/UserContext'
+import { LanguageContext } from '../../../contexts/LanguageContext'
+import { UserContext } from '../../../contexts/UserContext'
 
-import Button from '../button/Button'
-import ButtonGroup from '../buttonGroup/ButtonGroup'
-import Grid from '../grid/Grid'
+import Button from '../../button/Button'
+import ButtonGroup from '../../buttonGroup/ButtonGroup'
+import Grid from '../../grid/Grid'
 
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdOutlineNavigateBefore } from 'react-icons/md'
@@ -15,19 +15,19 @@ import { MdOutlineNavigateNext } from 'react-icons/md'
 
 import styles from './DatePicker.module.css'
 
-import { createStyle } from '../../utils/createStyle'
-import { applyStyles } from '../../utils/applyStyles'
+import { createStyle } from '../../../utils/createStyle'
+import { applyStyles } from '../../../utils/applyStyles'
 
-export default function DatePicker({ customStyles, label, name, min, max, startDate, register, setValue }){
+export default function DatePicker({ customStyles, label, name, min, max, defaultValue, register, setValue }){
 
     const { applyTranslation } = useContext(LanguageContext)
     const { settings } = useContext(UserContext)
 
-    min = min ? moment(min) : moment(1)
-    max = max ? moment(max) : moment(Number.MAX_VALUE)
-    startDate = startDate ? moment(startDate) : moment()
+    min = min ? moment(min) : undefined
+    max = max ? moment(max) : undefined
+    defaultValue = defaultValue ? moment(defaultValue) : moment()
 
-    const startDateWithBoundaries = createDateWithBoundaries(startDate, min, max)
+    const startDateWithBoundaries = createDateWithBoundaries(defaultValue, min, max)
 
     const [currentOpenPicker, setCurrentOpenPicker] = useState()
     const [selectedDate, setSelectedDate] = useState(startDateWithBoundaries)
@@ -205,7 +205,7 @@ export default function DatePicker({ customStyles, label, name, min, max, startD
                 <input
                     className={createStyle([styles, customStyles], 'selectedDate')}
                     onClick={() => currentOpenPicker !== 'day' ? setCurrentOpenPicker('day') : setCurrentOpenPicker() }
-                    defaultValue={moment(startDate).format(settings.dateFormat)}
+                    defaultValue={moment(defaultValue).format(settings.dateFormat)}
                     readOnly={true}
                     {...reg}
                     />

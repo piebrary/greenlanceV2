@@ -7,6 +7,8 @@ module.exports = () => {
         "RESET":"Herstellen",
         "APPLY":"Toepassen",
         "CANCEL":"Annuleren",
+        "DELETE":"Verwijderen",
+        "EDIT":"Bewerken",
 
         // auth
         "LOG_IN":"Log in",

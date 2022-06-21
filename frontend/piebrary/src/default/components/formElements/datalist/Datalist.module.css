@@ -7,7 +7,7 @@
     padding: var(--componentSelectContainerPadding);
 }
 
-.select {
+.datalist {
     border: var(--componentSelectSelectBorder);
     border-radius: var(--componentSelectSelectBorderRadius);
     font-size: var(--componentSelectSelectFontSize);
@@ -15,4 +15,17 @@
     color: var(--componentSelectSelectColor);
     cursor: pointer;
     outline: var(--componentSelectSelectOutline);
+    width: 300px;
+    transition: 0.3s ease-in-out;
+}
+
+.datalist:focus-within, .datalist:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorPrimary3);
+    transition: 0.3s ease-in-out;
+}
+
+.datalist option {
+    color: black;
+    background-color: white;
 }

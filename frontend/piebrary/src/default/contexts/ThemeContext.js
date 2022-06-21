@@ -9,9 +9,9 @@ export const ThemeContext = createContext({})
 export default function ThemeContextProvider({ children }){
 
     const themes = {
-        'default':require('../themes/default'),
-        'red':require('../themes/red'),
-        'green':require('../themes/green'),
+        'default':require('../../default/themes/default'),
+        'red':require('../../default/themes/red'),
+        'green':require('../../default/themes/green'),
     }
 
     const [currentTheme, setCurrentTheme] = useState({

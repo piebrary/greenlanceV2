@@ -48,11 +48,11 @@ module.exports = document => {
         _id,
         username,
         name:nameRequestDto(name),
-        email:email.map(obj => emailRequestDto(obj)),
-        phone:phone.map(obj => phoneRequestDto(obj)),
-        address:address.map(obj => addressRequestDto(obj)),
+        email:email && Array.isArray(email) && email.map(obj => emailRequestDto(obj)),
+        phone:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
+        address:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
         roles,
-        settings:settingsRequestDto(settings),
+        settings:settings && settingsRequestDto(settings),
         profilePicture,
     }
 

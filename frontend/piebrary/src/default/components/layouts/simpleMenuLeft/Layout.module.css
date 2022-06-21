@@ -12,19 +12,23 @@
     display: flex;
     flex-direction: column;
     height: auto;
+    /* position: fixed;
+    z-index: 1000;
+    overflow-y: auto; */
 }
 
-.spacing {
-    height: calc(var(--menuHeight) - var(--layoutContentSpacing));
+.headerResponsive {
+    display: flex;
+    align-items: center;
+    /* position: fixed; */
+    /* top: 0px;
+    left: 0px; */
+    z-index: 1001;
+    width: auto;
 }
 
 .header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    top: 0px;
-    left: 0px;
+    display: none;
 }
 
 .items {
@@ -40,6 +44,7 @@
     user-select: none;
     text-align: center;
     margin: var(--menuLogoutBtnMargin);
+    color: var(--menuLogoutBtnAColor);
 }
 
 .logout a {
@@ -118,21 +123,26 @@
     height: var(--menuHeight);
 }
 
-.title {
+.titleResponsive {
     user-select: none;
     color: var(--menuTitleColorMobile);
     padding: var(--menuTitlePaddingMobile);
     box-sizing: border-box;
-    margin-left: calc(var(--menuLogoWidth) + 20px);
     margin-top: var(--menuTitleMargin);
+    padding-left: 20px;
+    flex-grow: 1;
+}
+
+.title {
+    display: none;
 }
 
 .toggle {
-    display: block;
     line-height: var(--menuToggleLineHeight);
     cursor: pointer;
     color: var(--menuToggleColor);
     padding: var(--menuTogglePadding);
+    padding-right: 14px;
 }
 
 .content {
@@ -165,6 +175,11 @@
         width: 100%;
         margin-top: var(--menuHeaderMarginTop);
         position: relative;
+        display: block;
+    }
+
+    .headerSpacing {
+        height: 0px;
     }
 
     .content {
@@ -192,8 +207,12 @@
         /* position: absolute; */
     }
 
+    .titleResponsive {
+        display: none;
+    }
+
     .title {
-        /* left: var(--menuWidth); */
+        left: var(--menuWidth);
         margin: 0px 0px 0px 10px;
         /* position: absolute; */
         width: fit-content;
@@ -202,6 +221,7 @@
         background-color: var(--menuTitleBackgroundColor);
         color: var(--menuTitleColor);
         padding: var(--menuTitlePadding);
+        display: block;
     }
 
     .spacing {

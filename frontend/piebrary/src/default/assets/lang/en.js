@@ -7,6 +7,8 @@ module.exports = () => {
         "RESET":"Reset",
         "APPLY":"Apply",
         "CANCEL":"Cancel",
+        "DELETE":"Delete",
+        "EDIT":"Edit",
 
         // login.js
         "LOG_IN":"Log in",

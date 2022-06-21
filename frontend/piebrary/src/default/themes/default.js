@@ -104,7 +104,8 @@ module.exports = (() => {
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'
     const componentInputInputContainerMarginLeft = '10px'
-    const componentInputInputContainerMaxWidth = '200px'
+    const componentInputInputContainerMaxWidth = '300px'
+    const componentInputInputContainerLargeMaxWidth = '600px'
     const componentInputInputFieldAlignItems = 'center'
     const componentInputInputFieldBorderRadius = '4px'
     const componentInputInputFieldBackgroundColor = colorWhite
@@ -155,6 +156,30 @@ module.exports = (() => {
     const componentCheckboxDisabledBackgroundColor = colorGreyLighter
     const componentCheckboxDisabledColor = colorGreyNormal
     const componentCheckboxDisabledBorder = '2px solid var(--colorGreyLight)'
+
+    /* components.checkbox */
+    const componentRadiosMinWidth = '200px'
+    const componentRadioTransition = '0.2s ease-in-out'
+    const componentRadioContainerBorderRadius = '4px'
+    const componentRadioContainerPadding = '10px'
+    const componentRadioContainerBackgroundColor = colorGreyLighter
+    const componentRadioPairMargin = '0px 10px'
+    const componentRadioPairPadding = '8px'
+    const componentRadioPairBorderRadius = '4px'
+    const componentRadioPairBackgroundColorHover = colorGreyLightest
+    const componentRadioBackgroundColor = colorWhite
+    const componentRadioColor = colorGreyNormal
+    const componentRadioWidth = '18px'
+    const componentRadioHeight = '18px'
+    const componentRadioBorder = '2px solid var(--colorGreyNormal)'
+    const componentRadioBorderRadius = '5px'
+    const componentRadioMarginRight = '4px'
+    const componentRadioBorderHover = '2px solid var(--colorPrimary2)'
+    const componentRadioCheckedBackgroundColor = colorPrimary6
+    const componentRadioCheckedColor = colorGreyNormal
+    const componentRadioDisabledBackgroundColor = colorGreyLighter
+    const componentRadioDisabledColor = colorGreyNormal
+    const componentRadioDisabledBorder = '2px solid var(--colorGreyLight)'
 
     /* components.card */
     const componentCardBorder = '0px'
@@ -558,6 +583,28 @@ module.exports = (() => {
         componentCheckboxDisabledBackgroundColor,
         componentCheckboxDisabledColor,
         componentCheckboxDisabledBorder,
+        componentRadiosMinWidth,
+        componentRadioTransition,
+        componentRadioContainerBorderRadius,
+        componentRadioContainerPadding,
+        componentRadioContainerBackgroundColor,
+        componentRadioPairMargin,
+        componentRadioPairPadding,
+        componentRadioPairBorderRadius,
+        componentRadioPairBackgroundColorHover,
+        componentRadioBackgroundColor,
+        componentRadioColor,
+        componentRadioWidth,
+        componentRadioHeight,
+        componentRadioBorder,
+        componentRadioBorderRadius,
+        componentRadioMarginRight,
+        componentRadioBorderHover,
+        componentRadioCheckedBackgroundColor,
+        componentRadioCheckedColor,
+        componentRadioDisabledBackgroundColor,
+        componentRadioDisabledColor,
+        componentRadioDisabledBorder,
         componentCardBorder,
         componentCardBorderRadius,
         componentCardTitlePadding,
@@ -723,6 +770,7 @@ module.exports = (() => {
         componentInputContainerPadding,
         componentInputInputContainerMarginLeft,
         componentInputInputContainerMaxWidth,
+        componentInputInputContainerLargeMaxWidth,
         componentInputInputFieldAlignItems,
         componentInputInputFieldBorderRadius,
         componentInputInputFieldBackgroundColor,

@@ -22,9 +22,13 @@
 }
 
 .controlGroupButtonGroup {
-    margin: 10px 6px 0px 6px;
+    /* margin: 10px 6px 0px 6px; */
     width: fit-content;
     display: flex;
+}
+
+.controlGroupExtraPaddingButtonGroup {
+    padding: 10px 10px 0px 10px;
 }
 
 .controlBtnButton {
@@ -229,3 +233,23 @@
     }
 
 } */
+
+
+
+.categoryLabel {
+    background-color: var(--colorGreyDarker);
+    padding: 10px;
+    width: fit-content;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.titleContainer {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    padding-top: 10px;
+}

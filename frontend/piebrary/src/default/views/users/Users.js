@@ -8,11 +8,11 @@ import { UserContext } from '../../contexts/UserContext'
 import Form from '../../components/form/Form'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout'
 import Card from '../../components/card/Card'
-import Input from '../../components/input/Input'
+import Input from '../../components/formElements/input/Input'
 import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 import Table from '../../components/table/Table'
-import Checkbox from '../../components/checkbox/Checkbox'
+import Checkbox from '../../components/formElements/checkbox/Checkbox'
 
 import { BiUserPlus } from 'react-icons/bi'
 
@@ -45,7 +45,7 @@ export default function Users(){
         },
         {
             Header: applyTranslation('EMAIL'),
-            accessor: data => data.email.map(e => e.email).join(', '),
+            accessor: data => data.email[0].email,
         },
         ...rolesOptions.map(r => {
             return {

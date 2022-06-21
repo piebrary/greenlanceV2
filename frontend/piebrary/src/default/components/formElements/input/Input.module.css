@@ -1,16 +1,22 @@
 .container {
     background-color: var(--componentInputContainerBackgroundColor);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: start;
+    flex-direction: column;
     border-radius: var(--componentInputContainerBorderRadius);
     padding: var(--componentInputContainerPadding);
 }
 
+.label {
+    font-size: var(--componentInputInputFontSize);
+    word-wrap: break-word;
+    margin-bottom: 6px;
+    margin-left: 4px;
+}
+
 .inputContainer {
-    margin-left: var(--componentInputInputContainerMarginLeft);
     flex-grow: 1;
-    max-width: var(--componentInputInputContainerMaxWidth);
+    width: 100%;
 }
 
 .inputField {
@@ -20,11 +26,18 @@
     background-color: var(--componentInputInputFieldBackgroundColor);
 }
 
-.inputField:focus-within > * {
+.inputField:focus-within .input:not(:read-only),
+.inputField:hover .input:not(:read-only) {
     transition: var(--componentInputTransition);
     box-shadow: var(--componentInputInputFieldBoxShadowFocus);
     border-bottom-left-radius: var(--componentInputInputFieldBorderBottomLeftRadius);
     border-bottom-right-radius: var(--componentInputInputFieldBorderBottomRightRadius);
+}
+
+.inputField:focus-within .input:not(:read-only) ~ .passwordToggle,
+.inputField:hover .input:not(:read-only) ~ .passwordToggle {
+    box-shadow: var(--componentInputInputFieldBoxShadowFocus);
+    transition: var(--componentInputTransition);
 }
 
 .input {
@@ -37,8 +50,17 @@
     text-align: var(--componentInputInputTextAlign);
     width: 100%;
     background-color: var(--componentInputInputBackgroundColor);
+    /* height: var(--componentInputInputHeight); */
+    height: fit-content;
+    min-height: 40px;
+    /* resize: vertical; */
+    overflow: auto;
     transition: var(--componentInputTransition);
-    height: var(--componentInputInputHeight);
+}
+
+.input.isPicker {
+    cursor: pointer;
+    user-select: none;
 }
 
 .input:focus {
@@ -53,11 +75,11 @@
     border-radius: var(--componentInputInputBorderRadiusReadOnly);
 }
 
-.input:read-only ~ .hideToggle {
+.input:read-only ~ .passwordToggle {
     background-color: var(--componentInputInputBackgroundColorReadOnlyHideToggle);
 }
 
-.hideToggle {
+.passwordToggle {
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -65,7 +87,7 @@
     padding: var(--componentInputHideTogglePadding);
 }
 
-.hideToggle:hover {
+.passwordToggle:hover {
     color: var(--componentInputHideToggleColorHover);
 }
 
@@ -77,4 +99,23 @@
     font-size: var(--componentInputErrorMessageFontSize);
     text-align: var(--componentInputErrorMessageTextAlign);
     margin-top: var(--componentInputErrorMessageMarginTop);
+}
+
+@media only screen and (min-width: 800px) {
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .label {
+        margin-bottom: 0px;
+    }
+
+    .inputContainer {
+        margin-left: var(--componentInputInputContainerMarginLeft);
+        max-width: var(--componentInputInputContainerMaxWidth);
+    }
+
 }

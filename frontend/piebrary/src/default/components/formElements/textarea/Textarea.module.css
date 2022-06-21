@@ -1,0 +1,46 @@
+.container {
+    background-color: var(--componentSelectContainerBackgroundColor);
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    border-radius: var(--componentSelectContainerBorderRadius);
+    padding: var(--componentSelectContainerPadding);
+}
+
+.label {
+    margin-bottom: 6px;
+    margin-left: 4px;
+}
+
+.textarea {
+    border: var(--componentSelectSelectBorder);
+    border-radius: var(--componentSelectSelectBorderRadius);
+    font-size: var(--componentSelectSelectFontSize);
+    padding: var(--componentSelectSelectPadding);
+    color: var(--componentSelectSelectColor);
+    outline: var(--componentSelectSelectOutline);
+    width: 100%;
+    height: fit-content;
+    min-height: 40px;
+    max-height: 500px;
+    resize: vertical;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .label {
+        margin-bottom: 0px;
+    }
+
+    .textarea {
+        margin-left: var(--componentInputInputContainerMarginLeft);
+        max-width: var(--componentInputInputContainerMaxWidth);
+    }
+
+}

@@ -8,10 +8,10 @@ import { UserContext } from '../../contexts/UserContext'
 import Form from '../../components/form/Form'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout'
 import Card from '../../components/card/Card'
-import Input from '../../components/input/Input'
+import Input from '../../components/formElements/input/Input'
 import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
-import Select from '../../components/select/Select'
+import Select from '../../components/formElements/select/Select'
 
 import { menuitems } from '../../assets/js/menu/items'
 import { languageOptions } from '../../assets/js/settings/language'
@@ -94,7 +94,7 @@ export default function Settings(){
                         label={applyTranslation('EMAIL')}
                         name={'email'}
                         type={'text'}
-                        defaultValue={userData.email}
+                        defaultValue={userData.email[0].email}
                         register={register}
                         errors={errors}
                         />

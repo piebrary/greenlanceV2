@@ -24,16 +24,11 @@ module.exports = mode => {
 
             const user_id = req.user._id
 
-            const userDocument = await UserModel
-                .find({ _id:user_id })
-                .populate('events')
+            const eventDocuments = await EventModel
+                .find({ 'rights.view':user_id })
                 .exec()
 
-            if(!userDocument) return notFoundHandler('User')
-
-            const eventDocumentsDto = userDocument.events.map(t => {
-                eventResponseDto(t, user_id)
-            })
+            const eventDocumentsDto = eventDocuments.map(t => eventResponseDto(t))
 
             return successHandler(undefined, eventDocumentsDto)
 
@@ -64,7 +59,7 @@ module.exports = mode => {
             const user_id = req.user._id
 
             const eventDocument = await EventModel
-                .find({ 'rights.view':user_id })
+                .findOne({ 'rights.view':user_id })
                 .exec()
 
             if(!eventDocument) return notFoundHandler('Event')
@@ -169,7 +164,7 @@ module.exports = mode => {
             const user_id = req.user
 
             const eventDocument = await EventModel
-                .find({
+                .findOne({
                     _id,
                     'rights.edit':user_id
                  })

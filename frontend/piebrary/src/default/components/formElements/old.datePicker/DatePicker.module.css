@@ -7,6 +7,10 @@
     padding: var(--componentDatePickerContainerPadding);
 }
 
+.label {
+    font-size: var(--componentInputInputFontSize);
+}
+
 .dateContainer {
     margin-left: 10px;
     flex-grow: 1;

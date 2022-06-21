@@ -1,15 +1,27 @@
-import { createStyle } from '../../utils/createStyle'
+import { createStyle } from '../../../utils/createStyle'
 
 import styles from './Select.module.css'
 
-export default function Select({ customStyles, label, name, options, defaultValue, onChange, register, errors, rules }){
+export default function Select(attributes){
+
+    const {
+        customStyles,
+        label,
+        name,
+        options,
+        defaultValue,
+        onChange,
+        register,
+        errors,
+        rules,
+        multiple
+    } = attributes
 
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
-                        htmlFor={name}
                         className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
@@ -20,6 +32,7 @@ export default function Select({ customStyles, label, name, options, defaultValu
                 id={name}
                 className={createStyle([styles, customStyles], 'select')}
                 defaultValue={defaultValue?.value}
+                multiple={multiple}
                 {...register(name, rules)}
                 onChange={onChange}>
                 {

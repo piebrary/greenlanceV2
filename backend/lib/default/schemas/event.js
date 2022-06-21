@@ -24,10 +24,20 @@ module.exports = new Schema({
     },
     location:{
         start: {
-            type: String,
+            street: String,
+            number: String,
+            zipCode: String,
+            city: String,
+            province: String,
+            country: String,
         },
         end: {
-            type: String,
+            street: String,
+            number: String,
+            zipCode: String,
+            city: String,
+            province: String,
+            country: String,
         },
     },
     recurring:{

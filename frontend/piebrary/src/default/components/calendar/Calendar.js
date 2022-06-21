@@ -1,23 +1,33 @@
 import { useState, useEffect, useContext } from 'react'
 
 import moment from 'moment'
+import { useForm } from 'react-hook-form'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
 
 import ButtonGroup from '../buttonGroup/ButtonGroup'
 import Button from '../button/Button'
+import Input from '../../components/formElements/input/Input.js'
+import LocationInput from '../../components/locationInput/LocationInput.js'
+import Form from '../../components/form/Form'
+import Checkbox from '../../components/formElements/checkbox/Checkbox'
+import Select from '../../components/formElements/select/Select'
+import Card from '../../components/card/Card'
 
 import { AiFillPlusCircle } from 'react-icons/ai'
 import { AiFillEdit } from 'react-icons/ai'
 
 import { createStyle } from '../../utils/createStyle'
 import { applyStyles } from '../../utils/applyStyles'
+import { containsNumber } from '../../utils/containsNumber'
 
 import styles from './Calendar.module.css'
 
-export default function Calendar({ customStyles, events, newEventJSX, editEventJSX, viewEventJSX, onSaveEvent, onDeleteEvent }){
+export default function Calendar({ customStyles, events, onCreateEvent, onUpdateEvent, onDeleteEvent }){
 
-    const { applyTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
+
+    const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
 
     const [viewRange, setViewRange] = useState('month')
     const [viewMode, setViewMode] = useState('calendar')
@@ -26,6 +36,145 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
     const [currentViewTime, setCurrentViewTime] = useState(Date.now())
     const [detailsJSX, setDetailsJSX] = useState([])
     const [currentActiveEvent, setCurrentActiveEvent] = useState({})
+
+    useEffect(() => {
+
+        console.log('new rerender')
+
+    }, [])
+
+    createTranslation('CalendarComponent.TITLE_LABEL', {
+        en:'Title and description',
+        nl:'Title'
+    })
+
+    createTranslation('CalendarComponent.TITLE_INPUT', {
+        en:'Title',
+        nl:'Titel'
+    })
+
+    createTranslation('CalendarComponent.BODY_INPUT', {
+        en:'Description',
+        nl:'Omschrijving'
+    })
+
+    createTranslation('CalendarComponent.FROM_LABEL', {
+        en:'From',
+        nl:'Van'
+    })
+
+    createTranslation('CalendarComponent.DATE_INPUT', {
+        en:'Date',
+        nl:'Datum'
+    })
+
+    createTranslation('CalendarComponent.TIME_INPUT', {
+        en:'Time',
+        nl:'Tijd'
+    })
+
+    createTranslation('CalendarComponent.UNTIL_LABEL', {
+        en:'Until',
+        nl:'Tot'
+    })
+
+    createTranslation('CalendarComponent.START_LOCATION_LABEL', {
+        en:'Start location',
+        nl:'Aanvangstlocatie'
+    })
+
+    createTranslation('CalendarComponent.END_LOCATION_LABEL', {
+        en:'End location',
+        nl:'Eindlocatie'
+    })
+
+    createTranslation('CalendarComponent.STREET', {
+        en:'Street',
+        nl:'Straat'
+    })
+
+    createTranslation('CalendarComponent.NUMBER', {
+        en:'Number',
+        nl:'Nummer'
+    })
+
+    createTranslation('CalendarComponent.ZIPCODE', {
+        en:'Zip code',
+        nl:'Postcode'
+    })
+
+    createTranslation('CalendarComponent.CITY', {
+        en:'City',
+        nl:'Stad'
+    })
+
+    createTranslation('CalendarComponent.PROVINCE', {
+        en:'Province',
+        nl:'Provincie'
+    })
+
+    createTranslation('CalendarComponent.COUNTRY', {
+        en:'Country',
+        nl:'Land'
+    })
+
+    createTranslation('CalendarComponent.RECURRING_LABEL', {
+        en:'Recurring',
+        nl:'Herhalen'
+    })
+
+
+
+    function onSubmit(data){
+
+        const updatedEvent = {}
+
+        updatedEvent._id = currentActiveEvent._id
+        updatedEvent.title = data.titleInput
+        updatedEvent.body = data.bodyInput
+        updatedEvent.location = data.location
+        updatedEvent.time = {}
+        updatedEvent.recurring = data.recurring
+
+        const fromDateSplitted = data.time.from.date.split('-')
+        const fromTimeSplitted = data.time.from.time.split(':')
+
+        let newFromDate
+
+        newFromDate = moment().date(fromDateSplitted[0])
+        newFromDate = moment(newFromDate).month(fromDateSplitted[1])
+        newFromDate = moment(newFromDate).year(fromDateSplitted[2])
+
+        newFromDate = moment(newFromDate).hour(fromTimeSplitted[0])
+        newFromDate = moment(newFromDate).minutes(fromTimeSplitted[1])
+
+        updatedEvent.time.from = newFromDate.valueOf()
+
+        const untilDateSplitted = data.time.until.date.split('-')
+        const untilTimeSplitted = data.time.until.time.split(':')
+
+        let newUntilDate
+
+        newUntilDate = moment().date(untilDateSplitted[0])
+        newUntilDate = moment(newUntilDate).month(untilDateSplitted[1])
+        newUntilDate = moment(newUntilDate).year(untilDateSplitted[2])
+
+        newUntilDate = moment(newUntilDate).hour(untilTimeSplitted[0])
+        newUntilDate = moment(newUntilDate).minutes(untilTimeSplitted[1])
+
+        updatedEvent.time.until = newUntilDate.valueOf()
+
+        onUpdateEvent(updatedEvent)
+
+    }
+
+    function onReset(event){
+
+        event.preventDefault()
+
+        reset()
+
+    }
 
     function goPrevious(){
 
@@ -71,11 +220,9 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
 
     }
 
-    function saveEvent(){
+    function createEvent(){
 
-        // here the parent function will be called
-
-        onSaveEvent(currentActiveEvent)
+        onCreateEvent(currentActiveEvent)
 
     }
 
@@ -85,36 +232,300 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
 
     }
 
-    function resetEvent(event){
+    function onReset(event){
 
-        openDetailsView(event, viewMode, currentActiveEvent)
+        if(event) event.preventDefault()
 
+        reset()
     }
 
     function openDetailsView(event, action, data){
 
         event.stopPropagation()
 
+        onReset()
+
         if(action === 'newEvent'){
 
             setViewMode('newEvent')
-            setDetailsJSX(newEventJSX())
+            setCurrentActiveEvent()
+            setDetailsJSX(() => {
+
+                return (
+                    <>
+                        This si empty
+                    </>
+                )
+
+            })
 
         }
 
         if(action === 'editEvent'){
 
             setViewMode('editEvent')
-            setDetailsJSX(editEventJSX(data))
             setCurrentActiveEvent(data)
+            setDetailsJSX(() => {
+
+                console.log(data)
+
+                return (
+                    <>
+                        <Form
+                            onSubmit={handleSubmit(onSubmit)}
+                            >
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.TITLE_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.TITLE_INPUT')}
+                                name={'titleInput'}
+                                type={'text'}
+                                defaultValue={data.title}
+                                register={register}
+                                errors={errors}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.BODY_INPUT')}
+                                name={'bodyInput'}
+                                type={'text'}
+                                textarea={true}
+                                defaultValue={data.body}
+                                register={register}
+                                errors={errors}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.FROM_LABEL')}
+                            </div>
+
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.UNTIL_LABEL')}
+                            </div>
+
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.START_LOCATION_LABEL')}
+                            </div>
+                            <LocationInput
+                                defaultValue={data.location.start}
+                                name={'location.start'}
+                                fields={[
+                                    {
+                                        name:applyTranslation('CalendarComponent.STREET'),
+                                        key:'street'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.NUMBER'),
+                                        key:'number'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.ZIPCODE'),
+                                        key: 'zipCode'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.CITY'),
+                                        key: 'city'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.PROVINCE'),
+                                        key:'province'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.COUNTRY'),
+                                        key:'country'
+                                    }
+                                ]}
+                                register={register}
+                                errors={errors}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.END_LOCATION_LABEL')}
+                            </div>
+                            <LocationInput
+                                defaultValue={data.location.end}
+                                name={'location.end'}
+                                fields={[
+                                    {
+                                        name:applyTranslation('CalendarComponent.STREET'),
+                                        key:'street'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.NUMBER'),
+                                        key:'number'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.ZIPCODE'),
+                                        key: 'zipCode'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.CITY'),
+                                        key: 'city'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.PROVINCE'),
+                                        key:'province'
+                                    },
+                                    {
+                                        name:applyTranslation('CalendarComponent.COUNTRY'),
+                                        key:'country'
+                                    }
+                                ]}
+                                register={register}
+                                errors={errors}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.RECURRING_LABEL')}
+                            </div>
+                        </Form>
+                    </>
+                )
+
+            })
 
         }
 
         if(action === 'viewEvent'){
 
             setViewMode('viewEvent')
-            setDetailsJSX(viewEventJSX(data))
             setCurrentActiveEvent(data)
+            setDetailsJSX(() => {
+
+                console.log(data)
+
+                return (
+                    <>
+                        <Form>
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.TITLE_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.TITLE_INPUT')}
+                                type={'text'}
+                                defaultValue={data.title}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.BODY_INPUT')}
+                                type={'text'}
+                                textarea={true}
+                                defaultValue={data.body}
+                                readOnly={true}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.FROM_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.DATE_INPUT')}
+                                type={'text'}
+                                defaultValue={data.time.from}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.TIME_INPUT')}
+                                type={'text'}
+                                defaultValue={data.time.from}
+                                readOnly={true}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.UNTIL_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.DATE_INPUT')}
+                                type={'text'}
+                                defaultValue={data.time.until}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.TIME_INPUT')}
+                                type={'text'}
+                                defaultValue={data.time.until}
+                                readOnly={true}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.START_LOCATION_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.STREET')}
+                                type={'text'}
+                                defaultValue={data.location.start.street}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.NUMBER')}
+                                type={'text'}
+                                defaultValue={data.location.start.number}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.ZIPCODE')}
+                                type={'text'}
+                                defaultValue={data.location.start.zipCode}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.CITY')}
+                                type={'text'}
+                                defaultValue={data.location.start.city}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.PROVINCE')}
+                                type={'text'}
+                                defaultValue={data.location.start.province}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.COUNTRY')}
+                                type={'text'}
+                                defaultValue={data.location.start.country}
+                                readOnly={true}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.END_LOCATION_LABEL')}
+                            </div>
+                            <Input
+                                label={applyTranslation('CalendarComponent.STREET')}
+                                type={'text'}
+                                defaultValue={data.location.end.street}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.NUMBER')}
+                                type={'text'}
+                                defaultValue={data.location.end.number}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.ZIPCODE')}
+                                type={'text'}
+                                defaultValue={data.location.end.zipCode}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.CITY')}
+                                type={'text'}
+                                defaultValue={data.location.end.city}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.PROVINCE')}
+                                type={'text'}
+                                defaultValue={data.location.end.province}
+                                readOnly={true}
+                                />
+                            <Input
+                                label={applyTranslation('CalendarComponent.COUNTRY')}
+                                type={'text'}
+                                defaultValue={data.location.end.country}
+                                readOnly={true}
+                                />
+                            <div className={styles.categoryLabel}>
+                                {applyTranslation('CalendarComponent.RECURRING_LABEL')}
+                            </div>
+                        </Form>
+                    </>
+                )
+
+            })
 
         }
 
@@ -272,33 +683,33 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                                 : null
                             }
                             {
-                                events.map(event => {
+                                events.map(calenderEvent => {
 
                                     if(
                                         (
-                                            event.time.start > d.startOfDay && event.time.start < d.endOfDay
+                                            calenderEvent.time.from > d.startOfDay && calenderEvent.time.from < d.endOfDay
                                         ) || (
-                                            event.time.start < d.endOfDay && event.time.end > d.startOfDay
+                                            calenderEvent.time.from < d.endOfDay && calenderEvent.time.until > d.startOfDay
                                         ) || (
-                                            event.dueDate > d.startOfDay && event.dueDate < d.endOfDay
+                                            calenderEvent.dueDate > d.startOfDay && calenderEvent.dueDate < d.endOfDay
                                         )
                                     ){
 
                                         return (
                                             <div
-                                                key={event._id}
+                                                key={calenderEvent._id}
                                                 className={createStyle([styles, customStyles], 'eventContainer')}
                                                 onClick={evt => {
 
                                                     if(viewRange === 'month' && d.isMainMonth || viewRange !== 'month'){
 
-                                                        openDetailsView(evt, 'viewEvent', event)
+                                                        openDetailsView(evt, 'viewEvent', calenderEvent)
 
                                                     }
 
                                                 }}
                                             >
-                                                {event.name}
+                                                {calenderEvent.title}
                                             </div>
                                         )
 
@@ -309,8 +720,15 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                             {
                                 viewRange === 'day'
                                 ? (
-                                    <div className={createStyle([styles, customStyles], 'headerButtonGroup')} style={{ margin: '10px auto 10px auto' }}>
-                                        <button className={createStyle([styles, customStyles], 'headerButton')} onClick={evt => openDetailsView(evt, 'newEvent')} style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems:'center', padding: '10px 25px 10px 10px' }}>
+                                    <div
+                                        className={createStyle([styles, customStyles], 'headerButtonGroup')}
+                                        style={{ margin: '10px auto 10px auto' }}
+                                        >
+                                        <button
+                                            className={createStyle([styles, customStyles], 'headerButton')}
+                                            onClick={evt => openDetailsView(evt, 'newEvent')}
+                                            style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems:'center', padding: '10px 25px 10px 10px' }}
+                                            >
                                             <AiFillPlusCircle size={25} style={{ margin: '15px' }}/>
                                             Create new event
                                         </button>
@@ -386,36 +804,50 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                             )
                         }
                         {
-                            (viewMode === 'newEvent' || viewMode === 'editEvent') && (
+                            viewMode === 'newEvent' && (
                                 <ButtonGroup
-                                    customStyles={applyStyles([styles], 'controlGroup')}
+                                    customStyles={applyStyles([styles], 'controlGroupExtraPadding')}
                                     >
                                     <Button
                                         label={applyTranslation('SAVE')}
-                                        onClick={event => saveEvent(event)}
+                                        onClick={event => createEvent(event)}
                                         customStyles={applyStyles([styles], 'controlBtn')}
                                         />
                                     <Button
                                         label={applyTranslation('RESET')}
-                                        onClick={event => resetEvent(event)}
+                                        onClick={onReset}
                                         customStyles={applyStyles([styles], 'controlBtn')}
                                         />
-                                    {
-                                        viewMode === 'editEvent' && (
-                                            <Button
-                                                label={applyTranslation('DELETE')}
-                                                onClick={event => deleteEvent(event)}
-                                                customStyles={applyStyles([styles], 'controlBtn')}
-                                                />
-                                        )
-                                    }
+                                </ButtonGroup>
+                            )
+                        }
+                        {
+                            viewMode === 'editEvent' && (
+                                <ButtonGroup
+                                    customStyles={applyStyles([styles], 'controlGroupExtraPadding')}
+                                    >
+                                    <Button
+                                        label={applyTranslation('SAVE')}
+                                        onClick={handleSubmit(onSubmit)}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
+                                        />
+                                    <Button
+                                        label={applyTranslation('RESET')}
+                                        onClick={onReset}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
+                                        />
+                                    <Button
+                                        label={applyTranslation('DELETE')}
+                                        onClick={event => deleteEvent(event)}
+                                        customStyles={applyStyles([styles], 'controlBtn')}
+                                        />
                                 </ButtonGroup>
                             )
                         }
                         {
                             viewMode === 'viewEvent' && (
                                 <ButtonGroup
-                                    customStyles={applyStyles([styles], 'controlGroup')}
+                                    customStyles={applyStyles([styles], 'controlGroupExtraPadding')}
                                     >
                                     <Button
                                         label={applyTranslation('EDIT')}
@@ -456,21 +888,27 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                     }
                     {
                         viewMode === 'newEvent' && (
-                            <div>
+                            <div
+                                className={createStyle([styles, customStyles], 'titleContainer')}
+                                >
                                 Create new event
                             </div>
                         )
                     }
                     {
                         viewMode === 'editEvent' && (
-                            <div>
+                            <div
+                                className={createStyle([styles, customStyles], 'titleContainer')}
+                                >
                                 Update {currentActiveEvent.title}
                             </div>
                         )
                     }
                     {
                         viewMode === 'viewEvent' && (
-                            <div>
+                            <div
+                                className={createStyle([styles, customStyles], 'titleContainer')}
+                                >
                                 {currentActiveEvent.title}
                             </div>
                         )
@@ -496,11 +934,17 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                     {
                         (viewMode === 'newEvent' || viewMode === 'editEvent' || viewMode === 'viewEvent') && (
                             <ButtonGroup
-                                customStyles={applyStyles([styles], 'controlGroup')}
+                                customStyles={applyStyles([styles], 'controlGroupExtraPadding')}
                                 >
                                 <Button
                                     label={applyTranslation('CLOSE')}
-                                    onClick={event => adjustViewMode(previousViewMode)}
+                                    onClick={event => {
+
+                                        setCurrentActiveEvent()
+
+                                        adjustViewMode(previousViewMode)
+
+                                    }}
                                     customStyles={applyStyles([styles], 'controlBtn')}
                                     />
                             </ButtonGroup>
@@ -564,9 +1008,9 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                                                     {event.title}
                                                 </div>
                                                 <div className={createStyle([styles, customStyles], 'listItemContent')}>
-                                                    Start: {moment(event.start).format()} <br />
-                                                    Until: {moment(event.end).format()} <br />
-                                                    Description: {event.description} <br />
+                                                    From: {moment(event.from).format()} <br />
+                                                    Until: {moment(event.until).format()} <br />
+                                                    Body: {event.body} <br />
                                                 </div>
                                             </div>
                                         )
@@ -578,9 +1022,9 @@ export default function Calendar({ customStyles, events, newEventJSX, editEventJ
                     }
                     {
                         (viewMode === 'newEvent' || viewMode === 'editEvent' || viewMode === 'viewEvent') && (
-                            <div className={createStyle([styles, customStyles], 'detailsContainer')}>
+                            <>
                                 {detailsJSX}
-                            </div>
+                            </>
                         )
                     }
                 </div>

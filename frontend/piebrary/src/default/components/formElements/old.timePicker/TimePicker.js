@@ -1,38 +1,40 @@
 import { useState, useEffect, useContext } from 'react'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
-import { UserContext } from '../../contexts/UserContext'
+import moment from 'moment'
 
-import Button from '../button/Button'
-import ButtonGroup from '../buttonGroup/ButtonGroup'
-import Grid from '../grid/Grid'
+import { LanguageContext } from '../../../contexts/LanguageContext'
+import { UserContext } from '../../../contexts/UserContext'
+
+import Button from '../../button/Button'
+import ButtonGroup from '../../buttonGroup/ButtonGroup'
+import Grid from '../../grid/Grid'
 
 import { AiOutlineClose } from 'react-icons/ai'
 import { MdOutlineNavigateBefore } from 'react-icons/md'
 import { MdOutlineNavigateNext } from 'react-icons/md'
 
-import { timeFormatOptions } from '../../assets/js/settings/timeFormat'
+import { timeFormatOptions } from '../../../assets/js/settings/timeFormat'
 
 import styles from './TimePicker.module.css'
 
-import { createStyle } from '../../utils/createStyle'
-import { applyStyles } from '../../utils/applyStyles'
+import { createStyle } from '../../../utils/createStyle'
+import { applyStyles } from '../../../utils/applyStyles'
 
-export default function TimePicker({ customStyles, label, name, min, max, register, startTime, setValue }){
+export default function TimePicker({ customStyles, label, name, min, max, register, defaultValue, setValue }){
 
     const { settings } = useContext(UserContext)
 
-    min = min ? min.split(':') : ['00', '00']
-    max = max ? max.split(':') : ['23', '59']
-    startTime = startTime ? startTime : ['00', '00']
+    min = min ? moment(min).format('HH:mm').split(':') : ['00', '00']
+    max = max ? moment(max).format('HH:mm').split(':') : ['23', '59']
+    defaultValue = defaultValue ? moment(defaultValue).format('HH:mm').split(':') : moment().format('HH:mm').split(':')
 
-    const startTimeWithBoundaries = createTimeWithBoundaries(startTime, min, max)
+    const defaultValueWithBoundaries = createTimeWithBoundaries(defaultValue, min, max)
 
 
     const isAMPM = settings.timeFormat === 'hh:mm:ss A' ? true : false
 
     const [currentOpenPicker, setCurrentOpenPicker] = useState()
-    const [selectedTime, setSelectedTime] = useState(startTimeWithBoundaries)
+    const [selectedTime, setSelectedTime] = useState(defaultValueWithBoundaries)
     const [timeSheet, setTimeSheet] = useState([])
     // const [timeFormat, setTimeFormat] = useState(settings.timeFormat === 'hh:mm:ss A' ? 'AMPM' : '24h')
 
@@ -225,7 +227,7 @@ export default function TimePicker({ customStyles, label, name, min, max, regist
                 <input
                     className={createStyle([styles, customStyles], 'selectedTime')}
                     onClick={() => currentOpenPicker !== 'hour' ? setCurrentOpenPicker('hour') : setCurrentOpenPicker() }
-                    defaultValue={startTime.join(':')}
+                    defaultValue={defaultValue.join(':')}
                     readOnly={true}
                     {...reg}
                     />
