@@ -15,29 +15,15 @@ import styles from './Calendar.module.css'
 
 export default function CalendarView(){
 
-    const [events, setEvents] = useState([])
-
     const { applyTranslation } = useContext(LanguageContext)
     const { isAdmin } = useContext(UserContext)
-
-    useEffect(() => {
-
-        (async () => {
-
-            const response = await getEvents()
-
-            setEvents(response.data)
-
-        })()
-
-    }, [])
 
     return (
         <Layout
             items={menuitems({ isAdmin, applyTranslation })}
             title={applyTranslation('CALENDAR')}>
             <Calendar
-                events={events}
+                getEvents={getEvents}
                 onCreateEvent={postEvent}
                 onUpdateEvent={putEvent}
                 onDeleteEvent={delEvent}

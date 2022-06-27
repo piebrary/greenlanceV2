@@ -9,6 +9,7 @@ module.exports = () => {
         "CANCEL":"Cancel",
         "DELETE":"Delete",
         "EDIT":"Edit",
+        "SCROLL_TO_TOP":"Scroll to top",
 
         // login.js
         "LOG_IN":"Log in",
@@ -87,7 +88,7 @@ module.exports = () => {
         "MONTH":"Month",
         "LIST":"List",
 
-        // datepicker
+        // months
         "JANUARY":"January",
         "FEBRUARY":"February",
         "MARCH":"March",
@@ -100,6 +101,24 @@ module.exports = () => {
         "OCTOBER":"October",
         "NOVEMBER":"November",
         "DECEMBER":"December",
+
+        // days
+        "MONDAY":"Monday",
+        "TUESDAY":"Tuesday",
+        "WEDNESDAY":"Wednesday",
+        "THURSDAY":"Thursday",
+        "FRIDAY":"Friday",
+        "SATURDAY":"Saturday",
+        "SUNDAY":"Sunday",
+
+        // address
+        "LABEL":"Label",
+        "STREET":"Street",
+        "NUMBER":"Number",
+        "ZIPCODE":"Zipcode",
+        "CITY":"city",
+        "PROVINCE":"Province",
+        "COUNTRY":"Country",
     }
 
 }

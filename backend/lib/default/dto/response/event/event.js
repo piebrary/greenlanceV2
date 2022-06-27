@@ -1,6 +1,12 @@
 module.exports = document => {
 
-    let timeResponseDto, locationResponseDto, recurringResponseDto
+    let dateResponseDto, timeResponseDto, locationResponseDto, recurringResponseDto
+
+    try {
+        dateResponseDto = require('../../../../custom/dto/response/event/date')
+    } catch {
+        dateResponseDto = require('../../../../default/dto/response/event/date')
+    }
 
     try {
         timeResponseDto = require('../../../../custom/dto/response/event/time')
@@ -25,6 +31,7 @@ module.exports = document => {
         title,
         body,
         category,
+        date,
         time,
         location,
         recurring,
@@ -36,6 +43,7 @@ module.exports = document => {
         title,
         body,
         category,
+        date:dateResponseDto(date),
         time:timeResponseDto(time),
         location:locationResponseDto(location),
         recurring:recurringResponseDto(recurring),

@@ -62,15 +62,16 @@ export async function putEvent(data){
 
 }
 
-export async function delEvent(_id){
+export async function delEvent(data){
 
     const options = {
-        url:'/api/v1/s/event/' + _id,
+        url:'/api/v1/s/event',
         method:'DELETE',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
             'Content-Type': 'application/json'
-        }
+        },
+        data
     }
 
     return await axios(options)

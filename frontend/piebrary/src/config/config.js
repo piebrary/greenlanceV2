@@ -1,7 +1,7 @@
 module.exports = (() => {
 
     return {
-        THEME:'green',
+        THEME:'red',
     }
 
 })()

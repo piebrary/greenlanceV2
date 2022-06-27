@@ -157,7 +157,7 @@ module.exports = (() => {
     const componentCheckboxDisabledColor = colorGreyNormal
     const componentCheckboxDisabledBorder = '2px solid var(--colorGreyLight)'
 
-    /* components.checkbox */
+    /* components.radio */
     const componentRadiosMinWidth = '200px'
     const componentRadioTransition = '0.3s ease-in-out'
     const componentRadioContainerBorderRadius = '4px'
@@ -226,7 +226,7 @@ module.exports = (() => {
     const componentCalendarTableCellBorder = '2px solid var(--colorGreyLightest)'
     const componentCalendarTableCellHeight = '90px'
     const componentCalendarTableCellMinHeight = 'fit-content'
-    const componentCalendarTableCellMinWidth = '90px'
+    const componentCalendarTableCellMinWidth = '20px'
     const componentCalendarTableCellVerticalAlign = 'top'
     const componentCalendarTableCellPadding = '5px 3px 5px 3px'
     const componentCalendarTableCellLowTransparencyOpacity = '0.2'
@@ -247,7 +247,7 @@ module.exports = (() => {
     const componentCalendarTableCellEventContainerPadding = '4px'
     const componentCalendarTableCellEventContainerDistance = '2px'
     const componentCalendarTableCellEventContainerColorHover = colorWhite
-    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary3
+    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary5
     const componentCalendarTableCellCreateEventButtonColor = colorGreyDarker
     const componentCalendarCreateEventButtonColor = colorGreyDarker
     const componentCalendarListItemDistance = '10px'

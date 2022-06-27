@@ -37,7 +37,7 @@ export default function Input(attributes){
 
     const reg = register && register(name, rules)
 
-    const isPicker = (
+    const isPicker = !readOnly && (
         type === 'color'
         || type === 'date'
         || type === 'datetime-local'
@@ -65,21 +65,21 @@ export default function Input(attributes){
                     <input
                         className={[createStyle([styles, customStyles], 'input'), isPicker && styles.isPicker].join(' ')}
                         id={name}
-                        type={type !== 'password' ? type : type === 'password' && !isHidden ? 'test' : 'password'}
+                        type={type !== 'password' ? type : type === 'password' && !isHidden ? 'text' : 'password'}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
                         readOnly={readOnly}
                         min={min}
                         max={max}
-                        value={value}
                         maxLength={maxLength}
                         multiple={multiple}
                         pattern={pattern}
                         step={step}
                         autoFocus={autoFocus}
                         autoComplete={autoComplete}
-                        onClick={() => document.getElementById(name).showPicker() }
-                        {...reg}/>
+                        onClick={() => !readOnly && document.getElementById(name).showPicker() }
+                        {...reg}
+                        />
                     {
                         passwordToggle && (
                             <div

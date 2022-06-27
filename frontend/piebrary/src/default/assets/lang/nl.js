@@ -9,6 +9,7 @@ module.exports = () => {
         "CANCEL":"Annuleren",
         "DELETE":"Verwijderen",
         "EDIT":"Bewerken",
+        "SCROLL_TO_TOP":"Scroll naar boven",
 
         // auth
         "LOG_IN":"Log in",
@@ -87,7 +88,7 @@ module.exports = () => {
         "MONTH":"Maand",
         "LIST":"Lijst",
 
-        // datepicker
+        // months
         "JANUARY":"Januari",
         "FEBRUARY":"Februari",
         "MARCH":"Maart",
@@ -100,6 +101,25 @@ module.exports = () => {
         "OCTOBER":"Oktober",
         "NOVEMBER":"November",
         "DECEMBER":"December",
+
+        // days
+        "MONDAY":"Maandag",
+        "TUESDAY":"Dinsdag",
+        "WEDNESDAY":"Woensdag",
+        "THURSDAY":"Donderdag",
+        "FRIDAY":"Vrijdag",
+        "SATURDAY":"Zaterdag",
+        "SUNDAY":"Zondag",
+
+        // address
+        "LABEL":"Label",
+        "STREET":"Straat",
+        "NUMBER":"Huisnummer",
+        "ZIPCODE":"Postcode",
+        "CITY":"Stad",
+        "PROVINCE":"Provincie",
+        "COUNTRY":"Land",
+
     }
 
 }

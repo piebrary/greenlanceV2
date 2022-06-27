@@ -10,6 +10,7 @@ import Logo from '../../logo/Logo'
 import { BiMenu } from 'react-icons/bi'
 import { IoIosArrowUp } from 'react-icons/io'
 import { BiLogOutCircle } from 'react-icons/bi'
+import { BsFillArrowUpCircleFill } from 'react-icons/bs'
 
 import { createStyle } from '../../../utils/createStyle'
 
@@ -23,6 +24,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuClassList, setMenuClassList] = useState([createStyle([styles, customStyles], 'items')])
+    const [showScrollToTopBtn, setShowScrollToTopBtn] = useState(false)
 
     useEffect(() => {
 
@@ -43,8 +45,51 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     }, [isMenuOpen, customStyles])
 
+    useEffect(() => {
+
+        const body = document.querySelector('body')
+
+        body.scrollTo({
+            top:0,
+            behavior: 'smooth'
+        })
+
+        body.addEventListener('scroll', () => {
+
+            if (body.scrollTop > 200) {
+
+                setShowScrollToTopBtn(true)
+
+            } else {
+
+                setShowScrollToTopBtn(false)
+
+            }
+
+        }, { capture: true })
+
+    }, [])
+
     return (
-        <div className={styles.layoutContainer}>
+        <div id={'lc'} className={styles.layoutContainer}>
+            {
+                showScrollToTopBtn && (
+                    <div
+                        className={createStyle([styles, customStyles], 'scrollToTopBtn')}
+                        onClick={event => {
+
+                            const body = document.querySelector('body')
+
+                            body.scrollTo({
+                                top:0,
+                                behavior: 'smooth'
+                            })
+                        }}
+                        >
+                        <BsFillArrowUpCircleFill size={30} /><p>{applyTranslation('SCROLL_TO_TOP')}</p>
+                    </div>
+                )
+            }
             <div className={createStyle([styles, customStyles], 'menu')}>
                 <div className={createStyle([styles, customStyles], 'headerResponsive')}>
                     <div className={createStyle([styles, customStyles], 'logo')}>

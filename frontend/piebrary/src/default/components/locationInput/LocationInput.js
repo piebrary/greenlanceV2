@@ -13,11 +13,11 @@ export default function LocationInput({ fields, defaultValue, register, errors, 
 
                     return (
                         <Input
-                            key={f.key}
-                            label={f.name}
-                            name={name ? name + '.' + f.key : f.key}
-                            defaultValue={defaultValue && defaultValue[f.key]}
-                            readOnly={readOnly}
+                            key={f.name}
+                            label={f.label}
+                            name={name + '.' + f.name}
+                            defaultValue={defaultValue && defaultValue[f.name]}
+                            readOnly={f.readOnly}
                             register={register}
                             errors={errors}
                             />

@@ -28,18 +28,24 @@ export default function Datalist(attributes){
                     </label>
                 )
             }
-            <input type={'text'} list={name} />
+            <input
+                type={'text'}
+                list={name}
+                className={createStyle([styles, customStyles], 'input')}
+                {...register(name, rules)}
+                onChange={onChange}
+                defaultValue={defaultValue}
+                />
             <datalist
                 id={name}
                 className={createStyle([styles, customStyles], 'datalist')}
-                {...register(name, rules)}
-                onChange={onChange}>
+                >
                 {
                     options.map(o => {
 
                         return (
                             <option
-                                value={o.value}
+                                value={o.name}
                                 key={o.value}>
                             </option>
                         )

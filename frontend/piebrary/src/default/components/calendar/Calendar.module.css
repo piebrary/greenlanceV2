@@ -9,20 +9,38 @@
     border-top-left-radius: var(--componentCalendarBorderRadius);
     border-top-right-radius: var(--componentCalendarBorderRadius);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
+    flex-wrap: wrap;
     background-color: var(--componentCalendarBackgroundColor);
 }
 
 .content {
-    padding: var(--componentCalendarContentPadding);
+    padding: 2px 10px 10px 10px;
     border-bottom-left-radius: var(--componentCalendarBorderRadius);
     border-bottom-right-radius: var(--componentCalendarBorderRadius);
     background-color: var(--componentCalendarBackgroundColor);
 }
 
+.week {
+    display: flex;
+}
+
+.day {
+    width: calc(100% / 7);
+    max-width: calc(100% / 7);
+    min-height: 80px;
+    background-color: var(--colorWhite);
+    border-radius: 2px;
+    margin: 1px;
+    padding: 10px;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
 .controlGroupButtonGroup {
-    /* margin: 10px 6px 0px 6px; */
+    margin: 14px 30px 0px 30px;
     width: fit-content;
     display: flex;
 }
@@ -45,6 +63,46 @@
 .controlBtnButton:hover {
     color: var(--componentCalendarControlBtnColorHover);
     background-color: var(--componentCalendarControlBtnBackgroundColorHover);
+}
+
+.saveBtnButton {
+    background-color: var(--colorSuccessLight);
+}
+
+.saveBtnButton:hover {
+    background-color: var(--colorSuccessDark);
+}
+
+.editBtnButton {
+    background-color: var(--colorGreyLight);
+}
+
+.editBtnButton:hover {
+    background-color: var(--colorGreyDark);
+}
+
+.resetBtnButton {
+    background-color: var(--colorDangerLight);
+}
+
+.resetBtnButton:hover {
+    background-color: var(--colorDangerDark);
+}
+
+.closeBtnButton {
+    background-color: var(--colorDangerLight);
+}
+
+.closeBtnButton:hover {
+    background-color: var(--colorDangerDark);
+}
+
+.deleteBtnButton {
+    background-color: var(--colorDangerLight);
+}
+
+.deleteBtnButton:hover {
+    background-color: var(--colorDangerDark);
 }
 
 .controlBtnActiveButton {
@@ -71,40 +129,65 @@
     margin-left: var(--componentCalendarControlBtnSpacing);
 }
 
-.calendar table {
-    width: 100%;
-    border-collapse: collapse;
+.calendar {
+    overflow: hidden;
+    max-width: 100%;
+    background-color: var(--colorGreyLighter);
+    border-radius: 4px;
+    padding: 1px;
 }
 
-.calendar table thead tr th {
+.weekdays {
+    display: flex;
+    width: 100%;
+}
+
+.weekday {
     color: var(--componentCalendarTableHeadColor);
     background-color: var(--componentCalendarTableHeadBackgroundColor);
-    border: var(--componentCalendarTableHeadBorder);
-    width: var(--componentCalendarWidth);
+    /* border: var(--componentCalendarTableHeadBorder); */
+    /* width: var(--componentCalendarWidth); */
     user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% / 7);
+    text-align: center;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
-.calendar table tbody tr td {
+.weekday:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.weekday:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.date {
     text-align: var(--componentCalendarTableCellTextAlign);
-    background-color: var(--componentCalendarTableCellBackgroundColor);
-    border: var(--componentCalendarTableCellBorder);
-    height: var(--componentCalendarTableCellHeight);
+    /* background-color: var(--componentCalendarTableCellBackgroundColor); */
+    /* border: var(--componentCalendarTableCellBorder); */
+    /* height: var(--componentCalendarTableCellHeight); */
     min-height: var(--componentCalendarTableCellMinHeight);
     vertical-align: var(--componentCalendarTableCellVerticalAlign);
     padding: var(--componentCalendarTableCellPadding);
-    width: var(--componentCalendarWidth);
+    /* width: var(--componentCalendarWidth); */
     cursor: pointer;
     overflow: hidden;
-    min-width: var(--componentCalendarTableCellMinWidth);
+    /* min-width: var(--componentCalendarTableCellMinWidth); */
+    transition: .5s;
 }
 
 .lowTransparency {
-    opacity: var(--componentCalendarTableCellLowTransparencyOpacity);
-    background-color: var(--componentCalendarTableCellLowTransparencyBackgroundColor) !important;
+    opacity: .2;
+    background-color: var(--colorWhite) !important;
     cursor: auto !important;
 }
 
-.calendar table tbody tr td .date {
+.date {
     color: var(--componentCalendarTableCellDateColor);
     font-weight: var(--componentCalendarTableCellDateFontWeight);
     border-radius: var(--componentCalendarTableCellDateBorderRadius);
@@ -117,35 +200,51 @@
     max-width: 100%;
     box-sizing: border-box;
     overflow: hidden;
-    height: var(--componentCalendarTableCellDateHeight);
+    /* height: var(--componentCalendarTableCellDateHeight); */
 }
 
-.calendar table tbody tr td .date .month {
-    color: var(--componentCalendarTableCellDateMonthColor);
-    font-weight: var(--componentCalendarTableCellDateMonthFontWeight);
-    text-overflow: var(--componentCalendarTableCellDateMonthTextOverflow);
-    white-space: nowrap;
+.month {
+    display: none;
 }
 
-.calendar table tbody tr td .date .dayOfMonth {
+.dayOfMonth {
     margin-left: auto;
 }
 
-.currentDay {
-    background-color: var(--componentCalendarTableCellCurrentDayBackgroundColor) !important;
+.day:not(.lowTransparency) .currentDay {
+    background-color: var(--colorPrimary6) !important;
+    color: var(--colorWhite) !important;
+    height: 24px;
 }
 
 .eventContainer {
-    background-color: var(--componentCalendarTableCellEventContainerBackgroundColor) !important;
-    border-radius: var(--componentCalendarTableCellEventContainerBorderRadius);
-    color: var(--componentCalendarTableCellEventContainerColor);
+    /* background-color: var(--componentCalendarTableCellEventContainerBackgroundColor) !important; */
+    /* border-radius: var(--componentCalendarTableCellEventContainerBorderRadius); */
+    /* color: var(--componentCalendarTableCellEventContainerColor); */
+    background-color: var(--colorGreyLighter);
+    color: var(--colorGreyDark);
+    border-radius: 4px;
     font-weight: var(--componentCalendarTableCellEventContainerFontWeight);
-    padding: var(--componentCalendarTableCellEventContainerPadding);
+    /* padding: var(--componentCalendarTableCellEventContainerPadding); */
+    padding: 8px 4px 6px 4px;
     box-sizing: border-box;
     user-select: none;
+    word-break: normal;
+    white-space: nowrap;
+    /* font-size: 0px; */
+    min-height: 20px;
+    max-height: 50px;
+    overflow: hidden;
+    /* text-overflow: ellipsis; */
+    text-align: left;
+    transition: .5s;
+}
+
+.day:not(.lowTransparency) .eventContainer:hover {
     cursor: pointer;
-    word-break: break-all;
-    white-space: normal;
+    transition: .5s;
+    color: var(--colorWhite);
+    background-color: var(--colorPrimary5);
 }
 
 .eventContainer + .eventContainer {
@@ -157,9 +256,14 @@
     display: none;
 }
 
-.calendar table tbody tr td:hover .invisibleCreateEventButton {
-    display: inline-block;
-    color: #333333;
+.day:hover {
+    /* display: inline-block;
+    color: #333333; */
+    /* background-color: var(--colorGreyLighter); */
+    /* color: var(--colorWhite); */
+    /* border-bottom: 3px solid var(--colorPrimary4); */
+    /* background-color: red; */
+    /* transition: .5s; */
 }
 
 .createEventButton {
@@ -173,15 +277,6 @@
 
 .invisibleEditEventButton {
     margin: 0px 4px 0px 0px;
-}
-
-.calendar table tbody tr td:not(.lowTransparency) .eventContainer:hover {
-    background-color: var(--componentCalendarTableCellEventContainerBackgroundColorHover) !important;
-    color: var(--componentCalendarTableCellEventContainerColorHover);
-}
-
-.calendar table tbody tr td:not(.lowTransparency):hover .month {
-    display: none;
 }
 
 .listContainer {
@@ -248,8 +343,34 @@
 }
 
 .titleContainer {
-    display: flex;
-    align-items: center;
     font-size: 20px;
-    padding-top: 10px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .eventContainer {
+        font-size: 10px;
+    }
+
+}
+
+@media only screen and (min-width: 950px) {
+
+    .month {
+        color: var(--componentCalendarTableCellDateMonthColor);
+        font-weight: var(--componentCalendarTableCellDateMonthFontWeight);
+        display: inline-block;
+    }
+
+    .eventContainer {
+        font-size: 10px;
+    }
+
 }

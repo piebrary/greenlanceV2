@@ -12,18 +12,29 @@ module.exports = new Schema({
     category:{
         type: String
     },
-    time:{
+    date:{
         from: {
-            type: Number,
+            type: String,
             required: true,
         },
         until: {
-            type: Number,
+            type: String,
+            required: true
+        },
+    },
+    time:{
+        from: {
+            type: String,
+            required: true,
+        },
+        until: {
+            type: String,
             required: true
         },
     },
     location:{
         start: {
+            label: String,
             street: String,
             number: String,
             zipCode: String,
@@ -32,6 +43,7 @@ module.exports = new Schema({
             country: String,
         },
         end: {
+            label: String,
             street: String,
             number: String,
             zipCode: String,

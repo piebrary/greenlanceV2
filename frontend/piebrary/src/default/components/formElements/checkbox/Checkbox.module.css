@@ -1,12 +1,17 @@
 .container {
     background-color: var(--componentCheckboxContainerBackgroundColor);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: start;
+    flex-direction: column;
     border-radius: var(--componentCheckboxContainerBorderRadius);
     padding: var(--componentCheckboxContainerPadding);
     word-wrap: break-word;
     width: 100%;
+}
+
+.label {
+    margin-bottom: 6px;
+    margin-left: 4px;
 }
 
 .checkboxes {
@@ -15,6 +20,10 @@
     justify-content: left;
     max-width: fit-content; */
     min-width: var(--componentCheckboxesMinWidth);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .checkboxPair {
@@ -121,4 +130,29 @@
     margin-right: var(--componentCheckboxMarginRight);
     transform: translateY(-0.075em);
     cursor: auto;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .label {
+        margin-bottom: 0px;
+    }
+
+    .checkboxes {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+
+    .checkbox {
+        margin-left: var(--componentInputInputContainerMarginLeft);
+        max-width: var(--componentInputInputContainerMaxWidth);
+    }
+
 }

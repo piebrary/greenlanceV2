@@ -19,11 +19,14 @@ export default function Textarea(attributes){
         readOnly,
     } = attributes
 
+    const reg = register && register(name, rules)
+
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
+                        htmlFor={name}
                         className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
@@ -33,14 +36,19 @@ export default function Textarea(attributes){
             <textarea
                 id={name}
                 className={createStyle([styles, customStyles], 'textarea')}
-                defaultValue={defaultValue?.value}
-                {...register(name, rules)}
+                defaultValue={defaultValue}
+                {...reg}
                 onChange={onChange}
+                rows={rows}
+                cols={cols}
+                readOnly={readOnly}
                 >
-                {
-                    defaultValue
-                }
             </textarea>
+            {reg && errors[name] && (
+                <span className={createStyle([styles, customStyles], 'errorMessage')}>
+                    {errors[name].message}
+                </span>
+            )}
         </div>
     )
 

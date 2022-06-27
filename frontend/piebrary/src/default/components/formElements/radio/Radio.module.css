@@ -1,12 +1,17 @@
 .container {
     background-color: var(--componentRadioContainerBackgroundColor);
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    justify-content: start;
+    flex-direction: column;
     border-radius: var(--componentRadioContainerBorderRadius);
     padding: var(--componentRadioContainerPadding);
     word-wrap: break-word;
     width: 100%;
+}
+
+.label {
+    margin-bottom: 6px;
+    margin-left: 4px;
 }
 
 .radios {
@@ -15,6 +20,10 @@
     justify-content: left;
     max-width: fit-content; */
     min-width: var(--componentRadiosMinWidth);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
 }
 
 .radioPair {
@@ -121,4 +130,29 @@
     margin-right: var(--componentRadioMarginRight);
     transform: translateY(-0.075em);
     cursor: auto;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .label {
+        margin-bottom: 0px;
+    }
+
+    .radios {
+        display: flex;
+        flex-direction: column;
+        width: 300px;
+    }
+
+    .radio {
+        margin-left: var(--componentInputInputContainerMarginLeft);
+        max-width: var(--componentInputInputContainerMaxWidth);
+    }
+
 }

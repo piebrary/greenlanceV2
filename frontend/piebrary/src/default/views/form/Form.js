@@ -148,8 +148,8 @@ export default function FormView(){
     })
 
     createTranslation('FormView.RADIO_LABEL', {
-        en:'Radio',
-        nl:'Radio'
+        en:'Radiobutton',
+        nl:'Radiobutton'
     })
 
     createTranslation('FormView.RADIO_NORMAL', {
@@ -339,7 +339,7 @@ export default function FormView(){
                                 name:applyTranslation('FormView.RADIO_DISABLED'),
                                 value:'disabled normal',
                                 disabled:true,
-                            }
+                            },
                         ]}
                         />
                     <div className={styles.categoryLabel}>
@@ -349,6 +349,7 @@ export default function FormView(){
                         label={applyTranslation('FormView.DATEPICKER_EXAMPLE')}
                         name={'datePickerInput'}
                         type={'date'}
+                        defaultValue={'2022-08-05'}
                         register={register}
                         errors={errors}
                         />
@@ -370,6 +371,7 @@ export default function FormView(){
                         label={applyTranslation('FormView.DATETIME_PICKER_EXAMPLE')}
                         name={'dateTimePickerInput'}
                         type={'datetime-local'}
+                        defaultValue={'2022-08-05T01:50'}
                         register={register}
                         errors={errors}
                         />
@@ -381,6 +383,7 @@ export default function FormView(){
                         name={'textArea'}
                         register={register}
                         errors={errors}
+                        rows={8}
                         defaultValue={`Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
 
 The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.`}
@@ -393,6 +396,7 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                         name={'datalistExample'}
                         register={register}
                         errors={errors}
+                        defaultValue={'zwolle'}
                         options={[
                             {
                                 name:'Amsterdam',

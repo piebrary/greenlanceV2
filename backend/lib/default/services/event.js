@@ -96,6 +96,7 @@ module.exports = mode => {
                 title,
                 body,
                 category,
+                date,
                 time,
                 location,
                 recurring,
@@ -110,6 +111,7 @@ module.exports = mode => {
                 body,
                 category,
                 time,
+                date,
                 location,
                 recurring,
                 rights:{
@@ -154,6 +156,7 @@ module.exports = mode => {
                 title,
                 body,
                 category,
+                date,
                 time,
                 location,
                 recurring,
@@ -179,6 +182,7 @@ module.exports = mode => {
             if(title) eventDocument.title = title
             if(body) eventDocument.body = body
             if(category) eventDocument.category = category
+            if(date) eventDocument.date = date
             if(time) eventDocument.time = time
             if(location) eventDocument.location = location
             if(recurring) eventDocument.recurring = recurring
