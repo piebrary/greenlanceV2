@@ -48,12 +48,14 @@ export default function Input(attributes){
         || type === 'week'
     )
 
+    const randomId = Math.random()
+
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
                 label && (
                     <label
-                        htmlFor={name}
+                        htmlFor={name + randomId}
                         className={createStyle([styles, customStyles], 'label')}
                         >
                         {label}
@@ -63,11 +65,12 @@ export default function Input(attributes){
             <div className={createStyle([styles, customStyles], 'inputContainer')}>
                 <div className={createStyle([styles, customStyles], 'inputField')}>
                     <input
-                        className={[createStyle([styles, customStyles], 'input'), isPicker && styles.isPicker].join(' ')}
-                        id={name}
+                        className={[createStyle([styles, customStyles], 'input'), isPicker && styles.isPicker || ''].join(' ')}
+                        id={name + randomId}
                         type={type !== 'password' ? type : type === 'password' && !isHidden ? 'text' : 'password'}
                         placeholder={placeholder}
                         defaultValue={defaultValue}
+                        value={value}
                         readOnly={readOnly}
                         min={min}
                         max={max}
@@ -77,7 +80,8 @@ export default function Input(attributes){
                         step={step}
                         autoFocus={autoFocus}
                         autoComplete={autoComplete}
-                        onClick={() => !readOnly && document.getElementById(name).showPicker() }
+                        onClick={() => isPicker && !readOnly && document.getElementById(name + randomId).showPicker() }
+                        onChange={onChange}
                         {...reg}
                         />
                     {

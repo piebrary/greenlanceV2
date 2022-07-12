@@ -10,6 +10,7 @@
 .label {
     margin-bottom: 6px;
     margin-left: 4px;
+    max-width: 300px;
 }
 
 .select {
@@ -51,7 +52,8 @@
 
     .select {
         margin-left: var(--componentInputInputContainerMarginLeft);
-        max-width: var(--componentInputInputContainerMaxWidth);
+        /* max-width: var(--componentInputInputContainerMaxWidth); */
+        width: calc(100% - 300px);
     }
 
 }

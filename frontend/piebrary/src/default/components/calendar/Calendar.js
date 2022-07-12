@@ -8,7 +8,7 @@ import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import ButtonGroup from '../buttonGroup/ButtonGroup'
 import Button from '../button/Button'
 import Input from '../../components/formElements/input/Input.js'
-import LocationInput from '../../components/locationInput/LocationInput.js'
+import AddressInput from '../../components/formElements/addressInput/AddressInput.js'
 import Form from '../../components/form/Form'
 import Checkbox from '../../components/formElements/checkbox/Checkbox'
 import Select from '../../components/formElements/select/Select'
@@ -21,6 +21,7 @@ import { AiFillEdit } from 'react-icons/ai'
 import { createStyle } from '../../utils/createStyle'
 import { applyStyles } from '../../utils/applyStyles'
 import { containsNumber } from '../../utils/containsNumber'
+import { notificationManager } from '../../utils/notifications'
 
 import styles from './Calendar.module.css'
 
@@ -34,9 +35,11 @@ export default function Calendar(attributes){
         onDeleteEvent
     } = attributes
 
+    const notifications = notificationManager()
+
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
 
-    const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
+    const { register, handleSubmit, reset, getValues, setValue, formState: { errors }, control } = useForm()
 
     const [events, setEvents] = useState([])
     const [viewRange, setViewRange] = useState('month')
@@ -201,15 +204,27 @@ export default function Calendar(attributes){
 
     async function deleteEvent(){
 
-        const result = await onDeleteEvent(selectedEvent)
+        try {
 
-        setEvents(previous => {
+            const result = await onDeleteEvent(selectedEvent)
 
-            return previous.filter(e => e._id !== selectedEvent._id)
+            setEvents(previous => {
 
-        })
+                return previous.filter(e => e._id !== selectedEvent._id)
 
-        setViewMode('calendar')
+            })
+
+            setViewMode('calendar')
+
+        } catch (error) {
+
+            notifications.create({
+                title: "Could not delete event",
+                type: 'danger',
+                container:'center'
+            })
+
+        }
 
     }
 
@@ -421,7 +436,7 @@ export default function Calendar(attributes){
 
                                                 }}
                                             >
-                                                {calenderEvent.title}
+                                                <div>{calenderEvent.title}</div>
                                             </div>
                                         )
 
@@ -828,7 +843,7 @@ export default function Calendar(attributes){
                                 <div className={styles.categoryLabel}>
                                     {applyTranslation('CalendarComponent.START_LOCATION_LABEL')}
                                 </div>
-                                <LocationInput
+                                <AddressInput
                                     name={'location.start'}
                                     fields={[
                                         {
@@ -867,13 +882,16 @@ export default function Calendar(attributes){
                                             readOnly:viewMode === 'view event' ? true : false
                                         }
                                     ]}
+                                    defaultValue={selectedEvent?.time?.from}
+                                    readOnly={viewMode === 'view event' ? true : false}
                                     register={register}
                                     errors={errors}
+                                    control={control}
                                     />
                                 <div className={styles.categoryLabel}>
                                     {applyTranslation('CalendarComponent.END_LOCATION_LABEL')}
                                 </div>
-                                <LocationInput
+                                <AddressInput
                                     name={'location.end'}
                                     fields={[
                                         {
@@ -912,8 +930,11 @@ export default function Calendar(attributes){
                                             readOnly:viewMode === 'view event' ? true : false
                                         }
                                     ]}
+                                    defaultValue={selectedEvent?.time?.from}
+                                    readOnly={viewMode === 'view event' ? true : false}
                                     register={register}
                                     errors={errors}
+                                    control={control}
                                     />
                                 <div className={styles.categoryLabel}>
                                     {applyTranslation('CalendarComponent.RECURRING_LABEL')}

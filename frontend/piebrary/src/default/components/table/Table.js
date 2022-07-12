@@ -2,17 +2,22 @@ import { useMemo } from 'react'
 
 import { useTable, useSortBy } from 'react-table'
 
+import { createStyle } from '../../utils/createStyle'
+
 import styles from './Table.module.css'
 
-export default function Table({
-    columns,
-    data,
-    onRowClick,
-    getHeaderProps = () => ({}),
-    getColumnProps = () => ({}),
-    getRowProps = () => ({}),
-    getCellProps = () => ({}),
-}){
+export default function Table(attributes){
+
+    const {
+        columns,
+        data,
+        onRowClick,
+        customStyles,
+        getHeaderProps = () => ({}),
+        getColumnProps = () => ({}),
+        getRowProps = () => ({}),
+        getCellProps = () => ({}),
+    } = attributes
 
     const memoColumns = useMemo(
        () => columns,
@@ -34,7 +39,7 @@ export default function Table({
     )
 
     return (
-        <div className={styles.container}>
+        <div className={createStyle([styles, customStyles], 'container')}>
             <table
                 className={styles.table}
                 {...getTableProps()}>

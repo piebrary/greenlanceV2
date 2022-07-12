@@ -1,21 +1,70 @@
-.buttonsCardBody {
+.clearLabel_label {
+    color: var(--colorGreyDarker);
+    background-color: transparent;
+}
+
+.buttonsCard_body {
     display: flex;
     justify-content: space-between;
     padding: 10px 5px;
 }
 
-.controlsSaveButton {
+.controlsSave_button {
     padding: 8px 20px;
     color: var(--colorGreyDark);
     background-color: var(--colorGreyLighter);
 }
 
-.controlsCloseButton {
+.controlsClose_button {
     color: var(--colorGreyDark);
     background-color: var(--colorGreyLighter);
     padding: 8px 20px;
 }
 
-.controlsCloseButton:hover {
+.controlsClose_button:hover {
     background-color: var(--colorPrimary3);
+}
+
+.tableBig_card {
+    display: none;
+}
+
+.tableSmall {
+    color: blue;
+    word-break: break-all;
+    width: 100%;
+}
+
+.tableSmallCard_body {
+    display: block;
+}
+
+.tableSmallCard_card:hover .emailContainer {
+    background-color: transparent;
+    color: white;
+}
+
+.tableSmall > * {
+    margin-bottom: 10px;
+}
+
+.emailContainer {
+    background-color: var(--colorGreyLighter);
+    border-radius: 6px;
+    padding: 8px;
+    margin: 5px;
+    display: inline-block;
+    min-width: fit-content;
+}
+
+@media only screen and (min-width: 600px) {
+
+    .tableBig_card {
+        display: block;
+    }
+
+    .tableSmall {
+        display: none;
+    }
+
 }

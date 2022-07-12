@@ -219,15 +219,21 @@ module.exports = mode => {
 
         try {
 
-            const event_id = req.params._id
+            const event_id = undefined// req.body._id
             const user_id = req.user
 
             const eventDocument = await EventModel
                 .findOneAndDelete({
-                    event_id,
+                    _id:event_id,
                     'rights.edit':user_id
                 })
                 .exec()
+
+            if(!eventDocument){
+
+                return notFoundHandler('Event')
+
+            }
 
             return successHandler(undefined)
 

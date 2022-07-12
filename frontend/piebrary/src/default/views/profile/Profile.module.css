@@ -11,7 +11,7 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
-    max-width: var(--minWidth);
+    max-width: 400px;
 }
 
 .categoryLabel {
@@ -24,7 +24,7 @@
     user-select: none;
 }
 
-.submitButton {
+.submit_button {
     border: 0px;
     border-radius: 4px;
     padding: 5px 10px;
@@ -33,12 +33,12 @@
     cursor: pointer;
 }
 
-.submitButton:hover {
+.submit_button:hover {
     background-color: var(--success1);
     color: white;
 }
 
-.resetButton {
+.reset_button {
     border: 0px;
     border-radius: 4px;
     padding: 5px 10px;
@@ -47,23 +47,20 @@
     cursor: pointer;
 }
 
-.resetButton:hover {
+.reset_button:hover {
     background-color: var(--primary3);
     color: white;
 }
 
-
-@media only screen and (min-width: 800px) {
-
-    .gridGrid {
-        display: block;
-    }
-
+.grid_grid {
+    display: block;
+    width: 100%;
 }
+
 
 @media only screen and (min-width: 1050px) {
 
-    .gridGrid {
+    .grid_grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;

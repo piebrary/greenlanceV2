@@ -206,8 +206,7 @@ export default function FormView(){
             className={styles.container}
             items={menuitems({ isAdmin, applyTranslation })}
             title={applyTranslation('FORM')}>
-            <Card
-                customStyles={applyStyles([styles], 'card1')}>
+            <Card>
                 {applyTranslation('FormView.introMessage')}
             </Card>
             <Card>
@@ -396,7 +395,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                         name={'datalistExample'}
                         register={register}
                         errors={errors}
-                        defaultValue={'zwolle'}
                         options={[
                             {
                                 name:'Amsterdam',
@@ -418,7 +416,6 @@ The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for t
                             onClick={() => handleSubmit(onSubmit)}
                             />
                         <Button
-                            customStyles={applyStyles([styles], 'reset')}
                             label={applyTranslation('RESET')}
                             onClick={onReset}
                             />

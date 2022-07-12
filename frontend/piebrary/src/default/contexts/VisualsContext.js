@@ -4,9 +4,9 @@ import config from '../../config/config'
 
 import { deepCopy } from '../utils/deepCopy'
 
-export const ThemeContext = createContext({})
+export const VisualsContext = createContext({})
 
-export default function ThemeContextProvider({ children }){
+export default function VisualsContextProvider({ children }){
 
     const themes = {
         'default':require('../../default/themes/default'),
@@ -21,7 +21,11 @@ export default function ThemeContextProvider({ children }){
 
     useEffect(() => {
 
-        if(config?.THEME && themes[config.THEME]) setTheme(config.THEME)
+        if(config?.THEME && themes[config.THEME]){
+
+            setTheme(config.THEME)
+
+        }
 
     }, [])
 
@@ -37,7 +41,7 @@ export default function ThemeContextProvider({ children }){
 
             setCurrentTheme({
                 name:themeName,
-                values:deepCopy(themes[currentTheme])
+                values:deepCopy(themes[themeName])
             })
 
         }
@@ -64,8 +68,8 @@ export default function ThemeContextProvider({ children }){
     }
 
     return (
-        <ThemeContext.Provider value={contextData}>
+        <VisualsContext.Provider value={contextData}>
             { children }
-        </ThemeContext.Provider>
+        </VisualsContext.Provider>
     )
 }

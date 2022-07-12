@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form'
 
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
-import { ThemeContext } from '../../contexts/ThemeContext'
+import { VisualsContext } from '../../contexts/VisualsContext'
 
 import Layout from '../../components/layouts/simpleMenuLeft/Layout.js'
 import Card from '../../components/card/Card.js'
@@ -21,7 +21,7 @@ export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { isAdmin, settings } = useContext(UserContext)
-    const { setTheme, getAvailableThemes } = useContext(ThemeContext)
+    const { setTheme, getAvailableThemes } = useContext(VisualsContext)
 
     createTranslation('ThemeView.Description', {
         'en':'Click on a card below to load that theme',

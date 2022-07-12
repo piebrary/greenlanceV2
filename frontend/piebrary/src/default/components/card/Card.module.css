@@ -9,22 +9,8 @@
 }
 
 .clickable:hover {
-    --titleBackgroundColorHover: var(--componentCardTitleBackgroundColorHover);
-    --titleColorHover: var(--componentCardTitleColorHover);
-    --bodyBackgroundColorHover: var(--componentCardBodyBackgroundColorHover);
-    --bodyColorHover: var(--componentCardBodyColorHover);
-}
-
-.clickable:hover .title {
-    background-color: var(--titleBackgroundColorHover);
-    color: var(--titleColorHover);
-    cursor: pointer;
-    transition: var(--componentCardTransition);
-}
-
-.clickable:hover .body {
-    background-color: var(--bodyBackgroundColorHover);
-    color: var(--bodyColorHover);
+    background-color: var(--componentCardTitleBackgroundColorHover);
+    color: var(--componentCardTitleColorHover);
     cursor: pointer;
     transition: var(--componentCardTransition);
 }
@@ -45,14 +31,12 @@
 
 .description {
     font-style: var(--componentCardDescriptionFontStyle);
-    background-color: var(--componentCardDescriptionBackgroundColor);
     color: var(--componentCardDescriptionColor);
     padding: var(--componentCardDescriptionPadding);
     user-select: none;
 }
 
 .body {
-    background-color: var(--componentCardBodyBackgroundColor);
     color: var(--componentCardBodyColor);
     padding: var(--componentCardBodyPadding);
     transition: var(--componentCardTransition);

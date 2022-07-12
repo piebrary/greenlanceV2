@@ -53,10 +53,6 @@ module.exports = () => {
         // settings
         "REGIONAL_SETTINGS":"Regional settings",
         "LANGUAGE":"Language",
-        "DATE_FORMAT":"Date format",
-        "TIME_FORMAT":"Time format",
-        "24HOUR":"24-hour",
-        "AMPM":"am/pm",
         "CREDENTIALS":"Credentials",
         "NEW_PASSWORD":"New password",
         "REPEAT_PASSWORD":"Repeat password",
@@ -75,6 +71,9 @@ module.exports = () => {
         "RETURN":"Return",
         "CREATE_NEW_USER":"New user",
         "DELETE_USER":"Delete user",
+        "PHONE":"Phone",
+        "PHONENUMBER":"Phonenumber",
+        "ADDRESS":"Address",
 
         // calendar
         "CALENDAR":"Calendar",

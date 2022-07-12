@@ -52,7 +52,7 @@ let UserModel, EventModel, encryptPassword, db
         await createFirstUser({
             username:'admin1',
             password:'password1',
-            email:[{ label:'email1', email:'admin1@admins.com' }],
+            email:[{ label:'primary', email:'admin1@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'One' }
         })
@@ -66,7 +66,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'admin2@admins.com' }],
+            email:[{ label:'primary', email:'admin2@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Two' }
         })
@@ -80,7 +80,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'admin3@admins.com' }],
+            email:[{ label:'primary', email:'admin3@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -94,7 +94,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'admin4@admins.com' }],
+            email:[{ label:'primary', email:'admin4@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Four' }
         })
@@ -108,7 +108,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'admin5@admins.com' }],
+            email:[{ label:'primary', email:'admin5@admins.com' }],
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -122,7 +122,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'superuser1@admins.com' }],
+            email:[{ label:'primary', email:'superuser1@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'One' }
         })
@@ -136,7 +136,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'superuser2@admins.com' }],
+            email:[{ label:'primary', email:'superuser2@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'Two' }
         })
@@ -150,7 +150,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'superuser3@admins.com' }],
+            email:[{ label:'primary', email:'superuser3@admins.com' }],
             roles:['superuser'],
             name: { first:'Superuser', last:'Three' }
         })
@@ -164,7 +164,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'user1@admins.com' }],
+            email:[{ label:'primary', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'One' }
         })
@@ -178,7 +178,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'user1@admins.com' }],
+            email:[{ label:'primary', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Two' }
         })
@@ -192,7 +192,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'user1@admins.com' }],
+            email:[{ label:'primary', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Three' }
         })
@@ -206,7 +206,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'user1@admins.com' }],
+            email:[{ label:'primary', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Four' }
         })
@@ -220,7 +220,7 @@ let UserModel, EventModel, encryptPassword, db
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'email1', email:'user1@admins.com' }],
+            email:[{ label:'primary', email:'user1@admins.com' }],
             roles:['user'],
             name: { first:'User', last:'Five' }
         })

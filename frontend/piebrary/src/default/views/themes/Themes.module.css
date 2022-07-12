@@ -5,16 +5,16 @@
     flex-wrap: wrap;
 }
 
-.themesCardBody {
+.themesCard_body {
     justify-content: center;
     align-items: center;
 }
 
-.themeGridGrid {
+.themeGrid_grid {
     grid-template-columns: repeat(auto-fill, 200px);
     grid-auto-rows: 200px;
 }
 
-.themesCardCard {
+.themesCard_card {
     border-radius: 1000px;
 }

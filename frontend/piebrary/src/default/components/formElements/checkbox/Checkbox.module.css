@@ -146,8 +146,8 @@
 
     .checkboxes {
         display: flex;
-        flex-direction: column;
-        width: 300px;
+        flex-direction: row;
+        width: calc(100% - 300px);
     }
 
     .checkbox {

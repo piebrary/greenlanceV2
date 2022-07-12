@@ -1,22 +1,22 @@
-.grid1Grid {
+.grid1_grid {
     /* padding: 10px; */
 }
 
-.card1Card {
+.card1_card {
 
 }
 
 @media only screen and (min-width: 800px) {
 
-    .button1Button {
+    .button1_button {
         color: teal;
     }
 
-    .button1Button:hover {
+    .button1_button:hover {
         background-color: teal;
     }
 
-    .testmenuContainer {
+    .testmenu_container {
         background-color: green;
     }
 
@@ -27,32 +27,32 @@
         padding: 10px;
     }
 
-    .griditemOneCard {
+    .griditemOne_card {
         grid-column: 1 / 3;
         grid-row: 1;
     }
 
-    .griditemTwoCard {
+    .griditemTwo_card {
         grid-column: 1 / 3;
         grid-row: 2;
     }
 
-    .griditemThreeCard {
+    .griditemThree_card {
         grid-column: 3 / 3;
         grid-row: 1 / 3;
     }
 
-    .griditemFourCard {
+    .griditemFour_card {
         grid-column: 1 / 2;
         grid-row: 3;
     }
 
-    .griditemFiveCard {
+    .griditemFive_card {
         grid-column: 2 / 4;
         grid-row: 3;
     }
 
-    .griditemSixCard {
+    .griditemSix_card {
         grid-column: 1 / 4;
         grid-row: 4;
     }
@@ -61,39 +61,39 @@
 
 @media only screen and (min-width: 1000px) {
 
-    .grid1Grid {
+    .grid1_grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
         gap: 10px;
         grid-auto-rows: minmax(100px, auto);
     }
 
-    .griditemOneCard {
+    .griditemOne_card {
         grid-column: 1 / 3;
         grid-row: 1;
     }
 
-    .griditemTwoCard {
+    .griditemTwo_card {
         grid-column: 1 / 3;
         grid-row: 2;
     }
 
-    .griditemThreeCard {
+    .griditemThree_card {
         grid-column: 3 / 5;
         grid-row: 1 / 3;
     }
 
-    .griditemFourCard {
+    .griditemFour_card {
         grid-column: 1 / 3;
         grid-row: 3;
     }
 
-    .griditemFiveCard {
+    .griditemFive_card {
         grid-column: 3 / 5;
         grid-row: 3;
     }
 
-    .griditemSixCard {
+    .griditemSix_card {
         grid-column: 1 / 5;
         grid-row: 4;
     }
@@ -102,39 +102,39 @@
 
 @media only screen and (min-width: 1200px) {
 
-    .grid1Grid {
+    .grid1_grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 10px;
         grid-auto-rows: minmax(100px, auto);
     }
 
-    .griditemOneCard {
+    .griditemOne_card {
         grid-column: 1 / 3;
         grid-row: 1;
     }
 
-    .griditemTwoCard {
+    .griditemTwo_card {
         grid-column: 1 / 3;
         grid-row: 2;
     }
 
-    .griditemThreeCard {
+    .griditemThree_card {
         grid-column: 3 / 5;
         grid-row: 1 / 3;
     }
 
-    .griditemFourCard {
+    .griditemFour_card {
         grid-column: 5 / 6;
         grid-row: 1;
     }
 
-    .griditemFiveCard {
+    .griditemFive_card {
         grid-column: 5 / 6;
         grid-row: 2;
     }
 
-    .griditemSixCard {
+    .griditemSix_card {
         grid-column: 1 / 6;
         grid-row: 3;
     }

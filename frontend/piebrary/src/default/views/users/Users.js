@@ -4,15 +4,20 @@ import { useForm } from "react-hook-form"
 
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
+import { VisualsContext } from '../../contexts/VisualsContext'
 
 import Form from '../../components/form/Form'
 import Layout from '../../components/layouts/simpleMenuLeft/Layout'
 import Card from '../../components/card/Card'
 import Input from '../../components/formElements/input/Input'
+import EmailInput from '../../components/formElements/emailInput/EmailInput'
+import PhoneInput from '../../components/formElements/phoneInput/PhoneInput'
+import AddressInput from '../../components/formElements/addressInput/AddressInput'
 import Button from '../../components/button/Button'
 import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
 import Table from '../../components/table/Table'
 import Checkbox from '../../components/formElements/checkbox/Checkbox'
+import Label from '../../components/label/Label'
 
 import { BiUserPlus } from 'react-icons/bi'
 
@@ -20,6 +25,7 @@ import { menuitems } from '../../assets/js/menu/items'
 import { rolesOptions } from '../../assets/js/user/roles'
 
 import { applyStyles } from '../../utils/applyStyles'
+import { createStyle } from '../../utils/createStyle'
 import { containsNumber } from '../../utils/containsNumber'
 import { notificationManager } from '../../utils/notifications'
 
@@ -30,7 +36,7 @@ export default function Users(){
     const { applyTranslation } = useContext(LanguageContext)
     const { isAdmin, userData, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
 
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
+    const { register, unregister, control, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
 
     const notifications = notificationManager()
 
@@ -112,6 +118,8 @@ export default function Users(){
         const {
             username,
             email,
+            phone,
+            address,
             newPassword,
             repeatPassword,
             currentPassword
@@ -145,6 +153,8 @@ export default function Users(){
                 _id,
                 username,
                 email,
+                phone,
+                address,
                 newPassword,
                 repeatPassword,
                 currentPassword,
@@ -176,6 +186,8 @@ export default function Users(){
         const {
             username,
             email,
+            phone,
+            address,
             newPassword,
             repeatPassword,
             currentPassword
@@ -206,6 +218,8 @@ export default function Users(){
             const result = await postUser({
                 username,
                 email,
+                phone,
+                address,
                 newPassword,
                 repeatPassword,
                 currentPassword,
@@ -241,7 +255,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, applyTranslation })}
             title={applyTranslation('USERS')}>
             <Card customStyles={applyStyles([styles], 'buttonsCard')}>
                 <ButtonGroup>
@@ -317,22 +331,62 @@ export default function Users(){
                     }
                 </ButtonGroup>
             </Card>
-            <Card customStyles={applyStyles([styles], 'card1')}>
-                {
-                    viewMode === 'view users' && (
+            {
+                viewMode === 'view users' && (
+                    <div
+                        className={createStyle([styles], 'tableSmall')}
+                        >
+                        {
+                            data.map(u => {
+
+                                return (
+                                    <Card
+                                        key={u._id + 'Card'}
+                                        title={u.username}
+                                        description={`Roles: ${u.roles.join(', ')}`}
+                                        customStyles={applyStyles([styles], 'tableSmallCard')}
+                                        onClick={() => openEditUser(u)}
+                                        >
+                                        {
+                                            u.email.map(e => {
+
+                                                return (
+                                                    <div
+                                                        key={u._id + e.label + 'EmailContainer'}
+                                                        className={styles.emailContainer}>
+                                                        {e.label} {e.email}
+                                                    </div>
+                                                )
+
+                                            })
+                                        }
+                                    </Card>
+                                )
+
+                            })
+                        }
+                    </div>
+                )
+            }
+            {
+                viewMode === 'view users' && (
+                    <Card
+                        customStyles={applyStyles([styles], 'tableBig')}>
                         <Table
                             columns={columns}
                             data={data}
                             onRowClick={openEditUser}
                             />
-                        )
-                }
-                {
-                    viewMode === 'edit user' && (
+                    </Card>
+                )
+            }
+            {
+                viewMode === 'edit user' && (
+                    <Card customStyles={applyStyles([styles], 'card1')}>
                         <Form
                             customStyles={applyStyles([styles], 'testform')}>
                             <Input
-                                label={applyTranslation('USERNAME')}
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('USERNAME')}</Label>}
                                 name={'username'}
                                 type={'text'}
                                 defaultValue={selectedUser?.username}
@@ -340,16 +394,44 @@ export default function Users(){
                                 register={register}
                                 errors={errors}
                                 />
-                            <Input
-                                label={applyTranslation('EMAIL')}
+                            <EmailInput
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('EMAIL')}</Label>}
                                 name={'email'}
                                 type={'text'}
                                 defaultValue={selectedUser?.email}
+                                setValue={setValue}
                                 register={register}
+                                unregister={unregister}
                                 errors={errors}
+                                getValues={getValues}
+                                control={control}
+                                />
+                            <PhoneInput
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('PHONE')}</Label>}
+                                name={'phone'}
+                                type={'text'}
+                                defaultValue={selectedUser?.phone}
+                                setValue={setValue}
+                                register={register}
+                                unregister={unregister}
+                                errors={errors}
+                                getValues={getValues}
+                                control={control}
+                                />
+                            <AddressInput
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('ADDRESS')}</Label>}
+                                name={'address'}
+                                type={'text'}
+                                defaultValue={selectedUser?.address}
+                                setValue={setValue}
+                                register={register}
+                                unregister={unregister}
+                                errors={errors}
+                                getValues={getValues}
+                                control={control}
                                 />
                             <Checkbox
-                                label={'Roles'}
+                                label={applyTranslation('ROLES')}
                                 register={register}
                                 errors={errors}
                                 options={rolesOptions.map(r => {
@@ -363,10 +445,10 @@ export default function Users(){
                                 })}
                                 />
                             <Input
-                                label={applyTranslation('NEW_PASSWORD')}
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('NEW_PASSWORD')}</Label>}
                                 name={'newPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -383,10 +465,10 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={applyTranslation('REPEAT_PASSWORD')}
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('REPEAT_PASSWORD')}</Label>}
                                 name={'repeatPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -399,10 +481,10 @@ export default function Users(){
                                 }}
                                 />
                             <Input
-                                label={applyTranslation('YOUR_PASSWORD')}
+                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('YOUR_PASSWORD')}</Label>}
                                 name={'currentPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -415,25 +497,56 @@ export default function Users(){
                                 }}
                                 />
                         </Form>
-                    )
-                }
-                {
-                    viewMode === 'create user' && (
+                    </Card>
+                )
+            }
+            {
+                viewMode === 'create user' && (
+                    <Card customStyles={applyStyles([styles], 'card1')}>
                         <Form
                             customStyles={applyStyles([styles], 'testform')}>
                             <Input
-                                label={applyTranslation('USERNAME')}
+                                label={<Label>{applyTranslation('USERNAME')}</Label>}
                                 name={'username'}
                                 type={'text'}
                                 register={register}
                                 errors={errors}
                                 />
-                            <Input
+                            <EmailInput
                                 label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
+                                defaultValue={selectedUser?.email}
+                                setValue={setValue}
                                 register={register}
+                                unregister={unregister}
                                 errors={errors}
+                                getValues={getValues}
+                                control={control}
+                                />
+                            <PhoneInput
+                                label={applyTranslation('PHONE')}
+                                name={'phone'}
+                                type={'text'}
+                                defaultValue={selectedUser?.phone}
+                                setValue={setValue}
+                                register={register}
+                                unregister={unregister}
+                                errors={errors}
+                                getValues={getValues}
+                                control={control}
+                                />
+                            <AddressInput
+                                label={applyTranslation('ADDRESS')}
+                                name={'address'}
+                                type={'text'}
+                                defaultValue={selectedUser?.address}
+                                setValue={setValue}
+                                register={register}
+                                unregister={unregister}
+                                errors={errors}
+                                getValues={getValues}
+                                control={control}
                                 />
                             <Checkbox
                                 label={'Roles'}
@@ -445,7 +558,7 @@ export default function Users(){
                                 label={applyTranslation('PASSWORD')}
                                 name={'newPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -469,7 +582,7 @@ export default function Users(){
                                 label={applyTranslation('REPEAT_PASSWORD')}
                                 name={'repeatPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -485,7 +598,7 @@ export default function Users(){
                                 label={applyTranslation('YOUR_PASSWORD')}
                                 name={'currentPassword'}
                                 type={'password'}
-                                hideToggle={true}
+                                passwordToggle={true}
                                 register={register}
                                 errors={errors}
                                 rules={{
@@ -504,9 +617,9 @@ export default function Users(){
                                 }}
                                 />
                         </Form>
-                    )
-                }
-            </Card>
+                    </Card>
+                )
+            }
         </Layout>
     )
 }

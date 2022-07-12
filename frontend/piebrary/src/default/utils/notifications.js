@@ -3,16 +3,16 @@ import { Store } from 'react-notifications-component'
 export function notificationManager(){
 
     const bottomRight = document.querySelector('.rnc__notification-container--bottom-right')
-    const mobileBottom = document.querySelector('.rnc__notification-container--mobile-bottom')
+    const bottomCenter = document.querySelector('.rnc__notification-container--bottom-center')
 
     if(bottomRight) bottomRight.style.bottom = '0px'
-    if(mobileBottom) mobileBottom.style.bottom = '10px'
+    if(bottomCenter) bottomCenter.style.bottom = '0px'
 
     function create(options){
 
         if(!options.type) options.type = 'info'
         if(!options.insert) options.insert = 'bottom'
-        if(!options.container) options.container = 'bottom-right'
+        if(!options.container) options.container = 'bottom-center'
         if(!options.animationIn) options.animationIn = ["animate__animated", "animate__fadeIn"]
         if(!options.animationOut) options.animationOut = ["animate__animated", "animate__fadeOut"]
         if(!options.dismiss) options.dismiss = {}

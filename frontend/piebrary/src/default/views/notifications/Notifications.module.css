@@ -1,4 +1,4 @@
-.buttonsGridGrid {
+.buttonsGrid_grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
@@ -7,61 +7,44 @@
 
 
 
-.successCardTitle {
+.successCard_title {
     background-color: var(--colorSuccessLight);
 }
 
-.successBtnButton:hover {
-    background-color: var(--colorSuccessDark);
-    width: 100%;
-}
-
-.successCardClickable:hover {
-    --titleBackgroundColorHover: var(--colorSuccessDark);
-    --bodyBackgroundColorHover: var(--colorSuccessDark);
+.successCard_clickable:hover > * {
+    background-color: var(--colorSuccessNormal);
+    color: var(--colorWhite);
 }
 
 
 
-.infoCardTitle {
+.infoCard_title {
     background-color: var(--colorInfoLight);
 }
 
-.infoBtnButton:hover {
-    background-color: var(--colorInfoDark);
-}
-
-.infoCardClickable:hover {
-    --titleBackgroundColorHover: var(--colorInfoDark);
-    --bodyBackgroundColorHover: var(--colorInfoDark);
+.infoCard_clickable:hover > * {
+    background-color: var(--colorInfoNormal);
+    color: var(--colorWhite);
 }
 
 
 
-.warningCardTitle {
+.warningCard_title {
     background-color: var(--colorWarningLight);
 }
 
-.warningBtnButton:hover {
-    background-color: var(--colorWarningDark);
-}
-
-.warningCardClickable:hover {
-    --titleBackgroundColorHover: var(--colorWarningDark);
-    --bodyBackgroundColorHover: var(--colorWarningDark);
+.warningCard_clickable:hover > * {
+    background-color: var(--colorWarningNormal);
+    color: var(--colorWhite);
 }
 
 
 
-.dangerCardTitle {
+.dangerCard_title {
     background-color: var(--colorDangerLight);
 }
 
-.dangerBtnButton:hover {
-    background-color: var(--colorDangerDark);
-}
-
-.dangerCardClickable:hover {
-    --titleBackgroundColorHover: var(--colorDangerDark);
-    --bodyBackgroundColorHover: var(--colorDangerDark);
+.dangerCard_clickable:hover > * {
+    background-color: var(--colorDangerNormal);
+    color: var(--colorWhite);
 }

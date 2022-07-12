@@ -23,7 +23,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
     const { applyTranslation } = useContext(LanguageContext)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [menuClassList, setMenuClassList] = useState([createStyle([styles, customStyles], 'items')])
+    const [menuClassList, setMenuClassList] = useState([createStyle([styles, customStyles], 'menu')])
     const [showScrollToTopBtn, setShowScrollToTopBtn] = useState(false)
 
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
         body.addEventListener('scroll', () => {
 
-            if (body.scrollTop > 200) {
+            if (body.scrollTop > 100 && !isMenuOpen) {
 
                 setShowScrollToTopBtn(true)
 
@@ -68,10 +68,10 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
         }, { capture: true })
 
-    }, [])
+    }, [isMenuOpen])
 
     return (
-        <div id={'lc'} className={styles.layoutContainer}>
+        <div id={'layoutContainer'} className={styles.layoutContainer}>
             {
                 showScrollToTopBtn && (
                     <div
@@ -90,7 +90,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                     </div>
                 )
             }
-            <div className={createStyle([styles, customStyles], 'menu')}>
+            <div className={menuClassList.join(' ')}>
                 <div className={createStyle([styles, customStyles], 'headerResponsive')}>
                     <div className={createStyle([styles, customStyles], 'logo')}>
                         <Logo />
@@ -112,7 +112,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         }
                     </div>
                 </div>
-                <div className={menuClassList.join(' ')}>
+                <div className={createStyle([styles, customStyles], 'items')}>
                     {
                         items.map((group, i) => {
 
@@ -167,20 +167,11 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         })
                     }
                 </div>
-                <div className={`${createStyle([styles, customStyles], 'logout')} ${menuClassList.join(' ')}`}>
-                    <div>
-                        {userData.username}
-                    </div>
-                    <NavLink
-                        to={''}
-                        onClick={logout}
-                        className={createStyle([styles, customStyles], 'item')}>
-                        <div className={styles.itemIcon}><BiLogOutCircle size={20} /></div>
-                        <div className={styles.itemText}>{applyTranslation('LOG_OUT')}</div>
-                    </NavLink>
-                </div>
             </div>
-            <div className={createStyle([styles, customStyles], 'page')}>
+            <div
+                id={'page'}
+                className={createStyle([styles, customStyles], 'page')}
+                >
                 <div className={createStyle([styles, customStyles], 'header')}>
                     {
                         title && (
@@ -190,7 +181,6 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         )
                     }
                 </div>
-                {/*<div className={styles.headerSpacing}></div> */}
                 <div className={createStyle([styles, customStyles], 'content')}>
                     {children}
                 </div>

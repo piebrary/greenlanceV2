@@ -22,7 +22,7 @@ import ConfirmView from './default/views/confirm/Confirm'
 
 import { AuthenticationContext } from './default/contexts/AuthenticationContext'
 import { UserContext } from './default/contexts/UserContext'
-import { ThemeContext } from './default/contexts/ThemeContext'
+import { VisualsContext } from './default/contexts/VisualsContext'
 
 import config from './config/config'
 
@@ -36,7 +36,7 @@ export default function App() {
 
     const { authState } = useContext(AuthenticationContext)
     const { isAdmin } = useContext(UserContext)
-    const { setTheme, currentTheme } = useContext(ThemeContext)
+    const { setTheme, currentTheme } = useContext(VisualsContext)
 
     return (
         <>
@@ -51,7 +51,7 @@ export default function App() {
                             <Route path="/" element={<DashboardView />} />
                             <Route path="/profile" element={<ProfileView />} />
                             <Route path="/settings" element={<SettingsView />} />
-                            { isAdmin() ? <Route path="/users" element={<UsersView />} /> : null }
+                            { isAdmin() && <Route path="/users" element={<UsersView />} /> }
                             <Route path="/documentation" element={<DocumentationView />} />
                             <Route path="/calendar" element={<CalendarView />} />
                             <Route path="/grid" element={<GridView />} />

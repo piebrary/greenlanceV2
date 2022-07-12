@@ -33,11 +33,11 @@
     color: var(-colorPrimary3);
 }
 
-.customInputInputContainer {
+.customInput_inputContainer {
     max-width: 200px;
 }
 
-.customLogoContainer {
+.customLogo_container {
     border-radius: 4px;
     margin-bottom: 10px;
 }

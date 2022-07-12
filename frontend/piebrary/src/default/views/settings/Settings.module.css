@@ -32,25 +32,25 @@
     margin: auto;
 }
 
-.form1SubmitButton {
+.form1Submit_button {
     background-color: var(--success1);
     padding: 10px 15px;
     color: var(--secondary3);
     cursor: pointer;
 }
 
-.form1SubmitButton:hover {
+.form1Submit_button:hover {
     background-color: var(--success2);
 }
 
-.grid1Grid {
+.grid1_grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
     grid-auto-rows: minmax(100px, auto);
 }
 
-.submitButton {
+.submit_button {
     border: 0px;
     border-radius: 4px;
     padding: 5px 10px;
@@ -59,40 +59,40 @@
     cursor: pointer;
 }
 
-.submitButton:hover {
+.submit_button:hover {
     background-color: var(--success1);
     color: white;
 }
 
-.resetButton {
+.reset_button {
     border: 0px;
     border-radius: 4px;
     padding: 5px 10px;
-    background-color: var(--primary5);
+    background-color: var(--colorPrimary5);
     color: white;
     cursor: pointer;
 }
 
-.resetButton:hover {
-    background-color: var(--primary3);
+.reset_button:hover {
+    background-color: var(--colorPrimary3);
     color: white;
 }
 
 @media only screen and (min-width: 1100px) {
 
-    .grid1Grid {
+    .grid1_grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
         grid-auto-rows: minmax(100px, auto);
     }
 
-    .card1Card {
+    .card1_card {
         grid-column: 1;
         grid-row: 1;
     }
 
-    .card2Card {
+    .card2_card {
         grid-column: 2 / 4;
         grid-row: 1;
     }

@@ -20,7 +20,7 @@ module.exports = (() => {
     const colorSuccessNormal = 'rgb(78, 150, 63)'
     const colorSuccessDark = 'rgb(26, 94, 12)'
     const colorInfoLight = 'rgb(95, 177, 201)'
-    const colorInfoNormal = 'rgb40, 131, 158)'
+    const colorInfoNormal = 'rgb(40, 131, 158)'
     const colorInfoDark = 'rgb(3, 77, 99)'
     const colorWarningLight = 'rgb(191, 148, 75)'
     const colorWarningNormal = 'rgb(191, 131, 29)'
@@ -30,7 +30,7 @@ module.exports = (() => {
     const colorDangerDark = 'rgb(135, 5, 5)'
 
     /* layout */
-    const layoutBreakpoint = '800px'
+    const layoutBreakpoint = '1000px'
     const layoutMaxWidth = '1400px'
     const layoutMinWidth = '360px'
     const layoutBackground = colorGreyLighter
@@ -104,7 +104,7 @@ module.exports = (() => {
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'
     const componentInputInputContainerMarginLeft = '10px'
-    const componentInputInputContainerMaxWidth = '300px'
+    const componentInputInputContainerMaxWidth = '400px'
     const componentInputInputContainerLargeMaxWidth = '600px'
     const componentInputInputFieldAlignItems = 'center'
     const componentInputInputFieldBorderRadius = '4px'
@@ -342,7 +342,7 @@ module.exports = (() => {
     /* component.grid */
     const componentGridTemplateColumns = 'repeat(3, 1fr)'
     const componentGridTemplateGap = '10px'
-    const componentGridTemplateAutoRows = 'minmax(100px, auto)'
+    const componentGridTemplateAutoRows = 'minmax(fit-content, auto)'
     const componentGridItemBackgroundColor = colorPrimary3
     const componentGridItemBorderRadius = '4px'
 

@@ -171,22 +171,6 @@ export default function Settings(){
                         register={register}
                         errors={errors}
                         />
-                    <Select
-                        name={'settings.dateFormat'}
-                        label={applyTranslation('DATE_FORMAT')}
-                        options={dateFormatOptions}
-                        defaultValue={dateFormatOptions.find(o => o.value === userData.settings.dateFormat)}
-                        register={register}
-                        errors={errors}
-                        />
-                    <Select
-                        name={'settings.timeFormat'}
-                        label={applyTranslation('TIME_FORMAT')}
-                        options={timeFormatOptions}
-                        defaultValue={timeFormatOptions.find(o => o.value === userData.settings.timeFormat)}
-                        register={register}
-                        errors={errors}
-                        />
                     <ButtonGroup>
                         <Button
                             label={applyTranslation('SAVE')}

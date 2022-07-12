@@ -7,7 +7,6 @@ export default function Checkbox(attributes){
     const {
         customStyles,
         label,
-        name,
         options,
         onClick,
         register,
@@ -40,7 +39,8 @@ export default function Checkbox(attributes){
                                     onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
-                                    {...register(label + o.value, rules)}/>
+                                    {...register(label + o.value, rules)}
+                                    />
                                 {o.name}
                             </label>
                         )

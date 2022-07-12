@@ -12,8 +12,7 @@ module.exports = mode => {
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
-    try { completeUserResponseDto = require('../../custom/dto/response/user/completeUser') } catch { completeUserResponseDto = require('../../default/dto/response/user/completeUser') }
-    try { partialUserResponseDto = require('../../custom/dto/response/user/partialUser') } catch { partialUserResponseDto = require('../../default/dto/response/user/partialUser') }
+    try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
     try { Resize = require('../../custom/utils/Resize') } catch { Resize = require('../../default/utils/Resize') }
     try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../../default/utils/encryptPassword') }
     try { passwordsMatch = require('../../custom/utils/passwordsMatch') } catch { passwordsMatch = require('../../default/utils/passwordsMatch') }
@@ -40,7 +39,7 @@ module.exports = mode => {
                 || !req.params._id
             ){
 
-                const userDocumentDto = completeUserResponseDto(userDocument)
+                const userDocumentDto = userResponseDto(userDocument)
 
                 return successHandler(undefined, userDocumentDto)
 
@@ -60,15 +59,20 @@ module.exports = mode => {
 
             if(currentUserDocument.isAdmin){
 
-                const userDocumentDto = completeUserResponseDto(userDocument)
+                const userDocumentDto = userResponseDto(userDocument)
 
                 return successHandler(undefined, userDocumentDto)
 
             }
 
-            const userDocumentDto = partialUserResponseDto(userDocument)
+            const userDocumentDto = userResponseDto(userDocument)
 
-            return successHandler(undefined, userDocumentDto)
+            return successHandler(
+                undefined,
+                {
+                    _id, username, profilePicture
+                } = userDocumentDto
+            )
 
         } catch (error) {
 
@@ -114,7 +118,7 @@ module.exports = mode => {
 
                 const userDocumentsDto = userDocuments.map(u => {
 
-                    return completeUserResponseDto(u, true)
+                    return userResponseDto(u, true)
 
                 })
 
@@ -124,7 +128,9 @@ module.exports = mode => {
 
             const userDocumentsDto = userDocuments.map(u => {
 
-                return partialUserResponseDto(u)
+                return {
+                    _id, username, profilePicture
+                } = u
 
             })
 
@@ -206,7 +212,7 @@ module.exports = mode => {
             newUserDocument.roles = roles
 
             const result = await newUserDocument.save()
-            const userDocumentDto = completeUserResponseDto(result)
+            const userDocumentDto = userResponseDto(result)
 
             return successHandler(undefined, userDocumentDto)
 
@@ -280,7 +286,9 @@ module.exports = mode => {
                 repeatPassword,
             } = userRequestDto(req.body)
 
-            // updating password or email or roles requires a password
+            console.log(req.body)
+
+            // updating password or email or roles requires a current user password
             if(newPassword || email || roles){
 
                 const matchingPasswords = passwordsMatch(currentPassword, currentUser.passwordHash)
@@ -310,7 +318,7 @@ module.exports = mode => {
             if(settings) userDocument.settings = settings
 
             const result = await userDocument.save()
-            const userDocumentDto = completeUserResponseDto(result, true)
+            const userDocumentDto = userResponseDto(result, true)
 
             return successHandler(undefined, userDocumentDto)
 

@@ -53,10 +53,6 @@ module.exports = () => {
         // settings
         "REGIONAL_SETTINGS":"Regionale instellingen",
         "LANGUAGE":"Taal",
-        "DATE_FORMAT":"Datum aanduiding",
-        "TIME_FORMAT":"Tijds aanduiding",
-        "24HOUR":"24-uursnotatie",
-        "AMPM":"12-uursnotatie",
         "CREDENTIALS":"Gebruikersgegevens",
         "NEW_PASSWORD":"Nieuw wachtwoord",
         "REPEAT_PASSWORD":"Herhaal wachtwoord",
@@ -75,6 +71,9 @@ module.exports = () => {
         "RETURN":"Terug",
         "CREATE_NEW_USER":"Nieuwe gebruiker",
         "DELETE_USER":"Verwijder gebruiker",
+        "PHONE":"Telefoon",
+        "PHONENUMBER":"Telefoonnummer",
+        "ADDRESS":"Adres",
 
         // calendar
         "CALENDAR":"Kalender",

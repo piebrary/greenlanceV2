@@ -22,7 +22,7 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import { IoLogoCss3 } from 'react-icons/io5'
 import { BiTime } from 'react-icons/bi'
 
-export function menuitems({ isAdmin, applyTranslation }){
+export function menuitems({ userData, logout, applyTranslation }){
 
     return [
         [
@@ -44,28 +44,23 @@ export function menuitems({ isAdmin, applyTranslation }){
                 icon:<VscSettings size={20} />,
                 text:applyTranslation('SETTINGS')
             },
-        ],[
-            {
-                label:<>{applyTranslation('ADMIN')}</>,
-                hidden:!isAdmin()
-            },
             {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
-                text:applyTranslation('USERS'),
-                hidden:!isAdmin()
+                text:applyTranslation('USERS') + ' (ADMIN)',
+                // hidden:!userData?.isAdmin()
             },
             {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
-                text:applyTranslation('BUILDER'),
-                hidden:!isAdmin()
+                text:applyTranslation('BUILDER') + ' (ADMIN)',
+                // hidden:!userData?.isAdmin()
             },
             {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
-                text:applyTranslation('DOCUMENTATION'),
-                hidden:!isAdmin()
+                text:applyTranslation('DOCUMENTATION') + ' (ADMIN)',
+                // hidden:!userData?.isAdmin()
             },
         ],[
             {
@@ -164,6 +159,16 @@ export function menuitems({ isAdmin, applyTranslation }){
                 icon:<BiTime size={20} />,
                 text:applyTranslation('DATETIME')
             },
-        ],
+        ],[
+            {
+                label:<>{applyTranslation('LOGOUT')}</>
+            },
+            {
+                to:'/languages',
+                icon:<IoLanguageOutline size={20} />,
+                text:applyTranslation('LANGUAGES')
+            },
+        ]
+
     ]
 }

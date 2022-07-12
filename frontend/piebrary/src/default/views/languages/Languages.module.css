@@ -1,35 +1,35 @@
-.grid1Grid {
+.grid1_grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 10px;
     grid-auto-rows: minmax(100px, auto);
 }
 
-.griditemOneCard {
+.griditemOne_card {
     grid-column: 1 / 1;
     grid-row: 1;
 }
 
-.griditemTwoCard {
+.griditemTwo_card {
     grid-column: 1 / 1;
     grid-row: 2;
 }
 
 @media only screen and (min-width: 1000px) {
 
-    .grid1Grid {
+    .grid1_grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
         grid-auto-rows: minmax(100px, auto);
     }
 
-    .griditemOneCard {
+    .griditemOne_card {
         grid-column: 1 / 1;
         grid-row: 1;
     }
 
-    .griditemTwoCard {
+    .griditemTwo_card {
         grid-column: 2 / 3;
         grid-row: 1;
     }

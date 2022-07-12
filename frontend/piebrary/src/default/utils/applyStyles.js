@@ -1,23 +1,37 @@
 import { decapitalizeFirstLetter } from './decapitalizeFirstLetter'
 import { deepCopy } from './deepCopy'
 
-export function applyStyles(styles, name){
+export function applyStyles(styles, names){
 
     const resultObj = {}
+
+    if(typeof names === 'string'){
+
+        names = [names]
+
+    }
 
     for(let style of styles){
 
         for(let key in style){
 
-            if(key.startsWith(name)){
+            for(let name of names){
 
-                const newKey = decapitalizeFirstLetter(key.split(name)[1])
+                const splittedKey = key.split('_')
 
-                resultObj[newKey] = deepCopy(style[key])
+                if(splittedKey[0] === name){
+
+                    const newKey = decapitalizeFirstLetter(splittedKey.slice(1).join('_'))
+
+                    if(!resultObj[newKey]) resultObj[newKey] = [deepCopy(style[key])]
+                    if(resultObj[newKey]) resultObj[newKey].push(deepCopy(style[key]))
+
+                }
 
             }
 
         }
+
     }
 
     return resultObj

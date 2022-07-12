@@ -7,15 +7,11 @@ module.exports = settings => {
     const {
         _id,
         language,
-        timeFormat,
-        dateFormat
     } = sanitize(settings)
 
     return {
         _id,
         language,
-        timeFormat,
-        dateFormat
     }
 
 }
