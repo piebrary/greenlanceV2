@@ -33,6 +33,7 @@ module.exports = async () => {
         express.use(cors())
 
         express.use('/public', Express.static(path.join(__dirname, '../../../public')))
+        express.use(Express.static(path.join(__dirname, 'frontend', 'build')))
 
         try {
             require('../../custom/server/auth.js')(serverConfig)
