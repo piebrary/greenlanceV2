@@ -10,6 +10,7 @@ import Grid from '../../grid/Grid'
 import { applyStyles } from '../../../utils/applyStyles'
 import { createStyle } from '../../../utils/createStyle'
 import hasDuplicates from '../../../utils/hasDuplicates'
+import { deepCopy } from '../../../utils/deepCopy'
 
 import { ImBin } from 'react-icons/im'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -22,7 +23,7 @@ export default function AddressInput(attributes){
 
     const {
         customStyles,
-        defaultValue,
+        defaultValue = [],
         readOnly,
         name,
         label,
@@ -31,6 +32,7 @@ export default function AddressInput(attributes){
         errors,
         getValues,
         control,
+        reset,
         expandable = true,
         reduceable = true,
         allowNoValue = false,
@@ -38,46 +40,18 @@ export default function AddressInput(attributes){
 
     const { fields, append, prepend, remove, swap, move, insert, replace } = useFieldArray({
         control,
-        name: 'address',
+        name:name,
     })
 
     useEffect(() => {
 
-        replace(defaultValue)
-
-        if(!defaultValue || defaultValue.length === 0){
-
-            replace({
-                label:'',
-                street:'',
-                number:'',
-                zipCode:'',
-                city:'',
-                province:'',
-                country:''
-            })
-
-        }
+        reset()
 
     }, [])
-
-    const labelRules = {
-        validate:{
-            notEmpty: value => {
-
-                if(value === '') return '- Empty label is not allowed'
-
-                return true
-
-            },
-        }
-    }
 
     const addressRules = {
         validate:{
             notEmpty: value => {
-
-                console.log(value)
 
                 if(value === '') return '- Empty address is not allowed'
 
@@ -111,112 +85,108 @@ export default function AddressInput(attributes){
                             key={'addressContainer' + i}
                             className={createStyle([styles, customStyles], ['addressContainer'])}
                             >
-                            <div
-                                className={createStyle([styles, customStyles], ['inputsContainer'])}
-                                >
-                                <Grid customStyles={applyStyles([styles, customStyles], ['addressGrid'])}>
-                                    <Input
-                                        key={'address' + i + 'label'}
-                                        name={`address[${i}].label`}
-                                        placeholder={applyTranslation('LABEL')}
-                                        defaultValue={e.label}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputLabel'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    {
-                                        (
-                                            (i > 0 && !allowNoValue)
-                                            || allowNoValue
-                                        )
-                                        && !readOnly
-                                        && reduceable
-                                        && (
-                                            <div
-                                                className={createStyle([styles, customStyles], ['delete'])}
-                                                onClick={() => {
+                            <Grid customStyles={applyStyles([styles, customStyles], ['addressGrid'])}>
+                                <Input
+                                    key={name + i + 'label'}
+                                    name={`${name}[${i}].label`}
+                                    placeholder={applyTranslation('LABEL')}
+                                    defaultValue={e.label}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputLabel'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                {
+                                    (
+                                        (i > 0 && !allowNoValue)
+                                        || allowNoValue
+                                    )
+                                    && !readOnly
+                                    && reduceable
+                                    && (
+                                        <div
+                                            className={createStyle([styles, customStyles], ['delete'])}
+                                            onClick={() => {
 
-                                                    remove(i)
+                                                remove(i)
 
-                                                }}
-                                                >
-                                                <ImBin size={20}/>
-                                            </div>
-                                        )
-                                    }
-                                    <Input
-                                        key={'address' + i + 'street'}
-                                        name={`address[${i}].street`}
-                                        placeholder={applyTranslation('STREET')}
-                                        defaultValue={e.street}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputStreet'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    <Input
-                                        key={'address' + i + 'number'}
-                                        name={`address[${i}].number`}
-                                        placeholder={applyTranslation('NUMBER')}
-                                        defaultValue={e.number}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputNumber'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    <Input
-                                        key={'address' + i + 'zipCode'}
-                                        name={`address[${i}].zipCode`}
-                                        placeholder={applyTranslation('ZIPCODE')}
-                                        defaultValue={e.zipCode}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputZipCode'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    <Input
-                                        key={'address' + i + 'city'}
-                                        name={`address[${i}].city`}
-                                        placeholder={applyTranslation('CITY')}
-                                        defaultValue={e.city}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputCity'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    <Input
-                                        key={'address' + i + 'province'}
-                                        name={`address[${i}].province`}
-                                        placeholder={applyTranslation('PROVINCE')}
-                                        defaultValue={e.province}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputProvince'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                    <Input
-                                        key={'address' + i + 'country'}
-                                        name={`address[${i}].country`}
-                                        placeholder={applyTranslation('COUNTRY')}
-                                        defaultValue={e.country}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputCountry'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={addressRules}
-                                        />
-                                </Grid>
-                            </div>
-                            {register && errors[name] && errors[name][i] && errors[name][i]['label'] && (
+                                            }}
+                                            >
+                                            <ImBin size={20}/>
+                                        </div>
+                                    )
+                                }
+                                <Input
+                                    key={name + i + 'street'}
+                                    name={`${name}[${i}].street`}
+                                    placeholder={applyTranslation('STREET')}
+                                    defaultValue={e.street}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputStreet'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                <Input
+                                    key={name + i + 'number'}
+                                    name={`${name}[${i}].number`}
+                                    placeholder={applyTranslation('NUMBER')}
+                                    defaultValue={e.number}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputNumber'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                <Input
+                                    key={name + i + 'zipCode'}
+                                    name={`${name}[${i}].zipCode`}
+                                    placeholder={applyTranslation('ZIPCODE')}
+                                    defaultValue={e.zipCode}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputZipCode'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                <Input
+                                    key={name + i + 'city'}
+                                    name={`${name}[${i}].city`}
+                                    placeholder={applyTranslation('CITY')}
+                                    defaultValue={e.city}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputCity'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                <Input
+                                    key={name + i + 'province'}
+                                    name={`${name}[${i}].province`}
+                                    placeholder={applyTranslation('PROVINCE')}
+                                    defaultValue={e.province}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputProvince'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                                <Input
+                                    key={name + i + 'country'}
+                                    name={`${name}[${i}].country`}
+                                    placeholder={applyTranslation('COUNTRY')}
+                                    defaultValue={e.country}
+                                    customStyles={applyStyles([styles, customStyles], ['input', 'addressInput', 'addressInputCountry'])}
+                                    readOnly={readOnly}
+                                    register={register}
+                                    errors={errors}
+                                    rules={addressRules}
+                                    />
+                            </Grid>
+                            {register && errors[`${name}[${i}].label`] && (
                                 <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                                    {errors[name][i]['label'].message}
+                                    {errors[`${name}[${i}].label`].message}
                                 </span>
                             )}
                             {register && errors[name] && errors[name][i] && errors[name][i]['address'] &&(

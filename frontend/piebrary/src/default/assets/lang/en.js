@@ -15,6 +15,7 @@ module.exports = () => {
         "LOG_IN":"Log in",
         "LOGIN":"Login",
         "LOG_OUT":"Log out",
+        "LOGOUT":"Logout",
         "USERNAME":"Username",
         "EMAIL":"Email",
         "PASSWORD":"Password",

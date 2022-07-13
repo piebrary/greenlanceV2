@@ -30,6 +30,7 @@ export default function EmailInput(attributes){
         errors,
         getValues,
         control,
+        reset,
         expandable = true,
         reduceable = true,
         allowNoValue = false
@@ -37,18 +38,12 @@ export default function EmailInput(attributes){
 
     const { fields, append, prepend, remove, swap, move, insert, replace } = useFieldArray({
         control,
-        name: 'email',
+        name: name,
     })
 
     useEffect(() => {
 
-        replace(defaultValue)
-
-        if(defaultValue.length === 0){
-
-            replace({ label:'', phone:'' })
-
-        }
+        reset()
 
     }, [])
 
@@ -105,7 +100,7 @@ export default function EmailInput(attributes){
                                 <div className={styles.label}>
                                     <Input
                                         key={'label' + i}
-                                        name={`email[${i}].label`}
+                                        name={`${name}[${i}].label`}
                                         placeholder={applyTranslation('LABEL')}
                                         defaultValue={e.label}
                                         customStyles={applyStyles([styles, customStyles], ['input', 'emailInput'])}
@@ -118,7 +113,7 @@ export default function EmailInput(attributes){
                                 <div className={styles.email}>
                                     <Input
                                         key={'email' + i}
-                                        name={`email[${i}].email`}
+                                        name={`${name}[${i}].email`}
                                         placeholder={applyTranslation('EMAIL')}
                                         defaultValue={e.email}
                                         customStyles={applyStyles([styles, customStyles], ['input', 'emailInput'])}

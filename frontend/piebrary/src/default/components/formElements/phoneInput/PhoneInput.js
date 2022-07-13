@@ -29,6 +29,7 @@ export default function PhoneInput(attributes){
         errors,
         getValues,
         control,
+        reset,
         expandable = true,
         reduceable = true,
         allowNoValue = false
@@ -36,18 +37,12 @@ export default function PhoneInput(attributes){
 
     const { fields, append, prepend, remove, swap, move, insert, replace } = useFieldArray({
         control,
-        name: 'phone',
+        name: name,
     })
 
     useEffect(() => {
 
-        replace(defaultValue)
-
-        if(defaultValue.length === 0){
-
-            replace({ label:'', number:'' })
-
-        }
+        reset()
 
     }, [])
 
@@ -97,7 +92,7 @@ export default function PhoneInput(attributes){
                                 <div className={styles.label}>
                                     <Input
                                         key={'label' + i}
-                                        name={`phone[${i}].label`}
+                                        name={`${name}[${i}].label`}
                                         placeholder={applyTranslation('LABEL')}
                                         defaultValue={e.label}
                                         customStyles={applyStyles([styles, customStyles], ['input', 'phoneInput'])}
@@ -110,7 +105,7 @@ export default function PhoneInput(attributes){
                                 <div className={styles.phone}>
                                     <Input
                                         key={'phone' + i}
-                                        name={`phone[${i}].phone`}
+                                        name={`${name}[${i}].phone`}
                                         type={'tel'}
                                         pattern={pattern}
                                         placeholder={applyTranslation('PHONENUMBER')}

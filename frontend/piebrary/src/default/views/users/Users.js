@@ -250,7 +250,7 @@ export default function Users(){
 
         if(event) event.preventDefault()
 
-        reset()
+        reset(selectedUser)
     }
 
     return (
@@ -405,6 +405,7 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
+                                reset={onReset}
                                 />
                             <PhoneInput
                                 label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('PHONE')}</Label>}
@@ -417,6 +418,7 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
+                                reset={onReset}
                                 />
                             <AddressInput
                                 label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('ADDRESS')}</Label>}
@@ -429,6 +431,7 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
+                                reset={onReset}
                                 />
                             <Checkbox
                                 label={applyTranslation('ROLES')}

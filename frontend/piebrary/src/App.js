@@ -19,6 +19,7 @@ import GridView from './default/views/grid/Grid'
 import NotificationsView from './default/views/notifications/Notifications'
 import ThemesView from './default/views/themes/Themes'
 import ConfirmView from './default/views/confirm/Confirm'
+import LogoutView from './default/views/logout/Logout'
 
 import { AuthenticationContext } from './default/contexts/AuthenticationContext'
 import { UserContext } from './default/contexts/UserContext'
@@ -63,6 +64,7 @@ export default function App() {
                             <Route path="/confirm" element={<ConfirmView />} />
                             <Route path="/languages" element={<LanguagesView />} />
                             <Route path="/themes" element={<ThemesView />} />
+                            <Route path="/logout" element={<LogoutView />} />
                             <Route path="*" element={<Navigate to="/" />} />
                         </Routes>
                     </Router>

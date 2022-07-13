@@ -16,8 +16,8 @@ module.exports = location => {
     } = location
 
     return {
-        start:addressResponseDto(start),
-        end:addressResponseDto(end),
+        start:[addressResponseDto(start)],
+        end:[addressResponseDto(end)],
     }
 
 }

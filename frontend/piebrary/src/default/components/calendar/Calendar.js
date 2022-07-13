@@ -113,9 +113,11 @@ export default function Calendar(attributes){
 
     function onReset(event){
 
-        event.preventDefault()
+        if(event) event.preventDefault()
 
-        reset()
+        console.log(selectedEvent)
+
+        reset(selectedEvent)
 
     }
 
@@ -183,6 +185,8 @@ export default function Calendar(attributes){
     async function updateEvent(data){
 
         data._id = selectedEvent._id
+
+        console.log(data)
 
         const result = await onUpdateEvent(data)
 
@@ -845,96 +849,26 @@ export default function Calendar(attributes){
                                 </div>
                                 <AddressInput
                                     name={'location.start'}
-                                    fields={[
-                                        {
-                                            label:applyTranslation('LABEL'),
-                                            name:'label',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('STREET'),
-                                            name:'street',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('NUMBER'),
-                                            name:'number',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('ZIPCODE'),
-                                            name: 'zipCode',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('CITY'),
-                                            name: 'city',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('PROVINCE'),
-                                            name:'province',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('COUNTRY'),
-                                            name:'country',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        }
-                                    ]}
-                                    defaultValue={selectedEvent?.time?.from}
+                                    defaultValue={[selectedEvent?.location?.start]}
                                     readOnly={viewMode === 'view event' ? true : false}
+                                    expandable={true}
                                     register={register}
                                     errors={errors}
                                     control={control}
+                                    reset={onReset}
                                     />
                                 <div className={styles.categoryLabel}>
                                     {applyTranslation('CalendarComponent.END_LOCATION_LABEL')}
                                 </div>
                                 <AddressInput
                                     name={'location.end'}
-                                    fields={[
-                                        {
-                                            label:applyTranslation('LABEL'),
-                                            name:'label',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('STREET'),
-                                            name:'street',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('NUMBER'),
-                                            name:'number',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('ZIPCODE'),
-                                            name: 'zipCode',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('CITY'),
-                                            name: 'city',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('PROVINCE'),
-                                            name:'province',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        },
-                                        {
-                                            label:applyTranslation('COUNTRY'),
-                                            name:'country',
-                                            readOnly:viewMode === 'view event' ? true : false
-                                        }
-                                    ]}
-                                    defaultValue={selectedEvent?.time?.from}
+                                    defaultValue={[selectedEvent?.location?.end]}
                                     readOnly={viewMode === 'view event' ? true : false}
+                                    expandable={true}
                                     register={register}
                                     errors={errors}
                                     control={control}
+                                    reset={onReset}
                                     />
                                 <div className={styles.categoryLabel}>
                                     {applyTranslation('CalendarComponent.RECURRING_LABEL')}

@@ -164,9 +164,9 @@ export function menuitems({ userData, logout, applyTranslation }){
                 label:<>{applyTranslation('LOGOUT')}</>
             },
             {
-                to:'/languages',
+                to:'/logout',
                 icon:<IoLanguageOutline size={20} />,
-                text:applyTranslation('LANGUAGES')
+                text:applyTranslation('LOGOUT')
             },
         ]
 

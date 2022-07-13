@@ -1,0 +1,23 @@
+
+
+        # BACKEND
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        # FRONTEND
+            - validation addressInput, emailInput, phoneInput
+            - errorMessage addressInput, emailInput, phoneInput
+            - loginView responsive
+            - email registration, notification etc
+            - make all pages
