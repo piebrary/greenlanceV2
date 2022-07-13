@@ -37,7 +37,7 @@ module.exports = async () => {
 
         express.get('/', (req, res) => {
 
-            res.sendFile(path.join(__dirname, '../../../../', 'frontend', 'piebrary', 'build', 'index.html'))
+            res.sendFile(path.join(__dirname, '../../../../', 'frontend', 'piebrary', 'public', 'index.html'))
 
         })
 
