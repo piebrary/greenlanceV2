@@ -1,6 +1,6 @@
 module.exports = (() => {
 
-    const port = 46372
+    const port = 80
     const secret = 'secret'
     const expiresIn = (1000 * 60 * 60 * 24 * 31)
     const prefix = '/api'
