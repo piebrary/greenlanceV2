@@ -21,3 +21,4 @@
             - loginView responsive
             - email registration, notification etc
             - make all pages
+            - ssl
