@@ -2,7 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 
 import config from '../../config/config'
 
-import { deepCopy } from '../utils/deepCopy'
+import { deepCopy } from '../../default/utils/deepCopy'
 
 export const VisualsContext = createContext({})
 

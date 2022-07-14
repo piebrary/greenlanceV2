@@ -2,15 +2,15 @@ import { createContext, useContext } from 'react'
 
 import { UserContext } from './UserContext'
 
-const en = require('../assets/lang/en')()
-const nl = require('../assets/lang/nl')()
+import { en } from '../assets/lang/en'
+import { nl } from '../assets/lang/nl'
 
 export const LanguageContext = createContext({})
 
 export default function LanguageContextProvider({ children }){
 
     const { settings } = useContext(UserContext)
-    const languages = { en, nl }
+    const languages = { en:en(), nl:nl() }
 
     const contextData = {
         applyTranslation,
