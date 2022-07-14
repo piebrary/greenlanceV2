@@ -1,4 +1,4 @@
-module.exports = (() => {
+export default function red(){
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
@@ -910,4 +910,4 @@ module.exports = (() => {
         componentTimePickerNextBtnColorHover,
     }
 
-})()
+}

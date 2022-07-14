@@ -9,14 +9,14 @@ export const VisualsContext = createContext({})
 export default function VisualsContextProvider({ children }){
 
     const themes = {
-        'default':require('../../default/themes/default'),
-        'red':require('../../default/themes/red'),
-        'green':require('../../default/themes/green'),
+        'basic':require('../../default/themes/basic').default(),
+        'red':require('../../default/themes/red').default(),
+        'green':require('../../default/themes/green').default(),
     }
 
     const [currentTheme, setCurrentTheme] = useState({
-        name:'default',
-        values:deepCopy(themes['default'])
+        name:'basic',
+        values:deepCopy(themes['basic'])
     })
 
     useEffect(() => {
