@@ -15,7 +15,7 @@ import styles from './Languages.module.css'
 export default function LanguagesView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     const data = []
 
@@ -41,7 +41,7 @@ export default function LanguagesView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('LANGUAGES')}>
             <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <Card

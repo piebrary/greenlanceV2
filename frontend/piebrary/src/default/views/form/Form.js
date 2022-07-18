@@ -28,7 +28,7 @@ import styles from './Form.module.css'
 export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin, settings } = useContext(UserContext)
+    const { userData, isAdmin, settings } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
 
@@ -200,11 +200,10 @@ export default function FormView(){
         reset()
 
     }
-
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('FORM')}>
             <Card>
                 {applyTranslation('FormView.introMessage')}

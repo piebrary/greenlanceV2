@@ -17,7 +17,7 @@ import styles from './Notifications.module.css'
 export default function ButtonView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     const notifications = notificationManager()
 
@@ -53,7 +53,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('NOTIFICATIONS')}>
             <Card>
                 {applyTranslation('NotificationView.Card1Body')}

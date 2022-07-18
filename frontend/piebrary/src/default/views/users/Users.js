@@ -34,7 +34,7 @@ import styles from './Users.module.css'
 export default function Users(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
+    const { userData, isAdmin, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
 
     const { register, unregister, control, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
 
@@ -255,7 +255,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ userData, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('USERS')}>
             <Card customStyles={applyStyles([styles], 'buttonsCard')}>
                 <ButtonGroup>

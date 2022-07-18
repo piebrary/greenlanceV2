@@ -17,13 +17,14 @@ import styles from './Email.module.css'
 export default function EmailView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('EMAIL')}>
             <Button
+            label={'Click to send automated email to piedema@gmail.com'}
                 onClick={event => {
 
                     sendEmail({
@@ -35,9 +36,7 @@ export default function EmailView(){
                     })
 
                 }}
-                >
-                Click to send automated email to piedema@gmail.com
-            </Button>
+                />
         </Layout>
     )
 }

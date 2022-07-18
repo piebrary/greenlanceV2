@@ -16,11 +16,11 @@ import styles from './Calendar.module.css'
 export default function CalendarView(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('CALENDAR')}>
             <Calendar
                 getEvents={getEvents}

@@ -76,6 +76,13 @@ module.exports = async () => {
             require('../../default/server/routes/v1/s/event')(express, serverConfig)
         }
 
+        try {
+            require('../../custom/server/routes/v1/s/email')(express, serverConfig)
+            require('../../default/server/routes/v1/s/email')(express, serverConfig)
+        } catch {
+            require('../../default/server/routes/v1/s/email')(express, serverConfig)
+        }
+
         express.listen(
             port,
             () => {

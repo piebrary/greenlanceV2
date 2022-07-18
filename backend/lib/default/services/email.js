@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-import Mailer from 'nodemailer'
+const Mailer = require('nodemailer')
 
 module.exports = mode => {
 

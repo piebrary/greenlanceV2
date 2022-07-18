@@ -15,7 +15,7 @@ import styles from './Grid.module.css'
 export default function GridView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     const data = []
 
@@ -26,7 +26,7 @@ export default function GridView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('GRID')}>
             <Card>
                 {applyTranslation('GridView.INTRO_TEXT')}

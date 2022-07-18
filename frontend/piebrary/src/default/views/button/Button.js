@@ -15,9 +15,7 @@ import styles from './Button.module.css'
 export default function ButtonView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
-
-    const data = []
+    const { userData, isAdmin } = useContext(UserContext)
 
     createTranslation('ButtonView.Card1Body', {
         en:'The button component lets you easily create buttons which can be customized via css.',
@@ -26,7 +24,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('BUTTON')}>
             <Card>
                 {applyTranslation('ButtonView.Card1Body')}

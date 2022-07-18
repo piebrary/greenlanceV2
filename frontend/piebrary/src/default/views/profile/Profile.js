@@ -25,7 +25,7 @@ import styles from './Profile.module.css'
 export default function Profile(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData, getProfilePicture } = useContext(UserContext)
+    const { userData, isAdmin, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm()
 
@@ -35,7 +35,7 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('PROFILE')}>
             <Card
                 customStyles={applyStyles([styles], 'card1')}>

@@ -22,7 +22,7 @@ import { RiVidicon2Fill } from 'react-icons/ri'
 export default function ListView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     const items = []
 
@@ -58,7 +58,7 @@ export default function ListView(){
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('LIST')}>
             <Card>
                 {applyTranslation('ListView.description')}

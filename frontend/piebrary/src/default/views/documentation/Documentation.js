@@ -32,11 +32,11 @@ import styles from './Documentation.module.css'
 export default function Documentation(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     return (
         <Layout
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('DOCUMENTATION')}>
             <Card customStyles={applyStyles([styles], 'container')}>
                 Here comes a list element

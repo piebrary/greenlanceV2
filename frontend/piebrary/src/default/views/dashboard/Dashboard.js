@@ -19,12 +19,12 @@ import styles from './Dashboard.module.css'
 export default function Dashboard(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { isAdmin } = useContext(UserContext)
+    const { userData, isAdmin } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('DASHBOARD')}>
             <Card
                 title={'Grid component'}

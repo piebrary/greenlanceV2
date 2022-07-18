@@ -20,7 +20,7 @@ import styles from './Themes.module.css'
 export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { isAdmin, settings } = useContext(UserContext)
+    const { userData, isAdmin, settings } = useContext(UserContext)
     const { setTheme, getAvailableThemes } = useContext(VisualsContext)
 
     createTranslation('ThemeView.Description', {
@@ -31,7 +31,7 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('THEMES')}>
             <Card
                 customStyles={applyStyles([styles], 'descriptionCard')}

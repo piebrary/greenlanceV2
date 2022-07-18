@@ -27,7 +27,7 @@ import styles from './Settings.module.css'
 export default function Settings(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { isAdmin, userData, saveUserData } = useContext(UserContext)
+    const { userData, isAdmin, saveUserData } = useContext(UserContext)
 
     const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
 
@@ -71,7 +71,7 @@ export default function Settings(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ isAdmin, applyTranslation })}
+            items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('SETTINGS')}>
             <Card
                 customStyles={applyStyles([styles], 'card1')}>
