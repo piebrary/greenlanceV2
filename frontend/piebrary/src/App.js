@@ -20,6 +20,7 @@ import NotificationsView from './default/views/notifications/Notifications'
 import ThemesView from './default/views/themes/Themes'
 import ConfirmView from './default/views/confirm/Confirm'
 import LogoutView from './default/views/logout/Logout'
+import EmailView from './default/views/email/Email'
 
 import { AuthenticationContext } from './default/contexts/AuthenticationContext'
 import { UserContext } from './default/contexts/UserContext'
@@ -54,6 +55,7 @@ export default function App() {
                             <Route path="/settings" element={<SettingsView />} />
                             { isAdmin() && <Route path="/users" element={<UsersView />} /> }
                             <Route path="/documentation" element={<DocumentationView />} />
+                            <Route path="/email" element={<EmailView />} />
                             <Route path="/calendar" element={<CalendarView />} />
                             <Route path="/grid" element={<GridView />} />
                             <Route path="/form" element={<FormView />} />

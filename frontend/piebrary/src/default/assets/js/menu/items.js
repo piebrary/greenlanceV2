@@ -21,6 +21,7 @@ import { BsListOl } from 'react-icons/bs'
 import { AiOutlineCheck } from 'react-icons/ai'
 import { IoLogoCss3 } from 'react-icons/io5'
 import { BiTime } from 'react-icons/bi'
+import { MdOutlineEmail } from 'react-icons/md'
 
 export function menuitems({ userData, logout, applyTranslation }){
 
@@ -48,19 +49,25 @@ export function menuitems({ userData, logout, applyTranslation }){
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS') + ' (ADMIN)',
-                // hidden:!userData?.isAdmin()
+                hidden:!userData?.isAdmin()
             },
             {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
                 text:applyTranslation('BUILDER') + ' (ADMIN)',
-                // hidden:!userData?.isAdmin()
+                hidden:!userData?.isAdmin()
             },
             {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
                 text:applyTranslation('DOCUMENTATION') + ' (ADMIN)',
-                // hidden:!userData?.isAdmin()
+                hidden:!userData?.isAdmin()
+            },
+            {
+                to:'/email',
+                icon:<MdOutlineEmail size={20} />,
+                text:applyTranslation('EMAIL') + ' (ADMIN)',
+                hidden:!userData?.isAdmin()
             },
         ],[
             {

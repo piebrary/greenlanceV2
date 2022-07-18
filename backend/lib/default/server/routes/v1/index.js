@@ -10,7 +10,7 @@ module.exports = (express, config) => {
 
     const prefix = config.PREFIX
 
-    express.get(prefix + '/status', async (req, res) => {
+    express.get(prefix + '/v1/status', async (req, res) => {
 
         const serverInfo = await serverInfoService()
 

@@ -1,0 +1,35 @@
+
+
+
+
+host on vps frontend port 80 and backend other port via nginx
+https://medium.com/geekculture/deploying-a-react-app-and-a-node-js-server-on-a-single-machine-with-pm2-and-nginx-15f17251ee74
+
+https
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
+
+
+nginx config /etc/nginx/sites-available/default
+server {
+      server_name piebrary.nl www.piebrary.nl;
+
+      location / {
+              root /var/www/html;
+              index index.html;
+              try_files $uri /index.html;
+      }
+
+      location /api {
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Host $host;
+              proxy_pass http://localhost:31415;
+      }
+
+
+}
+
+
+
+email
+postfix: https://www.transip.nl/cp/vps/mailcluster/vpsconfigureren/prm/455f1ccb57934036adec94b16fce819e
+nodemailer: https://scribbble.io/wardpoel/setting-up-nodemailer-with-postfix/

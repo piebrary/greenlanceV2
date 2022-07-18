@@ -35,11 +35,11 @@ module.exports = async () => {
         express.use('/public', Express.static(path.join(__dirname, '../../../public')))
         express.use(Express.static(path.join(__dirname, 'frontend', 'build')))
 
-        express.get('/', (req, res) => {
-
-            res.sendFile(path.join(__dirname, '../../../../', 'frontend', 'piebrary', 'public', 'index.html'))
-
-        })
+        // express.get('/', (req, res) => {
+        //
+        //     res.sendFile(path.join(__dirname, '../../../../', 'frontend', 'piebrary', 'public', 'index.html'))
+        //
+        // })
 
         try {
             require('../../custom/server/auth.js')(serverConfig)
