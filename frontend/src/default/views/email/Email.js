@@ -17,6 +17,7 @@ import Textarea from '../../components/formElements/textarea/Textarea'
 
 import { menuitems } from '../../assets/js/menu/items'
 import { applyStyles } from '../../utils/applyStyles'
+import { notificationManager } from '../../utils/notifications'
 
 import styles from './Email.module.css'
 
@@ -27,11 +28,29 @@ export default function EmailView(){
 
     const { register, handleSubmit, formState: { errors } } = useForm()
 
+    const notifications = notificationManager()
+
     const onSubmit = (data) => {
 
-        console.log(data)
+        try {
 
-        sendEmail(data)
+            const result = sendEmail(data)
+
+            notifications.create({
+                title: 'Success',
+                message:`Email send to ${data.to}`,
+                type: 'success'
+            })
+
+        } catch (error) {
+
+            notifications.create({
+                title: 'Error',
+                message:'Could not send email',
+                type: 'danger'
+            })
+
+        }
 
     }
 
