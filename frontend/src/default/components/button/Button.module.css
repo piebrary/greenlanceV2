@@ -1,0 +1,23 @@
+.button {
+    border: var(--componentButtonBorder);
+    border-radius: var(--componentButtonBorderRadius);
+    padding: var(--componentButtonPadding);
+    background-color: var(--componentButtonBackgroundColor);
+    color: var(--componentButtonColor);
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--componentButtonTransition);
+}
+
+.button > * + * {
+    margin-left: 10px;
+}
+
+.button:hover {
+    background-color: var(--componentButtonBackgroundColorHover);
+    color: var(--componentButtonColorHover);
+    transition: var(--componentButtonTransition);
+}

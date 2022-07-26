@@ -18,7 +18,7 @@
         # FRONTEND
             - validation addressInput, emailInput, phoneInput
             - errorMessage addressInput, emailInput, phoneInput
-            - loginView responsive
+            - finish login view (registration/forgot password) loginView
             - email registration, notification etc
             - make all pages
-            - ssl
+            - check if all code imports are dynamic (try-catch-default-custom)

@@ -1,0 +1,47 @@
+.card {
+    border: var(--componentCardBorder);
+    border-radius: var(--componentCardBorderRadius);
+    background-color: var(--colorWhite);
+    color: var(--colorGreyDark);
+    overflow: hidden;
+    display:flex;
+    flex-direction:column;
+}
+
+.clickable:hover {
+    background-color: var(--componentCardTitleBackgroundColorHover);
+    color: var(--componentCardTitleColorHover);
+    cursor: pointer;
+    transition: var(--componentCardTransition);
+}
+
+
+.title {
+    color: var(--componentCardTitleColor);
+    background-color: var(--componentCardTitleBackgroundColor);
+    padding: var(--componentCardTitlePadding);
+    user-select: none;
+    padding: var(--componentCardTitlePadding);
+    transition: var(--componentCardTransition);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    min-height: fit-content;
+}
+
+.description {
+    font-style: var(--componentCardDescriptionFontStyle);
+    color: var(--componentCardDescriptionColor);
+    padding: var(--componentCardDescriptionPadding);
+    user-select: none;
+}
+
+.body {
+    color: var(--componentCardBodyColor);
+    padding: var(--componentCardBodyPadding);
+    transition: var(--componentCardTransition);
+    word-wrap: break-word;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}

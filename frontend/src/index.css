@@ -1,0 +1,29 @@
+body {
+    margin: 0;
+    /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif; */
+    font-family: 'Montserrat';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* background-color: #1E1E1B; */
+    background-color: var(--layoutBackground);
+    min-width: var(--layoutMinWidth);
+    overflow: auto;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+* {
+    font-family: 'Montserrat';
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    src: local('Montserrat'), url(./default/assets/fonts/Montserrat-VariableFont_wght.ttf) format('truetype');
+    /* other formats include: 'woff2', 'truetype, 'opentype',
+                            'embedded-opentype', and 'svg' */
+}

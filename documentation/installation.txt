@@ -5,7 +5,7 @@
 host on vps frontend port 80 and backend other port via nginx
 https://medium.com/geekculture/deploying-a-react-app-and-a-node-js-server-on-a-single-machine-with-pm2-and-nginx-15f17251ee74
 
-https
+https + ufw firewall
 https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
 
 

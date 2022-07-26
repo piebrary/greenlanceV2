@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b784689f.css",
+    "main.js": "/static/js/main.3dd4a5e3.js",
+    "static/js/787.ef20cbcd.chunk.js": "/static/js/787.ef20cbcd.chunk.js",
+    "static/media/Montserrat-VariableFont_wght.ttf": "/static/media/Montserrat-VariableFont_wght.3068cdb43142f5625baf.ttf",
+    "index.html": "/index.html",
+    "main.b784689f.css.map": "/static/css/main.b784689f.css.map",
+    "main.3dd4a5e3.js.map": "/static/js/main.3dd4a5e3.js.map",
+    "787.ef20cbcd.chunk.js.map": "/static/js/787.ef20cbcd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b784689f.css",
+    "static/js/main.3dd4a5e3.js"
+  ]
+}
