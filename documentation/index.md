@@ -3,17 +3,18 @@
 PieBrary let's you easily create, update and publish beautiful responsive websites out of the box, both frontend and backend. You can use this document for installation guides, update & customization guides, tip & tricks and much more.
 
 
+
 # Table of contents
 1. [Introduction](#introduction)
-2. [VPS](/documentation/default/vps.md)
-    1. [Setup](/test)
+2. [VPS](#vps)
+    1. [Setup](#vps-setup)
     2. [Firewall](#vps-firewall)
     3. [SSL](#vps-ssl)
     3. [Email](#vps-email)
 3. [Git](#git)
     1. [Cloning](#git-clone)
     2. [Committing](#git-commit)
-4. [PieBrary](/documentation/default/peibrary.md)
+4. [PieBrary](#piebrary)
     1. [Frontend](#piebrary-frontend)
 	    1. [Components](#piebrary-frontend-components)
 	    2. [Themes](#piebrary-frontend-themes)
@@ -22,28 +23,13 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 	    1. [API Endpoints](#piebrary-backend-endpoints)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ## This is the introduction <a name="introduction"></a>
-Some introduction text, formatted in heading 2 style
+This is the introduction
 
-## Some paragraph <a name="paragraph1"></a>
-The first paragraph text
+## VPS <a name="vps"></a>
+VPS
 
-### Sub paragraph <a name="subparagraph1"></a>
+### VPS-setup <a name="vps-setup"></a>
 This is a sub paragraph, formatted in heading 3 style
 
 ## Another paragraph <a name="paragraph2"></a>
