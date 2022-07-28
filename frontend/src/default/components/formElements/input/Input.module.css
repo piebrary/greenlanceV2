@@ -27,8 +27,8 @@
     background-color: var(--componentInputInputFieldBackgroundColor);
 }
 
-.inputField:focus-within .input:not(:read-only),
-.inputField:hover .input:not(:read-only) {
+.inputField:focus-within,
+.inputField:hover {
     transition: var(--componentInputTransition);
     box-shadow: var(--componentInputInputFieldBoxShadowFocus);
     -webkit-appearance: none;
@@ -101,6 +101,26 @@
     font-size: var(--componentInputErrorMessageFontSize);
     text-align: var(--componentInputErrorMessageTextAlign);
     margin-top: var(--componentInputErrorMessageMarginTop);
+}
+
+.required {
+    color: var(--colorPrimary3);
+    /* border: 1px solid var(--colorPrimary3); */
+    max-width: fit-content;
+    border-radius: 4px;
+    margin: 0px 6px;
+    /* padding: 4px 8px; */
+    /* margin: 0px 6px; */
+    /* right: 10px; */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    /* word-wrap: break-all; */
+    /* min-width: 30px;
+    max-width: 30%; */
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 @media only screen and (min-width: 800px) {

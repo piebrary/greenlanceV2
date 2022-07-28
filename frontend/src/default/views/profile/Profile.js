@@ -71,6 +71,9 @@ export default function Profile(){
                                 defaultValue={userData.name.first}
                                 register={register}
                                 errors={errors}
+                                rules={{
+                                    required: 'Subject is required'
+                                }}
                                 customStyles={applyStyles([styles], 'inputField')}
                                 />
                             <Input
@@ -80,10 +83,16 @@ export default function Profile(){
                                 defaultValue={userData.name.last}
                                 register={register}
                                 errors={errors}
+                                rules={{
+                                    required: 'Subject is required'
+                                }}
                                 customStyles={applyStyles([styles], 'inputField')}
                                 />
-                            <ButtonGroup>
+                            <ButtonGroup
+                                customStyles={applyStyles([styles], 'buttonGroup')}
+                                >
                                 <Button
+                                    customStyles={applyStyles([styles], 'submit')}
                                     label={applyTranslation('SAVE')}
                                     onClick={() => handleSubmit(onSubmit)}
                                     />

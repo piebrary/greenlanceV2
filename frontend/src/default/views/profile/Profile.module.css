@@ -33,23 +33,27 @@
     cursor: pointer;
 }
 
+.buttonGroup_buttonGroup {
+    margin-top: 20px;
+}
+
+.submit_button {
+    padding: 20px;
+    background-color: var(--colorSuccessLight);
+}
+
+
 .submit_button:hover {
-    background-color: var(--success1);
-    color: white;
+    background-color: var(--colorSuccessDark);
 }
 
 .reset_button {
-    border: 0px;
-    border-radius: 4px;
-    padding: 5px 10px;
-    background-color: var(--primary5);
-    color: white;
-    cursor: pointer;
+    padding: 20px;
+    background-color: var(--colorPrimary6);
 }
 
 .reset_button:hover {
-    background-color: var(--primary3);
-    color: white;
+    background-color: var(--colorPrimary2);
 }
 
 .grid_grid {

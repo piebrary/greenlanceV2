@@ -54,68 +54,118 @@ export default function EmailView(){
 
     }
 
+    createTranslation('EmailView.to', {
+        en:'To',
+        nl:'Aan'
+    })
+
+    createTranslation('EmailView.from', {
+        en:'From',
+        nl:'Van'
+    })
+
+    createTranslation('EmailView.subject', {
+        en:'Subject',
+        nl:'Onderwerp'
+    })
+
+    createTranslation('EmailView.text', {
+        en:'Text',
+        nl:'Tekst'
+    })
+
+    createTranslation('EmailView.html', {
+        en:'Html',
+        nl:'Html'
+    })
+
+    createTranslation('EmailView.sendButton', {
+        en:'Send email',
+        nl:'Verstuur email'
+    })
+
+    createTranslation('EmailView.introText', {
+        en:(
+            <>
+                You can easily send emails from you PieBrary email interface. This includes custom build layouts and just plain text.
+                <br />
+                These custom layouts can be created by the PieBrary Dev team on request.
+            </>
+        ),
+        nl:(
+            <>
+                Het is erg makkelijk om via de email interface van PieBrary email te versturen. Dit geldt voor textuele emails maar ook voor op maat gemaakte layouts emails.
+                <br />
+                <br />
+                Deze op maat gemaakte layouts kunnen door het PieBrary ontwikkelteam op verzoek ontworpen worden.
+            </>
+        ),    })
+
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
             title={applyTranslation('EMAIL')}>
             <Card>
-            <Form
-                onSubmit={handleSubmit(onSubmit)}>
-                <Input
-                    name={'to'}
-                    label={'To'}
-                    subtype={'text'}
-                    customStyles={applyStyles([styles], 'customInput')}
-                    register={register}
-                    errors={errors}
-                    rules={{
-                        required: 'To is required'
-                    }}
-                    />
-                <Input
-                    name={'from'}
-                    label={'From'}
-                    subtype={'text'}
-                    customStyles={applyStyles([styles], 'customInput')}
-                    register={register}
-                    errors={errors}
-                    rules={{
-                        required: 'From is required'
-                    }}
-                    />
-                <Input
-                    name={'subject'}
-                    label={'Subject'}
-                    subtype={'text'}
-                    customStyles={applyStyles([styles], 'customInput')}
-                    register={register}
-                    errors={errors}
-                    rules={{
-                        required: 'Subject is required'
-                    }}
-                    />
-                <Textarea
-                    name={'text'}
-                    label={'Text'}
-                    customStyles={applyStyles([styles], 'customInput')}
-                    register={register}
-                    errors={errors}
-                    />
-                <Textarea
-                    name={'html'}
-                    label={'Html'}
-                    customStyles={applyStyles([styles], 'customInput')}
-                    register={register}
-                    errors={errors}
-                    />
-                <ButtonGroup
-                    customStyles={applyStyles([styles], 'customButtonGroup')}
-                    >
-                    <Button
-                        label={'Send Email'}
-                        customStyles={applyStyles([styles], 'customButton')}
+                {applyTranslation('EmailView.introText')}
+            </Card>
+            <Card>
+                <Form
+                    onSubmit={handleSubmit(onSubmit)}>
+                    <Input
+                        name={'to'}
+                        label={applyTranslation('EmailView.to')}
+                        subtype={'text'}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        rules={{
+                            required: 'To is required'
+                        }}
                         />
-                </ButtonGroup>
+                    <Input
+                        name={'from'}
+                        label={applyTranslation('EmailView.from')}
+                        subtype={'text'}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        rules={{
+                            required: 'From is required'
+                        }}
+                        />
+                    <Input
+                        name={'subject'}
+                        label={applyTranslation('EmailView.subject')}
+                        subtype={'text'}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        rules={{
+                            required: 'Subject is required'
+                        }}
+                        />
+                    <Textarea
+                        name={'text'}
+                        label={applyTranslation('EmailView.text')}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        />
+                    <Textarea
+                        name={'html'}
+                        label={applyTranslation('EmailView.html')}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        />
+                    <ButtonGroup
+                        customStyles={applyStyles([styles], 'customButtonGroup')}
+                        >
+                        <Button
+                            label={applyTranslation('EmailView.sendButton')}
+                            customStyles={applyStyles([styles], 'customButton')}
+                            />
+                    </ButtonGroup>
                 </Form>
             </Card>
         </Layout>

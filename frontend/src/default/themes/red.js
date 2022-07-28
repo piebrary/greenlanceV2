@@ -114,7 +114,7 @@ export default function red(){
     const componentInputInputFieldBorderBottomRightRadius = '0px'
     const componentInputInputColor = colorGreyDark
     const componentInputInputBorder = '0px'
-    const componentInputInputPadding = '10px'
+    const componentInputInputPadding = '10px 0px'
     const componentInputInputFontSize = '16px'
     const componentInputInputTextAlign = 'center'
     const componentInputInputBackgroundColor = 'rgba(0,0,0,0)'
@@ -126,7 +126,7 @@ export default function red(){
     const componentInputInputBorderRadiusReadOnly = '4px'
     const componentInputInputBackgroundColorReadOnlyHideToggle = colorGreyLighter
     const componentInputHideToggleTransition = componentInputTransition
-    const componentInputHideTogglePadding = '8px'
+    const componentInputHideTogglePadding = '10px 6px'
     const componentInputHideToggleColorHover = colorPrimary2
     const componentInputErrorMessageColor = colorPrimary3
     const componentInputErrorMessageFontSize = '13px'

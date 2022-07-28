@@ -5,6 +5,7 @@ import { UserContext } from '../../contexts/UserContext'
 import Button from '../button/Button'
 
 import { createStyle } from '../../utils/createStyle'
+import { applyStyles } from '../../utils/applyStyles'
 
 import styles from './ImageUploader.module.css'
 
@@ -87,6 +88,7 @@ export default function ImageUploader({ customStyles, currentPicture, defaultPic
                             </p>
 
                             <Button
+                                customStyles={applyStyles([styles], 'upload')}
                                 label={label}
                                 />
                         </>
