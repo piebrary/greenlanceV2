@@ -9,16 +9,21 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 2. [VPS](#vps)
     1. [Setup](#vps-setup)
     2. [Firewall](#vps-firewall)
-    3. [SSL](#vps-ssl)
-    3. [Email](#vps-email)
-3. [Git](#git)
-    1. [Cloning](#git-clone)
-    2. [Committing](#git-commit)
-4. [PieBrary](#piebrary)
+    3. [Nginx proxy server](#vps-nginx)
+    4. [SSL](#vps-ssl)
+    5. [Email](#vps-email)
+3. [Git](#git) *a protocol to store and retrieve your repository from the cloud*
+    1. [Cloning](#git-clone) *getting the repository on you computer to edit*
+    2. [Pulling](#git-pull) *updating your local Git repository with changes made on other computers*
+    3. [Committing](#git-commit) *updating your local Git registry with your changes*
+    4. [Pushing](#git-publishing) *pushing your edited repository to the Git cloud*
+    5. [Workflow](#git-workflow) *workflow of working with Git*
+4. [Publishing](#publishing) *publishing your website to the web*
+5. [PieBrary](#piebrary)
     1. [Frontend](#piebrary-frontend)
-	    1. [Components](#piebrary-frontend-components)
-	    2. [Themes](#piebrary-frontend-themes)
-	    3. [Styles](#piebrary-frontend-styles)
+	    2. [Components](#piebrary-frontend-components)
+	    3. [Themes](#piebrary-frontend-themes)
+	    4. [Styles](#piebrary-frontend-styles)
     2. [Backend](#piebrary-backend)
 	    1. [API Endpoints](#piebrary-backend-endpoints)
 
@@ -26,152 +31,67 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 ## This is the introduction <a name="introduction"></a>
 This is the introduction
 
+
+
 ## VPS <a name="vps"></a>
 VPS
 
 ### VPS-setup <a name="vps-setup"></a>
-This is a sub paragraph, formatted in heading 3 style
+VPS-setup
 
-## Another paragraph <a name="paragraph2"></a>
-The second paragraph text
+### VPS-firewall<a name="vps-firewall"></a>
+VPS-firewall
 
+### VPS-ssl<a name="vps-ssl"></a>
+*test test test*
+VPS-ssl
 
+### VPS-email<a name="vps-email"></a>
+VPS-email
 
 
 
-StackEdit stores your files in your browser, which means all your files are automatically saved locally and are accessible **offline!**
+## Git<a name="git"></a>
+Git is a protocol which securely stores your repository in the cloud. This way you always have a backup, you can browse the history of the changes made and even work with multiple people on the same project. In this documentation we use Github but there are many more Git clients.
 
-## Create files and folders
+### Git-cloning<a name="git-cloning"></a>
+Cloning means you create a copy or so called clone of the repository on the current device (be it your computer or for example a VPS) to work on or to publish.
 
-The file explorer is accessible using the button in left corner of the navigation bar. You can create a new file by clicking the **New file** button in the file explorer. You can also create folders by clicking the **New folder** button.
+### Git-pulling<a name="git-pulling"></a>
+With Git command Pull you retrieve an updated version of the repository you are in from the cloud. Always do this when you're starting to work on a repository that other people also work on.
 
-## Switch to another file
+### Git-committing<a name="git-committing"></a>
+Committing is updating the registry of you local Git repository with the changes you have made. In this step you're not sending your changes to the cloud but you are just updating your registry.
 
-All your files and folders are presented as a tree in the file explorer. You can switch from one to another by clicking a file in the tree.
+### Git-pushing<a name="git-pushing"></a>
+Pushing is the process of sending you new repository version to the Git cloud. This makes your version available to other people working on it, so called collaborators.
 
-## Rename a file
+### Git-workflow<a name="git-workflow"></a>
+When you've not worked on the Git repository you want to work it, you have to fetch a copy from the cloud with the following command:
 
-You can rename the current file by clicking the file name in the navigation bar or by clicking the **Rename** button in the file explorer.
+Run `git clone https://github.com/[username]/[repository-name]`
 
-## Delete a file
+- [username] = the username of the name of the organization who owns the repository
+- [repository] = the name of the repository
 
-You can delete the current file by clicking the **Remove** button in the file explorer. The file will be moved into the **Trash** folder and automatically deleted after 7 days of inactivity.
+Then install the NPM modules in both the frontend and backend folders.
+Run `cd [repository-name]/frontend` and run `npm install`
+When finished go to the backend folder with `cd ../backend` and run `npm install`
 
-## Export a file
+When you start working on you Git repository you need to get the last changes, so use Pull
 
-You can export the current file by clicking **Export to disk** in the menu. You can choose to export the file as plain Markdown, as HTML using a Handlebars template or as a PDF.
+`git pull`
 
+After you've worked on the repository you want to update your local registry with the changes you've made
+- First stage all changes: `git add .`
+- Then commit them with a message with `git commit -m "my message i.e. short detail about the changes"`
+- Then push them to the cloud with `git push`
+- Lastly you want to publish the website to the web, follow the next section [Publishing](#publishing) for that workflow
 
-# Synchronization
+## Publishing<a name="publishing"></a>
+With publishing we mean downloading the updated repository with it's chances on the server, create a build package from that and copy the build files to the folder where your website is hosted. If we made backend changes we also need to restart our backend server.
 
-Synchronization is one of the biggest features of StackEdit. It enables you to synchronize any file in your workspace with other files stored in your **Google Drive**, your **Dropbox** and your **GitHub** accounts. This allows you to keep writing on other devices, collaborate with people you share the file with, integrate easily into your workflow... The synchronization mechanism takes place every minute in the background, downloading, merging, and uploading file modifications.
-
-There are two types of synchronization and they can complement each other:
-
-- The workspace synchronization will sync all your files, folders and settings automatically. This will allow you to fetch your workspace on any other device.
-	> To start syncing your workspace, just sign in with Google in the menu.
-
-- The file synchronization will keep one file of the workspace synced with one or multiple files in **Google Drive**, **Dropbox** or **GitHub**.
-	> Before starting to sync files, you must link an account in the **Synchronize** sub-menu.
-
-## Open a file
-
-You can open a file from **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Open from**. Once opened in the workspace, any modification in the file will be automatically synced.
-
-## Save a file
-
-You can save any file of the workspace to **Google Drive**, **Dropbox** or **GitHub** by opening the **Synchronize** sub-menu and clicking **Save on**. Even if a file in the workspace is already synced, you can save it to another location. StackEdit can sync one file with multiple locations and accounts.
-
-## Synchronize a file
-
-Once your file is linked to a synchronized location, StackEdit will periodically synchronize it by downloading/uploading any modification. A merge will be performed if necessary and conflicts will be resolved.
-
-If you just have modified your file and you want to force syncing, click the **Synchronize now** button in the navigation bar.
-
-> **Note:** The **Synchronize now** button is disabled if you have no file to synchronize.
-
-## Manage file synchronization
-
-Since one file can be synced with multiple locations, you can list and manage synchronized locations by clicking **File synchronization** in the **Synchronize** sub-menu. This allows you to list and remove synchronized locations that are linked to your file.
-
-
-# Publication
-
-Publishing in StackEdit makes it simple for you to publish online your files. Once you're happy with a file, you can publish it to different hosting platforms like **Blogger**, **Dropbox**, **Gist**, **GitHub**, **Google Drive**, **WordPress** and **Zendesk**. With [Handlebars templates](http://handlebarsjs.com/), you have full control over what you export.
-
-> Before starting to publish, you must link an account in the **Publish** sub-menu.
-
-## Publish a File
-
-You can publish your file by opening the **Publish** sub-menu and by clicking **Publish to**. For some locations, you can choose between the following formats:
-
-- Markdown: publish the Markdown text on a website that can interpret it (**GitHub** for instance),
-- HTML: publish the file converted to HTML via a Handlebars template (on a blog for example).
-
-## Update a publication
-
-After publishing, StackEdit keeps your file linked to that publication which makes it easy for you to re-publish it. Once you have modified your file and you want to update your publication, click on the **Publish now** button in the navigation bar.
-
-> **Note:** The **Publish now** button is disabled if your file has not been published yet.
-
-## Manage file publication
-
-Since one file can be published to multiple locations, you can list and manage publish locations by clicking **File publication** in the **Publish** sub-menu. This allows you to list and remove publication locations that are linked to your file.
-
-
-# Markdown extensions
-
-StackEdit extends the standard Markdown syntax by adding extra **Markdown extensions**, providing you with some nice features.
-
-> **ProTip:** You can disable any **Markdown extension** in the **File properties** dialog.
-
-
-## SmartyPants
-
-SmartyPants converts ASCII punctuation characters into "smart" typographic punctuation HTML entities. For example:
-
-|                |ASCII                          |HTML                         |
-|----------------|-------------------------------|-----------------------------|
-|Single backticks|`'Isn't this fun?'`            |'Isn't this fun?'            |
-|Quotes          |`"Isn't this fun?"`            |"Isn't this fun?"            |
-|Dashes          |`-- is en-dash, --- is em-dash`|-- is en-dash, --- is em-dash|
-
-
-## KaTeX
-
-You can render LaTeX mathematical expressions using [KaTeX](https://khan.github.io/KaTeX/):
-
-The *Gamma function* satisfying $\Gamma(n) = (n-1)!\quad\forall n\in\mathbb N$ is via the Euler integral
-
-$$
-\Gamma(z) = \int_0^\infty t^{z-1}e^{-t}dt\,.
-$$
-
-> You can find more information about **LaTeX** mathematical expressions [here](http://meta.math.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference).
-
-
-## UML diagrams
-
-You can render UML diagrams using [Mermaid](https://mermaidjs.github.io/). For example, this will produce a sequence diagram:
-
-```mermaid
-sequenceDiagram
-Alice ->> Bob: Hello Bob, how are you?
-Bob-->>John: How about you John?
-Bob--x Alice: I am good thanks!
-Bob-x John: I am good thanks!
-Note right of John: Bob thinks a long<br/>long time, so long<br/>that the text does<br/>not fit on a row.
-
-Bob-->Alice: Checking with John...
-Alice->John: Yes... John, how are you?
-```
-
-And this will produce a flow chart:
-
-```mermaid
-graph LR
-A[Square Rect] -- Link text --> B((Circle))
-A --> C(Round Rect)
-B --> D{Rhombus}
-C --> D
-```
+- First navigate to the repository with the command line. When you are in the repositories top level folder we will fetch or pull the changes. Use `git pull`
+- Then we want to create a build package of the repository. First navigate to the frontend folder with `cd frontend` and then build the source with `npm run build`
+- When the process succeeded we copy the files to the location where our website is hosted. Normally this location is `/var/www/html`. Copy the files with `sudo cp -r build/* /var/www/html` and provide your password. The newly build website is now available to the web.
+- When changes were made to the backend, we need to navigate there with `cd ../backend` and restart the process with `pm2 restart [repository-name]-api`
