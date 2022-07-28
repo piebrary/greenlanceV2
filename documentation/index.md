@@ -6,7 +6,7 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 # Table of contents
 1. [Introduction](#introduction)
 2. [VPS](/documentation/default/vps.md)
-    1. [Setup](#vps-setup)
+    1. [Setup](/test)
     2. [Firewall](#vps-firewall)
     3. [SSL](#vps-ssl)
     3. [Email](#vps-email)
