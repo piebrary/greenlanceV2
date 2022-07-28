@@ -13,10 +13,10 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
     4. [SSL](#vps-ssl)
     5. [Email](#vps-email)
 3. [Git](#git) *a protocol to store and retrieve your repository from the cloud*
-    1. [Cloning](#git-clone) *getting the repository on you computer to edit*
-    2. [Pulling](#git-pull) *updating your local Git repository with changes made on other computers*
-    3. [Committing](#git-commit) *updating your local Git registry with your changes*
-    4. [Pushing](#git-publishing) *pushing your edited repository to the Git cloud*
+    1. [Cloning](#git-cloning) *getting the repository on you computer to edit*
+    2. [Pulling](#git-pushing) *updating your local Git repository with changes made on other computers*
+    3. [Committing](#git-committing) *updating your local Git registry with your changes*
+    4. [Pushing](#git-pushing) *pushing your edited repository to the Git cloud*
     5. [Workflow](#git-workflow) *workflow of working with Git*
 4. [Publishing](#publishing) *publishing your website to the web*
 5. [PieBrary](#piebrary)
