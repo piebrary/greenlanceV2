@@ -10,6 +10,7 @@ export default function Textarea(attributes){
         label,
         id,
         name,
+        placeholder,
         rows,
         cols,
         onChange,
@@ -37,6 +38,7 @@ export default function Textarea(attributes){
                 id={name}
                 className={createStyle([styles, customStyles], 'textarea')}
                 defaultValue={defaultValue}
+                placeholder={placeholder}
                 {...reg}
                 onChange={onChange}
                 rows={rows}

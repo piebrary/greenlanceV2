@@ -17,6 +17,8 @@ export default function Select(attributes){
         multiple
     } = attributes
 
+    const reg = register && register(name, rules)
+
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
@@ -33,7 +35,7 @@ export default function Select(attributes){
                 className={createStyle([styles, customStyles], 'select')}
                 defaultValue={defaultValue?.value}
                 multiple={multiple}
-                {...register(name, rules)}
+                {...reg}
                 onChange={onChange}>
                 {
                     options.map(o => {

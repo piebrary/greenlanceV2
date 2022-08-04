@@ -17,9 +17,9 @@ export default function LanguageContextProvider({ children }){
         createTranslation
     }
 
-    function applyTranslation(stringKey){
+    function applyTranslation(stringKey, language){
 
-        return languages[settings.language][stringKey] || stringKey
+        return languages[language || settings.language][stringKey] || stringKey
 
     }
 

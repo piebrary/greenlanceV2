@@ -2,12 +2,12 @@ export function dark(){
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
-    const colorPrimary1 = '#6D8700'
-    const colorPrimary2 = '#9DB300'
-    const colorPrimary3 = '#BAC600'
-    const colorPrimary4 = '#C8D741'
-    const colorPrimary5 = '#D8E46B'
-    const colorPrimary6 = '#E2F1A0'
+    const colorPrimary1 = 'rgb(245, 245, 245)'
+    const colorPrimary2 = 'rgb(232, 232, 232)'
+    const colorPrimary3 = 'rgb(200, 200, 200)'
+    const colorPrimary4 = 'rgb(160, 160, 160)'
+    const colorPrimary5 = 'rgb(100, 100, 100)'
+    const colorPrimary6 = 'rgb(70, 70, 70)'
     const colorWhite = 'rgb(255, 255, 255)'
     const colorGreyLightest = 'rgb(245, 245, 245)'
     const colorGreyLighter = 'rgb(232, 232, 232)'
@@ -35,6 +35,31 @@ export function dark(){
     const layoutMinWidth = '360px'
     const layoutBackground = colorGreyLighter
     const layoutContentSpacing = '10px'
+
+    /* font-size */
+    const fontSizeSmall = '12px'
+    const fontSizeMedium = '16px'
+    const fontSizeBig = '22px'
+
+    /* border-radius */
+    const borderRadiusSmall = '4px'
+    const borderRadiusMedium = '6px'
+    const borderRadiusBig = '10px'
+
+    /* padding */
+    const paddingSmall = '4px'
+    const paddingMedium = '6px'
+    const paddingBig = '10px'
+
+    /* margin */
+    const marginSmall = '4px'
+    const marginMedium = '6px'
+    const marginBig = '10px'
+
+    /* transition */
+    const transitionSlow = '1s ease-in-out'
+    const transitionMedium = '0.5s ease-in-out'
+    const transitionFast = '0.2s ease-in-out'
 
     /* menu */
     const menuWidth = '250px'
@@ -96,10 +121,10 @@ export function dark(){
     const componentButtonColor = colorWhite
     const componentButtonBackgroundColorHover = colorSuccessDark
     const componentButtonColorHover = colorWhite
-    const componentButtonTransition = '0.3s ease-in-out'
+    const componentButtonTransition = '0.2s ease-in-out'
 
     /* components.input */
-    const componentInputTransition = '0.3s ease-in-out'
+    const componentInputTransition = '0.2s ease-in-out'
     const componentInputContainerBackgroundColor = colorGreyLighter
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'
@@ -135,7 +160,7 @@ export function dark(){
 
     /* components.checkbox */
     const componentCheckboxesMinWidth = '200px'
-    const componentCheckboxTransition = '0.3s ease-in-out'
+    const componentCheckboxTransition = '0.2s ease-in-out'
     const componentCheckboxContainerBorderRadius = '4px'
     const componentCheckboxContainerPadding = '10px'
     const componentCheckboxContainerBackgroundColor = colorGreyLighter
@@ -157,9 +182,9 @@ export function dark(){
     const componentCheckboxDisabledColor = colorGreyNormal
     const componentCheckboxDisabledBorder = '2px solid var(--colorGreyLight)'
 
-    /* components.radio */
+    /* components.checkbox */
     const componentRadiosMinWidth = '200px'
-    const componentRadioTransition = '0.3s ease-in-out'
+    const componentRadioTransition = '0.2s ease-in-out'
     const componentRadioContainerBorderRadius = '4px'
     const componentRadioContainerPadding = '10px'
     const componentRadioContainerBackgroundColor = colorGreyLighter
@@ -194,7 +219,7 @@ export function dark(){
     const componentCardBodyPadding = '10px 10px'
     const componentCardBodyBackgroundColor = colorWhite
     const componentCardBodyColor = colorGreyDark
-    const componentCardTransition = '0.3s ease-in-out'
+    const componentCardTransition = '0.2s ease-in-out'
     const componentCardTitleBackgroundColorHover = colorPrimary3
     const componentCardTitleColorHover = colorWhite
     const componentCardBodyBackgroundColorHover = colorPrimary3
@@ -226,7 +251,7 @@ export function dark(){
     const componentCalendarTableCellBorder = '2px solid var(--colorGreyLightest)'
     const componentCalendarTableCellHeight = '90px'
     const componentCalendarTableCellMinHeight = 'fit-content'
-    const componentCalendarTableCellMinWidth = '20px'
+    const componentCalendarTableCellMinWidth = '90px'
     const componentCalendarTableCellVerticalAlign = 'top'
     const componentCalendarTableCellPadding = '5px 3px 5px 3px'
     const componentCalendarTableCellLowTransparencyOpacity = '0.2'
@@ -239,7 +264,7 @@ export function dark(){
     const componentCalendarTableCellDateMonthColor = colorGreyDarker
     const componentCalendarTableCellDateMonthFontWeight = 'normal'
     const componentCalendarTableCellDateMonthTextOverflow = 'ellipsis'
-    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary5
+    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary2
     const componentCalendarTableCellEventContainerBackgroundColor = colorGreyDarker
     const componentCalendarTableCellEventContainerBorderRadius = '10px'
     const componentCalendarTableCellEventContainerColor = colorWhite
@@ -247,7 +272,7 @@ export function dark(){
     const componentCalendarTableCellEventContainerPadding = '4px'
     const componentCalendarTableCellEventContainerDistance = '2px'
     const componentCalendarTableCellEventContainerColorHover = colorWhite
-    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary5
+    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary3
     const componentCalendarTableCellCreateEventButtonColor = colorGreyDarker
     const componentCalendarCreateEventButtonColor = colorGreyDarker
     const componentCalendarListItemDistance = '10px'
@@ -507,6 +532,21 @@ export function dark(){
         layoutMinWidth,
         layoutBackground,
         layoutContentSpacing,
+        fontSizeSmall,
+        fontSizeMedium,
+        fontSizeBig,
+        borderRadiusSmall,
+        borderRadiusMedium,
+        borderRadiusBig,
+        paddingSmall,
+        paddingMedium,
+        paddingBig,
+        marginSmall,
+        marginMedium,
+        marginBig,
+        transitionSlow,
+        transitionMedium,
+        transitionFast,
         menuWidth,
         menuHeight,
         menuBackgroundColor,
@@ -912,17 +952,16 @@ export function dark(){
 
 }
 
-
 export function light(){
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
-    const colorPrimary1 = '#6D8700'
-    const colorPrimary2 = '#9DB300'
-    const colorPrimary3 = '#BAC600'
-    const colorPrimary4 = '#C8D741'
-    const colorPrimary5 = '#D8E46B'
-    const colorPrimary6 = '#E2F1A0'
+    const colorPrimary1 = 'rgb(245, 245, 245)'
+    const colorPrimary2 = 'rgb(232, 232, 232)'
+    const colorPrimary3 = 'rgb(200, 200, 200)'
+    const colorPrimary4 = 'rgb(160, 160, 160)'
+    const colorPrimary5 = 'rgb(100, 100, 100)'
+    const colorPrimary6 = 'rgb(70, 70, 70)'
     const colorWhite = 'rgb(255, 255, 255)'
     const colorGreyLightest = 'rgb(245, 245, 245)'
     const colorGreyLighter = 'rgb(232, 232, 232)'
@@ -950,6 +989,31 @@ export function light(){
     const layoutMinWidth = '360px'
     const layoutBackground = colorGreyLighter
     const layoutContentSpacing = '10px'
+
+    /* font-size */
+    const fontSizeSmall = '12px'
+    const fontSizeMedium = '16px'
+    const fontSizeBig = '22px'
+
+    /* border-radius */
+    const borderRadiusSmall = '4px'
+    const borderRadiusMedium = '6px'
+    const borderRadiusBig = '10px'
+
+    /* padding */
+    const paddingSmall = '4px'
+    const paddingMedium = '6px'
+    const paddingBig = '10px'
+
+    /* margin */
+    const marginSmall = '4px'
+    const marginMedium = '6px'
+    const marginBig = '10px'
+
+    /* transition */
+    const transitionSlow = '1s ease-in-out'
+    const transitionMedium = '0.5s ease-in-out'
+    const transitionFast = '0.2s ease-in-out'
 
     /* menu */
     const menuWidth = '250px'
@@ -1011,10 +1075,10 @@ export function light(){
     const componentButtonColor = colorWhite
     const componentButtonBackgroundColorHover = colorSuccessDark
     const componentButtonColorHover = colorWhite
-    const componentButtonTransition = '0.3s ease-in-out'
+    const componentButtonTransition = '0.2s ease-in-out'
 
     /* components.input */
-    const componentInputTransition = '0.3s ease-in-out'
+    const componentInputTransition = '0.2s ease-in-out'
     const componentInputContainerBackgroundColor = colorGreyLighter
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'
@@ -1050,7 +1114,7 @@ export function light(){
 
     /* components.checkbox */
     const componentCheckboxesMinWidth = '200px'
-    const componentCheckboxTransition = '0.3s ease-in-out'
+    const componentCheckboxTransition = '0.2s ease-in-out'
     const componentCheckboxContainerBorderRadius = '4px'
     const componentCheckboxContainerPadding = '10px'
     const componentCheckboxContainerBackgroundColor = colorGreyLighter
@@ -1072,9 +1136,9 @@ export function light(){
     const componentCheckboxDisabledColor = colorGreyNormal
     const componentCheckboxDisabledBorder = '2px solid var(--colorGreyLight)'
 
-    /* components.radio */
+    /* components.checkbox */
     const componentRadiosMinWidth = '200px'
-    const componentRadioTransition = '0.3s ease-in-out'
+    const componentRadioTransition = '0.2s ease-in-out'
     const componentRadioContainerBorderRadius = '4px'
     const componentRadioContainerPadding = '10px'
     const componentRadioContainerBackgroundColor = colorGreyLighter
@@ -1109,7 +1173,7 @@ export function light(){
     const componentCardBodyPadding = '10px 10px'
     const componentCardBodyBackgroundColor = colorWhite
     const componentCardBodyColor = colorGreyDark
-    const componentCardTransition = '0.3s ease-in-out'
+    const componentCardTransition = '0.2s ease-in-out'
     const componentCardTitleBackgroundColorHover = colorPrimary3
     const componentCardTitleColorHover = colorWhite
     const componentCardBodyBackgroundColorHover = colorPrimary3
@@ -1141,7 +1205,7 @@ export function light(){
     const componentCalendarTableCellBorder = '2px solid var(--colorGreyLightest)'
     const componentCalendarTableCellHeight = '90px'
     const componentCalendarTableCellMinHeight = 'fit-content'
-    const componentCalendarTableCellMinWidth = '20px'
+    const componentCalendarTableCellMinWidth = '90px'
     const componentCalendarTableCellVerticalAlign = 'top'
     const componentCalendarTableCellPadding = '5px 3px 5px 3px'
     const componentCalendarTableCellLowTransparencyOpacity = '0.2'
@@ -1154,7 +1218,7 @@ export function light(){
     const componentCalendarTableCellDateMonthColor = colorGreyDarker
     const componentCalendarTableCellDateMonthFontWeight = 'normal'
     const componentCalendarTableCellDateMonthTextOverflow = 'ellipsis'
-    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary5
+    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary2
     const componentCalendarTableCellEventContainerBackgroundColor = colorGreyDarker
     const componentCalendarTableCellEventContainerBorderRadius = '10px'
     const componentCalendarTableCellEventContainerColor = colorWhite
@@ -1162,7 +1226,7 @@ export function light(){
     const componentCalendarTableCellEventContainerPadding = '4px'
     const componentCalendarTableCellEventContainerDistance = '2px'
     const componentCalendarTableCellEventContainerColorHover = colorWhite
-    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary5
+    const componentCalendarTableCellEventContainerBackgroundColorHover = colorPrimary3
     const componentCalendarTableCellCreateEventButtonColor = colorGreyDarker
     const componentCalendarCreateEventButtonColor = colorGreyDarker
     const componentCalendarListItemDistance = '10px'
@@ -1422,6 +1486,21 @@ export function light(){
         layoutMinWidth,
         layoutBackground,
         layoutContentSpacing,
+        fontSizeSmall,
+        fontSizeMedium,
+        fontSizeBig,
+        borderRadiusSmall,
+        borderRadiusMedium,
+        borderRadiusBig,
+        paddingSmall,
+        paddingMedium,
+        paddingBig,
+        marginSmall,
+        marginMedium,
+        marginBig,
+        transitionSlow,
+        transitionMedium,
+        transitionFast,
         menuWidth,
         menuHeight,
         menuBackgroundColor,

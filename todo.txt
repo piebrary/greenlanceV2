@@ -2,7 +2,8 @@
 
         # BACKEND
 
-
+		- documentatie schrijven
+		- testen maken
 
 
 
@@ -22,4 +23,6 @@
             - email registration, notification etc
             - make all pages
             - check if all code imports are dynamic (try-catch-default-custom)
-            - 
+		- documentatie schrijven
+		- testen maken
+		- css themes aanpassen
