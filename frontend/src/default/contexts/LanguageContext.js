@@ -29,6 +29,8 @@ export default function LanguageContextProvider({ children }){
 
     function createTranslation(key, translationObject){
 
+        console.log(key, translationObject, languages)
+
         for(let language in languages){
 
             if(translationObject[language]){
