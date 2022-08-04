@@ -19,6 +19,8 @@ export default function LanguageContextProvider({ children }){
 
     function applyTranslation(stringKey, language){
 
+        console.log(stringKey, language, languages, settings)
+
         if(languages[language]) return languages[language][stringKey] || stringKey
 
         return languages[settings.language][stringKey] || stringKey
