@@ -1,18 +1,13 @@
-import { useState, useContext } from 'react'
-
-// import { LanguageContext } from '../../../contexts/LanguageContext'
+import { useState } from 'react'
 
 import { createStyle } from '../../../utils/createStyle'
 
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { AiOutlineEye } from 'react-icons/ai'
-import { BsDot } from 'react-icons/bs'
 
 import styles from './Input.module.css'
 
 export default function Input(attributes){
-
-    // const { applyTranslation, createTranslation } = useContext(LanguageContext)
 
     const {
         customStyles,
@@ -55,11 +50,6 @@ export default function Input(attributes){
 
     const randomId = Math.random()
 
-    // createTranslation('InputComponent.required', {
-    //     en:'required',
-    //     nl:'verplicht'
-    // })
-
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
@@ -74,13 +64,6 @@ export default function Input(attributes){
             }
             <div className={createStyle([styles, customStyles], 'inputContainer')}>
                 <div className={createStyle([styles, customStyles], 'inputField')}>
-                    {
-                        rules?.required && (
-                            <div className={styles.required}>
-                                <BsDot />
-                            </div>
-                        )
-                    }
                     <input
                         className={[createStyle([styles, customStyles], 'input'), isPicker && styles.isPicker || ''].join(' ')}
                         id={name + randomId}

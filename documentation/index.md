@@ -12,18 +12,20 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
     3. [Nginx proxy server](#vps-nginx)
     4. [SSL](#vps-ssl)
     5. [Email](#vps-email)
-3. [Git](#git) *a protocol to store and retrieve your repository from the cloud*
-    1. [Cloning](#git-cloning) *getting the repository on you computer to edit*
-    2. [Pulling](#git-pushing) *updating your local Git repository with changes made on other computers*
-    3. [Committing](#git-committing) *updating your local Git registry with your changes*
-    4. [Pushing](#git-pushing) *pushing your edited repository to the Git cloud*
-    5. [Workflow](#git-workflow) *workflow of working with Git*
-4. [Publishing](#publishing) *publishing your website to the web*
-5. [PieBrary](#piebrary)
+3. [Create repository](#create-repository) *creating a new repository from the PieBrary source repository*
+4. [Git](#git) *a protocol to store and retrieve your repository from the cloud*
+    1. [Connecting](#git-connect) *setting up a connection to github*
+    2. [Cloning](#git-clone) *getting the repository on you computer to edit*
+    3. [Pulling](#git-pull) *updating your local Git repository with changes made on other computers*
+    4. [Committing](#git-commit) *updating your local Git registry with your changes*
+    5. [Pushing](#git-push) *pushing your edited repository to the Git cloud*
+    6. [Workflow](#git-workflow) *workflow of working with Git*
+5. [Publishing](#publishing) *publishing your website to the web*
+6. [PieBrary](#piebrary)
     1. [Frontend](#piebrary-frontend)
-	    2. [Components](#piebrary-frontend-components)
-	    3. [Themes](#piebrary-frontend-themes)
-	    4. [Styles](#piebrary-frontend-styles)
+	    1. [Components](#piebrary-frontend-components)
+	    2. [Themes](#piebrary-frontend-themes)
+	    3. [Styles](#piebrary-frontend-styles)
     2. [Backend](#piebrary-backend)
 	    1. [API Endpoints](#piebrary-backend-endpoints)
 
@@ -51,22 +53,43 @@ VPS-email
 
 
 
+### Create Repository<a name="create-repository"></a>
+The PieBrary Github repository serves as a basis for any new PieBrary derived project. It can be used to easily jumpstart a new repository but required some important steps.
+
+
+
 ## Git<a name="git"></a>
 Git is a protocol which securely stores your repository in the cloud. This way you always have a backup, you can browse the history of the changes made and even work with multiple people on the same project. In this documentation we use Github but there are many more Git clients.
 
-### Git-cloning<a name="git-cloning"></a>
+## Connect<a name="git-connect"></a>
+To communicate with Github we need to have a secure connection with Github. We will be using ssh to perform actions and thus need to create and register a ssh key.
+
+
+### Clone<a name="git-clone"></a>
 Cloning means you create a copy or so called clone of the repository on the current device (be it your computer or for example a VPS) to work on or to publish.
 
-### Git-pulling<a name="git-pulling"></a>
+### Pull<a name="git-pull"></a>
 With Git command Pull you retrieve an updated version of the repository you are in from the cloud. Always do this when you're starting to work on a repository that other people also work on.
 
-### Git-committing<a name="git-committing"></a>
+### Commit<a name="git-commit"></a>
 Committing is updating the registry of you local Git repository with the changes you have made. In this step you're not sending your changes to the cloud but you are just updating your registry.
 
-### Git-pushing<a name="git-pushing"></a>
+### Push<a name="git-push"></a>
 Pushing is the process of sending you new repository version to the Git cloud. This makes your version available to other people working on it, so called collaborators.
 
-### Git-workflow<a name="git-workflow"></a>
+### Workflow<a name="git-workflow"></a>
+
+> Only once
+
+First you should connect to Github and register SSH key. This gives you access to the Repo you want to close and push to.
+- Log in to your VPS and run the `ssh-keygen` command
+- Just press enter to store the key in de default location with default name (probably id_rsa)
+- Choose a password to protect the key. This password must be given on every action you make to Github
+- Again enter password
+- Now the key is created
+- Copy the contents of the [keyname, probably id_rsa].pub to Github.com => settings => SSH and GPG keys => New SSH key
+- The key is now stored on Github and you can connect to your repository from the VPS
+
 When you've not worked on the Git repository you want to work it, you have to fetch a copy from the cloud with the following command:
 
 Run `git clone https://github.com/[username]/[repository-name]`
@@ -78,7 +101,9 @@ Then install the NPM modules in both the frontend and backend folders.
 Run `cd [repository-name]/frontend` and run `npm install`
 When finished go to the backend folder with `cd ../backend` and run `npm install`
 
-When you start working on you Git repository you need to get the last changes, so use Pull
+> Every time you work on your repository
+
+Every time you start working on you Git repository you need to get the last changes, so use Pull
 
 `git pull`
 

@@ -1,13 +1,13 @@
-export default function red(){
+export default function basic(){
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
-    const colorPrimary1 = 'rgb(169, 0, 17)'
-    const colorPrimary2 = 'rgb(209, 29, 39)'
-    const colorPrimary3 = 'rgb(229, 60, 56)'
-    const colorPrimary4 = 'rgb(255, 100, 76)'
-    const colorPrimary5 = 'rgb(255, 120, 96)'
-    const colorPrimary6 = 'rgb(255, 140, 116)'
+    const colorPrimary1 = 'rgb(245, 245, 245)'
+    const colorPrimary2 = 'rgb(232, 232, 232)'
+    const colorPrimary3 = 'rgb(200, 200, 200)'
+    const colorPrimary4 = 'rgb(160, 160, 160)'
+    const colorPrimary5 = 'rgb(100, 100, 100)'
+    const colorPrimary6 = 'rgb(70, 70, 70)'
     const colorWhite = 'rgb(255, 255, 255)'
     const colorGreyLightest = 'rgb(245, 245, 245)'
     const colorGreyLighter = 'rgb(232, 232, 232)'
@@ -20,7 +20,7 @@ export default function red(){
     const colorSuccessNormal = 'rgb(78, 150, 63)'
     const colorSuccessDark = 'rgb(26, 94, 12)'
     const colorInfoLight = 'rgb(95, 177, 201)'
-    const colorInfoNormal = 'rgb(40, 131, 158)'
+    const colorInfoNormal = 'rgb40, 131, 158)'
     const colorInfoDark = 'rgb(3, 77, 99)'
     const colorWarningLight = 'rgb(191, 148, 75)'
     const colorWarningNormal = 'rgb(191, 131, 29)'
@@ -30,7 +30,7 @@ export default function red(){
     const colorDangerDark = 'rgb(135, 5, 5)'
 
     /* layout */
-    const layoutBreakpoint = '1000px'
+    const layoutBreakpoint = '800px'
     const layoutMaxWidth = '1400px'
     const layoutMinWidth = '360px'
     const layoutBackground = colorGreyLighter
@@ -96,15 +96,15 @@ export default function red(){
     const componentButtonColor = colorWhite
     const componentButtonBackgroundColorHover = colorSuccessDark
     const componentButtonColorHover = colorWhite
-    const componentButtonTransition = '0.3s ease-in-out'
+    const componentButtonTransition = '0.2s ease-in-out'
 
     /* components.input */
-    const componentInputTransition = '0.3s ease-in-out'
+    const componentInputTransition = '0.2s ease-in-out'
     const componentInputContainerBackgroundColor = colorGreyLighter
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'
     const componentInputInputContainerMarginLeft = '10px'
-    const componentInputInputContainerMaxWidth = '400px'
+    const componentInputInputContainerMaxWidth = '300px'
     const componentInputInputContainerLargeMaxWidth = '600px'
     const componentInputInputFieldAlignItems = 'center'
     const componentInputInputFieldBorderRadius = '4px'
@@ -135,7 +135,7 @@ export default function red(){
 
     /* components.checkbox */
     const componentCheckboxesMinWidth = '200px'
-    const componentCheckboxTransition = '0.3s ease-in-out'
+    const componentCheckboxTransition = '0.2s ease-in-out'
     const componentCheckboxContainerBorderRadius = '4px'
     const componentCheckboxContainerPadding = '10px'
     const componentCheckboxContainerBackgroundColor = colorGreyLighter
@@ -159,7 +159,7 @@ export default function red(){
 
     /* components.checkbox */
     const componentRadiosMinWidth = '200px'
-    const componentRadioTransition = '0.3s ease-in-out'
+    const componentRadioTransition = '0.2s ease-in-out'
     const componentRadioContainerBorderRadius = '4px'
     const componentRadioContainerPadding = '10px'
     const componentRadioContainerBackgroundColor = colorGreyLighter
@@ -194,7 +194,7 @@ export default function red(){
     const componentCardBodyPadding = '10px 10px'
     const componentCardBodyBackgroundColor = colorWhite
     const componentCardBodyColor = colorGreyDark
-    const componentCardTransition = '0.3s ease-in-out'
+    const componentCardTransition = '0.2s ease-in-out'
     const componentCardTitleBackgroundColorHover = colorPrimary3
     const componentCardTitleColorHover = colorWhite
     const componentCardBodyBackgroundColorHover = colorPrimary3
@@ -239,7 +239,7 @@ export default function red(){
     const componentCalendarTableCellDateMonthColor = colorGreyDarker
     const componentCalendarTableCellDateMonthFontWeight = 'normal'
     const componentCalendarTableCellDateMonthTextOverflow = 'ellipsis'
-    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary5
+    const componentCalendarTableCellCurrentDayBackgroundColor = colorPrimary2
     const componentCalendarTableCellEventContainerBackgroundColor = colorGreyDarker
     const componentCalendarTableCellEventContainerBorderRadius = '10px'
     const componentCalendarTableCellEventContainerColor = colorWhite
@@ -342,7 +342,7 @@ export default function red(){
     /* component.grid */
     const componentGridTemplateColumns = 'repeat(3, 1fr)'
     const componentGridTemplateGap = '10px'
-    const componentGridTemplateAutoRows = 'minmax(fit-content, auto)'
+    const componentGridTemplateAutoRows = 'minmax(100px, auto)'
     const componentGridItemBackgroundColor = colorPrimary3
     const componentGridItemBorderRadius = '4px'
 

@@ -9,17 +9,15 @@ export const VisualsContext = createContext({})
 export default function VisualsContextProvider({ children }){
 
     const themes = {
-        'grey':require('../../default/themes/grey'),
-        'red':require('../../default/themes/red'),
-        'green':require('../../default/themes/green'),
+        'basic':require('../../default/themes/basic').default(),
+        'red':require('../../default/themes/red').default(),
+        'green':require('../../default/themes/green').default(),
     }
 
     const [currentTheme, setCurrentTheme] = useState({
-        name:'grey',
-        values:deepCopy(themes['grey'])
+        name:'basic',
+        values:deepCopy(themes['basic'])
     })
-
-    const [isDarkMode, setIsDarkMode] = useState(false)
 
     useEffect(() => {
 
@@ -31,18 +29,15 @@ export default function VisualsContextProvider({ children }){
 
     }, [])
 
-    function getCurrentTheme(){
-
-        return deepCopy(currentTheme)
-
-    }
-
     function setTheme(themeName){
 
-        const mode = isDarkMode ? 'dark' : 'light'
-        const vars = themes[themeName][mode]()
+        if(themes[themeName]){
 
-        if(vars){
+            for(let cssVar in themes[themeName]){
+
+                document.documentElement.style.setProperty(`--${cssVar}`, themes[themeName][cssVar])
+
+            }
 
             setCurrentTheme({
                 name:themeName,
@@ -52,23 +47,6 @@ export default function VisualsContextProvider({ children }){
         }
 
     }
-
-    useEffect(() => {
-
-        const mode = isDarkMode ? 'dark' : 'light'
-        const vars = themes[currentTheme.name][mode]()
-
-        if(vars){
-
-            for(let cssVar in vars){
-
-                document.documentElement.style.setProperty(`--${cssVar}`, vars[cssVar])
-
-            }
-
-        }
-
-    }, [currentTheme, isDarkMode])
 
     function getAvailableThemes(){
 
@@ -83,26 +61,10 @@ export default function VisualsContextProvider({ children }){
 
     }
 
-    function goToggleDarkMode(){
-
-        setIsDarkMode(!isDarkMode)
-
-        setTheme(currentTheme.name)
-
-    }
-
-    function getIsDarkMode(){
-
-        return isDarkMode
-
-    }
-
     const contextData = {
         setTheme,
-        getCurrentTheme,
+        currentTheme,
         getAvailableThemes,
-        goToggleDarkMode,
-        getIsDarkMode,
     }
 
     return (

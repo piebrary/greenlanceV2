@@ -32,6 +32,17 @@
     margin: auto;
 }
 
+.form1Submit_button {
+    background-color: var(--success1);
+    padding: 10px 15px;
+    color: var(--secondary3);
+    cursor: pointer;
+}
+
+.form1Submit_button:hover {
+    background-color: var(--success2);
+}
+
 .grid1_grid {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
@@ -39,30 +50,32 @@
     grid-auto-rows: minmax(100px, auto);
 }
 
-.buttonGroup_buttonGroup {
-    margin-top: 20px;
-}
-
 .submit_button {
-    background-color: var(--colorSuccessLight);
-    padding: 20px;
-    color: var(--colorWhite);
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--success2);
+    color: white;
     cursor: pointer;
 }
 
 .submit_button:hover {
-    background-color: var(--colorSuccessDark);
+    background-color: var(--success1);
+    color: white;
 }
 
 .reset_button {
-    background-color: var(--colorPrimary6);
-    padding: 20px;
-    color: var(--colorWhite);
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--colorPrimary5);
+    color: white;
     cursor: pointer;
 }
 
 .reset_button:hover {
-    background-color: var(--colorPrimary2);
+    background-color: var(--colorPrimary3);
+    color: white;
 }
 
 @media only screen and (min-width: 1100px) {

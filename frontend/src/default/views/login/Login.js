@@ -55,7 +55,7 @@ export default function Login(){
                         label={'Password'}
                         name={'password'}
                         type={'password'}
-                        passwordToggle={true}
+                        hideToggle={true}
                         customStyles={applyStyles([styles], 'customInput')}
                         register={register}
                         errors={errors}
@@ -65,19 +65,15 @@ export default function Login(){
                         />
                     <ButtonGroup>
                         <Button
-                            customStyles={applyStyles([styles], 'customButton')}
                             label={'Login'}
                             type={'submit'}
                             />
                     </ButtonGroup>
-                    <div
-                        className={styles.underMenu}
-                        >
-                        <a href={'/register'}>Register</a>
-                        <a href={'/forgot password'}>Forgot password</a>
-                    </div>
                 </Form>
             </main>
+            <footer className={styles.footer}>
+                PieBrary copyright 2022
+            </footer>
         </div>
     )
 

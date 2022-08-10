@@ -15,8 +15,6 @@ export default function Radio(attributes){
         rules
     } = attributes
 
-    const reg = register && register(name, rules)
-
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
             {
@@ -41,12 +39,11 @@ export default function Radio(attributes){
                                     type='radio'
                                     name={name}
                                     className={createStyle([styles, customStyles], 'radio')}
-                                    onClick={event => onClick && onClick(event, o.name)}
+                                    onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
                                     value={o.value}
-                                    {...reg}
-                                    />
+                                    {...register(name, rules)}/>
                                 {o.name}
                             </label>
                         )

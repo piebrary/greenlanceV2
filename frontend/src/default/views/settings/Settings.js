@@ -102,7 +102,7 @@ export default function Settings(){
                         label={applyTranslation('NEW_PASSWORD')}
                         name={'newPassword'}
                         type={'password'}
-                        passwordToggle={true}
+                        hideToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -126,7 +126,7 @@ export default function Settings(){
                         label={applyTranslation('REPEAT_PASSWORD')}
                         name={'repeatPassword'}
                         type={'password'}
-                        passwordToggle={true}
+                        hideToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -142,11 +142,10 @@ export default function Settings(){
                         label={applyTranslation('CURRENT_PASSWORD')}
                         name={'currentPassword'}
                         type={'password'}
-                        passwordToggle={true}
+                        hideToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
-                            required:applyTranslation('SettingsView.currentPasswordRequired'),
                             validate:{
                                 credentialsChanged: value => {
                                     if(
@@ -172,11 +171,8 @@ export default function Settings(){
                         register={register}
                         errors={errors}
                         />
-                    <ButtonGroup
-                        customStyles={applyStyles([styles], 'buttonGroup')}
-                        >
+                    <ButtonGroup>
                         <Button
-                            customStyles={applyStyles([styles], 'submit')}
                             label={applyTranslation('SAVE')}
                             onClick={() => handleSubmit(onSubmit)}
                             />

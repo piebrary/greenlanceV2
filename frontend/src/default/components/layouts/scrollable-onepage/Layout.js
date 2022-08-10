@@ -1,91 +1,83 @@
 import { useRef, useState, useEffect } from 'react'
+import { NavLink } from 'react-router-dom'
 
 import { FiMenu } from 'react-icons/fi'
+import { MdClose } from 'react-icons/md'
+
+import { createStyle } from '../../../utils/createStyle'
 
 import styles from './Layout.module.css'
 
-export default function Layout({ children, menuitems, content }){
+export default function Layout({ children, logo, menuitems, content, customStyles }){
 
-    const menuRef = useRef()
-    const [menuHeight, setMenuHeight] = useState()
     const [isMenuOpen, setIsMenuOpen] = useState(false)
 
-    useEffect(() => {
+    const handleItemClick = (event, targetId, targetType = 'section') => {
 
-        handleWindowResize()
+        if(targetType === 'section'){
 
-        window.addEventListener('resize', handleWindowResize)
+            event.preventDefault()
 
-        return () => {
+            const target = document.getElementById(targetId)
 
-            window.removeEventListener('resize', handleWindowResize)
+            target && window.scrollTo({
+                top:
+                    target.getBoundingClientRect().top -
+                    document.body.getBoundingClientRect().top -
+                    100,
+                behavior:'smooth'
+            })
+
+            setIsMenuOpen(false)
 
         }
-
-    }, [])
-
-    const handleWindowResize = () => {
-
-        setMenuHeight(menuRef.current.offsetHeight)
-
-    }
-
-    const handleItemClick = (event, targetId) => {
-
-        event.preventDefault()
-
-        const target = document.getElementById(targetId)
-
-        target && window.scrollTo({
-            top:
-                target.getBoundingClientRect().top -
-                document.body.getBoundingClientRect().top -
-                menuHeight,
-            behavior:'smooth'
-        })
-
-        setIsMenuOpen(false)
 
     }
 
     return (
         <>
             <div
-                className={styles.container}
+                className={createStyle([styles, customStyles], 'container')}
                 >
                 <main
-                    className={styles.content}
+                    className={createStyle([styles, customStyles], 'content')}
                     >
                     {children}
                 </main>
                 <nav
-                id={'menu'}
-                    className={`${styles.menu} ${isMenuOpen && styles.open || ''}`}
+                    id={'menu'}
+                    className={`${createStyle([styles, customStyles], 'menu')} ${isMenuOpen && createStyle([styles, customStyles], 'open') || ''}`}
                     >
                     <div
-                        ref={menuRef}
-                        className={styles.menubar}
+                        className={createStyle([styles, customStyles], 'menubar')}
                         >
                         <div
-                            className={styles.menuToggle}
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className={createStyle([styles, customStyles], 'logo')}
                             >
-                            <FiMenu size={30} />
+                            {logo}
                         </div>
                         <div
-                            className={styles.menuitems}
+                            className={createStyle([styles, customStyles], 'menuToggle')}
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            >
+                            {!isMenuOpen && <FiMenu size={40} />}
+                            {isMenuOpen && <MdClose size={40} />}
+                        </div>
+                        <div
+                            className={createStyle([styles, customStyles], 'menuitems')}
                             >
                             {
                                 menuitems.map((menuitem, index) => {
 
                                     return (
-                                        <div
+                                        <NavLink
                                             key={menuitem.text}
-                                            className={styles.menuitem}
-                                            onClick={event => handleItemClick(event, menuitem.text)}
+                                            to={menuitem.to}
+                                            className={createStyle([menuitem.customStyles], 'menuitem') || createStyle([styles, customStyles], 'menuitem') || styles.menuitem}
+                                            onClick={event => handleItemClick(event, menuitem.text, menuitem.targetType)}
                                             >
                                             {menuitem.text}
-                                        </div>
+                                        </NavLink>
                                     )
 
                                 })
@@ -93,25 +85,26 @@ export default function Layout({ children, menuitems, content }){
                         </div>
                     </div>
                     <div
-                        className={styles.contentOverlay}
+                        className={createStyle([styles, customStyles], 'contentOverlay')}
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                     </div>
                     <div
-                    id={'mobileMenuPane'}
-                        className={styles.mobileMenuPane}
+                        id={'mobileMenuPane'}
+                        className={createStyle([styles, customStyles], 'mobileMenuPane')}
                         >
                         {
                             menuitems.map((menuitem, index) => {
 
                                 return (
-                                    <div
+                                    <NavLink
                                         key={menuitem.text}
-                                        className={styles.menuitem}
-                                        onClick={event => handleItemClick(event, menuitem.text)}
+                                        to={menuitem.to}
+                                        className={createStyle([menuitem.customStyles], 'menuitem') || createStyle([styles, customStyles], 'menuitem') || styles.menuitem}
+                                        onClick={event => handleItemClick(event, menuitem.text, menuitem.targetType)}
                                         >
                                         {menuitem.text}
-                                    </div>
+                                    </NavLink>
                                 )
 
                             })

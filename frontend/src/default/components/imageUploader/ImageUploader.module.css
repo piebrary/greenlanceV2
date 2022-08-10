@@ -8,14 +8,8 @@
     padding: var(--componentImageUploaderContainerPadding);
 }
 
-.container form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.container form *:not(:first-child) {
-    margin-top: 20px;
+.container > *:not(:first-child) {
+    margin-top: var(--componentImageUploaderContainerMarginTop);
 }
 
 .pictureBackground {
@@ -39,15 +33,4 @@
 .selector {
     display: none;
     text-align: center;
-}
-
-.upload_button {
-    padding: 20px;
-    background-color: var(--colorSuccessLight);
-    width: 100%;
-}
-
-
-.upload_button:hover {
-    background-color: var(--colorSuccessDark);
 }

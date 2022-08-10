@@ -14,7 +14,7 @@
     right: 40px;
     align-items: center;
     user-select: none;
-    padding: var(--paddingSmall);
+    padding: 4px;
     border-radius: 34px;
     background-color: var(--colorGreyDarkest);
     color: var(--colorWhite);
@@ -30,7 +30,7 @@
 
 .scrollToTopBtn:hover {
     background-color: var(--colorPrimary1);
-    transition: var(--transitionMedium);
+    transition: 0.5s;
 }
 
 .menu {

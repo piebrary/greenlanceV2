@@ -1,5 +1,6 @@
 .container {
     height: 100%;
+    min-height: 100vh;
 }
 
 .menu {
@@ -23,6 +24,13 @@
     align-items: center;
     padding: 20px;
     color: var(--colorWhite);
+    display: flex;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
 }
 
 .menuToggle {
@@ -70,7 +78,6 @@
 }
 
 .menuitem {
-    margin: 10px;
     font-size: 20px;
     user-select: none;
     cursor: pointer;
