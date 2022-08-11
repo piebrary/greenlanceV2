@@ -77,14 +77,6 @@ module.exports = new Schema({
             type: String,
             default: 'en'
         },
-        timeFormat: {
-            type: String,
-            default: 'HH:mm:ss'
-        },
-        dateFormat:{
-            type: String,
-            default: 'DD-MM-yyyy'
-        },
     }
 },
 {

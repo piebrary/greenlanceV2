@@ -54,8 +54,11 @@ VPS-email
 
 
 ### Create Repository<a name="create-repository"></a>
-The PieBrary Github repository serves as a basis for any new PieBrary derived project. It can be used to easily jumpstart a new repository but required some important steps.
-
+The PieBrary Github repository serves as a basis for any new PieBrary derived project. It can be used to easily jumpstart a new repository but requires some important steps.
+- 1: Copy PieBrary to linux with `git clone git@github.com:piebrary/piebrary`
+- 2: Create a new repository in target account on Github website
+- 3: In local folder run `git remote set-url --push origin git@github.com/[account]/[repository]`
+- 4: Run `git push` to push the repository contents to the new folder in Github
 
 
 ## Git<a name="git"></a>
@@ -63,7 +66,6 @@ Git is a protocol which securely stores your repository in the cloud. This way y
 
 ## Connect<a name="git-connect"></a>
 To communicate with Github we need to have a secure connection with Github. We will be using ssh to perform actions and thus need to create and register a ssh key.
-
 
 ### Clone<a name="git-clone"></a>
 Cloning means you create a copy or so called clone of the repository on the current device (be it your computer or for example a VPS) to work on or to publish.

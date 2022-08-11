@@ -4,8 +4,8 @@ const cors = require('cors')
 const moment = require('moment')
 const path = require('path')
 
-const serverConfig = require('../../../../config/server')
-const dbConfig = require('../../../../config/db')
+const serverConfig = require('../../../config/server')
+const dbConfig = require('../../../config/db')
 
 module.exports = async () => {
 

@@ -1,9 +1,9 @@
 try {
 
-    require('./lib/custom/server')()
+    require('./custom/server')()
 
 } catch {
 
-    require('./lib/default/server')()
+    require('./default/server')()
 
 }
