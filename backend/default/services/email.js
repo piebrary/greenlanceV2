@@ -3,7 +3,7 @@ const path = require('path')
 
 const Mailer = require('nodemailer')
 
-module.exports = mode => {
+module.exports = () => {
 
     let successHandler, errorHandler, logger
 
@@ -41,7 +41,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
+            if(process.env.ENVIRONMENT === 'development'){
 
                 console.log(error)
 
@@ -49,7 +49,7 @@ module.exports = mode => {
 
             }
 
-            if(mode === 'PROD'){
+            if(process.env.ENVIRONMENT === 'production'){
 
                 return errorHandler(undefined, 'Unknown error')
 

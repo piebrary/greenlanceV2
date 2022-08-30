@@ -1,9 +1,9 @@
 const axios = require('axios')
 const moment = require('moment')
 
-const dbConfig = require('../../../config/db')
-const serverConfig = require('../../../config/server')
-const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
+require('dotenv').config()
+
+const url = `http://localhost:${process.env.API_PORT}${process.env.API_PREFIX}`
 
 export default async () => {
 
@@ -92,9 +92,9 @@ export default async () => {
 
     try {
 
-        if(serverConfig.MODE !== 'DEV'){
+        if(process.env.ENVIRONMENT !== 'development'){
 
-            console.log('Can not refresh db due to config MODE not being set to \'DEV\'')
+            console.log('Can not refresh db due to env ENVIRONMENT not being set to \'development\'')
 
             process.exit()
 
@@ -119,9 +119,9 @@ export default async () => {
         }
 
         try {
-            db = await require('../../lib/custom/server/db.js')(dbConfig)
+            db = await require('../../lib/custom/server/db.js')()
         } catch {
-            db = await require('../../lib/default/server/db.js')(dbConfig)
+            db = await require('../../lib/default/server/db.js')()
         }
 
         await UserModel.collection?.dropIndexes()

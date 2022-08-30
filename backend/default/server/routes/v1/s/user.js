@@ -10,11 +10,7 @@ module.exports = (express, config) => {
         UserService = require('../../../../../default/services/user')
     }
 
-    const prefix = config.PREFIX
-    const secret = config.SECRET
-    const mode = config.MODE
-
-    const userService = UserService(mode)
+    const userService = UserService(process.env.ENVIRONMENT)
 
     try {
         upload = require('../../../../../custom/utils/uploadProfilePictureMiddleware')
@@ -23,7 +19,7 @@ module.exports = (express, config) => {
     }
 
     express.get(
-        prefix + '/v1/s/user',
+        process.env.API_PREFIX + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -37,7 +33,7 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        prefix + '/v1/s/user',
+        process.env.API_PREFIX + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -51,7 +47,7 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        prefix + '/v1/s/user/:_id',
+        process.env.API_PREFIX + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -65,7 +61,7 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        prefix + '/v1/s/users',
+        process.env.API_PREFIX + '/v1/s/users',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -79,7 +75,7 @@ module.exports = (express, config) => {
     )
 
     express.post(
-        prefix + '/v1/s/user',
+        process.env.API_PREFIX + '/v1/s/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -94,7 +90,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        prefix + '/v1/s/user/',
+        process.env.API_PREFIX + '/v1/s/user/',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -108,7 +104,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        prefix + '/v1/s/user/:_id',
+        process.env.API_PREFIX + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -122,7 +118,7 @@ module.exports = (express, config) => {
     )
 
     express.delete(
-        prefix + '/v1/s/user/:_id',
+        process.env.API_PREFIX + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -137,7 +133,7 @@ module.exports = (express, config) => {
     )
 
     express.post(
-        prefix + '/v1/s/user/picture',
+        process.env.API_PREFIX + '/v1/s/user/picture',
         passport.authenticate('jwt', { session: false }),
         upload.single('picture'),
         async (req, res) => {

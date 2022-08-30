@@ -3,7 +3,7 @@ const path = require('path')
 
 const profilePicturePath = path.join(__dirname, '../../../public/images/profile/')
 
-module.exports = mode => {
+module.exports = () => {
 
     let UserModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto, Resize, encryptPassword, passwordsMatch, logger
 
@@ -76,17 +76,17 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
+            if(process.env.ENVIRONMENT === 'development'){
 
                 console.log(error)
 
-                return errorHandler(500, error)
+                return errorHandler(undefined, error)
 
             }
 
-            if(mode === 'PROD'){
+            if(process.env.ENVIRONMENT === 'production'){
 
-                return errorHandler(500, 'Unknown error')
+                return errorHandler(undefined, 'Unknown error')
 
             }
 
@@ -138,17 +138,17 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
+            if(process.env.ENVIRONMENT === 'development'){
 
                 console.log(error)
 
-                return errorHandler(500, error)
+                return errorHandler(undefined, error)
 
             }
 
-            if(mode === 'PROD'){
+            if(process.env.ENVIRONMENT === 'production'){
 
-                return errorHandler(500, 'Unknown error')
+                return errorHandler(undefined, 'Unknown error')
 
             }
 
@@ -454,17 +454,17 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
+            if(process.env.ENVIRONMENT === 'development'){
 
                 console.log(error)
 
-                return errorHandler(500, error)
+                return errorHandler(undefined, error)
 
             }
 
-            if(mode === 'PROD'){
+            if(process.env.ENVIRONMENT === 'production'){
 
-                return errorHandler(500, 'Unknown error')
+                return errorHandler(undefined, 'Unknown error')
 
             }
 

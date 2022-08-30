@@ -4,9 +4,6 @@ const cors = require('cors')
 const moment = require('moment')
 const path = require('path')
 
-const serverConfig = require('../../../config/server')
-const dbConfig = require('../../../config/db')
-
 module.exports = async () => {
 
     let logger, db
@@ -14,18 +11,17 @@ module.exports = async () => {
     try {
 
         try {
-            logger = require('../../custom/utils/logger')(serverConfig)
+            logger = require('../../custom/utils/logger')()
         } catch {
             logger = require('../../default/utils/logger')
         }
 
         try {
-            db = await require('../../custom/server/db.js')(dbConfig)
+            db = await require('../../custom/server/db.js')()
         } catch {
-            db = await require('../../default/server/db.js')(dbConfig)
+            db = await require('../../default/server/db.js')()
         }
 
-        const port = serverConfig.PORT
         const express = Express()
 
         express.use(Express.json())
@@ -42,57 +38,57 @@ module.exports = async () => {
         // })
 
         try {
-            require('../../custom/server/auth.js')(serverConfig)
-            require('../../default/server/auth.js')(serverConfig)
+            require('../../custom/server/auth.js')
+            require('../../default/server/auth.js')
         } catch {
-            require('../../default/server/auth.js')(serverConfig)
+            require('../../default/server/auth.js')
         }
 
         try {
-            require('../../custom/server/routes/login')(express, serverConfig)
-            require('../../default/server/routes/login')(express, serverConfig)
+            require('../../custom/server/routes/login')(express)
+            require('../../default/server/routes/login')(express)
         } catch {
-            require('../../default/server/routes/login')(express, serverConfig)
+            require('../../default/server/routes/login')(express)
         }
 
         try {
-            require('../../custom/server/routes/v1')(express, serverConfig)
-            require('../../default/server/routes/v1')(express, serverConfig)
+            require('../../custom/server/routes/v1')(express)
+            require('../../default/server/routes/v1')(express)
         } catch {
-            require('../../default/server/routes/v1')(express, serverConfig)
+            require('../../default/server/routes/v1')(express)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/user')(express, serverConfig)
-            require('../../default/server/routes/v1/s/user')(express, serverConfig)
+            require('../../custom/server/routes/v1/s/user')(express)
+            require('../../default/server/routes/v1/s/user')(express)
         } catch {
-            require('../../default/server/routes/v1/s/user')(express, serverConfig)
+            require('../../default/server/routes/v1/s/user')(express)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/event')(express, serverConfig)
-            require('../../default/server/routes/v1/s/event')(express, serverConfig)
+            require('../../custom/server/routes/v1/s/event')(express)
+            require('../../default/server/routes/v1/s/event')(express)
         } catch {
-            require('../../default/server/routes/v1/s/event')(express, serverConfig)
+            require('../../default/server/routes/v1/s/event')(express)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/email')(express, serverConfig)
-            require('../../default/server/routes/v1/s/email')(express, serverConfig)
+            require('../../custom/server/routes/v1/s/email')(express)
+            require('../../default/server/routes/v1/s/email')(express)
         } catch {
-            require('../../default/server/routes/v1/s/email')(express, serverConfig)
+            require('../../default/server/routes/v1/s/email')(express)
         }
 
         express.listen(
-            port,
+            process.env.API_PORT,
             () => {
 
                 logger.log({
-                    message:`Express server listening on port ${port}.`
+                    message:`Express server listening on port ${process.env.API_PORT}.`
                 })
 
                 logger.log({
-                    message:`Started @ ${moment().format(serverConfig.DATE_TIME_FORMAT)}`
+                    message:`Started @ ${moment()}`
                 })
             }
         )

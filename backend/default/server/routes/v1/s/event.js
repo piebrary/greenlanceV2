@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-module.exports = (express, config) => {
+module.exports = express => {
 
     let EventService
 
@@ -10,14 +10,10 @@ module.exports = (express, config) => {
         EventService = require('../../../../../default/services/event')
     }
 
-    const apiPrefix = config.PREFIX
-    const secret = config.SECRET
-    const mode = config.MODE
-
-    const eventService = EventService(mode)
+    const eventService = EventService(process.env.ENVIRONMENT)
 
     express.get(
-        apiPrefix + '/v1/s/events',
+        process.env.API_PREFIX + '/v1/s/events',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -31,7 +27,7 @@ module.exports = (express, config) => {
     )
 
     express.get(
-        apiPrefix + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -45,7 +41,7 @@ module.exports = (express, config) => {
     )
 
     express.post(
-        apiPrefix + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -59,7 +55,7 @@ module.exports = (express, config) => {
     )
 
     express.put(
-        apiPrefix + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -73,7 +69,7 @@ module.exports = (express, config) => {
     )
 
     express.delete(
-        apiPrefix + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 

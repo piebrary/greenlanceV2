@@ -1,5 +1,9 @@
-let initDb
+try {
 
-try { initDb = require('./backend/custom/scripts/dev/init-db.js') } catch { initDb = require('./backend/default/scripts/dev/init-db.js') }
+    initDb = require('./backend/custom/scripts/dev/init-db.js')()
 
-initDb()
+} catch {
+
+    initDb = require('./backend/default/scripts/dev/init-db.js')()
+
+}

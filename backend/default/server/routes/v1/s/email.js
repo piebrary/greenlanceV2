@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-module.exports = (express, config) => {
+module.exports = express => {
 
     let EmailService
 
@@ -10,14 +10,10 @@ module.exports = (express, config) => {
         EmailService = require('../../../../../default/services/email')
     }
 
-    const prefix = config.PREFIX
-    const secret = config.SECRET
-    const mode = config.MODE
-
-    const emailService = EmailService(mode)
+    const emailService = EmailService(process.env.ENVIRONMENT)
 
     express.post(
-        prefix + '/v1/s/email',
+        process.env.API_PREFIX + '/v1/s/email',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 

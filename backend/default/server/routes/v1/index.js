@@ -1,6 +1,6 @@
 let serverInfoService
 
-module.exports = (express, config) => {
+module.exports = express => {
 
     try {
         serverInfoService = require('../../../../custom/services/serverInfo')
@@ -8,9 +8,7 @@ module.exports = (express, config) => {
         serverInfoService = require('../../../../default/services/serverInfo')
     }
 
-    const prefix = config.PREFIX
-
-    express.get(prefix + '/v1/status', async (req, res) => {
+    express.get(process.env.API_PREFIX + '/v1/status', async (req, res) => {
 
         const serverInfo = await serverInfoService()
 

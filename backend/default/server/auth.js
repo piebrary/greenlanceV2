@@ -3,7 +3,7 @@ const LocalStrategy = require('passport-local').Strategy
 const JWTStrategy = require('passport-jwt').Strategy
 const bcrypt = require('bcrypt')
 
-module.exports = config => {
+module.exports = () => {
 
     let logger, UserModel
 
@@ -72,7 +72,7 @@ module.exports = config => {
             return null
 
         },
-        secretOrKey: config.SECRET,
+        secretOrKey: process.env.API_SECRET,
     },
         (jwtPayload, done) => {
 

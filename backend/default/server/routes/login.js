@@ -1,13 +1,9 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
-module.exports = (express, config) => {
+module.exports = express => {
 
-    const secret = config.SECRET
-    const expires_in = config.EXPIRES_IN
-    const prefix = config.PREFIX
-
-    express.post(prefix + '/login', (req, res) => {
+    express.post(process.env.API_PREFIX + '/login', (req, res) => {
         passport.authenticate(
         'local',
         { session: false },
@@ -19,7 +15,7 @@ module.exports = (express, config) => {
             /** This is what ends up in our JWT */
             const payload = {
                 _id:user._id,
-                expires: Date.now() + expires_in
+                expires: Date.now() + process.env.API_TOKEN_LIFETIME
             }
 
             /** assigns payload to req.user */
@@ -28,7 +24,7 @@ module.exports = (express, config) => {
                 if (error) return res.status(400).send('Could not login')
 
                 /** generate a signed json web token and return it in the response */
-                const token = jwt.sign(JSON.stringify(payload), secret)
+                const token = jwt.sign(JSON.stringify(payload), process.env.API_SECRET)
 
                 /** assign our jwt to the cookie */
                 res.set('jwt', token)
