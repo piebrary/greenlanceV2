@@ -1,4 +1,4 @@
-export default function hasDuplicates(array) {
+export function hasDuplicates(array) {
 
     return new Set(array).size !== array.length
 

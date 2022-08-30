@@ -8,7 +8,7 @@ import Label from '../../label/Label'
 
 import { applyStyles } from '../../../utils/applyStyles'
 import { createStyle } from '../../../utils/createStyle'
-import hasDuplicates from '../../../utils/hasDuplicates'
+import { hasDuplicates } from '../../../utils/hasDuplicates'
 
 import { ImBin } from 'react-icons/im'
 import { AiOutlinePlus } from 'react-icons/ai'

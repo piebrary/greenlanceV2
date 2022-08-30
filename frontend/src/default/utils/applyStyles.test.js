@@ -1,20 +1,52 @@
 import { applyStyles } from './applyStyles.js'
 
-const styles = [
-    {
-        test_container:'style1_container',
-        main:'style1_main',
-        footer:'style1_footer'
-    }, {
-        test_main:'style2_main',
-        test_footer:'style2_footer'
-    }
-]
+test('applyStyles result to equal', () => {
 
-test('testObject not equal to deepCopy(testObject)', () => {
+    const styles = [
+        {
+            test_container:'style1_container',
+            main:'style1_main',
+            footer:'style1_footer'
+        }, {
+            test_main:'style2_main',
+            test_footer:'style2_footer'
+        }
+    ]
 
-    console.log(applyStyles(styles, 'test'))
+    expect(applyStyles(styles, 'test')).toEqual({
+        container: [ 'style1_container' ],
+        main: [ 'style2_main' ],
+        footer: [ 'style2_footer' ]
+      })
 
-    expect(false).not.toBe(true)
+})
+
+test('applyStyles result to equal', () => {
+
+    const styles = [
+        {
+            test_container:'style1_container',
+            main:'style1_main',
+            footer:'style1_footer'
+        }
+    ]
+
+    expect(applyStyles(styles, 'test')).toEqual({
+        container: [ 'style1_container' ]
+      })
+
+})
+
+test('applyStyles result to equal', () => {
+
+    const styles = [
+        {
+            test_container:'style1_container',
+            main:'style1_main',
+            footer:'style1_footer'
+        }
+    ]
+
+    expect(applyStyles(styles, 'main')).toEqual({})
 
 })

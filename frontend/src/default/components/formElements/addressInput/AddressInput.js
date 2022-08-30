@@ -9,7 +9,7 @@ import Grid from '../../grid/Grid'
 
 import { applyStyles } from '../../../utils/applyStyles'
 import { createStyle } from '../../../utils/createStyle'
-import hasDuplicates from '../../../utils/hasDuplicates'
+import { hasDuplicates } from '../../../utils/hasDuplicates'
 import { deepCopy } from '../../../utils/deepCopy'
 
 import { ImBin } from 'react-icons/im'
