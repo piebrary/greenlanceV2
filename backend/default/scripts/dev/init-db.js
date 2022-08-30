@@ -5,9 +5,90 @@ const dbConfig = require('../../../config/db')
 const serverConfig = require('../../../config/server')
 const url = `http://localhost:${serverConfig.PORT}${serverConfig.PREFIX}`
 
-let UserModel, EventModel, encryptPassword, db
+export default async () => {
 
-;(async () => {
+    async function login(username, password){
+
+        const loginResult = await axios({
+            url:url + '/login',
+            method:'POST',
+            data:{
+                username:username,
+                password:password
+            }
+        })
+
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + loginResult.headers.jwt
+
+        console.log('user', username, 'logged in')
+
+        await getUserData()
+
+        return
+
+    }
+
+    async function getUserData(){
+
+        const userData = await axios({
+            url:url + '/v1/s/user',
+            method:'get'
+        })
+
+        console.log('userdata fetched')
+
+        return userData.data
+
+    }
+
+    async function createFirstUser(data){
+
+        const newUserDocument = new UserModel()
+        newUserDocument.username = data.username
+        newUserDocument.passwordHash = await encryptPassword(data.password)
+        newUserDocument.email = data.email
+        newUserDocument.roles = data.roles
+        newUserDocument.name = data.name
+
+        await newUserDocument.save()
+
+        console.log('created first user admin')
+
+    }
+
+    async function createUser(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/s/user',
+            data:data
+        })
+
+        console.log('created user', result.data)
+
+    }
+
+    async function createEvent(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const userData = await getUserData()
+
+        data.creator = userData._id
+
+        const result = await axios ({
+            method:'post',
+            url:url + '/v1/s/event',
+            data:data
+        })
+
+        console.log('created event', result.data)
+
+    }
+
+    let UserModel, EventModel, encryptPassword, db
 
     try {
 
@@ -312,86 +393,5 @@ let UserModel, EventModel, encryptPassword, db
     }
 
     process.exit()
-
-})()
-
-async function login(username, password){
-
-    const loginResult = await axios({
-        url:url + '/login',
-        method:'POST',
-        data:{
-            username:username,
-            password:password
-        }
-    })
-
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + loginResult.headers.jwt
-
-    console.log('user', username, 'logged in')
-
-    await getUserData()
-
-    return
-
-}
-
-async function getUserData(){
-
-    const userData = await axios({
-        url:url + '/v1/s/user',
-        method:'get'
-    })
-
-    console.log('userdata fetched')
-
-    return userData.data
-
-}
-
-async function createFirstUser(data){
-
-    const newUserDocument = new UserModel()
-    newUserDocument.username = data.username
-    newUserDocument.passwordHash = await encryptPassword(data.password)
-    newUserDocument.email = data.email
-    newUserDocument.roles = data.roles
-    newUserDocument.name = data.name
-
-    await newUserDocument.save()
-
-    console.log('created first user admin')
-
-}
-
-async function createUser(credentials, data){
-
-    await login(credentials.username, credentials.password)
-
-    const result = await axios({
-        method:'post',
-        url:url + '/v1/s/user',
-        data:data
-    })
-
-    console.log('created user', result.data)
-
-}
-
-async function createEvent(credentials, data){
-
-    await login(credentials.username, credentials.password)
-
-    const userData = await getUserData()
-
-    data.creator = userData._id
-
-    const result = await axios ({
-        method:'post',
-        url:url + '/v1/s/event',
-        data:data
-    })
-
-    console.log('created event', result.data)
 
 }

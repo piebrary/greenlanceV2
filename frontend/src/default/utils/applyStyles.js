@@ -3,6 +3,8 @@ import { deepCopy } from './deepCopy'
 
 export function applyStyles(styles, names){
 
+    console.log(styles, names)
+
     const resultObj = {}
 
     if(typeof names === 'string'){
@@ -23,8 +25,8 @@ export function applyStyles(styles, names){
 
                     const newKey = decapitalizeFirstLetter(splittedKey.slice(1).join('_'))
 
-                    if(!resultObj[newKey]) resultObj[newKey] = [deepCopy(style[key])]
                     if(resultObj[newKey]) resultObj[newKey].push(deepCopy(style[key]))
+                    if(!resultObj[newKey]) resultObj[newKey] = [deepCopy(style[key])]
 
                 }
 
@@ -33,6 +35,8 @@ export function applyStyles(styles, names){
         }
 
     }
+
+    console.log(resultObj)
 
     return resultObj
 
