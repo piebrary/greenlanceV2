@@ -3,7 +3,7 @@ import axios from 'axios'
 export async function getEvent(_id){
 
     const options = {
-        url:`/api/v1/s/event${_id ? '/' + _id : ''}`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event${_id ? '/' + _id : ''}`,
         method:'GET',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -18,7 +18,7 @@ export async function getEvent(_id){
 export async function getEvents(){
 
     const options = {
-        url:'/api/v1/s/events',
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/events`,
         method:'GET',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -33,7 +33,7 @@ export async function getEvents(){
 export async function postEvent(data){
 
     const options = {
-        url:'/api/v1/s/event',
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'POST',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -49,7 +49,7 @@ export async function postEvent(data){
 export async function putEvent(data){
 
     const options = {
-        url:'/api/v1/s/event',
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'PUT',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),
@@ -65,7 +65,7 @@ export async function putEvent(data){
 export async function delEvent(data){
 
     const options = {
-        url:'/api/v1/s/event',
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'DELETE',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),

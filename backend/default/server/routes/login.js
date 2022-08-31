@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 module.exports = express => {
 
     express.post(process.env.API_PREFIX + '/login', (req, res) => {
+
         passport.authenticate(
         'local',
         { session: false },

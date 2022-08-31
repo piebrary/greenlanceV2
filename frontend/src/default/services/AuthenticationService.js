@@ -3,7 +3,7 @@ import axios from 'axios'
 export async function doAuthenticate(username, password){
 
     const options = {
-        url:'/api/login',
+        url:`${process.env.REACT_APP_API_PREFIX}/login`,
         method:'POST',
         data:{
             username,
@@ -18,7 +18,7 @@ export async function doAuthenticate(username, password){
 export async function doRegister(username, password, email){
 
     const options = {
-        url:'/api/v1/s/user',
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/user`,
         method:'POST',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem('token'),

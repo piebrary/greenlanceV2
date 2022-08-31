@@ -4,6 +4,8 @@ const cors = require('cors')
 const moment = require('moment')
 const path = require('path')
 
+require('dotenv').config({ path:'../.env' })
+
 module.exports = async () => {
 
     let logger, db
@@ -38,10 +40,10 @@ module.exports = async () => {
         // })
 
         try {
-            require('../../custom/server/auth.js')
-            require('../../default/server/auth.js')
+            require('../../custom/server/auth.js')()
+            require('../../default/server/auth.js')()
         } catch {
-            require('../../default/server/auth.js')
+            require('../../default/server/auth.js')()
         }
 
         try {
