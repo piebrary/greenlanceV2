@@ -1,7 +1,7 @@
 const axios = require('axios')
 const moment = require('moment')
 
-require('dotenv').config()
+require('dotenv').config({ path:'../../.env' })
 
 const url = `http://localhost:${process.env.API_PORT}${process.env.API_PREFIX}`
 

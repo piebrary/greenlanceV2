@@ -1,6 +1,6 @@
 # Say hello to PieBrary!
 
-PieBrary let's you easily create, update and publish beautiful responsive websites out of the box, both frontend and backend. You can use this document for installation guides, update & customization guides, tip & tricks and much more.
+PieBrary let's you easily create, update and publish beautiful responsive websites out of the box, both webapp and server. You can use this document for installation guides, update & customization guides, tip & tricks and much more.
 
 
 
@@ -22,12 +22,13 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
     6. [Workflow](#git-workflow) *workflow of working with Git*
 5. [Publishing](#publishing) *publishing your website to the web*
 6. [PieBrary](#piebrary)
-    1. [Frontend](#piebrary-frontend)
-	    1. [Components](#piebrary-frontend-components)
-	    2. [Themes](#piebrary-frontend-themes)
-	    3. [Styles](#piebrary-frontend-styles)
-    2. [Backend](#piebrary-backend)
-	    1. [API Endpoints](#piebrary-backend-endpoints)
+    1. [Webapp](#piebrary-webapp)
+	    1. [Components](#piebrary-webapp-components)
+	    2. [Themes](#piebrary-webapp-themes)
+	    3. [Styles](#piebrary-webapp-styles)
+    2. [Server](#piebrary-server)
+	    1. [API Endpoints](#piebrary-server-endpoints)
+    3. [App](#piebrary-app)
 
 
 ## This is the introduction <a name="introduction"></a>
@@ -99,9 +100,9 @@ Run `git clone https://github.com/[username]/[repository-name]`
 - [username] = the username of the name of the organization who owns the repository
 - [repository] = the name of the repository
 
-Then install the NPM modules in both the frontend and backend folders.
-Run `cd [repository-name]/frontend` and run `npm install`
-When finished go to the backend folder with `cd ../backend` and run `npm install`
+Then install the NPM modules in both the webapp and server folders.
+Run `cd [repository-name]/webapp` and run `npm install`
+When finished go to the server folder with `cd ../server` and run `npm install`
 
 > Every time you work on your repository
 
@@ -116,9 +117,9 @@ After you've worked on the repository you want to update your local registry wit
 - Lastly you want to publish the website to the web, follow the next section [Publishing](#publishing) for that workflow
 
 ## Publishing<a name="publishing"></a>
-With publishing we mean downloading the updated repository with it's chances on the server, create a build package from that and copy the build files to the folder where your website is hosted. If we made backend changes we also need to restart our backend server.
+With publishing we mean downloading the updated repository with it's chances on the server, create a build package from that and copy the build files to the folder where your website is hosted. If we made server changes we also need to restart our server server.
 
 - First navigate to the repository with the command line. When you are in the repositories top level folder we will fetch or pull the changes. Use `git pull`
-- Then we want to create a build package of the repository. First navigate to the frontend folder with `cd frontend` and then build the source with `npm run build`
+- Then we want to create a build package of the repository. First navigate to the webapp folder with `cd webapp` and then build the source with `npm run build`
 - When the process succeeded we copy the files to the location where our website is hosted. Normally this location is `/var/www/html`. Copy the files with `sudo cp -r build/* /var/www/html` and provide your password. The newly build website is now available to the web.
-- When changes were made to the backend, we need to navigate there with `cd ../backend` and restart the process with `pm2 restart [repository-name]-api`
+- When changes were made to the server, we need to navigate there with `cd ../server` and restart the process with `pm2 restart [repository-name]-api`

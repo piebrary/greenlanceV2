@@ -4,8 +4,6 @@ const cors = require('cors')
 const moment = require('moment')
 const path = require('path')
 
-require('dotenv').config({ path:'../.env' })
-
 module.exports = async () => {
 
     let logger, db
