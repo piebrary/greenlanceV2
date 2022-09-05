@@ -1,6 +1,6 @@
 # Say hello to PieBrary!
 
-PieBrary let's you easily create, update and publish beautiful responsive websites out of the box, both webapp and server. You can use this document for installation guides, update & customization guides, tip & tricks and much more.
+PieBrary let's you easily create, update and publish beautiful responsive websites out of the box, both app (web, mobile and desktop) and api. You can use this document for installation guides, update & customization guides, tip & tricks and much more.
 
 
 
@@ -9,26 +9,27 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 2. [VPS](#vps)
     1. [Setup](#vps-setup)
     2. [Firewall](#vps-firewall)
-    3. [Nginx proxy server](#vps-nginx)
+    3. [Nginx proxy api](#vps-nginx)
     4. [SSL](#vps-ssl)
     5. [Email](#vps-email)
 3. [Create repository](#create-repository) *creating a new repository from the PieBrary source repository*
 4. [Git](#git) *a protocol to store and retrieve your repository from the cloud*
-    1. [Connecting](#git-connect) *setting up a connection to github*
+    1. [Connecting](#git-connect) *setting up a connection to Github*
     2. [Cloning](#git-clone) *getting the repository on you computer to edit*
     3. [Pulling](#git-pull) *updating your local Git repository with changes made on other computers*
     4. [Committing](#git-commit) *updating your local Git registry with your changes*
     5. [Pushing](#git-push) *pushing your edited repository to the Git cloud*
     6. [Workflow](#git-workflow) *workflow of working with Git*
-5. [Publishing](#publishing) *publishing your website to the web*
-6. [PieBrary](#piebrary)
-    1. [Webapp](#piebrary-webapp)
-	    1. [Components](#piebrary-webapp-components)
-	    2. [Themes](#piebrary-webapp-themes)
-	    3. [Styles](#piebrary-webapp-styles)
-    2. [Server](#piebrary-server)
-	    1. [API Endpoints](#piebrary-server-endpoints)
-    3. [App](#piebrary-app)
+5. [Publishing App](#publishing-app) *publishing your website to the web*
+6. [Building and submitting Mobile Client](#building-mobile-client) *building your mobile app and submit it to Appstore or Google Play*
+7. [Building Desktop Client](#building-desktop-client) *Building your desktop app to an executable*
+8. [PieBrary](#piebrary)
+    1. [App](#piebrary-app)
+	    1. [Components](#piebrary-app-components)
+	    2. [Themes](#piebrary-app-themes)
+	    3. [Styles](#piebrary-app-styles)
+    2. [Api](#piebrary-api)
+	    1. [API Endpoints](#piebrary-api-endpoints)
 
 
 ## This is the introduction <a name="introduction"></a>
@@ -100,9 +101,9 @@ Run `git clone https://github.com/[username]/[repository-name]`
 - [username] = the username of the name of the organization who owns the repository
 - [repository] = the name of the repository
 
-Then install the NPM modules in both the webapp and server folders.
-Run `cd [repository-name]/webapp` and run `npm install`
-When finished go to the server folder with `cd ../server` and run `npm install`
+Then install the NPM modules in both the app and api folders.
+Run `cd [repository-name]/app` and run `npm install`
+When finished go to the api folder with `cd ../api` and run `npm install`
 
 > Every time you work on your repository
 
@@ -116,10 +117,18 @@ After you've worked on the repository you want to update your local registry wit
 - Then push them to the cloud with `git push`
 - Lastly you want to publish the website to the web, follow the next section [Publishing](#publishing) for that workflow
 
-## Publishing<a name="publishing"></a>
-With publishing we mean downloading the updated repository with it's chances on the server, create a build package from that and copy the build files to the folder where your website is hosted. If we made server changes we also need to restart our server server.
+## Publishing App<a name="publishing-app"></a>
+With publishing we mean downloading the updated repository with it's chances on the api, create a build package from that and copy the build files to the folder where your website is hosted. If we made api changes we also need to restart our api api.
 
 - First navigate to the repository with the command line. When you are in the repositories top level folder we will fetch or pull the changes. Use `git pull`
-- Then we want to create a build package of the repository. First navigate to the webapp folder with `cd webapp` and then build the source with `npm run build`
+- Then we want to create a build package of the repository. First navigate to the app folder with `cd app` and then build the source with `npm run build`
 - When the process succeeded we copy the files to the location where our website is hosted. Normally this location is `/var/www/html`. Copy the files with `sudo cp -r build/* /var/www/html` and provide your password. The newly build website is now available to the web.
-- When changes were made to the server, we need to navigate there with `cd ../server` and restart the process with `pm2 restart [repository-name]-api`
+- When changes were made to the api, we need to navigate there with `cd ../api` and restart the process with `pm2 restart [repository-name]-api`
+
+## Building and submitting Mobile Client<a name="building-mobile-client"></a>
+Submitting your app to the Appstore or Google Play makes it available on iOS and Android devices. The process is handled by expo to make it easy to build and submit without needing a macOS device.
+
+- First navigate to the mobile-client repository in you main folder
+- Run `eas build -p ios` to create an iOS binary or `eas build -p android` to create an Android binary
+
+## Building Desktop Client<a name="building-desktop-client"></a>
