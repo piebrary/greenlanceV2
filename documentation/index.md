@@ -130,5 +130,6 @@ Submitting your app to the Appstore or Google Play makes it available on iOS and
 
 - First navigate to the mobile-client repository in you main folder
 - Run `eas build -p ios` to create an iOS binary or `eas build -p android` to create an Android binary
+- To Submit run `eas submit -p ios` or `eas submit -p android`
 
 ## Building Desktop Client<a name="building-desktop-client"></a>
