@@ -9,7 +9,6 @@ body {
     /* background-color: #1E1E1B; */
     background-color: var(--layoutBackground);
     min-width: var(--layoutMinWidth);
-    overflow: auto;
 }
 
 code {

@@ -7,7 +7,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import Grid from '../../components/grid/Grid'
 import Button from '../../components/button/Button'
-import Layout from '../../components/layouts/simpleMenuLeft/Layout.js'
+import Layout from '../../components/layouts/basic/Layout.js'
 import Card from '../../components/card/Card.js'
 import Input from '../../components/formElements/input/Input.js'
 import Form from '../../components/form/Form'

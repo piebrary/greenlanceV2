@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import { getEvent, getEvents, postEvent, putEvent, delEvent } from '../../services/EventService'
 
-import Layout from '../../components/layouts/simpleMenuLeft/Layout'
+import Layout from '../../components/layouts/basic/Layout'
 import Calendar from '../../components/calendar/Calendar'
 
 import { menuitems } from '../../assets/js/menu/items'

@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import { sendEmail } from '../../services/EmailService'
 
-import Layout from '../../components/layouts/simpleMenuLeft/Layout'
+import Layout from '../../components/layouts/basic/Layout'
 import Card from '../../components/card/Card'
 import Button from '../../components/button/Button'
 

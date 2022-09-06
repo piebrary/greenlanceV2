@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from 'react'
 import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
 
-import Layout from '../../components/layouts/simpleMenuLeft/Layout'
+import Layout from '../../components/layouts/basic/Layout'
 import Card from '../../components/card/Card'
 import Button from '../../components/button/Button'
 

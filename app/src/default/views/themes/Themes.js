@@ -6,7 +6,7 @@ import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
 import { VisualsContext } from '../../contexts/VisualsContext'
 
-import Layout from '../../components/layouts/simpleMenuLeft/Layout.js'
+import Layout from '../../components/layouts/basic/Layout.js'
 import Card from '../../components/card/Card.js'
 import Button from '../../components/button/Button.js'
 import Grid from '../../components/grid/Grid.js'

@@ -6,7 +6,7 @@ import { LanguageContext } from '../../contexts/LanguageContext'
 import { UserContext } from '../../contexts/UserContext'
 
 import Form from '../../components/form/Form'
-import Layout from '../../components/layouts/simpleMenuLeft/Layout'
+import Layout from '../../components/layouts/basic/Layout'
 import Card from '../../components/card/Card'
 import Input from '../../components/formElements/input/Input'
 import Button from '../../components/button/Button'

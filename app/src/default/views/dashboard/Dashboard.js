@@ -5,7 +5,7 @@ import { UserContext } from '../../contexts/UserContext'
 
 import Grid from '../../components/grid/Grid'
 import Button from '../../components/button/Button'
-import Layout from '../../components/layouts/simpleMenuLeft/Layout'
+import Layout from '../../components/layouts/basic/Layout'
 import Card from '../../components/card/Card'
 
 import Logo from '../../components/logo/Logo'
