@@ -10,14 +10,13 @@
 
 .scrollToTopBtn {
     position: fixed;
-    bottom: 10px;
-    right: 40px;
+    bottom: 6px;
+    right: 30px;
     align-items: center;
     user-select: none;
-    padding: 4px;
     border-radius: 34px;
-    background-color: var(--colorGreyDarkest);
-    color: var(--colorWhite);
+    background-color: var(--colorWhite);
+    /* color: var(--colorWhite); */
     cursor: pointer;
     transition: 0.5s;
     display: flex;
@@ -25,12 +24,13 @@
 }
 
 .scrollToTopBtn * {
-    margin-right: 20px;
+    /* margin: 0px 10px; */
+    transition: 0.3s;
 }
 
-.scrollToTopBtn:hover {
-    background-color: var(--colorPrimary1);
-    transition: 0.5s;
+.scrollToTopBtn:hover * {
+    color: var(--colorPrimary1);
+    transition: 0.3s;
 }
 
 .menu {

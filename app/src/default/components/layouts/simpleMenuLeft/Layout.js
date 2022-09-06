@@ -86,7 +86,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                             })
                         }}
                         >
-                        <BsFillArrowUpCircleFill size={30} /><p>{applyTranslation('SCROLL_TO_TOP')}</p>
+                        <BsFillArrowUpCircleFill size={30} />
                     </div>
                 )
             }
