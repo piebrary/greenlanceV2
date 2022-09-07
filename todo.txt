@@ -1,5 +1,11 @@
 
 
+        - make installation script which sets .env files and does npm install etc
+        - move mobile and desktop app icons etc to a default folder
+        - in mobile app build script make it so it asks for new version number and it updates package.json
+        - in documentation specify the scripts file so cli does not have to be used much
+
+
         # BACKEND
 
 		- documentatie schrijven

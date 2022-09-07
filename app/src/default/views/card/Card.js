@@ -1,13 +1,13 @@
 import { useContext, useState, useEffect } from 'react'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
-import { UserContext } from '../../contexts/UserContext'
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
+import { UserContext } from '../../../default/contexts/UserContext'
 
-import Layout from '../../components/layouts/basic/Layout'
-import Card from '../../components/card/Card'
+import Layout from '../../../default/components/layouts/basic/Layout'
+import Card from '../../../default/components/card/Card'
 
-import { menuitems } from '../../assets/js/menu/items'
-import { applyStyles } from '../../utils/applyStyles'
+import { menuitems } from '../../../default/assets/js/menu/items'
+import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Card.module.css'
 

@@ -1,18 +1,18 @@
 import { useContext } from 'react'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
-import { UserContext } from '../../contexts/UserContext'
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
+import { UserContext } from '../../../default/contexts/UserContext'
 
-import Grid from '../../components/grid/Grid'
-import Button from '../../components/button/Button'
-import Layout from '../../components/layouts/basic/Layout'
-import Card from '../../components/card/Card'
+import Grid from '../../../default/components/grid/Grid'
+import Button from '../../../default/components/button/Button'
+import Layout from '../../../default/components/layouts/basic/Layout'
+import Card from '../../../default/components/card/Card'
 
-import Logo from '../../components/logo/Logo'
+import Logo from '../../../default/components/logo/Logo'
 
-import { menuitems } from '../../assets/js/menu/items'
+import { menuitems } from '../../../default/assets/js/menu/items'
 
-import { applyStyles } from '../../utils/applyStyles'
+import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Dashboard.module.css'
 

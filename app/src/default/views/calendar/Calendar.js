@@ -1,15 +1,15 @@
 import { useContext, useState, useEffect } from 'react'
 
-import { LanguageContext } from '../../contexts/LanguageContext'
-import { UserContext } from '../../contexts/UserContext'
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
+import { UserContext } from '../../../default/contexts/UserContext'
 
-import { getEvent, getEvents, postEvent, putEvent, delEvent } from '../../services/EventService'
+import { getEvent, getEvents, postEvent, putEvent, delEvent } from '../../../default/services/EventService'
 
-import Layout from '../../components/layouts/basic/Layout'
-import Calendar from '../../components/calendar/Calendar'
+import Layout from '../../../default/components/layouts/basic/Layout'
+import Calendar from '../../../default/components/calendar/Calendar'
 
-import { menuitems } from '../../assets/js/menu/items'
-import { applyStyles } from '../../utils/applyStyles'
+import { menuitems } from '../../../default/assets/js/menu/items'
+import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Calendar.module.css'
 

@@ -16,7 +16,7 @@ import { createStyle } from '../../../utils/createStyle'
 
 import styles from './Layout.module.css'
 
-export default function Layout({ items = [], children, customStyles, title, controls }){
+export default function Layout({ items = [], children, customStyles, title, controls, logo }){
 
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
@@ -93,7 +93,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
             <div className={menuClassList.join(' ')}>
                 <div className={createStyle([styles, customStyles], 'headerResponsive')}>
                     <div className={createStyle([styles, customStyles], 'logo')}>
-                        <Logo />
+                        { logo !== undefined && logo || <Logo /> }
                     </div>
                     {
                         title && (

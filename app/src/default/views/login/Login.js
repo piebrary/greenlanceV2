@@ -2,15 +2,15 @@ import { useContext } from 'react'
 
 import { useForm } from "react-hook-form"
 
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
+import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
-import Form from '../../components/form/Form'
-import Input from '../../components/formElements/input/Input'
-import Button from '../../components/button/Button'
-import ButtonGroup from '../../components/buttonGroup/ButtonGroup'
+import Form from '../../../default/components/form/Form'
+import Input from '../../../default/components/formElements/input/Input'
+import Button from '../../../default/components/button/Button'
+import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 
-import LogoSmall from '../../components/logo/Logo'
-import { applyStyles } from '../../utils/applyStyles'
+import LogoSmall from '../../../default/components/logo/Logo'
+import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Login.module.css'
 

@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
+import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
 import styles from './Logout.module.css'
 
