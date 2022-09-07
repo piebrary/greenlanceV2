@@ -7,6 +7,8 @@ export default function App() {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: 'rgb(10, 10, 10)' }} forceInset={{ bottom: 'never' }}>
             <WebView
+                cacheEnabled={false}
+                cacheMode={'LOAD_NO_CACHE'}
                 source={{ uri: 'https://demo.piebrary.nl' }}
                 />
         </SafeAreaView>

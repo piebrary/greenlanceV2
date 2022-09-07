@@ -7,6 +7,24 @@
 .page {
 }
 
+.content {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100vh - var(--menuHeight));
+}
+
+@supports (-webkit-touch-callout: none) {
+    /* CSS specific to iOS devices */
+    .content {
+        max-height: calc(100vh - var(--menuHeight) - 80px);
+    }
+}
+
+.content > * {
+    margin-bottom: var(--layoutContentSpacing);
+}
+
 .scrollToTopBtn {
     position: fixed;
     bottom: 6px;
@@ -95,6 +113,13 @@
     max-height: calc(100vh - var(--menuHeight));
 }
 
+@supports (-webkit-touch-callout: none) {
+    /* CSS specific to iOS devices */
+    .menuOpen .items {
+        max-height: calc(100vh - var(--menuHeight) - 80px);
+    }
+}
+
 .layoutContainer .menuOpen + .page {
     display: none;
 }
@@ -181,18 +206,6 @@
     color: var(--menuToggleColor);
     padding: var(--menuTogglePadding);
     padding-right: 14px;
-}
-
-.content {
-    margin-bottom: 80px;
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: calc(100vh - var(--menuHeight));
-}
-
-.content > * {
-    margin-bottom: var(--layoutContentSpacing);
 }
 
 @media only screen and (min-width: 1000px) {

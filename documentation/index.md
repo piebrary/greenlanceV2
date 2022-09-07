@@ -129,6 +129,7 @@ With publishing we mean downloading the updated repository with it's chances on 
 Submitting your app to the Appstore or Google Play makes it available on iOS and Android devices. The process is handled by expo to make it easy to build and submit without needing a macOS device.
 
 - First navigate to the mobile-client repository in you main folder
+- Increment the version number in package.json. If you don't, Apple will tell you you already have a build with that version number and won't accept the new build
 - Run `eas build -p ios` to create an iOS binary or `eas build -p android` to create an Android binary
 - To Submit run `eas submit -p ios` or `eas submit -p android`
 
