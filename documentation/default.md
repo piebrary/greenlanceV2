@@ -24,11 +24,12 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
 6. [Building and submitting Mobile Client](#building-mobile-client) *building your mobile app and submit it to Appstore or Google Play*
 7. [Building Desktop Client](#building-desktop-client) *Building your desktop app to an executable*
 8. [PieBrary](#piebrary)
-    1. [App](#piebrary-app)
+    1. [Installing Updates](#piebrary-installing-updates)
+    2. [App](#piebrary-app)
 	    1. [Components](#piebrary-app-components)
 	    2. [Themes](#piebrary-app-themes)
 	    3. [Styles](#piebrary-app-styles)
-    2. [Api](#piebrary-api)
+    3. [Api](#piebrary-api)
 	    1. [API Endpoints](#piebrary-api-endpoints)
 
 
@@ -66,19 +67,19 @@ The PieBrary Github repository serves as a basis for any new PieBrary derived pr
 ## Git<a name="git"></a>
 Git is a protocol which securely stores your repository in the cloud. This way you always have a backup, you can browse the history of the changes made and even work with multiple people on the same project. In this documentation we use Github but there are many more Git clients.
 
-## Connect<a name="git-connect"></a>
+## Connecting<a name="git-connect"></a>
 To communicate with Github we need to have a secure connection with Github. We will be using ssh to perform actions and thus need to create and register a ssh key.
 
-### Clone<a name="git-clone"></a>
+### Cloning<a name="git-clone"></a>
 Cloning means you create a copy or so called clone of the repository on the current device (be it your computer or for example a VPS) to work on or to publish.
 
-### Pull<a name="git-pull"></a>
+### Pulling<a name="git-pull"></a>
 With Git command Pull you retrieve an updated version of the repository you are in from the cloud. Always do this when you're starting to work on a repository that other people also work on.
 
-### Commit<a name="git-commit"></a>
+### Committing<a name="git-commit"></a>
 Committing is updating the registry of you local Git repository with the changes you have made. In this step you're not sending your changes to the cloud but you are just updating your registry.
 
-### Push<a name="git-push"></a>
+### Pushing<a name="git-push"></a>
 Pushing is the process of sending you new repository version to the Git cloud. This makes your version available to other people working on it, so called collaborators.
 
 ### Workflow<a name="git-workflow"></a>
@@ -134,3 +135,14 @@ Submitting your app to the Appstore or Google Play makes it available on iOS and
 - To Submit run `eas submit -p ios` or `eas submit -p android`
 
 ## Building Desktop Client<a name="building-desktop-client"></a>
+
+## PieBrary<a name="piebrary"></a>
+PieBrary delivers you the most powerfull noeJS/React development kit. This chapter wil go through the library itself
+
+### Installing Updates<a name="piebrary-installing-updates"></a>
+Installing new updates is an important feature of PieBrary. This way the code changes of the native PieBrary package get shipped easily to your own software. This includes files and folder called default.
+
+- When receiving an update package named "update-package" copy this entire folder to the main folder of your project, next to the "api", "app", "assets" etc.
+- Open the "update-package" folder.
+- Double click the "install.bat" folder when on windows or "install.sh" when on macOS or Linux
+- When the Terminal window prints "Press any key to continue..." the installing is complete and the "update-package" folder can be safely deleted.
