@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profilePictureContainer {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.categoryLabel {
+    background-color: var(--darker);
+    padding: 10px;
+    width: fit-content;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    color: white;
+    user-select: none;
+}
+
+.submit_button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--success2);
+    color: white;
+    cursor: pointer;
+}
+
+.submit_button:hover {
+    background-color: var(--success1);
+    color: white;
+}
+
+.reset_button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--primary5);
+    color: white;
+    cursor: pointer;
+}
+
+.reset_button:hover {
+    background-color: var(--primary3);
+    color: white;
+}
+
+.grid_grid {
+    display: block;
+    width: 100%;
+}
+
+
+@media only screen and (min-width: 1050px) {
+
+    .grid_grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        grid-auto-rows: minmax(100px, auto);
+        width: 100%;
+    }
+
+    .profilePictureContainer {
+        grid-column: 1 / 1;
+        grid-row: 1;
+        max-width: 100%;
+    }
+
+    .formContainer {
+        grid-column: 2 / 2;
+        grid-row: 1;
+    }
+
+}

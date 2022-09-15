@@ -1,0 +1,158 @@
+.container {
+    background-color: var(--componentRadioContainerBackgroundColor);
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    border-radius: var(--componentRadioContainerBorderRadius);
+    padding: var(--componentRadioContainerPadding);
+    word-wrap: break-word;
+    width: 100%;
+}
+
+.label {
+    margin-bottom: 6px;
+    margin-left: 4px;
+}
+
+.radios {
+    /* display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    max-width: fit-content; */
+    min-width: var(--componentRadiosMinWidth);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.radioPair {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    margin: var(--componentRadioPairMargin);
+    padding: var(--componentRadioPairPadding);
+    border-radius: var(--componentRadioPairBorderRadius);
+}
+
+.radioPairDisabled {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    margin: var(--componentRadioPairMargin);
+    padding: var(--componentRadioPairPadding);
+}
+
+.radioPair:hover, .radioPair:focus-within {
+    background-color: var(--componentRadioPairBackgroundColorHover);
+}
+
+/* .radioPair + .radioPair,
+.radioPairDisabled + .radioPairDisabled,
+.radioPairDisabled + .radioPair,
+.radioPair + .radioPairDisabled {
+    margin-left: 20px;
+} */
+
+.radio {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--componentRadioBackgroundColor);
+    /* Not removed via appearance */
+    color: var(--componentRadioColor);
+    width: var(--componentRadioWidth);
+    height: var(--componentRadioHeight);
+    min-width: var(--componentRadioWidth);
+    min-height: var(--componentRadioHeight);
+    max-width: var(--componentRadioWidth);
+    max-height: var(--componentRadioHeight);
+    border: var(--componentRadioBorder);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: var(--componentRadioMarginRight);
+    transform: translateY(-0.075em);
+    transition: var(--componentRadioTransition);
+}
+
+.radio:hover {
+    border: var(--componentRadioBorderHover);
+    transition: var(--componentRadioTransition);
+    outline: none;
+}
+
+.radio:focus {
+    outline: none;
+    border: var(--componentRadioBorderHover);
+    transition: var(--componentRadioTransition);
+}
+
+.radio:checked {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--componentRadioCheckedBackgroundColor);
+    /* Not removed via appearance */
+    color: var(--componentRadioCheckedColor);
+    width: var(--componentRadioWidth);
+    height: var(--componentRadioHeight);
+    min-width: var(--componentRadioWidth);
+    min-height: var(--componentRadioHeight);
+    max-width: var(--componentRadioWidth);
+    max-height: var(--componentRadioHeight);
+    border: var(--componentRadioBorderHover);
+    border-radius: 20px;
+    cursor: pointer;
+    margin-right: var(--componentRadioMarginRight);
+    transform: translateY(-0.075em);
+    transition: var(--componentRadioTransition);
+}
+
+.radio:disabled {
+    /* Add if not using autoprefixer */
+    -webkit-appearance: none;
+    appearance: none;
+    /* For iOS < 15 to remove gradient background */
+    background-color: var(--componentRadioDisabledBackgroundColor);
+    /* Not removed via appearance */
+    color: var(--componentRadioDisabledColor);
+    width: var(--componentRadioWidth);
+    height: var(--componentRadioHeight);
+    min-width: var(--componentRadioWidth);
+    min-height: var(--componentRadioHeight);
+    max-width: var(--componentRadioWidth);
+    max-height: var(--componentRadioHeight);
+    border: var(--componentRadioDisabledBorder);
+    border-radius: 20px;
+    margin-right: var(--componentRadioMarginRight);
+    transform: translateY(-0.075em);
+    cursor: auto;
+}
+
+@media only screen and (min-width: 800px) {
+
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .label {
+        margin-bottom: 0px;
+    }
+
+    .radios {
+        display: flex;
+        flex-direction: row;
+        width: calc(100% - 300px);
+    }
+
+    .radio {
+        margin-left: var(--componentInputInputContainerMarginLeft);
+        max-width: var(--componentInputInputContainerMaxWidth);
+    }
+
+}
