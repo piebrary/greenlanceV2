@@ -62,44 +62,19 @@ export function dark(){
     const transitionFast = '0.2s ease-in-out'
 
     /* menu */
-    const menuWidth = '250px'
-    const menuHeight = '50px'
     const menuBackgroundColor = colorGreyDarkest
-    const menuLogoWidth = '100px'
     const menuTitleColor = colorGreyDarkest
     const menuTitleBackgroundColor = colorWhite
-    const menuTitleBorderRadius = '4px'
-    const menuTitlePadding = '10px'
-    const menuTitleSpacing = '28px'
     const menuLogoutBtnMargin = '30px 0px 10px 0px'
     const menuLogoutBtnAColor = colorWhite
     const menuLogoutBtnAMargin = '20px 0px'
     const menuLogoutBtnAColorHover = colorPrimary3
-    const menuControlsMargin = '0px 10px 0px auto'
-    const menuControlsPadding = '0px 10px'
-    const menuControlsMarginOnlyChild = '0px auto 0px 0px'
-    const menuGroupMaxWidth = '100vw'
-    const menuGroupMargin = '15px 0px'
-    const menuGroupMarginTop = '40px'
-    const menuGroupPaddingLeft = '20px'
-    const menuGroupMarginTopFirstChild = '30px'
     const menuLabelColor = colorPrimary3
-    const menuLabelMargin = '30px 20px 0px 0px'
     const menuItemColor = colorWhite
-    const menuItemMargin = '10px 8px 0px 0px'
     const menuItemBackgroundColor = colorGreyDarker
-    const menuItemBorderRadius = '4px'
-    const menuItemPadding = '10px'
     const menuItemColorHover = colorPrimary3
-    const menuItemIconHeight = '20px'
-    const menuItemTextPaddingTop = '1px'
-    const menuTitleColorMobile = colorWhite
-    const menuTitlePaddingMobile = '5px'
-    const menuTitleMargin = '1px inherit inherit inherit'
-    const menuToggleLineHeight = '10px'
+    const menuTitleColorResponsive = colorWhite
     const menuToggleColor = colorWhite
-    const menuTogglePadding = '5px'
-    const menuHeaderMarginTop = '10px'
 
     /* logo */
     const logoContainerPadding = '10px 5px'
@@ -578,8 +553,8 @@ export function dark(){
         menuItemColorHover,
         menuItemIconHeight,
         menuItemTextPaddingTop,
-        menuTitleColorMobile,
-        menuTitlePaddingMobile,
+        menuTitleColorResponsive,
+        menuTitlePaddingResponsive,
         menuTitleMargin,
         menuToggleLineHeight,
         menuToggleColor,
@@ -1047,8 +1022,8 @@ export function light(){
     const menuItemColorHover = colorPrimary3
     const menuItemIconHeight = '20px'
     const menuItemTextPaddingTop = '1px'
-    const menuTitleColorMobile = colorWhite
-    const menuTitlePaddingMobile = '5px'
+    const menuTitleColorResponsive = colorWhite
+    const menuTitlePaddingResponsive = '5px'
     const menuTitleMargin = '1px inherit inherit inherit'
     const menuToggleLineHeight = '10px'
     const menuToggleColor = colorWhite
@@ -1532,8 +1507,8 @@ export function light(){
         menuItemColorHover,
         menuItemIconHeight,
         menuItemTextPaddingTop,
-        menuTitleColorMobile,
-        menuTitlePaddingMobile,
+        menuTitleColorResponsive,
+        menuTitlePaddingResponsive,
         menuTitleMargin,
         menuToggleLineHeight,
         menuToggleColor,

@@ -105,7 +105,7 @@ export default function Users(){
 
     async function deleteUser(){
 
-        await alert(`Are you sure you want to delete user ${selectedUser.username}.    REPLACE WITH CONFIRM COMPONENT WHEN BUILD`)
+        await alert(`Are you sure you want to delete user ${selectedUser.username}.`)
 
         await delUser(selectedUser._id)
 

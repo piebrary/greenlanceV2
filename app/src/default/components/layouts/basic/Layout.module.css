@@ -1,3 +1,8 @@
+:root {
+    --menuWidth: 250px;
+    --menuHeight: 50px;
+}
+
 .layoutContainer {
     width: 100%;
     display: flex;
@@ -128,22 +133,22 @@
 .controls {
     display: flex;
     justify-content: space-between;
-    margin: var(--menuControlsMargin);
+    margin: 0px 10px 0px auto;
 }
 
 .controls > *:only-child {
-    margin: var(--menuControlsMarginOnlyChild);
+    margin: 0px auto 0px 0px;
 }
 
 .group {
-    max-width: var(--menuGroupMaxWidth);
-    margin: var(--menuGroupMargin);
+    max-width: 100vw;
+    margin: 15px 0px;
     display: block;
-    padding-left: var(--menuGroupPaddingLeft);
+    padding-left: 20px;
 }
 
 .group:first-child {
-    margin-top: var(--menuGroupMarginTopFirstChild);
+    margin-top: 30px;
 }
 
 .label {
@@ -151,7 +156,7 @@
     color: var(--menuLabelColor);
     width: fit-content;
     display: block;
-    margin: var(--menuLabelMargin);
+    margin: 30px 20px 0px 0px;
 }
 
 .item {
@@ -160,10 +165,10 @@
     text-decoration: none;
     display: inline-block;
     width: fit-content;
-    margin: var(--menuItemMargin);
+    margin: 10px 8px 0px 0px;
     background-color: var(--menuItemBackgroundColor);
-    border-radius: var(--menuItemBorderRadius);
-    padding: var(--menuItemPadding);
+    border-radius: var(--borderRadiusSmall);
+    padding: var(--paddingBig);
 }
 
 .item:hover {
@@ -172,25 +177,25 @@
 
 .itemIcon {
     display: none;
-    height: var(--menuItemIconHeight);
+    height: 20px;
 }
 
 .itemText {
     display: inline-block;
-    padding-top: var(--menuItemTextPaddingTop);
+    padding-top: 1px;
 }
 
 .logo, .logo * {
     display: block;
-    width: var(--menuLogoWidth);
+    width: 100px;
 }
 
 .titleResponsive {
     user-select: none;
-    color: var(--menuTitleColorMobile);
-    padding: var(--menuTitlePaddingMobile);
+    color: var(--menuTitleColorResponsive);
+    padding: 5px;
     box-sizing: border-box;
-    margin-top: var(--menuTitleMargin);
+    margin-top: 1px inherit inherit inherit;
     padding-left: 20px;
     flex-grow: 1;
 }
@@ -200,10 +205,10 @@
 }
 
 .toggle {
-    line-height: var(--menuToggleLineHeight);
+    line-height: 10px;
     cursor: pointer;
     color: var(--menuToggleColor);
-    padding: var(--menuTogglePadding);
+    padding: 5px;
     padding-right: 14px;
 }
 
@@ -228,7 +233,7 @@
 
     .header {
         width: 100%;
-        margin-top: var(--menuHeaderMarginTop);
+        margin-top: var(--marginBig);
         position: relative;
         display: block;
     }
@@ -247,17 +252,17 @@
     }
 
     .group:first-child {
-        margin-top: var(--menuGroupMarginTopFirstChild);
+        margin-top: 30px;
     }
 
     .group {
-        margin-top: var(--menuGroupMarginTop);
-        padding-left: var(--menuGroupPaddingLeft);
+        margin-top: 30px;
+        padding-left: var(--paddingBig);
     }
 
     .controls {
-        margin: var(--menuControlsMargin);
-        padding: var(--menuControlsPadding);
+        margin: 0px 10px 0px auto;
+        padding: 0px 10px;
         /* position: absolute; */
     }
 
@@ -271,16 +276,16 @@
         /* position: absolute; */
         width: fit-content;
         text-align: center;
-        border-radius: var(--menuTitleBorderRadius);
+        border-radius: var(--borderRadiusSmall);
         background-color: var(--menuTitleBackgroundColor);
         color: var(--menuTitleColor);
-        padding: var(--menuTitlePadding);
+        padding: var(--paddingBig);
         display: block;
     }
 
     .spacing {
         display: block;
-        height: var(--menuTitleSpacing);
+        height: 28px;
     }
 
     .label {

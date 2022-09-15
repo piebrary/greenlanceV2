@@ -12,6 +12,7 @@ export default function Table(attributes){
         columns,
         data,
         onRowClick,
+        onCellClick,
         customStyles,
         getHeaderProps = () => ({}),
         getColumnProps = () => ({}),
@@ -86,6 +87,7 @@ export default function Table(attributes){
                                    return (
                                        <td
                                            className={styles.td}
+                                           onClick={e => onCellClick && onCellClick(cell)}
                                            {...cell.getCellProps([
                                                getColumnProps(cell.column),
                                                getCellProps(cell)
