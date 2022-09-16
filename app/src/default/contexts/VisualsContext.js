@@ -2,17 +2,13 @@ import { createContext, useState, useEffect } from 'react'
 
 import config from '../../config/config'
 
+import { themes } from '../../default/assets/js/themes'
+
 import { deepCopy } from '../../default/utils/deepCopy'
 
 export const VisualsContext = createContext({})
 
 export default function VisualsContextProvider({ children }){
-
-    const themes = {
-        'basic':require('../../default/themes/basic').default(),
-        'red':require('../../default/themes/red').default(),
-        'green':require('../../default/themes/green').default(),
-    }
 
     const [currentTheme, setCurrentTheme] = useState({
         name:'basic',

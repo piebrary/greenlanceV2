@@ -15,8 +15,6 @@ import Select from '../../../default/components/formElements/select/Select'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { languageOptions } from '../../../default/assets/js/settings/language'
-import { dateFormatOptions } from '../../../default/assets/js/settings/dateFormat'
-import { timeFormatOptions } from '../../../default/assets/js/settings/timeFormat'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { containsNumber } from '../../../default/utils/containsNumber'

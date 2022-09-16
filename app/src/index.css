@@ -1,7 +1,3 @@
-html {
-    height: 100vh;
-}
-
 body {
     margin: 0;
     /* font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -13,7 +9,6 @@ body {
     /* background-color: #1E1E1B; */
     background-color: var(--layoutBackground);
     min-width: var(--layoutMinWidth);
-    padding-bottom: env(safe-area-inset-bottom);
 }
 
 code {

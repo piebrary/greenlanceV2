@@ -1,44 +1,25 @@
-:root {
-    --menuWidth: 250px;
-    --menuHeight: 50px;
-}
-
 .layoutContainer {
     width: 100%;
     display: flex;
     flex-direction: column;
+    min-height: fit-content;
+    overflow-y: hidden;
 }
 
 .page {
-}
-
-.content {
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: calc(100vh - var(--menuHeight));
-}
-
-@supports (-webkit-touch-callout: none) {
-    /* CSS specific to iOS devices */
-    .content {
-        max-height: calc(100vh - var(--menuHeight) - 80px);
-    }
-}
-
-.content > * {
-    margin-bottom: var(--layoutContentSpacing);
+    /* margin-top: var(--menuHeight); */
 }
 
 .scrollToTopBtn {
     position: fixed;
-    bottom: 6px;
-    right: 30px;
+    bottom: 10px;
+    right: 40px;
     align-items: center;
     user-select: none;
+    padding: 4px;
     border-radius: 34px;
-    background-color: var(--colorWhite);
-    /* color: var(--colorWhite); */
+    background-color: var(--colorGreyDarkest);
+    color: var(--colorWhite);
     cursor: pointer;
     transition: 0.5s;
     display: flex;
@@ -46,23 +27,31 @@
 }
 
 .scrollToTopBtn * {
-    /* margin: 0px 10px; */
-    transition: 0.3s;
+    margin-right: 20px;
 }
 
-.scrollToTopBtn:hover * {
-    color: var(--colorPrimary1);
-    transition: 0.3s;
+.scrollToTopBtn:hover {
+    background-color: var(--colorPrimary1);
+    transition: 0.5s;
 }
 
 .menu {
+    margin-top: var(--menuHeight);
+    background-color: var(--menuBackgroundColor);
+    display: block;
     width: 100%;
+    height: fit-content;
+    overflow-y: auto;
+    /* width: 100%;
     min-height: fit-content;
     background-color: var(--menuBackgroundColor);
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    /* position: fixed;
+    flex-direction: column; */
+    /* height: fit-content;
+    min-height: fit-content; */
+    /* position: sticky;
+    position: -webkit-sticky;
     z-index: 1000;
     overflow-y: auto; */
 }
@@ -70,13 +59,13 @@
 .headerResponsive {
     display: flex;
     align-items: center;
+    position: fixed;
+    background-color: var(--menuBackgroundColor);
+    width: 100%;
     /* position: fixed; */
     /* top: 0px;
     left: 0px; */
     z-index: 1001;
-    width: auto;
-    background-color: var(--menuBackgroundColor);
-    height: fit-content;
 }
 
 .header {
@@ -88,6 +77,8 @@
     /* color: white; */
     flex-wrap: wrap;
     width: 100%;
+    height: fit-content;
+    overflow-y: auto;
 }
 
 /* .logout {
@@ -110,20 +101,12 @@
 } */
 
 .menu.menuOpen {
+    overflow-y: auto;
 }
 
 .menuOpen .items {
     display: block;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: calc(100vh - var(--menuHeight));
-}
-
-@supports (-webkit-touch-callout: none) {
-    /* CSS specific to iOS devices */
-    .menuOpen .items {
-        max-height: calc(100vh - var(--menuHeight) - 80px);
-    }
+    min-height: calc(100vh - var(--menuHeight));
 }
 
 .layoutContainer .menuOpen + .page {
@@ -133,22 +116,22 @@
 .controls {
     display: flex;
     justify-content: space-between;
-    margin: 0px 10px 0px auto;
+    margin: var(--menuControlsMargin);
 }
 
 .controls > *:only-child {
-    margin: 0px auto 0px 0px;
+    margin: var(--menuControlsMarginOnlyChild);
 }
 
 .group {
-    max-width: 100vw;
-    margin: 15px 0px;
+    max-width: var(--menuGroupMaxWidth);
+    margin: var(--menuGroupMargin);
     display: block;
-    padding-left: 20px;
+    padding-left: var(--menuGroupPaddingLeft);
 }
 
 .group:first-child {
-    margin-top: 30px;
+    margin-top: var(--menuGroupMarginTopFirstChild);
 }
 
 .label {
@@ -156,7 +139,7 @@
     color: var(--menuLabelColor);
     width: fit-content;
     display: block;
-    margin: 30px 20px 0px 0px;
+    margin: var(--menuLabelMargin);
 }
 
 .item {
@@ -165,10 +148,10 @@
     text-decoration: none;
     display: inline-block;
     width: fit-content;
-    margin: 10px 8px 0px 0px;
+    margin: var(--menuItemMargin);
     background-color: var(--menuItemBackgroundColor);
-    border-radius: var(--borderRadiusSmall);
-    padding: var(--paddingBig);
+    border-radius: var(--menuItemBorderRadius);
+    padding: var(--menuItemPadding);
 }
 
 .item:hover {
@@ -177,25 +160,27 @@
 
 .itemIcon {
     display: none;
-    height: 20px;
+    height: var(--menuItemIconHeight);
 }
 
 .itemText {
     display: inline-block;
-    padding-top: 1px;
+    padding-top: var(--menuItemTextPaddingTop);
 }
 
-.logo, .logo * {
+.logo {
     display: block;
-    width: 100px;
+    min-width: fit-content;
+    width: var(--menuLogoWidth);
+    height: var(--menuHeight);
 }
 
 .titleResponsive {
     user-select: none;
-    color: var(--menuTitleColorResponsive);
-    padding: 5px;
+    color: var(--menuTitleColorMobile);
+    padding: var(--menuTitlePaddingMobile);
     box-sizing: border-box;
-    margin-top: 1px inherit inherit inherit;
+    margin-top: var(--menuTitleMargin);
     padding-left: 20px;
     flex-grow: 1;
 }
@@ -205,11 +190,22 @@
 }
 
 .toggle {
-    line-height: 10px;
+    line-height: var(--menuToggleLineHeight);
     cursor: pointer;
     color: var(--menuToggleColor);
-    padding: 5px;
+    padding: var(--menuTogglePadding);
     padding-right: 14px;
+}
+
+.content {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* max-height: calc(100vh - var(--menuHeight)); */
+}
+
+.content > * {
+    margin-bottom: var(--layoutContentSpacing);
 }
 
 @media only screen and (min-width: 1000px) {
@@ -217,6 +213,8 @@
     .layoutContainer {
         flex-direction: row;
         min-height: 100vh;
+        height: fit-content;
+        overflow-y: auto;
     }
 
     .menu {
@@ -224,18 +222,24 @@
         max-width: var(--menuWidth);
         display: block;
         position: relative;
-        height: auto;
+        height: fit-content;
     }
 
     .page {
         width: 100%;
+        margin-top: 0px;
     }
 
     .header {
         width: 100%;
-        margin-top: var(--marginBig);
+        margin-top: var(--menuHeaderMarginTop);
         position: relative;
         display: block;
+    }
+
+    .headerResponsive {
+        background-color: transparent;
+        position: absolute;
     }
 
     .headerSpacing {
@@ -245,24 +249,27 @@
     .content {
         width: 100%;
         max-width: var(--layoutMaxWidth);
+        min-height: fit-content;
+        height: fit-content;
     }
 
-    .logo, .logo * {
+    .logo {
         width: var(--menuWidth);
+        height: var(--menuHeight);
     }
 
     .group:first-child {
-        margin-top: 30px;
+        margin-top: var(--menuGroupMarginTopFirstChild);
     }
 
     .group {
-        margin-top: 30px;
-        padding-left: var(--paddingBig);
+        margin-top: var(--menuGroupMarginTop);
+        padding-left: var(--menuGroupPaddingLeft);
     }
 
     .controls {
-        margin: 0px 10px 0px auto;
-        padding: 0px 10px;
+        margin: var(--menuControlsMargin);
+        padding: var(--menuControlsPadding);
         /* position: absolute; */
     }
 
@@ -276,16 +283,16 @@
         /* position: absolute; */
         width: fit-content;
         text-align: center;
-        border-radius: var(--borderRadiusSmall);
+        border-radius: var(--menuTitleBorderRadius);
         background-color: var(--menuTitleBackgroundColor);
         color: var(--menuTitleColor);
-        padding: var(--paddingBig);
+        padding: var(--menuTitlePadding);
         display: block;
     }
 
     .spacing {
         display: block;
-        height: 28px;
+        height: var(--menuTitleSpacing);
     }
 
     .label {
