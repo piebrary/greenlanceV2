@@ -52,6 +52,8 @@ server {
               root /var/www/html;
               index index.html;
               try_files $uri /index.html;
+              expires 1y;
+              add_header Cache-Control "no-cache";
       }
 
       location /api {

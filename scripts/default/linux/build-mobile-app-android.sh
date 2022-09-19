@@ -1,2 +1,2 @@
-cd ../mobile-client && eas build -p ios
+cd ../mobile-app && eas build -p android
 read -p "Press any key to continue . . ."

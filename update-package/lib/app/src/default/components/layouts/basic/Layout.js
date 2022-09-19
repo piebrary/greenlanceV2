@@ -90,28 +90,28 @@ export default function Layout({ items = [], children, customStyles, title, cont
                     </div>
                 )
             }
-            <div className={menuClassList.join(' ')}>
-                <div className={createStyle([styles, customStyles], 'headerResponsive')}>
-                    <div className={createStyle([styles, customStyles], 'logo')}>
-                        { logo !== undefined && logo || <Logo /> }
-                    </div>
-                    {
-                        title && (
-                            <div className={createStyle([styles, customStyles], 'titleResponsive')}>
-                                {title}
-                            </div>
-                        )
-                    }
-                    <div
-                        className={createStyle([styles, customStyles], 'toggle')}
-                        onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
-                        {
-                            isMenuOpen
-                            ? <IoIosArrowUp size={40} />
-                            : <BiMenu size={40} />
-                        }
-                    </div>
+            <div className={createStyle([styles, customStyles], 'headerResponsive')}>
+                <div className={createStyle([styles, customStyles], 'logo')}>
+                    { logo !== undefined && logo || <Logo /> }
                 </div>
+                {
+                    title && (
+                        <div className={createStyle([styles, customStyles], 'titleResponsive')}>
+                            {title}
+                        </div>
+                    )
+                }
+                <div
+                    className={createStyle([styles, customStyles], 'toggle')}
+                    onClick={() => setIsMenuOpen(isMenuOpen => !isMenuOpen)}>
+                    {
+                        isMenuOpen
+                        ? <IoIosArrowUp size={40} />
+                        : <BiMenu size={40} />
+                    }
+                </div>
+            </div>
+            <div className={menuClassList.join(' ')}>
                 <div className={createStyle([styles, customStyles], 'items')}>
                     {
                         items.map((group, i) => {

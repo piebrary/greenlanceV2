@@ -43,16 +43,40 @@ VPS
 
 ### VPS-setup <a name="vps-setup"></a>
 VPS-setup
+https://medium.com/geekculture/deploying-a-react-app-and-a-node-js-server-on-a-single-machine-with-pm2-and-nginx-15f17251ee74
+`nginx config /etc/nginx/sites-available/default
+server {
+      server_name piebrary.nl www.piebrary.nl;
+
+      location / {
+              root /var/www/html;
+              index index.html;
+              try_files $uri /index.html;
+              expires 1y;
+              add_header Cache-Control "no-cache";
+      }
+
+      location /api {
+              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+              proxy_set_header Host $host;
+              proxy_pass http://localhost:31415;
+      }
+
+
+}`
 
 ### VPS-firewall<a name="vps-firewall"></a>
 VPS-firewall
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
 
 ### VPS-ssl<a name="vps-ssl"></a>
-*test test test*
 VPS-ssl
+https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-ubuntu-20-04
 
 ### VPS-email<a name="vps-email"></a>
 VPS-email
+https://www.transip.nl/cp/vps/mailcluster/vpsconfigureren/prm/455f1ccb57934036adec94b16fce819e
+https://scribbble.io/wardpoel/setting-up-nodemailer-with-postfix/
 
 
 
@@ -105,6 +129,7 @@ Run `git clone https://github.com/[username]/[repository-name]`
 Then install the NPM modules in both the app and api folders.
 Run `cd [repository-name]/app` and run `npm install`
 When finished go to the api folder with `cd ../api` and run `npm install`
+Install PieBrary by settings the environment variables. Go to scripts folder and run "install-piebrary"
 
 > Every time you work on your repository
 

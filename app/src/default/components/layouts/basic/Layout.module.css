@@ -168,7 +168,7 @@
     padding-top: var(--menuItemTextPaddingTop);
 }
 
-.logo {
+.logo, .logo * {
     display: block;
     min-width: fit-content;
     width: var(--menuLogoWidth);
@@ -253,7 +253,7 @@
         height: fit-content;
     }
 
-    .logo {
+    .logo, .logo * {
         width: var(--menuWidth);
         height: var(--menuHeight);
     }
