@@ -84,21 +84,21 @@ export default function Input(attributes){
                         onChange={onChange}
                         {...reg}
                         />
-                    {
-                        passwordToggle && (
-                            <div
-                                className={createStyle([styles, customStyles], 'passwordToggle')}
-                                onClick={() => setIsHidden(!isHidden)}>
-                                {
-                                    isHidden && <AiOutlineEyeInvisible size={24} />
-                                }
-                                {
-                                    !isHidden && <AiOutlineEye size={24} />
-                                }
-                            </div>
-                        )
-                    }
                 </div>
+                {
+                    passwordToggle && (
+                        <div
+                            className={createStyle([styles, customStyles], 'passwordToggle')}
+                            onClick={() => setIsHidden(!isHidden)}>
+                            {
+                                isHidden && <AiOutlineEyeInvisible size={24} />
+                            }
+                            {
+                                !isHidden && <AiOutlineEye size={24} />
+                            }
+                        </div>
+                    )
+                }
                 {reg && errors[name] && (
                     <span className={createStyle([styles, customStyles], 'errorMessage')}>
                         {errors[name].message}

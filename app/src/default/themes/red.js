@@ -99,7 +99,7 @@ export default function red(){
     const componentButtonTransition = '0.3s ease-in-out'
 
     /* components.input */
-    const componentInputTransition = '0.3s ease-in-out'
+    const componentInputTransition = '0.3s'
     const componentInputContainerBackgroundColor = colorGreyLighter
     const componentInputContainerBorderRadius = '4px'
     const componentInputContainerPadding = '10px'

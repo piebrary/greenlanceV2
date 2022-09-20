@@ -100,7 +100,7 @@ export default function Settings(){
                         label={applyTranslation('NEW_PASSWORD')}
                         name={'newPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -120,7 +120,7 @@ export default function Settings(){
                         label={applyTranslation('REPEAT_PASSWORD')}
                         name={'repeatPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -136,7 +136,7 @@ export default function Settings(){
                         label={applyTranslation('CURRENT_PASSWORD')}
                         name={'currentPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
