@@ -1,6 +1,6 @@
 module.exports = document => {
 
-    let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+    let nameRequestDto, emailsRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
 
     try {
         nameRequestDto = require('../../../../custom/dto/response/user/name')
@@ -9,9 +9,9 @@ module.exports = document => {
     }
 
     try {
-        emailRequestDto = require('../../../../custom/dto/response/email')
+        emailRequestDto = require('../../../../custom/dto/response/emails')
     } catch {
-        emailRequestDto = require('../../../../default/dto/response/email')
+        emailRequestDto = require('../../../../default/dto/response/emails')
     }
 
     try {
@@ -37,6 +37,7 @@ module.exports = document => {
         username,
         name,
         email,
+        emails,
         phone,
         address,
         roles,
@@ -48,7 +49,8 @@ module.exports = document => {
         _id,
         username,
         name:nameRequestDto(name),
-        email:email && Array.isArray(email) && email.map(obj => emailRequestDto(obj)),
+        email,
+        emails:emails && Array.isArray(emails) && emails.map(obj => emailsRequestDto(obj)),
         phone:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
         address:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
         roles,

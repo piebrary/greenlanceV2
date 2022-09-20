@@ -73,11 +73,11 @@ export default function App() {
                             </Routes>
                         </Router>
                     : authState === 'failed'
-                    ? <Router>
+                    ?   <Router>
                             <Routes>
+                                <Route path="/login" element={<LoginView />} />
                                 <Route path="/register" element={<RegisterView />} />
-                                <Route path="/" element={<LoginView />} />
-                                <Route path="*" element={<Navigate to="/" />} />
+                                <Route path="*" element={<Navigate to="/login" />} />
                             </Routes>
                         </Router>
                     : <p>Loading...</p>

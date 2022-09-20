@@ -76,19 +76,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -138,19 +126,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -176,7 +152,7 @@ module.exports = () => {
             const newUserDocument = new UserModel()
             newUserDocument.username = username
             newUserDocument.passwordHash = await encryptPassword(password)
-            newUserDocument.email.push({ label:'primary', email:email })
+            newUserDocument.email = email
             newUserDocument.roles.push('user')
 
             const result = await newUserDocument.save()
@@ -186,19 +162,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -266,19 +230,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -370,19 +322,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -416,19 +356,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -500,19 +428,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 

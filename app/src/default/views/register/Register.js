@@ -12,14 +12,18 @@ import Button from '../../../default/components/button/Button'
 import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 
 import LogoSmall from '../../../default/components/logo/Logo'
+
 import { applyStyles } from '../../../default/utils/applyStyles'
+import { containsNumber } from '../../../default/utils/containsNumber'
 
 import styles from './Register.module.css'
 
 export default function Register(){
 
     const { authenticate, authState } = useContext(AuthenticationContext)
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm()
+
+    const [responseError, setResponseError] = useState()
 
     const onSubmit = async data => {
 
@@ -30,7 +34,8 @@ export default function Register(){
 
         } catch (error) {
 
-            console.log(error)
+            console.log(error.response)
+            setResponseError(error.response.data)
 
         }
 
@@ -56,6 +61,7 @@ export default function Register(){
                             required: 'Email is required'
                         }}
                         />
+                    {responseError && Object.keys(responseError.data)[0] === 'username' && <div className={styles.loginFailed}>{responseError.message}</div>}
                     <Input
                         label={'Email'}
                         name={'email'}
@@ -68,6 +74,7 @@ export default function Register(){
                             required: 'Email is required'
                         }}
                         />
+                    {responseError && Object.keys(responseError.data)[0] === 'email' && <div className={styles.loginFailed}>{responseError.message}</div>}
                     <Input
                         label={'Password'}
                         name={'password'}
@@ -77,7 +84,16 @@ export default function Register(){
                         register={register}
                         errors={errors}
                         rules={{
-                            required: 'Password is required'
+                            validate:{
+                                minLength: value => {
+                                    if(value.length === 0 || value.length > 7) return true
+                                    return 'Password must be 8 characters minimal'
+                                },
+                                minNumbers: value => {
+                                    if(value.length === 0 || containsNumber(value)) return true
+                                    return 'Password must contain at least one number'
+                                }
+                            }
                         }}
                         />
                     <Input
@@ -89,7 +105,12 @@ export default function Register(){
                         register={register}
                         errors={errors}
                         rules={{
-                            required: 'Password is required'
+                            validate:{
+                                passwordsMatch: () => {
+                                    if(getValues().password === getValues().repeatPassword) return true
+                                    return 'Passwords don\'t match'
+                                }
+                            }
                         }}
                         />
                     <ButtonGroup>
@@ -102,6 +123,7 @@ export default function Register(){
                     <div
                         className={styles.underMenu}
                         >
+                        <a href={'/login'}>Cancel</a>
                     </div>
                 </Form>
             </main>

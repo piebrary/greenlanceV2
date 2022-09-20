@@ -41,7 +41,7 @@ module.exports = express => {
 
             res
                 .status(userData.status)
-                .send('test')
+                .send(userData.body)
 
         }
     )

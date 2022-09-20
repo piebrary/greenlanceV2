@@ -2,7 +2,7 @@ const sanitize = require('mongo-sanitize')
 
 module.exports = requestBody => {
 
-    let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+    let nameRequestDto, emailsRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
 
     try {
         nameRequestDto = require('../../../../custom/dto/request/user/name')
@@ -11,9 +11,9 @@ module.exports = requestBody => {
     }
 
     try {
-        emailRequestDto = require('../../../../custom/dto/request/email')
+        emailRequestDto = require('../../../../custom/dto/request/emails')
     } catch {
-        emailRequestDto = require('../../../../default/dto/request/email')
+        emailRequestDto = require('../../../../default/dto/request/emails')
     }
 
     try {
@@ -38,6 +38,7 @@ module.exports = requestBody => {
         username,
         name,
         email,
+        emails,
         phone,
         address,
         password,
@@ -52,7 +53,8 @@ module.exports = requestBody => {
     return {
         username,
         name:nameRequestDto(name),
-        email:email && Array.isArray(email) && email.map(obj => emailRequestDto(obj)),
+        email,
+        emails:emails && Array.isArray(emails) && emails.map(obj => emailsRequestDto(obj)),
         phone:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
         address:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
         password,

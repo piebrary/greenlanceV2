@@ -20,6 +20,7 @@ import Checkbox from '../../../default/components/formElements/checkbox/Checkbox
 import Label from '../../../default/components/label/Label'
 
 import { BiUserPlus } from 'react-icons/bi'
+import { FiCheckCircle } from 'react-icons/fi'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { rolesOptions } from '../../../default/assets/js/user/roles'
@@ -51,13 +52,13 @@ export default function Users(){
         },
         {
             Header: applyTranslation('EMAIL'),
-            accessor: data => data.email[0].email,
+            accessor: data => data.email,
         },
         ...rolesOptions.map(r => {
             return {
                 Header: r.name,
                 accessor: data => {
-                    return data.roles.includes(r.value) && 'x'
+                    return data.roles.includes(r.value) && <FiCheckCircle />
                 }
             }
         })
@@ -347,19 +348,10 @@ export default function Users(){
                                         customStyles={applyStyles([styles], 'tableSmallCard')}
                                         onClick={() => openEditUser(u)}
                                         >
-                                        {
-                                            u.email.map(e => {
-
-                                                return (
-                                                    <div
-                                                        key={u._id + e.label + 'EmailContainer'}
-                                                        className={styles.emailContainer}>
-                                                        {e.label} {e.email}
-                                                    </div>
-                                                )
-
-                                            })
-                                        }
+                                        <div
+                                            className={styles.emailContainer}>
+                                            {u.email}
+                                        </div>
                                     </Card>
                                 )
 

@@ -27,7 +27,12 @@ module.exports = new Schema({
             type: String
         }
     },
-    email: [
+    email: {
+        type: String,
+        unique: [true, 'That email address is taken.'],
+        required: true
+    },
+    emails: [
         {
             label: {
                 type: String

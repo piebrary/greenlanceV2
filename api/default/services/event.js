@@ -1,4 +1,4 @@
-module.exports = mode => {
+module.exports = () => {
 
     let UserModel, EventModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto
 
@@ -34,19 +34,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -70,19 +58,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -129,19 +105,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -197,19 +161,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -239,19 +191,7 @@ module.exports = mode => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
