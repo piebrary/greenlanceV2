@@ -1,2 +1,2 @@
-cd ../mobile-app && eas build -p android
+cd ../../../mobile-app && eas build -p android
 pause

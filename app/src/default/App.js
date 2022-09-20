@@ -7,6 +7,7 @@ import 'animate.css'
 import 'react-notifications-component/dist/theme.css'
 
 import LoginView from '../default/views/login/Login'
+import RegisterView from '../default/views/register/Register'
 import DashboardView from '../default/views/dashboard/Dashboard'
 import ProfileView from '../default/views/profile/Profile'
 import FormView from '../default/views/form/Form'
@@ -72,7 +73,13 @@ export default function App() {
                             </Routes>
                         </Router>
                     : authState === 'failed'
-                    ? <LoginView />
+                    ? <Router>
+                            <Routes>
+                                <Route path="/register" element={<RegisterView />} />
+                                <Route path="/" element={<LoginView />} />
+                                <Route path="*" element={<Navigate to="/" />} />
+                            </Routes>
+                        </Router>
                     : <p>Loading...</p>
                 }
         </>

@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 
 import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
+import { postUserPublic } from '../../../default/services/UserService'
+
 import Form from '../../../default/components/form/Form'
 import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
@@ -12,27 +14,23 @@ import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 import LogoSmall from '../../../default/components/logo/Logo'
 import { applyStyles } from '../../../default/utils/applyStyles'
 
-import styles from './Login.module.css'
+import styles from './Register.module.css'
 
-export default function Login(){
+export default function Register(){
 
     const { authenticate, authState } = useContext(AuthenticationContext)
     const { register, handleSubmit, formState: { errors } } = useForm()
-    const [authFailed, setAuthFailed] = useState(false)
 
     const onSubmit = async data => {
 
-        const result = await authenticate(data.username, data.password)
+        try {
 
-        if(result){
+            await postUserPublic(data)
+            await authenticate(data.username, data.password)
 
-            setAuthFailed(false)
+        } catch (error) {
 
-        }
-
-        if(!result){
-
-            setAuthFailed(true)
+            console.log(error)
 
         }
 
@@ -59,6 +57,18 @@ export default function Login(){
                         }}
                         />
                     <Input
+                        label={'Email'}
+                        name={'email'}
+                        type={'text'}
+                        passwordToggle={true}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        rules={{
+                            required: 'Email is required'
+                        }}
+                        />
+                    <Input
                         label={'Password'}
                         name={'password'}
                         type={'password'}
@@ -70,19 +80,28 @@ export default function Login(){
                             required: 'Password is required'
                         }}
                         />
-                    {authFailed && <div className={styles.loginFailed}>Login failed, your username or password may be incorrect.</div>}
+                    <Input
+                        label={'Repeat password'}
+                        name={'repeatPassword'}
+                        type={'password'}
+                        passwordToggle={true}
+                        customStyles={applyStyles([styles], 'customInput')}
+                        register={register}
+                        errors={errors}
+                        rules={{
+                            required: 'Password is required'
+                        }}
+                        />
                     <ButtonGroup>
                         <Button
                             customStyles={applyStyles([styles], 'customButton')}
-                            label={'Login'}
+                            label={'Register'}
                             type={'submit'}
                             />
                     </ButtonGroup>
                     <div
                         className={styles.underMenu}
                         >
-                        {process.env.REACT_APP_ENABLE_PUBLIC_REGISTRATION && <a href={'/register'}>Register</a>}
-                        <a href={'/forgot password'}>Forgot password</a>
                     </div>
                 </Form>
             </main>

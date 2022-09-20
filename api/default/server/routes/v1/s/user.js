@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-module.exports = (express, config) => {
+module.exports = express => {
 
     let UserService, upload
 

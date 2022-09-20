@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const profilePicturePath = path.join(__dirname, '../../../public/images/profile/')
+const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
 module.exports = () => {
 
@@ -147,6 +147,54 @@ module.exports = () => {
             }
 
             if(process.env.ENVIRONMENT === 'production'){
+
+                return errorHandler(undefined, 'Unknown error')
+
+            }
+
+        }
+
+    }
+
+    async function createUserPublic(req){
+
+        try {
+
+            const {
+                username,
+                email,
+                password,
+                repeatPassword,
+            } = userRequestDto(req.body)
+
+            if(password !== repeatPassword){
+
+                return errorHandler(406, 'Passwords don\'t match')
+
+            }
+
+            const newUserDocument = new UserModel()
+            newUserDocument.username = username
+            newUserDocument.passwordHash = await encryptPassword(password)
+            newUserDocument.email.push({ label:'primary', email:email })
+            newUserDocument.roles.push('user')
+
+            const result = await newUserDocument.save()
+            const userDocumentDto = userResponseDto(result)
+
+            return successHandler(undefined, userDocumentDto)
+
+        } catch (error) {
+
+            if(mode === 'DEV'){
+
+                console.log(error)
+
+                return errorHandler(undefined, error)
+
+            }
+
+            if(mode === 'PROD'){
 
                 return errorHandler(undefined, 'Unknown error')
 
@@ -474,6 +522,7 @@ module.exports = () => {
     return {
         getUser,
         getUsers,
+        createUserPublic,
         createUser,
         updateUser,
         deleteUser,

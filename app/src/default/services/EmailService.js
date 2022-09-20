@@ -6,7 +6,7 @@ export async function sendEmail(data){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/email`,
         method:'POST',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         },
         data

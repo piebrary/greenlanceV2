@@ -20,7 +20,7 @@ export default function AuthenticationContextProvider({ children }){
 
     useEffect(() => {
 
-        const token = localStorage.getItem('token')
+        const token = localStorage.getItem('piebrary_token')
 
         if(!token){
 
@@ -44,25 +44,27 @@ export default function AuthenticationContextProvider({ children }){
 
             const authResult = await doAuthenticate(username, password)
 
-            localStorage.setItem('token', authResult.headers.jwt)
+            localStorage.setItem('piebrary_token', authResult.headers.jwt)
 
             setIsAuthenticated(true)
+
+            return true
 
 
         } catch (error) {
 
-            console.log(error)
-
             setAuthState('failed')
 
             setIsAuthenticated(false)
+
+            return false
 
         }
     }
 
     function logout(){
 
-        localStorage.removeItem('token')
+        localStorage.removeItem('piebrary_token')
         setAuthState('failed')
         setIsAuthenticated(false)
 

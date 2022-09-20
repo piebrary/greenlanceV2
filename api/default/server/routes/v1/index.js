@@ -1,21 +1,31 @@
-let serverInfoService
-
 module.exports = express => {
 
+    let UserService
+
     try {
-        serverInfoService = require('../../../../custom/services/serverInfo')
+        UserService = require('../../../../custom/services/user')
     } catch {
-        serverInfoService = require('../../../../default/services/serverInfo')
+        UserService = require('../../../../default/services/user')
     }
 
-    express.get(process.env.API_PREFIX + '/v1/status', async (req, res) => {
+    const userService = UserService(process.env.ENVIRONMENT)
 
-        const serverInfo = await serverInfoService()
+    if(process.env.API_ENABLE_PUBLIC_REGISTRATION){
 
-        res
-            .status(serverInfo.status)
-            .send(serverInfo.body)
+        express.post(
+            process.env.API_PREFIX + '/v1/user',
+            async (req, res) => {
 
-    })
+                const userData = await userService.createUserPublic(req)
+
+                res
+                    .status(userData.status)
+                    .send(userData.body)
+
+            }
+
+        )
+
+    }
 
 }
