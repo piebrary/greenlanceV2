@@ -154,7 +154,7 @@ module.exports = () => {
                 from: `"${process.env.REACT_APP_NAME}" <${process.env.REACT_APP_NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset Successfull',
                 text: 'Password Reset Successfull', // Optional, but recommended
-                html: `Password Reset Successfull`, // Optional
+                html: `Password Reset Successfull.`, // Optional
             })
 
             await TokenModel
@@ -174,7 +174,7 @@ module.exports = () => {
     return {
         register,
         passwordResetRequest,
-        paswordReset
+        passwordReset
     }
 
 }
