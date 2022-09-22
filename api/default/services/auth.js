@@ -110,7 +110,7 @@ module.exports = () => {
 
     }
 
-    async function paswordReset(req){
+    async function passwordReset(req){
 
         try {
 
