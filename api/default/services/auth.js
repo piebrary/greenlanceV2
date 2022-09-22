@@ -149,9 +149,9 @@ module.exports = () => {
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            sendEmail({
+            mailer.sendEmail({
                 to: userDocument.email,
-                from: `"${process.env.REACT_APP_NAME}" <${process.env.REACT_APP_NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
+                from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset Successfull',
                 text: 'Password Reset Successfull', // Optional, but recommended
                 html: `Password Reset Successfull.`, // Optional
