@@ -33,16 +33,14 @@ read "Input db password : " DB_PASSWORD
 
 read "Input db url : " DB_URL
 
-echo "REACT_APP_ENVIRONMENT=$development" > ../../../app/.env
-echo "REACT_APP_NAME=$APP_NAME" >> ../../../app/.env
+echo "REACT_APP_NAME=$APP_NAME" > ../../../app/.env
 echo "REACT_APP_CLIENT_URL=$CLIENT_URL" >> ../../../app/.env
 echo "REACT_APP_NO_REPLY_EMAIL=$NO_REPLY_EMAIL" >> ../../../app/.env
 echo "REACT_APP_API_PORT=$API_PORT" >> ../../../app/.env
 echo "REACT_APP_API_PREFIX=$API_PREFIX" >> ../../../app/.env
 echo "REACT_APP_ENABLE_PUBLIC_REGISTRATION=$API_ENABLE_PUBLIC_REGISTRATION" >> ../../../app/.env
 
-echo "ENVIRONMENT=development" > ../../../api/.env
-echo "APP_NAME=$APP_NAME" >> ../../../api/.env
+echo "APP_NAME=$APP_NAME" > ../../../api/.env
 echo "CLIENT_URL=$CLIENT_URL" >> ../../../api/.env
 echo "NO_REPLY_EMAIL=$NO_REPLY_EMAIL" >> ../../../api/.env
 echo "API_PORT=$API_PORT" >> ../../../api/.env

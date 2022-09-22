@@ -82,10 +82,11 @@ https://scribbble.io/wardpoel/setting-up-nodemailer-with-postfix/
 
 ### Create Repository<a name="create-repository"></a>
 The PieBrary Github repository serves as a basis for any new PieBrary derived project. It can be used to easily jumpstart a new repository but requires some important steps.
-- 1: Copy PieBrary to linux with `git clone git@github.com:piebrary/piebrary`
+- 1: Copy PieBrary to linux with `git clone git@github.com:piebrary/piebrary [repository-name]`
 - 2: Create a new repository in target account on Github website
-- 3: In local folder run `git remote set-url --push origin git@github.com/[account]/[repository]`
-- 4: Run `git push` to push the repository contents to the new folder in Github
+- 3: GO into repo folder with `cd [repository-name]`
+- 4: In local folder run `git remote set-url origin git@github.com/[github-account-name]/[repository-name]`
+- 5: Run `git push` to push the repository contents to the new folder in Github
 
 
 ## Git<a name="git"></a>
@@ -121,7 +122,7 @@ First you should connect to Github and register SSH key. This gives you access t
 
 When you've not worked on the Git repository you want to work it, you have to fetch a copy from the cloud with the following command:
 
-Run `git clone https://github.com/[username]/[repository-name]`
+Run `git clone https://github.com/[github-username]/[repository-name]`
 
 - [username] = the username of the name of the organization who owns the repository
 - [repository] = the name of the repository

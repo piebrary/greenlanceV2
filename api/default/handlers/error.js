@@ -5,7 +5,7 @@ module.exports = (status = 500, error) => {
         body:{}
     }
 
-    if(process.env.ENVIRONMENT === 'development'){
+    if(process.env.NODE_ENV === 'development'){
 
         response.body.error = error
 
