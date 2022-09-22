@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import { useSearchParams } from "react-router-dom"
 
 import { useForm } from "react-hook-form"
 
@@ -24,9 +25,20 @@ export default function Login(){
 
     const [responseError, setResponseError] = useState()
 
+    const [searchParams, setSearchParams] = useSearchParams()
+
     const onSubmit = async data => {
 
         try {
+
+            console.log(searchParams.get('id'))
+
+            // const query = useQuery()
+            // const id = query.get('id')
+            // const token = query.get('token')
+            //
+            // data.id = id
+            // data.token = token
 
             await passwordReset(data)
 
@@ -48,17 +60,6 @@ export default function Login(){
                     customStyles={applyStyles([styles], 'customLogo')}/>
                 <Form
                     onSubmit={handleSubmit(onSubmit)}>
-                    <Input
-                        label={'Email'}
-                        name={'email'}
-                        subtype={'text'}
-                        customStyles={applyStyles([styles], 'customInput')}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            required: 'Email is required'
-                        }}
-                        />
                     <Input
                         label={'Password'}
                         name={'newPassword'}
