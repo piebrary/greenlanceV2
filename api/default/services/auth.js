@@ -144,10 +144,15 @@ module.exports = () => {
                 .findOne({ _id:id })
                 .exec()
 
+            console.log(userDocument.password)
+
             userDocument.password = hash
 
+            console.log(userDocument.password)
+
             const result = await userDocument.save()
-            const userDocumentDto = userResponseDto(result)
+
+            console.log(result)
 
             mailer.sendMail({
                 to: userDocument.email,
