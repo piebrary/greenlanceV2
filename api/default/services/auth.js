@@ -149,7 +149,7 @@ module.exports = () => {
             const result = await userDocument.save()
             const userDocumentDto = userResponseDto(result)
 
-            mailer.sendEmail({
+            mailer.sendMail({
                 to: userDocument.email,
                 from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset Successfull',
