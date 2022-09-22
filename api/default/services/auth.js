@@ -95,7 +95,7 @@ module.exports = () => {
                 from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset',
                 text: 'Click the link to reset your password', // Optional, but recommended
-                html: `<a href=${resetLink}>Click here</a> to reset your password`, // Optional
+                html: `<html><body><a href=${resetLink}>Click here</a> to reset your password</body></html>`, // Optional
             })
 
             return successHandler(undefined)
