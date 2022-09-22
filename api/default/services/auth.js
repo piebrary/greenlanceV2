@@ -117,7 +117,7 @@ module.exports = () => {
             const {
                 id,
                 token,
-                password
+                newPassword
             } = req.body
 
             const passwordResetToken = await TokenModel
@@ -138,7 +138,7 @@ module.exports = () => {
 
             }
 
-            const hash = await encryptPassword(password)
+            const hash = await encryptPassword(newPassword)
 
             const userDocument = await UserModel
                 .findOne({ _id:id })
