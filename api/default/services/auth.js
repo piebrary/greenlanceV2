@@ -3,7 +3,7 @@ const crypto = require("crypto")
 
 module.exports = () => {
 
-    let TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, sendEmail
+    let TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer
 
     try { TokenModel = require('../../custom/models/token') } catch { TokenModel = require('../../default/models/token') }
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
@@ -13,7 +13,7 @@ module.exports = () => {
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
     try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
-    try { sendEmail = require('../../custom/services/email') } catch { sendEmail = require('../../default/services/email') }
+    try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
 
     async function register(req){
 
@@ -90,7 +90,7 @@ module.exports = () => {
 
             const resetLink = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${userDocument._id}`
 
-            sendEmail({
+            mailer.sendMail({
                 to: userDocument.email,
                 from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset',

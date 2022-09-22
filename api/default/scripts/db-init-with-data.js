@@ -92,14 +92,6 @@ module.exports = (async () => {
 
     try {
 
-        if(process.env.ENVIRONMENT !== 'development'){
-
-            console.log('Can not refresh db due to env ENVIRONMENT not being set to \'development\'')
-
-            process.exit()
-
-        }
-
         try {
             UserModel = require('../../custom/models/user')
         } catch {
@@ -133,7 +125,7 @@ module.exports = (async () => {
         await createFirstUser({
             username:'admin1',
             password:'password1',
-            email:[{ label:'primary', email:'admin1@admins.com' }],
+            email:'admin1@admins.com',
             roles:['admin'],
             name: { first:'Admin', last:'One' }
         })
@@ -147,7 +139,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'admin2@admins.com' }],
+            email:'piedema@gmail.com',
             roles:['admin'],
             name: { first:'Admin', last:'Two' }
         })
@@ -161,7 +153,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'admin3@admins.com' }],
+            email:'admin3@admins.com',
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -175,7 +167,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'admin4@admins.com' }],
+            email:'admin4@admins.com',
             roles:['admin'],
             name: { first:'Admin', last:'Four' }
         })
@@ -189,7 +181,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'admin5@admins.com' }],
+            email:'admin5@admins.com',
             roles:['admin'],
             name: { first:'Admin', last:'Three' }
         })
@@ -203,7 +195,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'superuser1@admins.com' }],
+            email:'superuser1@admins.com',
             roles:['superuser'],
             name: { first:'Superuser', last:'One' }
         })
@@ -217,7 +209,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'superuser2@admins.com' }],
+            email:'superuser2@admins.com',
             roles:['superuser'],
             name: { first:'Superuser', last:'Two' }
         })
@@ -231,7 +223,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'superuser3@admins.com' }],
+            email:'superuser3@admins.com',
             roles:['superuser'],
             name: { first:'Superuser', last:'Three' }
         })
@@ -245,7 +237,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'user1@admins.com' }],
+            email:'user1@admins.com',
             roles:['user'],
             name: { first:'User', last:'One' }
         })
@@ -259,7 +251,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'user1@admins.com' }],
+            email:'user2@admins.com',
             roles:['user'],
             name: { first:'User', last:'Two' }
         })
@@ -273,7 +265,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'user1@admins.com' }],
+            email:'user3@admins.com',
             roles:['user'],
             name: { first:'User', last:'Three' }
         })
@@ -287,7 +279,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'user1@admins.com' }],
+            email:'user4@admins.com',
             roles:['user'],
             name: { first:'User', last:'Four' }
         })
@@ -301,7 +293,7 @@ module.exports = (async () => {
             newPassword:'password1',
             repeatPassword:'password1',
             currentPassword:'password1',
-            email:[{ label:'primary', email:'user1@admins.com' }],
+            email:'user5@admins.com',
             roles:['user'],
             name: { first:'User', last:'Five' }
         })
