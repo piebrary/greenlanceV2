@@ -52,6 +52,6 @@ echo DB_USERNAME=%DB_USERNAME% >> ../../../api/.env
 echo DB_PASSWORD=%DB_PASSWORD% >> ../../../api/.env
 echo DB_URL=%DB_URL% >> ../../../api/.env
 
-echo Successfully installed PieBrary
+echo Successfully installed %APP_NAME% with the help of PieBrary
 
 pause

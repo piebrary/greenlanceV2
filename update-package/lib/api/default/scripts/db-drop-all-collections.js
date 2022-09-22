@@ -11,7 +11,7 @@ module.exports = (async () => {
 
     try {
 
-        if(process.env.ENVIRONMENT !== 'development'){
+        if(process.env.NODE_ENV !== 'development'){
 
             console.log('Can not clear db due to env ENVIRONMENT not being set to \'development\'')
 

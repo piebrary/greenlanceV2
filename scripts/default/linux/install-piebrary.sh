@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo Welcome to the PieBrary installation file.
-echo This file will guide you through the installation and set all necessary variables.
+echo "Welcome to the PieBrary installation file."
+echo "This file will guide you through the installation and set all necessary variables."
 echo
 
 read "Input the name for the app : " APP_NAME
@@ -53,6 +53,6 @@ echo "DB_USERNAME=$DB_USERNAME" >> ../../../api/.env
 echo "DB_PASSWORD=$DB_PASSWORD" >> ../../../api/.env
 echo "DB_URL=$DB_URL" >> ../../../api/.env
 
-echo Successfully installed PieBrary
+echo "Successfully installed $APP_NAME with the help of PieBrary"
 
 pause
