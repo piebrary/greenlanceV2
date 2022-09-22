@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react'
-import { useSearchParams } from "react-router-dom"
+import { useSearchParams, useNavigate } from "react-router-dom"
 
 import { useForm } from "react-hook-form"
 
@@ -26,6 +26,7 @@ export default function Login(){
     const [responseError, setResponseError] = useState()
 
     const [searchParams, setSearchParams] = useSearchParams()
+    const navigate = useNavigate()
 
     const onSubmit = async data => {
 
@@ -35,6 +36,8 @@ export default function Login(){
             data.token = searchParams.get('token')
 
             await passwordReset(data)
+
+            navigate('/')
 
         } catch (error) {
 

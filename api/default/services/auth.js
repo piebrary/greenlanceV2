@@ -161,7 +161,7 @@ module.exports = () => {
                 .findOneAndDelete({ _id:passwordResetToken._id })
                 .exec()
 
-            return successHandler(undefined, userDocumentDto)
+            return successHandler(undefined)
 
         } catch (error) {
 
