@@ -144,14 +144,9 @@ module.exports = () => {
                 .findOne({ _id:id })
                 .exec()
 
-                console.log(hash)
-                console.log(userDocument.passwordHash)
-
             userDocument.passwordHash = hash
 
             const result = await userDocument.save()
-
-            console.log(result)
 
             mailer.sendMail({
                 to: userDocument.email,
@@ -168,8 +163,6 @@ module.exports = () => {
             return successHandler(undefined)
 
         } catch (error) {
-
-            console.log(error)
 
             return errorHandler(undefined, error)
 

@@ -1,45 +1,59 @@
-@echo off
+#!/bin/sh
+
 echo Welcome to the PieBrary installation file.
 echo This file will guide you through the installation and set all necessary variables.
-echo.
+echo
 
-set /p "APP_NAME=Input the name for the app : "
+read "Input the name for the app : " APP_NAME
 
-set /p "CLIENT_URL=Input the full url where the app will be hosted : "
+read "Input the full url where the app will be hosted : " CLIENT_URL
 
-set NO_REPLY_EMAIL=no-reply@%CLIENT_URL%
-set /p "NO_REPLY_EMAIL=Input the no reply email address or just ENTER for default [%NO_REPLY_EMAIL%] : "
+read "Input the no reply email address or just ENTER for default [no-reply@$CLIENT_URL] : " NO_REPLY_EMAIL
+NO_REPLY_EMAIL=${NO_REPLY_EMAIL:-no-reply@$CLIENT_URL}
 
-set API_PORT=31415
-set /p "API_PORT=Input api port number or just ENTER for default [%API_PORT%] : "
+read "Input api port number or just ENTER for default [31415] : " API_PORT
+API_PORT=${API_PORT:-31415}
 
-set API_PREFIX=/api
-set /p "API_PREFIX=Input api prefix or just ENTER for default [%API_PREFIX%] : "
+read "Input api prefix or just ENTER for default [/api] : " API_PREFIX
+API_PREFIX=${API_PREFIX:-/api}
 
-set /p "API_SECRET=Input secret for encrypting session tokens : "
+read "Input secret for encrypting session tokens : " API_SECRET
 
-set API_TOKEN_LIFETIME=2678400000
-set /p "API_TOKEN_LIFETIME=Input token lifetime number or just ENTER for default [%API_TOKEN_LIFETIME%] : "
+read "Boolean enable users to register themselfs, ENTER for default [true] : " API_ENABLE_PUBLIC_REGISTRATION
+API_ENABLE_PUBLIC_REGISTRATION=${API_ENABLE_PUBLIC_REGISTRATION:-true}
 
-set /p "DB_NAME=Input db name : "
+read "API_TOKEN_LIFETIME=Input token lifetime number or just ENTER for default [2678400000] : " API_TOKEN_LIFETIME
+API_TOKEN_LIFETIME=${API_TOKEN_LIFETIME:-2678400000}
 
-set /p "DB_USERNAME=Input db username : "
+read "Input db name : " DB_NAME
 
-set /p "DB_PASSWORD=Input db password : "
+read "Input db username : " DB_USERNAME
 
-set /p "DB_URL=Input db url : "
+read "Input db password : " DB_PASSWORD
 
-echo REACT_APP_API_PORT=%API_PORT% > ../../../app/.env
-echo REACT_APP_API_PREFIX=%API_PREFIX% >> ../../../app/.env
+read "Input db url : " DB_URL
 
-echo API_PORT=%API_PORT% > ../../../api/.env
-echo API_PREFIX=%API_PREFIX% >> ../../../api/.env
-echo API_SECRET=%API_SECRET% >> ../../../api/.env
-echo API_TOKEN_LIFETIME=%API_TOKEN_LIFETIME% >> ../../../api/.env
-echo DB_NAME=%DB_NAME% >> ../../../api/.env
-echo DB_USERNAME=%DB_USERNAME% >> ../../../api/.env
-echo DB_PASSWORD=%DB_PASSWORD% >> ../../../api/.env
-echo DB_URL=%DB_URL% >> ../../../api/.env
+echo "REACT_APP_ENVIRONMENT=$development" > ../../../app/.env
+echo "REACT_APP_NAME=$APP_NAME" >> ../../../app/.env
+echo "REACT_APP_CLIENT_URL=$CLIENT_URL" >> ../../../app/.env
+echo "REACT_APP_NO_REPLY_EMAIL=$NO_REPLY_EMAIL" >> ../../../app/.env
+echo "REACT_APP_API_PORT=$API_PORT" >> ../../../app/.env
+echo "REACT_APP_API_PREFIX=$API_PREFIX" >> ../../../app/.env
+echo "REACT_APP_ENABLE_PUBLIC_REGISTRATION=$API_ENABLE_PUBLIC_REGISTRATION" >> ../../../app/.env
+
+echo "ENVIRONMENT=development" > ../../../api/.env
+echo "APP_NAME=$APP_NAME" >> ../../../api/.env
+echo "CLIENT_URL=$CLIENT_URL" >> ../../../api/.env
+echo "NO_REPLY_EMAIL=$NO_REPLY_EMAIL" >> ../../../api/.env
+echo "API_PORT=$API_PORT" >> ../../../api/.env
+echo "API_PREFIX=$API_PREFIX" >> ../../../api/.env
+echo "API_SECRET=$API_SECRET" >> ../../../api/.env
+echo "API_TOKEN_LIFETIME=$API_TOKEN_LIFETIME" >> ../../../api/.env
+echo "API_ENABLE_PUBLIC_REGISTRATION=$API_ENABLE_PUBLIC_REGISTRATION" >> ../../../api/.env
+echo "DB_NAME=$DB_NAME" >> ../../../api/.env
+echo "DB_USERNAME=$DB_USERNAME" >> ../../../api/.env
+echo "DB_PASSWORD=$DB_PASSWORD" >> ../../../api/.env
+echo "DB_URL=$DB_URL" >> ../../../api/.env
 
 echo Successfully installed PieBrary
 

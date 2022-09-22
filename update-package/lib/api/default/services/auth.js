@@ -3,7 +3,7 @@ const crypto = require("crypto")
 
 module.exports = () => {
 
-    let TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, sendEmail
+    let TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer
 
     try { TokenModel = require('../../custom/models/token') } catch { TokenModel = require('../../default/models/token') }
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
@@ -13,7 +13,7 @@ module.exports = () => {
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
     try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
-    try { sendEmail = require('../../custom/services/email') } catch { sendEmail = require('../../default/services/email') }
+    try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
 
     async function register(req){
 
@@ -90,12 +90,12 @@ module.exports = () => {
 
             const resetLink = `${process.env.CLIENT_URL}/passwordReset?token=${resetToken}&id=${userDocument._id}`
 
-            sendEmail({
+            mailer.sendMail({
                 to: userDocument.email,
                 from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset',
                 text: 'Click the link to reset your password', // Optional, but recommended
-                html: `<a href=${resetLink}>Click here</a> to reset your password`, // Optional
+                html: `<a href=${resetLink}>Click here</a> to reset your password or copy the following code in your addressbar: ${resetLink}`, // Optional
             })
 
             return successHandler(undefined)
@@ -110,14 +110,14 @@ module.exports = () => {
 
     }
 
-    async function resetPassword(req){
+    async function passwordReset(req){
 
         try {
 
             const {
                 id,
                 token,
-                password
+                newPassword
             } = req.body
 
             const passwordResetToken = await TokenModel
@@ -138,30 +138,29 @@ module.exports = () => {
 
             }
 
-            const hash = await encryptPassword(password)
+            const hash = await encryptPassword(newPassword)
 
             const userDocument = await UserModel
                 .findOne({ _id:id })
                 .exec()
 
-            userDocument.password = hash
+            userDocument.passwordHash = hash
 
             const result = await userDocument.save()
-            const userDocumentDto = userResponseDto(result)
 
-            sendEmail({
+            mailer.sendMail({
                 to: userDocument.email,
-                from: `"${process.env.REACT_APP_NAME}" <${process.env.REACT_APP_NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
+                from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset Successfull',
                 text: 'Password Reset Successfull', // Optional, but recommended
-                html: `Password Reset Successfull`, // Optional
+                html: `Password Reset Successfull.`, // Optional
             })
 
             await TokenModel
                 .findOneAndDelete({ _id:passwordResetToken._id })
                 .exec()
 
-            return successHandler(undefined, userDocumentDto)
+            return successHandler(undefined)
 
         } catch (error) {
 
@@ -174,7 +173,7 @@ module.exports = () => {
     return {
         register,
         passwordResetRequest,
-        resetPassword
+        passwordReset
     }
 
 }
