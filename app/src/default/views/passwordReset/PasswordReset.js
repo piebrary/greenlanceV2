@@ -31,14 +31,8 @@ export default function Login(){
 
         try {
 
-            console.log(searchParams.get('id'))
-
-            // const query = useQuery()
-            // const id = query.get('id')
-            // const token = query.get('token')
-            //
-            // data.id = id
-            // data.token = token
+            data.id = searchParams.get('id')
+            data.token = searchParams.get('token')
 
             await passwordReset(data)
 
@@ -61,7 +55,7 @@ export default function Login(){
                 <Form
                     onSubmit={handleSubmit(onSubmit)}>
                     <Input
-                        label={'Password'}
+                        label={'New password'}
                         name={'newPassword'}
                         type={'password'}
                         passwordToggle={true}
