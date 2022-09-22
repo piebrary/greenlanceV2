@@ -2,6 +2,11 @@ const Mailer = require('nodemailer')
 
 module.exports = () => {
 
+    let successHandler, errorHandler
+
+    try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
+    try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
+
     const transporter = Mailer.createTransport({
     	sendmail: true,
     	newline: 'unix',
@@ -38,6 +43,8 @@ module.exports = () => {
 
     }
 
-    return sendMail
+    return {
+        sendMail
+    }
 
 }
