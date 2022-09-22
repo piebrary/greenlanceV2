@@ -47,8 +47,8 @@ module.exports = express => {
                 const result = await authService.passwordReset(req)
 
                 res
-                    .status(userData.status)
-                    .send(userData.body)
+                    .status(result.status)
+                    .send(result.body)
 
             }
 
