@@ -1,6 +1,6 @@
 const passport = require('passport')
 
-module.exports = (express, config) => {
+module.exports = express => {
 
     let UserService, upload
 
@@ -41,7 +41,7 @@ module.exports = (express, config) => {
 
             res
                 .status(userData.status)
-                .send('test')
+                .send(userData.body)
 
         }
     )

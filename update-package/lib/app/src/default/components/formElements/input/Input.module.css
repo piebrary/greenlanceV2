@@ -17,6 +17,8 @@
 .inputContainer {
     flex-grow: 1;
     width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .inputField {
@@ -24,6 +26,7 @@
     align-items: var(--componentInputInputFieldAlignItems);
     border-radius: var(--componentInputInputFieldBorderRadius);
     background-color: var(--componentInputInputFieldBackgroundColor);
+    width: 100%;
 }
 
 .inputField:focus-within .input:not(:read-only),
@@ -84,8 +87,11 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    /* transition: var(--componentInputHideToggleTransition); */
+    transition: var(--componentInputHideToggleTransition);
     padding: var(--componentInputHideTogglePadding);
+    background-color: var(--componentInputInputFieldBackgroundColor);
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    margin-left: 4px;
 }
 
 .passwordToggle:hover {

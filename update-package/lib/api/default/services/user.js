@@ -1,11 +1,11 @@
 const fs = require('fs')
 const path = require('path')
 
-const profilePicturePath = path.join(__dirname, '../../../public/images/profile/')
+const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
 module.exports = () => {
 
-    let UserModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto, Resize, encryptPassword, passwordsMatch, logger
+    let UserModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
@@ -76,19 +76,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -138,19 +126,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -218,19 +194,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -322,19 +286,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -368,19 +320,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(mode === 'DEV'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(mode === 'PROD'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 
@@ -452,19 +392,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 

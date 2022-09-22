@@ -3,6 +3,13 @@ echo Welcome to the PieBrary installation file.
 echo This file will guide you through the installation and set all necessary variables.
 echo.
 
+set /p "APP_NAME=Input the name for the app : "
+
+set /p "CLIENT_URL=Input the full url where the app will be hosted : "
+
+set NO_REPLY_EMAIL=no-reply@%CLIENT_URL%
+set /p "NO_REPLY_EMAIL=Input the no reply email address or just ENTER for default [%NO_REPLY_EMAIL%] : "
+
 set API_PORT=31415
 set /p "API_PORT=Input api port number or just ENTER for default [%API_PORT%] : "
 

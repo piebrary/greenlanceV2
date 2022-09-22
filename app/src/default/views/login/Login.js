@@ -82,7 +82,7 @@ export default function Login(){
                         className={styles.underMenu}
                         >
                         {process.env.REACT_APP_ENABLE_PUBLIC_REGISTRATION && <a href={'/register'}>Register</a>}
-                        <a href={'/forgot password'}>Forgot password</a>
+                        <a href={'/passwordResetRequest'}>Reset password</a>
                     </div>
                 </Form>
             </main>

@@ -41,19 +41,7 @@ module.exports = () => {
 
         } catch (error) {
 
-            if(process.env.ENVIRONMENT === 'development'){
-
-                console.log(error)
-
-                return errorHandler(undefined, error)
-
-            }
-
-            if(process.env.ENVIRONMENT === 'production'){
-
-                return errorHandler(undefined, 'Unknown error')
-
-            }
+            return errorHandler(undefined, error)
 
         }
 

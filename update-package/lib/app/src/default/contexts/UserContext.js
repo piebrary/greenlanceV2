@@ -3,6 +3,7 @@ import { createContext, useState, useEffect, useContext } from 'react'
 import { AuthenticationContext } from './AuthenticationContext'
 
 import { getUser, putUser, postMyProfilePicture, getUsers, postUser, delUser} from '../services/UserService'
+import { doRegister } from '../services/UserService'
 
 export const UserContext = createContext({})
 

@@ -1,2 +1,2 @@
-cd ../desktop-app && electron .
+cd ../../../desktop-app && electron .
 pause

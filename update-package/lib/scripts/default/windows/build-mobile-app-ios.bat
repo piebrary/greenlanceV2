@@ -1,2 +1,2 @@
-cd ../mobile-app && eas build -p ios
+cd ../../../mobile-app && eas build -p ios
 pause

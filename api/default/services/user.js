@@ -5,7 +5,7 @@ const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
 module.exports = () => {
 
-    let UserModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto, Resize, encryptPassword, passwordsMatch, logger
+    let UserModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
@@ -123,42 +123,6 @@ module.exports = () => {
             })
 
             return successHandler(undefined, userDocumentsDto)
-
-        } catch (error) {
-
-            return errorHandler(undefined, error)
-
-        }
-
-    }
-
-    async function createUserPublic(req){
-
-        try {
-
-            const {
-                username,
-                email,
-                password,
-                repeatPassword,
-            } = userRequestDto(req.body)
-
-            if(password !== repeatPassword){
-
-                return errorHandler(406, 'Passwords don\'t match')
-
-            }
-
-            const newUserDocument = new UserModel()
-            newUserDocument.username = username
-            newUserDocument.passwordHash = await encryptPassword(password)
-            newUserDocument.email = email
-            newUserDocument.roles.push('user')
-
-            const result = await newUserDocument.save()
-            const userDocumentDto = userResponseDto(result)
-
-            return successHandler(undefined, userDocumentDto)
 
         } catch (error) {
 
@@ -438,7 +402,6 @@ module.exports = () => {
     return {
         getUser,
         getUsers,
-        createUserPublic,
         createUser,
         updateUser,
         deleteUser,

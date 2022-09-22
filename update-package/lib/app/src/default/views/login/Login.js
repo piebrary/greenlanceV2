@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 
 import { useForm } from "react-hook-form"
 
@@ -16,18 +16,25 @@ import styles from './Login.module.css'
 
 export default function Login(){
 
-    const { authenticate } = useContext(AuthenticationContext)
-
+    const { authenticate, authState } = useContext(AuthenticationContext)
     const { register, handleSubmit, formState: { errors } } = useForm()
+    const [authFailed, setAuthFailed] = useState(false)
 
+    const onSubmit = async data => {
 
-        // logo={<LogoSmall />}
-        // title={'Log in'}
-        // settings={{}}
+        const result = await authenticate(data.username, data.password)
 
-    const onSubmit = (data) => {
+        if(result){
 
-        authenticate(data.username, data.password)
+            setAuthFailed(false)
+
+        }
+
+        if(!result){
+
+            setAuthFailed(true)
+
+        }
 
     }
 
@@ -48,7 +55,7 @@ export default function Login(){
                         register={register}
                         errors={errors}
                         rules={{
-                            required: 'Username is required'
+                            required: 'Email is required'
                         }}
                         />
                     <Input
@@ -63,6 +70,7 @@ export default function Login(){
                             required: 'Password is required'
                         }}
                         />
+                    {authFailed && <div className={styles.loginFailed}>Login failed, your username or password may be incorrect.</div>}
                     <ButtonGroup>
                         <Button
                             customStyles={applyStyles([styles], 'customButton')}
@@ -73,8 +81,8 @@ export default function Login(){
                     <div
                         className={styles.underMenu}
                         >
-                        <a href={'/register'}>Register</a>
-                        <a href={'/forgot password'}>Forgot password</a>
+                        {process.env.REACT_APP_ENABLE_PUBLIC_REGISTRATION && <a href={'/register'}>Register</a>}
+                        <a href={'/passwordResetRequest'}>Reset password</a>
                     </div>
                 </Form>
             </main>

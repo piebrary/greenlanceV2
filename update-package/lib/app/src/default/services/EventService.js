@@ -6,7 +6,7 @@ export async function getEvent(_id){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event${_id ? '/' + _id : ''}`,
         method:'GET',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         }
     }
@@ -21,7 +21,7 @@ export async function getEvents(){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/events`,
         method:'GET',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         }
     }
@@ -36,7 +36,7 @@ export async function postEvent(data){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'POST',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         },
         data
@@ -52,7 +52,7 @@ export async function putEvent(data){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'PUT',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         },
         data
@@ -68,7 +68,7 @@ export async function delEvent(data){
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
         method:'DELETE',
         headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
+            Authorization:'Bearer ' + localStorage.getItem('piebrary_token'),
             'Content-Type': 'application/json'
         },
         data

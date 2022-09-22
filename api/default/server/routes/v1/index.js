@@ -1,22 +1,50 @@
 module.exports = express => {
 
-    let UserService
+    let AuthService
 
     try {
-        UserService = require('../../../../custom/services/user')
+        AuthService = require('../../../../custom/services/auth')
     } catch {
-        UserService = require('../../../../default/services/user')
+        AuthService = require('../../../../default/services/auth')
     }
 
-    const userService = UserService(process.env.ENVIRONMENT)
+    const authService = AuthService(process.env.ENVIRONMENT)
 
     if(process.env.API_ENABLE_PUBLIC_REGISTRATION){
 
         express.post(
-            process.env.API_PREFIX + '/v1/user',
+            process.env.API_PREFIX + '/v1/register',
             async (req, res) => {
 
-                const userData = await userService.createUserPublic(req)
+                const userData = await authService.register(req)
+
+                res
+                    .status(userData.status)
+                    .send(userData.body)
+
+            }
+
+        )
+
+        express.post(
+            process.env.API_PREFIX + '/v1/passwordResetRequest',
+            async (req, res) => {
+
+                const result = await authService.passwordResetRequest(req)
+
+                res
+                    .status(result.status)
+                    .send(result.body)
+
+            }
+
+        )
+
+        express.post(
+            process.env.API_PREFIX + '/v1/passwordReset',
+            async (req, res) => {
+
+                const result = await authService.passwordReset(req)
 
                 res
                     .status(userData.status)

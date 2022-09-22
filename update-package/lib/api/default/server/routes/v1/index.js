@@ -1,21 +1,59 @@
-let serverInfoService
-
 module.exports = express => {
 
+    let AuthService
+
     try {
-        serverInfoService = require('../../../../custom/services/serverInfo')
+        AuthService = require('../../../../custom/services/auth')
     } catch {
-        serverInfoService = require('../../../../default/services/serverInfo')
+        AuthService = require('../../../../default/services/auth')
     }
 
-    express.get(process.env.API_PREFIX + '/v1/status', async (req, res) => {
+    const authService = AuthService(process.env.ENVIRONMENT)
 
-        const serverInfo = await serverInfoService()
+    if(process.env.API_ENABLE_PUBLIC_REGISTRATION){
 
-        res
-            .status(serverInfo.status)
-            .send(serverInfo.body)
+        express.post(
+            process.env.API_PREFIX + '/v1/register',
+            async (req, res) => {
 
-    })
+                const userData = await authService.register(req)
+
+                res
+                    .status(userData.status)
+                    .send(userData.body)
+
+            }
+
+        )
+
+        express.post(
+            process.env.API_PREFIX + '/v1/passwordResetRequest',
+            async (req, res) => {
+
+                const result = await authService.passwordResetRequest(req)
+
+                res
+                    .status(result.status)
+                    .send(result.body)
+
+            }
+
+        )
+
+        express.post(
+            process.env.API_PREFIX + '/v1/passwordReset',
+            async (req, res) => {
+
+                const result = await authService.passwordReset(req)
+
+                res
+                    .status(userData.status)
+                    .send(userData.body)
+
+            }
+
+        )
+
+    }
 
 }

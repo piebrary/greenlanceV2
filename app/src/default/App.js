@@ -8,6 +8,8 @@ import 'react-notifications-component/dist/theme.css'
 
 import LoginView from '../default/views/login/Login'
 import RegisterView from '../default/views/register/Register'
+import PasswordResetRequestView from '../default/views/passwordResetRequest/PasswordResetRequest'
+import PasswordResetView from '../default/views/passwordReset/PasswordReset'
 import DashboardView from '../default/views/dashboard/Dashboard'
 import ProfileView from '../default/views/profile/Profile'
 import FormView from '../default/views/form/Form'
@@ -77,6 +79,8 @@ export default function App() {
                             <Routes>
                                 <Route path="/login" element={<LoginView />} />
                                 <Route path="/register" element={<RegisterView />} />
+                                <Route path="/passwordResetRequest" element={<PasswordResetRequestView />} />
+                                <Route path="/passwordReset" element={<PasswordResetView />} />
                                 <Route path="*" element={<Navigate to="/login" />} />
                             </Routes>
                         </Router>

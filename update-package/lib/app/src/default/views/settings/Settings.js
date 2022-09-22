@@ -92,7 +92,7 @@ export default function Settings(){
                         label={applyTranslation('EMAIL')}
                         name={'email'}
                         type={'text'}
-                        defaultValue={userData.email[0].email}
+                        defaultValue={userData.email}
                         register={register}
                         errors={errors}
                         />
@@ -100,7 +100,7 @@ export default function Settings(){
                         label={applyTranslation('NEW_PASSWORD')}
                         name={'newPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -112,10 +112,6 @@ export default function Settings(){
                                 minNumbers: value => {
                                     if(value.length === 0 || containsNumber(value)) return true
                                     return 'New password must contain at least one number'
-                                },
-                                passwordsMatch: () => {
-                                    if(getValues().newPassword === getValues().repeatPassword) return true
-                                    return 'Passwords don\'t match'
                                 }
                             }
                         }}
@@ -124,7 +120,7 @@ export default function Settings(){
                         label={applyTranslation('REPEAT_PASSWORD')}
                         name={'repeatPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{
@@ -140,7 +136,7 @@ export default function Settings(){
                         label={applyTranslation('CURRENT_PASSWORD')}
                         name={'currentPassword'}
                         type={'password'}
-                        hideToggle={true}
+                        passwordToggle={true}
                         register={register}
                         errors={errors}
                         rules={{

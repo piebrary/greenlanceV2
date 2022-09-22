@@ -40,7 +40,6 @@
     background-color: var(--menuBackgroundColor);
     display: block;
     width: 100%;
-    height: fit-content;
     overflow-y: auto;
     /* width: 100%;
     min-height: fit-content;
@@ -169,7 +168,7 @@
 }
 
 .logo, .logo * {
-    display: block;
+    display: flex;
     min-width: fit-content;
     width: var(--menuLogoWidth);
     height: var(--menuHeight);
@@ -222,7 +221,7 @@
         max-width: var(--menuWidth);
         display: block;
         position: relative;
-        height: fit-content;
+        min-height: 100%;
     }
 
     .page {
@@ -326,6 +325,8 @@
 
     .items {
         display: block;
+        min-height: calc(100vh - var(--menuHeight));
+        height: 100%;
     }
 
     .logout {

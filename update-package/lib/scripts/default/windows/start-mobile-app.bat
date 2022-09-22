@@ -1,3 +1,3 @@
-cd ../mobile-app
+cd ../../../mobile-app
  && npm start
 pause

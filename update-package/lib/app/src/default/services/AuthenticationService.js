@@ -15,20 +15,36 @@ export async function doAuthenticate(username, password){
 
 }
 
-export async function doRegister(username, password, email){
+export async function register(data){
 
     const options = {
-        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/user`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/register`,
         method:'POST',
-        headers: {
-            Authorization:'Bearer ' + localStorage.getItem('token'),
-            'Content-Type': 'application/json'
-        },
-        data:{
-            username,
-            password,
-            email
-        }
+        data
+    }
+
+    return await axios(options)
+
+}
+
+export async function passwordResetRequest(data){
+
+    const options = {
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/passwordResetRequest`,
+        method:'POST',
+        data
+    }
+
+    return await axios(options)
+
+}
+
+export async function passwordReset(data){
+
+    const options = {
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/passwordReset`,
+        method:'POST',
+        data
     }
 
     return await axios(options)
