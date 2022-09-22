@@ -95,7 +95,7 @@ module.exports = () => {
                 from: `"${process.env.APP_NAME}" <${process.env.NO_REPLY_EMAIL}>`, // Make sure you don't forget the < > brackets
                 subject: 'Password Reset',
                 text: 'Click the link to reset your password', // Optional, but recommended
-                html: `${process.env.NO_REPLY_EMAIL} <a href=${resetLink}>Click here</a> to reset your password or copy the following code in your addressbar: ${resetLink}`, // Optional
+                html: `<a href=${resetLink}>Click here</a> to reset your password or copy the following code in your addressbar: ${resetToken}`, // Optional
             })
 
             return successHandler(undefined)
@@ -110,7 +110,7 @@ module.exports = () => {
 
     }
 
-    async function resetPassword(req){
+    async function paswordReset(req){
 
         try {
 
@@ -174,7 +174,7 @@ module.exports = () => {
     return {
         register,
         passwordResetRequest,
-        resetPassword
+        paswordReset
     }
 
 }
