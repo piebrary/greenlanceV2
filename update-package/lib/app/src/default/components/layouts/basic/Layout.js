@@ -120,7 +120,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
                             group.map(item => {
 
-                                if(item.hidden){
+                                if(!item){
 
                                     return undefined
 

@@ -1,7 +1,9 @@
 import { useContext, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
 import { ReactNotifications } from 'react-notifications-component'
+
+// import ScrollToTop from "./components/scrollToTop/ScrollToTop"
 
 import 'animate.css'
 import 'react-notifications-component/dist/theme.css'
@@ -44,48 +46,54 @@ export default function App() {
     const { isAdmin } = useContext(UserContext)
     const { setTheme, currentTheme } = useContext(VisualsContext)
 
+    const { pathname } = useLocation()
+
+    useEffect(() => {
+
+        window.scrollTo(0, 0)
+
+    }, [pathname])
+
     return (
-        <>
+        <div id={'App'} className={styles.app}>
             <ReactNotifications
                 isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
                 breakpoint={currentTheme?.values?.layoutBreakpoint}
                 />
                 {
                     authState === 'success'
-                    ?   <Router>
-                            <Routes>
-                                <Route path="/" element={<DashboardView />} />
-                                <Route path="/profile" element={<ProfileView />} />
-                                <Route path="/settings" element={<SettingsView />} />
-                                { isAdmin() && <Route path="/users" element={<UsersView />} /> }
-                                <Route path="/documentation" element={<DocumentationView />} />
-                                <Route path="/email" element={<EmailView />} />
-                                <Route path="/calendar" element={<CalendarView />} />
-                                <Route path="/grid" element={<GridView />} />
-                                <Route path="/form" element={<FormView />} />
-                                <Route path="/card" element={<CardView />} />
-                                <Route path="/button" element={<ButtonView />} />
-                                <Route path="/list" element={<ListView />} />
-                                <Route path="/notifications" element={<NotificationsView />} />
-                                <Route path="/confirm" element={<ConfirmView />} />
-                                <Route path="/languages" element={<LanguagesView />} />
-                                <Route path="/themes" element={<ThemesView />} />
-                                <Route path="/logout" element={<LogoutView />} />
-                                <Route path="*" element={<Navigate to="/" />} />
-                            </Routes>
-                        </Router>
+                    ?
+                        <Routes>
+                            <Route path="/" element={<DashboardView />} />
+                            <Route path="/profile" element={<ProfileView />} />
+                            <Route path="/settings" element={<SettingsView />} />
+                            { isAdmin() && <Route path="/users" element={<UsersView />} /> }
+                            <Route path="/documentation" element={<DocumentationView />} />
+                            <Route path="/email" element={<EmailView />} />
+                            <Route path="/calendar" element={<CalendarView />} />
+                            <Route path="/grid" element={<GridView />} />
+                            <Route path="/form" element={<FormView />} />
+                            <Route path="/card" element={<CardView />} />
+                            <Route path="/button" element={<ButtonView />} />
+                            <Route path="/list" element={<ListView />} />
+                            <Route path="/notifications" element={<NotificationsView />} />
+                            <Route path="/confirm" element={<ConfirmView />} />
+                            <Route path="/languages" element={<LanguagesView />} />
+                            <Route path="/themes" element={<ThemesView />} />
+                            <Route path="/logout" element={<LogoutView />} />
+                            <Route path="*" element={<Navigate to="/" />} />
+                        </Routes>
                     : authState === 'failed'
-                    ?   <Router>
-                            <Routes>
-                                <Route path="/login" element={<LoginView />} />
-                                <Route path="/register" element={<RegisterView />} />
-                                <Route path="/passwordResetRequest" element={<PasswordResetRequestView />} />
-                                <Route path="/passwordReset" element={<PasswordResetView />} />
-                                <Route path="*" element={<Navigate to="/login" />} />
-                            </Routes>
-                        </Router>
+                    ?
+                        <Routes>
+                            <Route path="/login" element={<LoginView />} />
+                            <Route path="/register" element={<RegisterView />} />
+                            <Route path="/passwordResetRequest" element={<PasswordResetRequestView />} />
+                            <Route path="/passwordReset" element={<PasswordResetView />} />
+                            <Route path="*" element={<Navigate to="/login" />} />
+                        </Routes>
                     : <p>Loading...</p>
                 }
-        </>
+        </div>
     )
 }

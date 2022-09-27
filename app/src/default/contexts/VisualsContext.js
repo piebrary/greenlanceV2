@@ -10,57 +10,72 @@ export const VisualsContext = createContext({})
 
 export default function VisualsContextProvider({ children }){
 
-    const [currentTheme, setCurrentTheme] = useState({
-        name:'basic',
-        values:deepCopy(themes['basic'])
-    })
+    const [currentTheme, setCurrentTheme] = useState(config.THEME || 'default')
+    const [darkmode, setDarkmode] = useState(false)
 
-    useEffect(() => {
+    let themes
 
-        if(config?.THEME && themes[config.THEME]){
+    try {
 
-            setTheme(config.THEME)
+        themes = require('../../custom/assets/js/themes').themes
 
-        }
+    } catch (error) {
 
-    }, [])
+        themes = require('../../default/assets/js/themes').themes
 
-    function setTheme(themeName){
+    }
 
-        if(themes[themeName]){
+    function changeTheme(name){
 
-            for(let cssVar in themes[themeName]){
+        if(themes[name]){
 
-                document.documentElement.style.setProperty(`--${cssVar}`, themes[themeName][cssVar])
-
-            }
-
-            setCurrentTheme({
-                name:themeName,
-                values:deepCopy(themes[themeName])
-            })
+            setCurrentTheme(name)
 
         }
 
     }
 
+    function toggleDarkmode(){
+
+        setDarkmode(!darkmode)
+
+    }
+
+    useEffect(() => {
+
+        if(!themes[currentTheme]){
+
+            setCurrentTheme('default')
+
+        }
+
+        const themeProperties = themes[currentTheme]({ darkmode })
+
+        for(let property in themeProperties){
+
+            document.documentElement.style.setProperty(`--${property}`, themeProperties[property])
+
+        }
+
+    }, [currentTheme, darkmode])
+
     function getAvailableThemes(){
 
-        return deepCopy(
-            Object.keys(themes).map(t => {
-                return {
-                    name:t,
-                    values:themes[t]
-                }
-            })
-        )
+        return deepCopy(themes)
+
+    }
+
+    function getCurrentTheme(){
+
+        return deepCopy(themes[currentTheme]({ darkmode }))
 
     }
 
     const contextData = {
-        setTheme,
-        currentTheme,
+        changeTheme,
+        toggleDarkmode,
         getAvailableThemes,
+        getCurrentTheme
     }
 
     return (

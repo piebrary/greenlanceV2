@@ -1,0 +1,390 @@
+.container {
+    min-width: fit-content;
+    min-height: fit-content;
+    font-size: var(--componentCalendarFontSize);
+}
+
+.header {
+    padding: var(--componentCalendarHeaderPadding);
+    border-top-left-radius: var(--componentCalendarBorderRadius);
+    border-top-right-radius: var(--componentCalendarBorderRadius);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    background-color: var(--componentCalendarBackgroundColor);
+}
+
+.content {
+    padding: 2px 10px 10px 10px;
+    border-bottom-left-radius: var(--componentCalendarBorderRadius);
+    border-bottom-right-radius: var(--componentCalendarBorderRadius);
+    background-color: var(--componentCalendarBackgroundColor);
+}
+
+.week {
+    display: flex;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.controlGroup_buttonGroup {
+    margin: 14px 30px 0px 30px;
+    width: fit-content;
+    display: flex;
+}
+
+.controlGroupExtraPadding_buttonGroup {
+    padding: 10px 10px 0px 10px;
+}
+
+.controlBtn_button {
+    background-color: var(--componentCalendarControlBtnBackgroundColor);
+    color: var(--componentCalendarControlBtnColor);
+    padding: var(--componentCalendarControlBtnPadding);
+    cursor: pointer;
+    width: 100%;
+    white-space: nowrap;
+    margin: var(--componentCalendarControlBtnMargin);
+    font-family: var(--componentCalendarControlBtnFont);
+}
+
+.controlBtn_button:hover {
+    color: var(--componentCalendarControlBtnColorHover);
+    background-color: var(--componentCalendarControlBtnBackgroundColorHover);
+}
+
+.saveBtn_button {
+    background-color: var(--colorSuccessLight);
+}
+
+.saveBtn_button:hover {
+    background-color: var(--colorSuccessDark);
+}
+
+.editBtn_button {
+    background-color: var(--colorGreyLight);
+}
+
+.editBtn_button:hover {
+    background-color: var(--colorGreyDark);
+}
+
+.resetBtn_button {
+    background-color: var(--colorDangerLight);
+}
+
+.resetBtn_button:hover {
+    background-color: var(--colorDangerDark);
+}
+
+.closeBtn_button {
+    background-color: var(--colorDangerLight);
+}
+
+.closeBtn_button:hover {
+    background-color: var(--colorDangerDark);
+}
+
+.deleteBtn_button {
+    background-color: var(--colorDangerLight);
+}
+
+.deleteBtn_button:hover {
+    background-color: var(--colorDangerDark);
+}
+
+.controlBtnActive_button {
+    background-color: var(--componentCalendarControlBtnActiveBackgroundColor);
+    color: var(--componentCalendarControlBtnActiveColor);
+    font-weight: var(--componentCalendarControlBtnActiveFontWeight);
+    padding: var(--componentCalendarControlBtnPadding);
+    cursor: pointer;
+    width: 100%;
+    white-space: nowrap;
+    margin: var(--componentCalendarControlBtnMargin);
+    font-family: var(--componentCalendarControlBtnFont);
+}
+
+.controlBtnActive_button:hover {
+    color: var(--componentCalendarControlBtnColorHover);
+    background-color: var(--componentCalendarControlBtnBackgroundColorHover);
+}
+
+.controlBtn_button + .controlBtn_button,
+.controlBtnActive_button + .controlBtnActive_button,
+.controlBtn_button + .controlBtnActive_button,
+.controlBtnActive_button + .controlBtn_button {
+    margin-left: var(--componentCalendarControlBtnSpacing);
+}
+
+.calendar {
+    overflow: hidden;
+    max-width: 100%;
+    background-color: var(--colorGreyLighter);
+    border-radius: 4px;
+    padding: 1px;
+    box-sizing: border-box;
+}
+
+.weekdays {
+    display: flex;
+    width: 100%;
+}
+
+.weekday {
+    color: var(--componentCalendarTableHeadColor);
+    background-color: var(--componentCalendarTableHeadBackgroundColor);
+    box-sizing: border-box;
+    display: block;
+    /* border: var(--componentCalendarTableHeadBorder); */
+    /* width: var(--componentCalendarWidth); */
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: calc(100% / 7);
+    text-align: center;
+    /* padding: 8px; */
+    padding: 10px 1px 10px 1px;
+}
+
+.weekday:first-child {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.weekday:last-child {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.date {
+    text-align: var(--componentCalendarTableCellTextAlign);
+    /* background-color: var(--componentCalendarTableCellBackgroundColor); */
+    /* border: var(--componentCalendarTableCellBorder); */
+    /* height: var(--componentCalendarTableCellHeight); */
+    min-height: var(--componentCalendarTableCellMinHeight);
+    vertical-align: var(--componentCalendarTableCellVerticalAlign);
+    padding: var(--componentCalendarTableCellPadding);
+    /* width: var(--componentCalendarWidth); */
+    cursor: pointer;
+    overflow: hidden;
+    /* min-width: var(--componentCalendarTableCellMinWidth); */
+    transition: .5s;
+}
+
+.lowTransparency {
+    opacity: .2;
+    background-color: var(--colorWhite) !important;
+    cursor: auto !important;
+}
+
+.date {
+    color: var(--componentCalendarTableCellDateColor);
+    font-weight: var(--componentCalendarTableCellDateFontWeight);
+    border-radius: 4px;
+    padding: var(--componentCalendarTableCellDatePadding);
+    user-select: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 4px;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* height: var(--componentCalendarTableCellDateHeight); */
+}
+
+.month {
+    display: none;
+}
+
+.dayOfMonth {
+    margin-left: auto;
+}
+
+.day:not(.lowTransparency) .currentDay {
+    background-color: var(--colorPrimary6) !important;
+    color: var(--colorWhite) !important;
+    height: 24px;
+}
+
+.day {
+    width: calc(100% / 7);
+    max-width: calc(100% / 7);
+    min-height: 80px;
+    background-color: var(--colorWhite);
+    border-radius: 2px;
+    margin: 1px;
+    /* padding: 10px; */
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.eventContainer {
+    /* background-color: var(--componentCalendarTableCellEventContainerBackgroundColor) !important; */
+    /* border-radius: var(--componentCalendarTableCellEventContainerBorderRadius); */
+    /* color: var(--componentCalendarTableCellEventContainerColor); */
+    background-color: var(--colorGreyLighter);
+    color: var(--colorGreyDark);
+    border-radius: 4px;
+    font-weight: var(--componentCalendarTableCellEventContainerFontWeight);
+    /* padding: var(--componentCalendarTableCellEventContainerPadding); */
+    padding: 8px 4px 6px 4px;
+    box-sizing: border-box;
+    user-select: none;
+    word-break: break-all;
+    white-space: normal;
+    /* font-size: 0px; */
+    text-overflow: ellipsis;
+    text-align: left;
+    transition: .5s;
+    max-width: 100%;
+    margin: 6px;
+}
+
+.eventContainer div {
+    display: -webkit-box;
+    /* max-width: 30px; */
+    -webkit-line-clamp: 3;
+           line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.day:not(.lowTransparency) .eventContainer:hover {
+    cursor: pointer;
+    transition: .5s;
+    color: var(--colorWhite);
+    background-color: var(--colorPrimary5);
+}
+
+.eventContainer + .eventContainer {
+    margin-top: var(--componentCalendarTableCellEventContainerDistance);
+}
+
+.invisibleCreateEventButton {
+    margin: 0px 4px 0px 0px;
+    display: none;
+}
+
+.day:hover {
+    /* display: inline-block;
+    color: #333333; */
+    /* background-color: var(--colorGreyLighter); */
+    /* color: var(--colorWhite); */
+    /* border-bottom: 3px solid var(--colorPrimary4); */
+    /* background-color: red; */
+    /* transition: .5s; */
+}
+
+.createEventButton {
+    color: var(--componentCalendarCreateEventButtonColor) !important;
+    margin: 20px;
+}
+
+.calendar table tbody tr td:hover .createEventButton {
+    color: var(--componentCalendarTableCellCreateEventButtonColor) !important;
+}
+
+.invisibleEditEventButton {
+    margin: 0px 4px 0px 0px;
+}
+
+.listContainer {
+
+}
+
+.listContainer *:not(:last-child) {
+    margin-bottom: var(--componentCalendarListItemDistance);
+}
+
+.listItem {
+    border: var(--componentCalendarListItemBorder);
+    padding: var(--componentCalendarListItemPadding);
+    border-radius: var(--componentCalendarListItemBorderRadius);
+}
+
+.listItemTitle {
+    border-bottom: var(--componentCalendarListItemTitleBorderBottom);
+}
+
+.listItemContent {
+
+}
+
+.detailsContainer {
+    word-break: break-all;
+}
+
+/* @media only screen and (min-width: 800px) {
+
+    .calendar table tbody tr td {
+        min-width: 90px;
+    }
+
+    .container {
+        font-size: 12px;
+    }
+
+}
+
+@media only screen and (min-width: 1130px) {
+
+    .calendar table tbody tr td {
+        min-width: 105px;
+    }
+
+    .container {
+        font-size: 14px;
+    }
+
+} */
+
+
+
+.categoryLabel {
+    background-color: var(--colorGreyDarker);
+    padding: 10px;
+    width: fit-content;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 5px;
+    color: white;
+    font-size: 16px;
+}
+
+.titleContainer {
+    font-size: 20px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .eventContainer {
+        /* font-size: 0px; */
+    }
+
+}
+
+@media only screen and (min-width: 950px) {
+
+    .month {
+        color: var(--componentCalendarTableCellDateMonthColor);
+        font-weight: var(--componentCalendarTableCellDateMonthFontWeight);
+        display: inline-block;
+    }
+
+    /* .eventContainer {
+        font-size: 10px;
+    } */
+
+}

@@ -1,0 +1,70 @@
+.container {
+    background-color: var(--componentInputContainerBackgroundColor);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: var(--componentInputContainerBorderRadius);
+    padding: var(--componentInputContainerPadding);
+}
+
+.label {
+    font-size: var(--componentInputInputFontSize);
+}
+
+.inputContainer {
+    margin-left: var(--componentInputInputContainerMarginLeft);
+    flex-grow: 1;
+    max-width: var(--componentInputInputContainerMaxWidth);
+}
+
+.inputField {
+    display: flex;
+    align-items: var(--componentInputInputFieldAlignItems);
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    background-color: var(--componentInputInputFieldBackgroundColor);
+}
+
+.inputField:focus-within .input:not(:read-only) {
+    transition: var(--componentInputTransition);
+    box-shadow: var(--componentInputInputFieldBoxShadowFocus);
+    border-bottom-left-radius: var(--componentInputInputFieldBorderBottomLeftRadius);
+    border-bottom-right-radius: var(--componentInputInputFieldBorderBottomRightRadius);
+}
+
+.input {
+    box-sizing: border-box;
+    color: var(--componentInputInputColor);
+    border: var(--componentInputInputBorder);
+    padding: var(--componentInputInputPadding);
+    font-size: var(--componentInputInputFontSize);
+    outline: none;
+    text-align: var(--componentInputInputTextAlign);
+    width: 100%;
+    background-color: var(--componentInputInputBackgroundColor);
+    height: var(--componentInputInputHeight);
+    resize: vertical;
+    overflow: auto;
+    transition: var(--componentInputTransition);
+}
+
+.input:focus {
+    border: var(--componentInputInputBorderFocus);
+    outline: none;
+}
+
+.input:read-only {
+    background-color: var(--componentInputInputBackgroundColorReadOnly);
+    color: var(--componentInputInputColorReadOnly);
+    box-shadow: var(--componentInputInputBoxShadowReadOnly);
+    border-radius: var(--componentInputInputBorderRadiusReadOnly);
+}
+
+.errorMessage {
+    min-width: 100%;
+    color: var(--componentInputErrorMessageColor);
+    box-sizing: border-box;
+    display: block;
+    font-size: var(--componentInputErrorMessageFontSize);
+    text-align: var(--componentInputErrorMessageTextAlign);
+    margin-top: var(--componentInputErrorMessageMarginTop);
+}

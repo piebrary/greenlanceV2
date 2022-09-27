@@ -12,7 +12,7 @@ module.exports = () => {
     	newline: 'unix',
     	path: '/usr/sbin/sendmail',
     	dkim: {
-    		domainName: 'piebrary.nl',
+    		domainName: `${process.env.CLIENT_URL}`,
     		keySelector: 'default', // The key you used in your DKIM TXT DNS Record
     	}
     })

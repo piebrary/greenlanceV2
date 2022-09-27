@@ -45,30 +45,33 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
     }, [isMenuOpen, customStyles])
 
-    useEffect(() => {
-
-        const body = document.querySelector('body')
-
-        body.scrollTo({
-            top:0,
-            behavior: 'smooth'
-        })
-
-        body.addEventListener('scroll', () => {
-
-            if (body.scrollTop > 100 && !isMenuOpen) {
-
-                setShowScrollToTopBtn(true)
-
-            } else {
-
-                setShowScrollToTopBtn(false)
-
-            }
-
-        }, { capture: true })
-
-    }, [isMenuOpen])
+    // not working now, problably due to scrollbar on deferent element
+    // useEffect(() => {
+    //
+    //     const body = document.querySelector('body')
+    //
+    //     body.scrollTo({
+    //         top:0,
+    //         behavior: 'smooth'
+    //     })
+    //
+    //     body.addEventListener('scroll', () => {
+    //
+    //         console.log('scrolling')
+    //
+    //         if (body.scrollTop > 100 && !isMenuOpen) {
+    //
+    //             setShowScrollToTopBtn(true)
+    //
+    //         } else {
+    //
+    //             setShowScrollToTopBtn(false)
+    //
+    //         }
+    //
+    //     })
+    //
+    // }, [isMenuOpen])
 
     return (
         <div id={'layoutContainer'} className={styles.layoutContainer}>
@@ -120,7 +123,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
                             group.map(item => {
 
-                                if(item.hidden){
+                                if(!item){
 
                                     return undefined
 

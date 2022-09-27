@@ -6,9 +6,8 @@ body {
     font-family: 'Montserrat';
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* background-color: #1E1E1B; */
-    background-color: var(--layoutBackground);
     min-width: var(--layoutMinWidth);
+    min-height: 100vh;
 }
 
 code {
@@ -29,4 +28,5 @@ code {
 
 #root {
     height: fit-content;
+    min-height: 100vh;
 }

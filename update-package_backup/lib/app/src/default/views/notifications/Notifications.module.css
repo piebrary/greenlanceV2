@@ -1,0 +1,50 @@
+.buttonsGrid_grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(0px, auto);
+}
+
+
+
+.successCard_title {
+    background-color: var(--colorSuccessLight);
+}
+
+.successCard_clickable:hover > * {
+    background-color: var(--colorSuccessNormal);
+    color: var(--colorWhite);
+}
+
+
+
+.infoCard_title {
+    background-color: var(--colorInfoLight);
+}
+
+.infoCard_clickable:hover > * {
+    background-color: var(--colorInfoNormal);
+    color: var(--colorWhite);
+}
+
+
+
+.warningCard_title {
+    background-color: var(--colorWarningLight);
+}
+
+.warningCard_clickable:hover > * {
+    background-color: var(--colorWarningNormal);
+    color: var(--colorWhite);
+}
+
+
+
+.dangerCard_title {
+    background-color: var(--colorDangerLight);
+}
+
+.dangerCard_clickable:hover > * {
+    background-color: var(--colorDangerNormal);
+    color: var(--colorWhite);
+}

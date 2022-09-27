@@ -1,4 +1,5 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 
 import App from './default/App'
@@ -20,7 +21,9 @@ createRoot(
             <UserContextProvider>
                 <VisualsContextProvider>
                     <LanguageContextProvider>
-                        <App />
+                        <Router>
+                            <App />
+                        </Router>
                     </LanguageContextProvider>
                 </VisualsContextProvider>
             </UserContextProvider>

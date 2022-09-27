@@ -45,30 +45,30 @@ export function menuitems({ userData, isAdmin, applyTranslation }){
                 icon:<VscSettings size={20} />,
                 text:applyTranslation('SETTINGS')
             },
-            {
+            isAdmin() && {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS') + ' (ADMIN)',
                 hidden:!isAdmin()
-            },
-            {
+            } || undefined,
+            isAdmin() && {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
                 text:applyTranslation('BUILDER') + ' (ADMIN)',
                 hidden:!isAdmin()
-            },
-            {
+            } || undefined,
+            isAdmin() && {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
                 text:applyTranslation('DOCUMENTATION') + ' (ADMIN)',
                 hidden:!isAdmin()
-            },
-            {
+            } || undefined,
+            isAdmin() && {
                 to:'/email',
                 icon:<MdOutlineEmail size={20} />,
                 text:applyTranslation('EMAIL') + ' (ADMIN)',
                 hidden:!isAdmin()
-            },
+            } || undefined,
         ],[
             {
                 label:<>{applyTranslation('COMPONENTS')}</>
