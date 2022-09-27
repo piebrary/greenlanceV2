@@ -49,8 +49,6 @@ export async function postUser(data){
 
 export async function putUser(data){
 
-    console.log(data)
-
     const options = {
         url:`${process.env.REACT_APP_API_PREFIX}/v1/s/user${data._id ? '/' + data._id : ''}`,
         method:'PUT',

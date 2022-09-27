@@ -386,7 +386,14 @@ export default function Users(){
                                 register={register}
                                 errors={errors}
                                 />
-                            <EmailInput
+                            <Input
+                                label={<Label>{applyTranslation('EMAIL')}</Label>}
+                                name={'email'}
+                                type={'text'}
+                                register={register}
+                                errors={errors}
+                                />
+                            {/*<EmailInput
                                 label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('EMAIL')}</Label>}
                                 name={'email'}
                                 type={'text'}
@@ -424,7 +431,7 @@ export default function Users(){
                                 getValues={getValues}
                                 control={control}
                                 reset={onReset}
-                                />
+                                />*/}
                             <Checkbox
                                 label={applyTranslation('ROLES')}
                                 register={register}
@@ -507,7 +514,14 @@ export default function Users(){
                                 register={register}
                                 errors={errors}
                                 />
-                            <EmailInput
+                            <Input
+                                label={<Label>{applyTranslation('EMAIL')}</Label>}
+                                name={'email'}
+                                type={'text'}
+                                register={register}
+                                errors={errors}
+                                />
+                            {/*<EmailInput
                                 label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
@@ -518,6 +532,7 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
+                                reset={onReset}
                                 />
                             <PhoneInput
                                 label={applyTranslation('PHONE')}
@@ -530,6 +545,7 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
+                                reset={onReset}
                                 />
                             <AddressInput
                                 label={applyTranslation('ADDRESS')}
@@ -542,7 +558,8 @@ export default function Users(){
                                 errors={errors}
                                 getValues={getValues}
                                 control={control}
-                                />
+                                reset={onReset}
+                                />*/}
                             <Checkbox
                                 label={'Roles'}
                                 register={register}

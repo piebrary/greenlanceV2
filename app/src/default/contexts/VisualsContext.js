@@ -61,7 +61,7 @@ export default function VisualsContextProvider({ children }){
 
     function getAvailableThemes(){
 
-        return deepCopy(themes)
+        return Object.keys(themes)
 
     }
 

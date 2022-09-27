@@ -21,7 +21,7 @@ export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, isAdmin, settings } = useContext(UserContext)
-    const { setTheme, getAvailableThemes } = useContext(VisualsContext)
+    const { changeTheme, getAvailableThemes } = useContext(VisualsContext)
 
     createTranslation('ThemeView.Description', {
         'en':'Click on a card below to load that theme',
@@ -42,17 +42,17 @@ export default function FormView(){
                 customStyles={applyStyles([styles], 'themeGrid')}
                 >
                 {
-                    getAvailableThemes().map(theme => {
+                    getAvailableThemes().map(name => {
 
                         return (
                             <Card
-                                key={theme.name}
+                                key={name}
                                 customStyles={applyStyles([styles], 'themesCard')}
                                 onClick={() => {
-                                    setTheme(theme.name)
+                                    changeTheme(name)
                                 }}
                                 >
-                                {theme.name}
+                                {name}
                             </Card>
                         )
                     })
