@@ -2,16 +2,31 @@ html {
     background: var(--layoutBackground);
 }
 
-.layoutContainer {
+body {
+    overflow: hidden;
+}
+
+.container {
     width: 100%;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
     min-height: fit-content;
-    overflow-y: hidden;
+    overflow-y: hidden; */
+    height: 100vh;
+    overflow: visible;
 }
 
 .page {
     /* margin-top: var(--menuHeight); */
+    overflow-y: auto;
+}
+
+.content {
+    padding: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    /* max-height: 100vh; */
+    max-height: calc(100vh - var(--menuHeight));
 }
 
 .scrollToTopBtn {
@@ -40,7 +55,7 @@ html {
 }
 
 .menu {
-    margin-top: var(--menuHeight);
+    /* margin-top: var(--menuHeight); */
     background-color: var(--menuBackgroundColor);
     display: block;
     width: 100%;
@@ -62,13 +77,12 @@ html {
 .headerResponsive {
     display: flex;
     align-items: center;
-    position: fixed;
     background-color: var(--menuBackgroundColor);
     width: 100%;
     /* position: fixed; */
     /* top: 0px;
     left: 0px; */
-    z-index: 1001;
+    z-index: 10;
 }
 
 .header {
@@ -198,13 +212,6 @@ html {
     color: var(--menuToggleColor);
     padding: var(--menuTogglePadding);
     padding-right: 14px;
-}
-
-.content {
-    padding: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    /* max-height: calc(100vh - var(--menuHeight)); */
 }
 
 .content > * {

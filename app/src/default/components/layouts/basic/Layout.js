@@ -74,7 +74,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
     // }, [isMenuOpen])
 
     return (
-        <div id={'layoutContainer'} className={styles.layoutContainer}>
+        <div id={'container'} className={styles.container}>
             {
                 showScrollToTopBtn && (
                     <div

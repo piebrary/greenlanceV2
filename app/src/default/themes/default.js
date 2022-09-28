@@ -15,7 +15,7 @@ export default function red(){
     const colorGreyNormal = 'rgb(160, 160, 160)'
     const colorGreyDark = 'rgb(100, 100, 100)'
     const colorGreyDarker = 'rgb(70, 70, 70)'
-    const colorGreyDarkest = 'rgb(10, 10, 10)'
+    const colorGreyDarkest = 'rgb(0, 0, 0)'
     const colorSuccessLight = 'rgb(154, 201, 145)'
     const colorSuccessNormal = 'rgb(78, 150, 63)'
     const colorSuccessDark = 'rgb(26, 94, 12)'
