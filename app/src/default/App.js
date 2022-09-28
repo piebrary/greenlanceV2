@@ -22,6 +22,7 @@ import CalendarView from '../default/views/calendar/Calendar'
 import CardView from '../default/views/card/Card'
 import ButtonView from '../default/views/button/Button'
 import ListView from '../default/views/list/List'
+import TableView from '../default/views/table/Table'
 import LanguagesView from '../default/views/languages/Languages'
 import GridView from '../default/views/grid/Grid'
 import NotificationsView from '../default/views/notifications/Notifications'
@@ -76,6 +77,7 @@ export default function App() {
                             <Route path="/card" element={<CardView />} />
                             <Route path="/button" element={<ButtonView />} />
                             <Route path="/list" element={<ListView />} />
+                            <Route path="/table" element={<TableView />} />
                             <Route path="/notifications" element={<NotificationsView />} />
                             <Route path="/confirm" element={<ConfirmView />} />
                             <Route path="/languages" element={<LanguagesView />} />

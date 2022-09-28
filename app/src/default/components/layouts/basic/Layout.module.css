@@ -1,3 +1,7 @@
+html {
+    background: var(--layoutBackground);
+}
+
 .layoutContainer {
     width: 100%;
     display: flex;
