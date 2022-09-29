@@ -2,23 +2,19 @@ html {
     background: var(--layoutBackground);
 }
 
-body {
-    overflow: hidden;
-}
-
 .container {
     width: 100%;
-    /* display: flex;
+    display: flex;
     flex-direction: column;
     min-height: fit-content;
-    overflow-y: hidden; */
-    height: 100vh;
-    overflow: visible;
+    overflow-y: hidden;
+    /* height: 100vh;
+    overflow: visible; */
 }
 
 .page {
     /* margin-top: var(--menuHeight); */
-    overflow-y: auto;
+    /* overflow-y: auto; */
 }
 
 .content {
@@ -26,7 +22,7 @@ body {
     overflow-y: auto;
     overflow-x: hidden;
     /* max-height: 100vh; */
-    max-height: calc(100vh - var(--menuHeight));
+    /* max-height: calc(100vh - var(--menuHeight)); */
 }
 
 .scrollToTopBtn {
@@ -55,7 +51,7 @@ body {
 }
 
 .menu {
-    /* margin-top: var(--menuHeight); */
+    margin-top: var(--menuHeight);
     background-color: var(--menuBackgroundColor);
     display: block;
     width: 100%;
@@ -79,7 +75,7 @@ body {
     align-items: center;
     background-color: var(--menuBackgroundColor);
     width: 100%;
-    /* position: fixed; */
+    position: fixed;
     /* top: 0px;
     left: 0px; */
     z-index: 10;
@@ -124,20 +120,24 @@ body {
 .menuOpen .items {
     display: block;
     min-height: calc(100vh - var(--menuHeight));
+    overflow-y: auto;
 }
 
-.layoutContainer .menuOpen + .page {
+.container .menuOpen + .page {
     display: none;
 }
 
-.controls {
+.responsiveControls > * {
+    width: 100%;
     display: flex;
-    justify-content: space-between;
-    margin: var(--menuControlsMargin);
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
 }
 
-.controls > *:only-child {
-    margin: var(--menuControlsMarginOnlyChild);
+.responsiveControls > * * {
+    color: var(--colorGreyLighter);
+    margin: 0px 20px;
 }
 
 .group {
@@ -220,7 +220,8 @@ body {
 
 @media only screen and (min-width: 1000px) {
 
-    .layoutContainer {
+    .container {
+        display: flex;
         flex-direction: row;
         min-height: 100vh;
         height: fit-content;
@@ -242,14 +243,19 @@ body {
 
     .header {
         width: 100%;
-        margin-top: var(--menuHeaderMarginTop);
+        /* margin-top: var(--menuHeaderMarginTop); */
         position: relative;
-        display: block;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: white;
+        height: var(--menuHeight);
+        border-bottom: 1px solid var(--colorGreyLighter);
+        padding: 0px 20px;
     }
 
     .headerResponsive {
-        background-color: transparent;
-        position: absolute;
+        width: var(--menuWidth);
     }
 
     .headerSpacing {
@@ -260,7 +266,10 @@ body {
         width: 100%;
         max-width: var(--layoutMaxWidth);
         min-height: fit-content;
-        height: fit-content;
+    }
+
+    .logo * {
+        border-bottom: 2px solid var(--menuBackgroundColor);
     }
 
     .logo, .logo * {
@@ -277,10 +286,8 @@ body {
         padding-left: var(--menuGroupPaddingLeft);
     }
 
-    .controls {
-        margin: var(--menuControlsMargin);
-        padding: var(--menuControlsPadding);
-        /* position: absolute; */
+    .responsiveControls {
+        display: none;
     }
 
     .titleResponsive {
@@ -288,15 +295,7 @@ body {
     }
 
     .title {
-        left: var(--menuWidth);
-        margin: 0px 0px 0px 10px;
-        /* position: absolute; */
-        width: fit-content;
-        text-align: center;
-        border-radius: var(--menuTitleBorderRadius);
-        background-color: var(--menuTitleBackgroundColor);
         color: var(--menuTitleColor);
-        padding: var(--menuTitlePadding);
         display: block;
     }
 

@@ -5,6 +5,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -51,7 +52,9 @@ export default function CardView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('CARD')}>
+            title={applyTranslation('CARD')}
+            controls={<Controls />}
+            >
             <Card
                 title={applyTranslation('CardView.Card1Title')}
                 description={applyTranslation('CardView.Card1Description')}

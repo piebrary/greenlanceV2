@@ -1,4 +1,4 @@
-export default function green(){
+export default function theme(){
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */

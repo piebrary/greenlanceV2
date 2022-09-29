@@ -1,0 +1,14 @@
+.container {
+}
+
+.container > * {
+    margin: 0px 10px;
+    cursor: pointer;
+    font-size: 26px;
+    color: var(--colorGreyDarker);
+    display: inline;
+}
+
+.container > *:hover {
+    color: var(--colorPrimary2);
+}

@@ -10,6 +10,7 @@ import Layout from '../../../default/components/layouts/basic/Layout.js'
 import Card from '../../../default/components/card/Card.js'
 import Button from '../../../default/components/button/Button.js'
 import Grid from '../../../default/components/grid/Grid.js'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 
@@ -32,7 +33,9 @@ export default function FormView(){
         <Layout
             className={styles.container}
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('THEMES')}>
+            title={applyTranslation('THEMES')}
+            controls={<Controls />}
+            >
             <Card
                 customStyles={applyStyles([styles], 'descriptionCard')}
                 >

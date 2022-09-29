@@ -71,9 +71,16 @@ export default function VisualsContextProvider({ children }){
 
     }
 
+    function getDarkmode(){
+
+        return darkmode
+
+    }
+
     const contextData = {
         changeTheme,
         toggleDarkmode,
+        getDarkmode,
         getAvailableThemes,
         getCurrentTheme
     }

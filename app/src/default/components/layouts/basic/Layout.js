@@ -117,6 +117,13 @@ export default function Layout({ items = [], children, customStyles, title, cont
             <div className={menuClassList.join(' ')}>
                 <div className={createStyle([styles, customStyles], 'items')}>
                     {
+                        controls && (
+                            <div className={createStyle([styles, customStyles], 'responsiveControls')}>
+                                {controls}
+                            </div>
+                        )
+                    }
+                    {
                         items.map((group, i) => {
 
                             const groupJSX = []
@@ -172,7 +179,6 @@ export default function Layout({ items = [], children, customStyles, title, cont
                 </div>
             </div>
             <div
-                id={'page'}
                 className={createStyle([styles, customStyles], 'page')}
                 >
                 <div className={createStyle([styles, customStyles], 'header')}>
@@ -180,6 +186,13 @@ export default function Layout({ items = [], children, customStyles, title, cont
                         title && (
                             <div className={createStyle([styles, customStyles], 'title')}>
                                 {title}
+                            </div>
+                        )
+                    }
+                    {
+                        controls && (
+                            <div className={createStyle([styles, customStyles], 'controls')}>
+                                {controls}
                             </div>
                         )
                     }

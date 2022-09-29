@@ -8,10 +8,12 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import Form from '../../../default/components/form/Form'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
+import Label from '../../../default/components/label/Label'
 import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
 import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 import Select from '../../../default/components/formElements/select/Select'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { languageOptions } from '../../../default/assets/js/settings/language'
@@ -70,15 +72,17 @@ export default function Settings(){
         <Layout
             className={styles.container}
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('SETTINGS')}>
+            title={applyTranslation('SETTINGS')}
+            controls={<Controls />}
+            >
             <Card
                 customStyles={applyStyles([styles], 'card1')}>
                 <Form
                     onSubmit={handleSubmit(onSubmit)}
                     customStyles={applyStyles([styles], 'testform')}>
-                    <div className={styles.categoryLabel}>
+                    <Label>
                         {applyTranslation('CREDENTIALS')}
-                    </div>
+                    </Label>
                     <Input
                         label={applyTranslation('USERNAME')}
                         name={'username'}
@@ -154,9 +158,9 @@ export default function Settings(){
                             }
                         }}
                         />
-                    <div className={styles.categoryLabel}>
+                    <Label>
                         {applyTranslation('REGIONAL_SETTINGS')}
-                    </div>
+                    </Label>
                     <Select
                         name={'settings.language'}
                         label={applyTranslation('LANGUAGE')}

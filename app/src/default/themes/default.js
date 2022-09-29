@@ -1,4 +1,6 @@
-export default function red(){
+export default function theme(options){
+
+    const { darkmode } = options
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
@@ -8,7 +10,7 @@ export default function red(){
     const colorPrimary4 = 'rgb(255, 100, 76)'
     const colorPrimary5 = 'rgb(255, 120, 96)'
     const colorPrimary6 = 'rgb(255, 140, 116)'
-    const colorWhite = 'rgb(255, 255, 255)'
+    const colorWhite = darkmode ? 'black' : 'rgb(255, 255, 255)'
     const colorGreyLightest = 'rgb(245, 245, 245)'
     const colorGreyLighter = 'rgb(232, 232, 232)'
     const colorGreyLight = 'rgb(200, 200, 200)'

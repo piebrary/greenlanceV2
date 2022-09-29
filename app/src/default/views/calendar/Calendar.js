@@ -7,6 +7,7 @@ import { getEvent, getEvents, postEvent, putEvent, delEvent } from '../../../def
 
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Calendar from '../../../default/components/calendar/Calendar'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -21,7 +22,9 @@ export default function CalendarView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('CALENDAR')}>
+            title={applyTranslation('CALENDAR')}
+            controls={<Controls />}
+            >
             <Calendar
                 getEvents={getEvents}
                 onCreateEvent={postEvent}

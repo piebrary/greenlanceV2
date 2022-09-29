@@ -6,6 +6,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import List from '../../../default/components/list/List'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -59,7 +60,9 @@ export default function ListView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('LIST')}>
+            title={applyTranslation('LIST')}
+            controls={<Controls />}
+            >
             <Card>
                 {applyTranslation('ListView.description')}
             </Card>

@@ -7,6 +7,7 @@ import Grid from '../../../default/components/grid/Grid'
 import Button from '../../../default/components/button/Button'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
+import Controls from '../../../default/components/controls/Controls'
 
 import Logo from '../../../default/components/logo/Logo'
 
@@ -25,7 +26,9 @@ export default function Dashboard(){
         <Layout
             className={styles.container}
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('DASHBOARD')}>
+            title={applyTranslation('DASHBOARD')}
+            controls={<Controls />}
+            >
             <Card
                 title={'Grid component'}
                 customStyles={applyStyles([styles], 'card1')}

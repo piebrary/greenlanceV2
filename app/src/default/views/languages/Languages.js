@@ -6,6 +6,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import Grid from '../../../default/components/grid/Grid'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -42,7 +43,9 @@ export default function LanguagesView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('LANGUAGES')}>
+            title={applyTranslation('LANGUAGES')}
+            controls={<Controls />}
+            >
             <Grid customStyles={applyStyles([styles], 'grid1')}>
                 <Card
                     customStyles={applyStyles([styles], 'griditemOne')}

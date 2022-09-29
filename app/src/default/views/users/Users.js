@@ -18,6 +18,7 @@ import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 import Table from '../../../default/components/table/Table'
 import Checkbox from '../../../default/components/formElements/checkbox/Checkbox'
 import Label from '../../../default/components/label/Label'
+import Controls from '../../../default/components/controls/Controls'
 
 import { BiUserPlus } from 'react-icons/bi'
 import { FiCheckCircle } from 'react-icons/fi'
@@ -257,7 +258,9 @@ export default function Users(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('USERS')}>
+            title={applyTranslation('USERS')}
+            controls={<Controls />}
+            >
             <Card customStyles={applyStyles([styles], 'buttonsCard')}>
                 <ButtonGroup>
                     {

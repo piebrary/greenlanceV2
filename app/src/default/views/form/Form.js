@@ -17,6 +17,7 @@ import Select from '../../../default/components/formElements/select/Select'
 import Radio from '../../../default/components/formElements/radio/Radio'
 import Textarea from '../../../default/components/formElements/textarea/Textarea'
 import Datalist from '../../../default/components/formElements/datalist/Datalist'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 
@@ -200,11 +201,14 @@ export default function FormView(){
         reset()
 
     }
+
     return (
         <Layout
             className={styles.container}
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('FORM')}>
+            title={applyTranslation('FORM')}
+            controls={<Controls />}
+            >
             <Card>
                 {applyTranslation('FormView.introMessage')}
             </Card>

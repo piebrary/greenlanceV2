@@ -13,6 +13,7 @@ import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
 import ButtonGroup from '../../../default/components/buttonGroup/ButtonGroup'
 import ImageUploader from '../../../default/components/imageUploader/ImageUploader'
+import Controls from '../../../default/components/controls/Controls'
 
 import { BsPersonCircle } from 'react-icons/bs'
 
@@ -36,7 +37,9 @@ export default function Profile(){
         <Layout
             className={styles.container}
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('PROFILE')}>
+            title={applyTranslation('PROFILE')}
+            controls={<Controls />}
+            >
             <Card
                 customStyles={applyStyles([styles], 'card1')}>
                 <Grid customStyles={applyStyles([styles], 'grid')}>

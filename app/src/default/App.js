@@ -17,6 +17,7 @@ import ProfileView from '../default/views/profile/Profile'
 import FormView from '../default/views/form/Form'
 import SettingsView from '../default/views/settings/Settings'
 import UsersView from '../default/views/users/Users'
+import BuilderView from '../default/views/builder/Builder'
 import DocumentationView from '../default/views/documentation/Documentation'
 import CalendarView from '../default/views/calendar/Calendar'
 import CardView from '../default/views/card/Card'
@@ -69,6 +70,7 @@ export default function App() {
                             <Route path="/profile" element={<ProfileView />} />
                             <Route path="/settings" element={<SettingsView />} />
                             { isAdmin() && <Route path="/users" element={<UsersView />} /> }
+                            <Route path="/builder" element={<BuilderView />} />
                             <Route path="/documentation" element={<DocumentationView />} />
                             <Route path="/email" element={<EmailView />} />
                             <Route path="/calendar" element={<CalendarView />} />

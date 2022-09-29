@@ -6,6 +6,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import Button from '../../../default/components/button/Button'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -25,7 +26,9 @@ export default function ButtonView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('BUTTON')}>
+            title={applyTranslation('BUTTON')}
+            controls={<Controls />}
+            >
             <Card>
                 {applyTranslation('ButtonView.Card1Body')}
             </Card>

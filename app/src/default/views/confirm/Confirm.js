@@ -7,6 +7,7 @@ import Layout from '../../../default/components/layouts/basic/Layout'
 import Confirm from '../../../default/components/confirm/Confirm'
 import Button from '../../../default/components/button/Button'
 import Card from '../../../default/components/card/Card'
+import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
@@ -55,7 +56,9 @@ export default function ConfirmView(){
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
-            title={applyTranslation('CONFIRM_DIALOG')}>
+            title={applyTranslation('CONFIRM_DIALOG')}
+            controls={<Controls />}
+            >
             <Card>
                 {applyTranslation('ConfirmView.Description')}
             </Card>
