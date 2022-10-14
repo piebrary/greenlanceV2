@@ -19,7 +19,7 @@ export default function Textarea(attributes){
         readOnly,
     } = attributes
 
-    const reg = register && register(name, rules)
+    const reg = register && rules && register(name, rules) || register && register(name)
 
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
@@ -44,7 +44,7 @@ export default function Textarea(attributes){
                 readOnly={readOnly}
                 >
             </textarea>
-            {reg && errors[name] && (
+            {reg && errors && errors[name] && (
                 <span className={createStyle([styles, customStyles], 'errorMessage')}>
                     {errors[name].message}
                 </span>

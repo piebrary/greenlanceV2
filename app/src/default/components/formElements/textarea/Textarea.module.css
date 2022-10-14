@@ -1,10 +1,7 @@
 .container {
-    background-color: var(--componentInputContainerBackgroundColor);
     display: flex;
     justify-content: start;
     flex-direction: column;
-    border-radius: var(--componentInputInputFieldBorderRadius);
-    padding: var(--componentInputContainerPadding);
 }
 
 .label {
@@ -23,8 +20,6 @@
     outline: var(--componentInputInputOutline);
     width: 100%;
     height: fit-content;
-    min-height: 40px;
-    max-height: 500px;
     resize: vertical;
     transition: box-shadow var(--componentInputTransition);
 }
@@ -47,16 +42,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-    }
-
-    .label {
-        margin-bottom: 0px;
-    }
-
-    .textarea {
-        margin-left: var(--componentInputInputContainerMarginLeft);
-        /* max-width: var(--componentInputInputContainerMaxWidth); */
-        width: calc(100% - 300px);
     }
 
 }

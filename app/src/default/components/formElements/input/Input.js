@@ -19,7 +19,7 @@ export default function Input(attributes){
         defaultValue,
         onChange,
         passwordToggle,
-        rules,
+        rules = {},
         register,
         errors,
         min,
@@ -31,7 +31,26 @@ export default function Input(attributes){
         step,
         autoFocus,
         autoComplete,
+        required
     } = attributes
+
+    required && (
+        rules.required = placeholder && `${placeholder} is required` || 'Required'
+    )
+
+    // You can also validate by using
+    //     rules.validate = {
+    //         required: value => {
+    //
+    //             return value.length > 0 || placeholder && `${placeholder} is required` || 'Required'
+    //
+    //         },
+    //         minLength: value => {
+    //
+    //         return value.length < 8 || placeholder && `${placeholder} is to short` || 'Minimal 8 characters'
+    //
+    //         }
+    //     }
 
     const [isHidden, setIsHidden] = useState(true)
 
@@ -99,7 +118,7 @@ export default function Input(attributes){
                         </div>
                     )
                 }
-                {reg && errors[name] && (
+                {reg && errors && errors[name] && (
                     <span className={createStyle([styles, customStyles], 'errorMessage')}>
                         {errors[name].message}
                     </span>

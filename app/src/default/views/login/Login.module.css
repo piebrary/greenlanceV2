@@ -83,11 +83,3 @@
     padding: 10px;
     margin-top: 12px;
 }
-
-@media only screen and (min-width: 800px) {
-
-    .customInput_inputContainer {
-        max-width: 200px;
-    }
-
-}
