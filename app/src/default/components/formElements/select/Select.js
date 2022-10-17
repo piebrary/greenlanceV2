@@ -31,8 +31,8 @@ export default function Select(attributes){
             <select
                 id={name}
                 className={createStyle([styles, customStyles], 'select')}
-                defaultValue={defaultValue?.value}
                 multiple={multiple}
+
                 {...register(name, rules)}
                 onChange={onChange}>
                 {
@@ -42,7 +42,8 @@ export default function Select(attributes){
                             <option
                                 value={o.value}
                                 key={o.value}
-                                id={o.name}>
+                                id={o.name}
+                                >
                                 {o.name}
                             </option>
                         )

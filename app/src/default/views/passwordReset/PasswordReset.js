@@ -21,7 +21,6 @@ import styles from './PasswordReset.module.css'
 export default function Login(){
 
     const { authenticate, authState } = useContext(AuthenticationContext)
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm()
 
     const [responseError, setResponseError] = useState()
 
@@ -56,55 +55,46 @@ export default function Login(){
                 <LogoSmall
                     customStyles={applyStyles([styles], 'customLogo')}/>
                 <Form
-                    onSubmit={handleSubmit(onSubmit)}>
+                    onSubmit={onSubmit}>
                     <Input
                         label={'New password'}
                         name={'newPassword'}
                         type={'password'}
-                        passwordToggle={true}
+                        passwordToggle
                         customStyles={applyStyles([styles], 'customInput')}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            validate:{
-                                minLength: value => {
-                                    if(value.length === 0 || value.length > 7) return true
-                                    return 'New password is too short'
-                                },
-                                minNumbers: value => {
-                                    if(value.length === 0 || containsNumber(value)) return true
-                                    return 'New password must contain at least one number'
-                                }
-                            }
-                        }}
+                        shouldRegister
                         />
                     <Input
                         label={'Repeat password'}
                         name={'repeatPassword'}
                         type={'password'}
-                        passwordToggle={true}
+                        passwordToggle
                         customStyles={applyStyles([styles], 'customInput')}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            validate:{
-                                passwordsMatch: () => {
-                                    if(getValues().newPassword === getValues().repeatPassword) return true
-                                    return 'Passwords don\'t match'
-                                }
-                            }
-                        }}
+                        shouldRegister
                         />
-                    <ButtonGroup>
-                        <Button
-                            customStyles={applyStyles([styles], 'customButton')}
-                            label={'Reset password'}
-                            type={'submit'}
-                            />
-                    </ButtonGroup>
                 </Form>
             </main>
         </div>
     )
 
 }
+// rules={{
+//     validate:{
+//         minLength: value => {
+//             if(value.length === 0 || value.length > 7) return true
+//             return 'New password is too short'
+//         },
+//         minNumbers: value => {
+//             if(value.length === 0 || containsNumber(value)) return true
+//             return 'New password must contain at least one number'
+//         }
+//     }
+// }}
+// rules={{
+//     validate:{
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}

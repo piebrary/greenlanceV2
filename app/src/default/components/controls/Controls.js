@@ -7,7 +7,7 @@ import { VisualsContext } from '../../../default/contexts/VisualsContext'
 import { createStyle } from '../../utils/createStyle'
 
 import { BsPersonCircle } from 'react-icons/bs'
-import { CgLogOff } from 'react-icons/cg'
+import { HiOutlineLogout } from 'react-icons/hi'
 import { MdLightMode } from 'react-icons/md'
 import { MdDarkMode } from 'react-icons/md'
 
@@ -21,15 +21,17 @@ export default function Card({ customStyles }){
         <div
             className={createStyle([styles, customStyles], 'container')}
             >
-            <div>
+            <div
+                 onClick={() => toggleDarkmode()}
+                >
                 {
                     getDarkmode()
-                    ? <MdDarkMode onClick={() => toggleDarkmode()}/>
-                    : <MdLightMode onClick={() => toggleDarkmode()}/>
+                    ? <MdDarkMode/>
+                    : <MdLightMode/>
                 }
             </div>
             <NavLink to={'/profile'}><BsPersonCircle /></NavLink>
-            <NavLink to={'/logout'}><CgLogOff /></NavLink>
+            <NavLink to={'/logout'}><HiOutlineLogout /></NavLink>
         </div>
     )
 

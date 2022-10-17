@@ -10,8 +10,8 @@ import { applyStyles } from '../../../../default/utils/applyStyles'
 import styles from './MultipleInput.module.css'
 
 import { ImBin } from 'react-icons/im'
-
-import { GrAdd } from 'react-icons/gr'
+import { CgAdd } from 'react-icons/cg'
+import { CgRemove } from 'react-icons/cg'
 
 export default function MultipleInput(attributes){
 
@@ -119,7 +119,7 @@ export default function MultipleInput(attributes){
                             onClick={event => onAppend(event)}
                             title={'Add'}
                             >
-                            <GrAdd />
+                            <CgAdd />
                         </div>
                     </div>
                 )
@@ -139,7 +139,7 @@ export default function MultipleInput(attributes){
                                     onClick={event => onPrepend(event)}
                                     title={'Prepend'}
                                     >
-                                    <GrAdd />
+                                    <CgAdd />
                                 </div>
                             )
                         }
@@ -153,7 +153,7 @@ export default function MultipleInput(attributes){
 
                     const newChildren = children.map(child => {
 
-                        const childName = `${name}[${i}].${child.props.name}`
+                        const childName = `${name}.${i}.${child.props.name}`
                         const defaultValue = fields[i][child.props.name]
                         const elementCustomStyles = applyStyles([styles, customStyles, child.props.customStyles], ['removeElementContainerStyle', 'elementCustomStyles'])
 
@@ -214,7 +214,7 @@ export default function MultipleInput(attributes){
                                     onClick={event => onAppend(event)}
                                     title={'Append'}
                                     >
-                                    <GrAdd />
+                                    <CgAdd />
                                 </div>
                             )
                         }
@@ -225,7 +225,7 @@ export default function MultipleInput(attributes){
                                     onClick={event => onRemoveAll(event)}
                                     title={'Remove all'}
                                     >
-                                    <ImBin />
+                                    <CgRemove />
                                 </div>
                             )
                         }

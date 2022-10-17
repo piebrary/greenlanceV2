@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
 import { ReactNotifications } from 'react-notifications-component'
@@ -58,10 +58,11 @@ export default function App() {
 
     return (
         <div id={'App'} className={styles.app}>
-            <ReactNotifications
-                isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
-                breakpoint={currentTheme?.values?.layoutBreakpoint}
-                />
+            <React.StrictMode>
+                <ReactNotifications
+                    isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
+                    breakpoint={currentTheme?.values?.layoutBreakpoint}
+                    />
                 {
                     authState === 'success'
                     ?
@@ -98,6 +99,7 @@ export default function App() {
                         </Routes>
                     : <p>Loading...</p>
                 }
+            </React.StrictMode>
         </div>
     )
 }

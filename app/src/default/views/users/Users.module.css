@@ -5,8 +5,10 @@
 
 .buttonsCard_body {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     padding: 10px 5px;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .controlsSave_button {

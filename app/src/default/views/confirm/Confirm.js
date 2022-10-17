@@ -2,6 +2,7 @@ import { useContext, useState, useEffect } from 'react'
 
 import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import { UserContext } from '../../../default/contexts/UserContext'
+import { VisualsContext } from '../../../default/contexts/VisualsContext'
 
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Confirm from '../../../default/components/confirm/Confirm'
@@ -18,6 +19,7 @@ export default function ConfirmView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, isAdmin } = useContext(UserContext)
+    const { disableScroll, enableScroll } = useContext(VisualsContext)
 
     const [showConfirm, setShowConfirm] = useState(false)
 
@@ -49,8 +51,8 @@ export default function ConfirmView(){
     })
 
     createTranslation('ConfirmView.Disagreed', {
-        en:'You confirmed the question',
-        nl:'Je hebt de vraag bevestigd'
+        en:'You disagreed to the question',
+        nl:'Je bent het oneens met de vraag'
     })
 
     return (
@@ -64,7 +66,10 @@ export default function ConfirmView(){
             </Card>
             <Card
                 title={applyTranslation('ConfirmView.Show_confirm_title')}
-                onClick={() => setShowConfirm(true)}
+                onClick={() => {
+                    disableScroll()
+                    setShowConfirm(true)
+                }}
                 >
                 {applyTranslation('ConfirmView.Show_confirm_body')}
             </Card>
@@ -74,13 +79,15 @@ export default function ConfirmView(){
                         question={applyTranslation('ConfirmView.Question')}
                         onAgree={event => {
                             alert(applyTranslation('ConfirmView.Agreed'))
-                            setShowConfirm(previous => previous ? false : true)
+                            setShowConfirm(false)
+                            enableScroll()
                         }}
                         onDisagree={event => {
                             alert(applyTranslation('ConfirmView.Disagreed'))
-                            setShowConfirm(previous => previous ? false : true)
+                            setShowConfirm(false)
+                            enableScroll()
                         }}
-                        />
+                    /   >
                 )
             }
         </Layout>

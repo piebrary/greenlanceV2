@@ -46,38 +46,26 @@ export default function Login(){
                 <LogoSmall
                     customStyles={applyStyles([styles], 'customLogo')}/>
                 <Form
-                    onSubmit={handleSubmit(onSubmit)}>
+                    onSubmit={onSubmit}
+                    >
                     <Input
                         label={'Username'}
                         name={'username'}
                         subtype={'text'}
                         customStyles={applyStyles([styles], 'customInput')}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            required: 'Email is required'
-                        }}
+                        shouldRegister
+                        required
                         />
                     <Input
                         label={'Password'}
                         name={'password'}
                         type={'password'}
-                        passwordToggle={true}
+                        passwordToggle
                         customStyles={applyStyles([styles], 'customInput')}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            required: 'Password is required'
-                        }}
+                        shouldRegister
+                        required
                         />
                     {authFailed && <div className={styles.loginFailed}>Login failed, your username or password may be incorrect.</div>}
-                    <ButtonGroup>
-                        <Button
-                            customStyles={applyStyles([styles], 'customButton')}
-                            label={'Login'}
-                            type={'submit'}
-                            />
-                    </ButtonGroup>
                     <div
                         className={styles.underMenu}
                         >
@@ -90,3 +78,11 @@ export default function Login(){
     )
 
 }
+
+// rules={{
+//     required: 'Email is required'
+// }}
+//
+// rules={{
+//     required: 'Password is required'
+// }}

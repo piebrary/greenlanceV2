@@ -6,7 +6,12 @@
     height: var(--componentConfirmContainerHeight);
     background-color: var(--componentConfirmContainerBackgroundColor);
     margin: 0px;
+    padding: 100px;
     z-index: 100;
+}
+
+.container.isOpen {
+    display: block;
 }
 
 .card_container {

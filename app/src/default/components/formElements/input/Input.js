@@ -31,7 +31,8 @@ export default function Input(attributes){
         step,
         autoFocus,
         autoComplete,
-        required
+        required,
+        shouldRegister,
     } = attributes
 
     required && (
@@ -118,12 +119,12 @@ export default function Input(attributes){
                         </div>
                     )
                 }
-                {reg && errors && errors[name] && (
-                    <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                        {errors[name].message}
-                    </span>
-                )}
             </div>
+            {reg && errors && errors[name] && (
+                <span className={createStyle([styles, customStyles], 'errorMessage')}>
+                    {errors[name].message}
+                </span>
+            )}
         </div>
     )
 

@@ -8,9 +8,20 @@ import { createStyle } from '../../utils/createStyle'
 
 import styles from './ImageUploader.module.css'
 
-export default function ImageUploader({ customStyles, currentPicture, defaultPicture, label }){
+export default function ImageUploader(attributes){
 
-    const { userData, saveUserData, uploadProfilePicture } = useContext(UserContext)
+    const {
+        customStyles,
+        currentPicture,
+        defaultPicture,
+        label
+    } = attributes
+
+    const {
+        userData,
+        saveUserData,
+        uploadProfilePicture
+    } = useContext(UserContext)
 
     const [selectedPicture, setSelectedPicture] = useState(null)
 
@@ -44,8 +55,7 @@ export default function ImageUploader({ customStyles, currentPicture, defaultPic
         <div className={createStyle([styles, customStyles], 'container')}>
             <form method="post" onSubmit={event => uploadFile(event)} encType="multipart/form-data">
                 {
-                    selectedPicture
-                    ? (
+                    selectedPicture && (
                         <label
                             htmlFor="image-upload">
                             <img
@@ -55,21 +65,17 @@ export default function ImageUploader({ customStyles, currentPicture, defaultPic
                                 />
                         </label>
                     )
-                    : (
+                }
+                {
+                    !selectedPicture && (
                         <label
                             className={styles.pictureBackground}
                             htmlFor="image-upload">
-                            {
-                                currentPicture
-                                ? (
-                                    <img
-                                        src={currentPicture}
-                                        contenttype={'image/*'}
-                                        className={styles.selectedPicture}
-                                        />
-                                )
-                                : defaultPicture
-                            }
+                            <img
+                                src={currentPicture}
+                                contenttype={'image/*'}
+                                className={styles.selectedPicture}
+                                />
                         </label>
                     )
                 }

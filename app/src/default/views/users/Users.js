@@ -38,8 +38,6 @@ export default function Users(){
     const { applyTranslation } = useContext(LanguageContext)
     const { userData, isAdmin, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
 
-    const { register, unregister, control, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
-
     const notifications = notificationManager()
 
     const [data, setData] = useState([])
@@ -82,7 +80,6 @@ export default function Users(){
     function openEditUser(data){
 
         setSelectedUser(data)
-        reset(selectedUser)
         setViewMode('edit user')
 
     }
@@ -90,7 +87,6 @@ export default function Users(){
     function openCreateUser(){
 
         setSelectedUser()
-        reset({})
         setViewMode('create user')
 
     }
@@ -100,7 +96,6 @@ export default function Users(){
         await fetchUsers()
 
         setSelectedUser()
-        reset({})
         setViewMode('view users')
 
     }
@@ -248,13 +243,6 @@ export default function Users(){
 
     }
 
-    function onReset(event){
-
-        if(event) event.preventDefault()
-
-        reset(selectedUser)
-    }
-
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
@@ -262,37 +250,6 @@ export default function Users(){
             controls={<Controls />}
             >
             <Card customStyles={applyStyles([styles], 'buttonsCard')}>
-                <ButtonGroup>
-                    {
-                        viewMode === 'edit user' && (
-                            <>
-                                <Button
-                                    label={applyTranslation('SAVE')}
-                                    customStyles={applyStyles([styles], 'controlsSave')}
-                                    onClick={handleSubmit(updateUser)}/>
-                                <Button
-                                    label={applyTranslation('RESET')}
-                                    onClick={onReset}
-                                    customStyles={applyStyles([styles], 'controlsClose')}/>
-                            </>
-                        )
-                    }
-                    {
-                        viewMode === 'create user' && (
-                            <>
-                                <Button
-                                    label={applyTranslation('SAVE')}
-                                    customStyles={applyStyles([styles], 'controlsSave')}
-                                    onClick={handleSubmit(createUser)}/>
-                                <Button
-                                    label={applyTranslation('RESET')}
-                                    onClick={onReset}
-                                    customStyles={applyStyles([styles], 'controlsClose')}/>
-                            </>
-                        )
-                    }
-                </ButtonGroup>
-                <ButtonGroup>
                     {
                         viewMode === 'view users' && (
                             <Button
@@ -305,35 +262,24 @@ export default function Users(){
                         viewMode === 'edit user' && (
                             <>
                                 <Button
+                                    label={applyTranslation('CLOSE')}
+                                    onClick={openViewUsers}
+                                    customStyles={applyStyles([styles], 'controlsClose')}/>
+                                <Button
                                     label={applyTranslation('DELETE_USER')}
                                     onClick={deleteUser}
                                     customStyles={applyStyles([styles], 'controlsClose')}/>
                             </>
                         )
                     }
-                </ButtonGroup>
-                <ButtonGroup>
-                    {
-                        viewMode === 'edit user' && (
-                            <>
-                                <Button
-                                    label={applyTranslation('CLOSE')}
-                                    onClick={openViewUsers}
-                                    customStyles={applyStyles([styles], 'controlsClose')}/>
-                            </>
-                        )
-                    }
                     {
                         viewMode === 'create user' && (
-                            <>
-                                <Button
-                                    label={applyTranslation('CLOSE')}
-                                    onClick={openViewUsers}
-                                    customStyles={applyStyles([styles], 'controlsClose')}/>
-                            </>
+                            <Button
+                                label={applyTranslation('CLOSE')}
+                                onClick={openViewUsers}
+                                customStyles={applyStyles([styles], 'controlsClose')}/>
                         )
                     }
-                </ButtonGroup>
             </Card>
             {
                 viewMode === 'view users' && (
@@ -347,6 +293,7 @@ export default function Users(){
                                     <Card
                                         key={u._id + 'Card'}
                                         title={u.username}
+                                        name={'username'}
                                         description={`Roles: ${u.roles.join(', ')}`}
                                         customStyles={applyStyles([styles], 'tableSmallCard')}
                                         onClick={() => openEditUser(u)}
@@ -379,66 +326,27 @@ export default function Users(){
                 viewMode === 'edit user' && (
                     <Card customStyles={applyStyles([styles], 'card1')}>
                         <Form
-                            customStyles={applyStyles([styles], 'testform')}>
+                            customStyles={applyStyles([styles], 'testform')}
+                            defaultValues={selectedUser}
+                            onSubmit={updateUser}
+                            >
                             <Input
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('USERNAME')}</Label>}
+                                label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
-                                defaultValue={selectedUser?.username}
-                                readOnly={true}
-                                register={register}
-                                errors={errors}
+                                readOnly
+                                shouldRegister
                                 />
                             <Input
-                                label={<Label>{applyTranslation('EMAIL')}</Label>}
+                                label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
-                                register={register}
-                                errors={errors}
+                                shouldRegister
                                 />
-                            {/*<EmailInput
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('EMAIL')}</Label>}
-                                name={'email'}
-                                type={'text'}
-                                defaultValue={selectedUser?.email}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
-                                />
-                            <PhoneInput
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('PHONE')}</Label>}
-                                name={'phone'}
-                                type={'text'}
-                                defaultValue={selectedUser?.phone}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
-                                />
-                            <AddressInput
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('ADDRESS')}</Label>}
-                                name={'address'}
-                                type={'text'}
-                                defaultValue={selectedUser?.address}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
-                                />*/}
                             <Checkbox
                                 label={applyTranslation('ROLES')}
-                                register={register}
-                                errors={errors}
+                                shouldRegister
+                                name={'roles'}
                                 options={rolesOptions.map(r => {
 
                                     return {
@@ -450,56 +358,25 @@ export default function Users(){
                                 })}
                                 />
                             <Input
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('NEW_PASSWORD')}</Label>}
+                                label={applyTranslation('NEW_PASSWORD')}
                                 name={'newPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        minLength: value => {
-                                            if(value.length === 0 || value.length > 7) return true
-                                            return 'New password is too short'
-                                        },
-                                        minNumbers: value => {
-                                            if(value.length === 0 || containsNumber(value)) return true
-                                            return 'New password must contain at least one number'
-                                        }
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                             <Input
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('REPEAT_PASSWORD')}</Label>}
+                                label={applyTranslation('REPEAT_PASSWORD')}
                                 name={'repeatPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        passwordsMatch: () => {
-                                            if(getValues().newPassword === getValues().repeatPassword) return true
-                                            return 'Passwords don\'t match'
-                                        }
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                             <Input
-                                label={<Label customStyles={applyStyles([styles], 'clearLabel')}>{applyTranslation('YOUR_PASSWORD')}</Label>}
+                                label={applyTranslation('YOUR_PASSWORD')}
                                 name={'currentPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        minLength: value => {
-                                            if(value.length > 0) return true
-                                            return 'Please provide your password'
-                                        },
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                         </Form>
                     </Card>
@@ -509,127 +386,46 @@ export default function Users(){
                 viewMode === 'create user' && (
                     <Card customStyles={applyStyles([styles], 'card1')}>
                         <Form
-                            customStyles={applyStyles([styles], 'testform')}>
+                            customStyles={applyStyles([styles], 'testform')}
+                            onSubmit={createUser}
+                            >
                             <Input
-                                label={<Label>{applyTranslation('USERNAME')}</Label>}
+                                label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
-                                register={register}
-                                errors={errors}
+                                shouldRegister
                                 />
                             <Input
-                                label={<Label>{applyTranslation('EMAIL')}</Label>}
-                                name={'email'}
-                                type={'text'}
-                                register={register}
-                                errors={errors}
-                                />
-                            {/*<EmailInput
                                 label={applyTranslation('EMAIL')}
                                 name={'email'}
                                 type={'text'}
-                                defaultValue={selectedUser?.email}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
+                                shouldRegister
                                 />
-                            <PhoneInput
-                                label={applyTranslation('PHONE')}
-                                name={'phone'}
-                                type={'text'}
-                                defaultValue={selectedUser?.phone}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
-                                />
-                            <AddressInput
-                                label={applyTranslation('ADDRESS')}
-                                name={'address'}
-                                type={'text'}
-                                defaultValue={selectedUser?.address}
-                                setValue={setValue}
-                                register={register}
-                                unregister={unregister}
-                                errors={errors}
-                                getValues={getValues}
-                                control={control}
-                                reset={onReset}
-                                />*/}
                             <Checkbox
                                 label={'Roles'}
-                                register={register}
-                                errors={errors}
-                                options={rolesOptions}
+                                name={'roles'}
+                                shouldRegister
                                 />
                             <Input
                                 label={applyTranslation('PASSWORD')}
                                 name={'newPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        minLength: value => {
-                                            if(value.length === 0 || value.length > 7) return true
-                                            return 'New password is too short'
-                                        },
-                                        minNumbers: value => {
-                                            if(value.length === 0 || containsNumber(value)) return true
-                                            return 'New password must contain at least one number'
-                                        },
-                                        passwordsMatch: () => {
-                                            if(getValues().newPassword === getValues().repeatPassword) return true
-                                            return 'Passwords don\'t match'
-                                        }
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                             <Input
                                 label={applyTranslation('REPEAT_PASSWORD')}
                                 name={'repeatPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        passwordsMatch: () => {
-                                            if(getValues().newPassword === getValues().repeatPassword) return true
-                                            return 'Passwords don\'t match'
-                                        }
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                             <Input
                                 label={applyTranslation('YOUR_PASSWORD')}
                                 name={'currentPassword'}
                                 type={'password'}
-                                passwordToggle={true}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    validate:{
-                                        credentialsChanged: value => {
-                                            if(
-                                                value.length > 0
-                                                || (
-                                                    getValues().email === userData.email
-                                                    && getValues().newPassword.length === 0
-                                                )
-                                            ) return true
-                                            return 'Please provide your password'
-                                        }
-                                    }
-                                }}
+                                passwordToggle
+                                shouldRegister
                                 />
                         </Form>
                     </Card>
@@ -638,3 +434,79 @@ export default function Users(){
         </Layout>
     )
 }
+
+
+// rules={{
+//     validate:{
+//         minLength: value => {
+//             if(value.length === 0 || value.length > 7) return true
+//             return 'New password is too short'
+//         },
+//         minNumbers: value => {
+//             if(value.length === 0 || containsNumber(value)) return true
+//             return 'New password must contain at least one number'
+//         }
+//     }
+// }}
+
+
+// rules={{
+//     validate:{
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}
+
+
+// rules={{
+//     validate:{
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}
+
+// rules={{
+//     validate:{
+//         minLength: value => {
+//             if(value.length === 0 || value.length > 7) return true
+//             return 'New password is too short'
+//         },
+//         minNumbers: value => {
+//             if(value.length === 0 || containsNumber(value)) return true
+//             return 'New password must contain at least one number'
+//         },
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}
+
+// rules={{
+//     validate:{
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}
+
+
+// rules={{
+//     validate:{
+//         credentialsChanged: value => {
+//             if(
+//                 value.length > 0
+//                 || (
+//                     getValues().email === userData.email
+//                     && getValues().newPassword.length === 0
+//                 )
+//             ) return true
+//             return 'Please provide your password'
+//         }
+//     }
+// }}

@@ -21,7 +21,6 @@ import styles from './PasswordResetRequest.module.css'
 export default function PasswordResetRequest(){
 
     const { authenticate, authState } = useContext(AuthenticationContext)
-    const { register, handleSubmit, getValues, formState: { errors } } = useForm()
 
     const [responseError, setResponseError] = useState()
     const [resetRequested, setResetRequested] = useState(false)
@@ -52,25 +51,15 @@ export default function PasswordResetRequest(){
                 {
                     !resetRequested && (
                         <Form
-                            onSubmit={handleSubmit(onSubmit)}>
+                            onSubmit={onSubmit}>
                             <Input
                                 label={'Email'}
                                 name={'email'}
                                 type={'text'}
                                 customStyles={applyStyles([styles], 'customInput')}
-                                register={register}
-                                errors={errors}
-                                rules={{
-                                    required: 'Email is required'
-                                }}
+                                shouldRegister
+                                required
                                 />
-                            <ButtonGroup>
-                                <Button
-                                    customStyles={applyStyles([styles], 'customButton')}
-                                    label={'Reset password'}
-                                    type={'submit'}
-                                    />
-                            </ButtonGroup>
                             <div
                                 className={styles.underMenu}
                                 >

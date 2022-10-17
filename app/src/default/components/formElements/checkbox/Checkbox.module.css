@@ -15,15 +15,12 @@
 }
 
 .checkboxes {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    max-width: fit-content; */
     min-width: var(--componentCheckboxesMinWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    column-gap: 20px;
 }
 
 .checkboxPair {
@@ -31,16 +28,14 @@
     user-select: none;
     display: flex;
     align-items: center;
-    margin: var(--componentCheckboxPairMargin);
-    padding: var(--componentCheckboxPairPadding);
     border-radius: var(--componentCheckboxPairBorderRadius);
+    padding: var(--componentCheckboxPairPadding);
 }
 
 .checkboxPairDisabled {
     user-select: none;
     display: flex;
     align-items: center;
-    margin: var(--componentCheckboxPairMargin);
     padding: var(--componentCheckboxPairPadding);
 }
 
@@ -130,29 +125,4 @@
     margin-right: var(--componentCheckboxMarginRight);
     transform: translateY(-0.075em);
     cursor: auto;
-}
-
-@media only screen and (min-width: 800px) {
-
-    .container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .label {
-        margin-bottom: 0px;
-    }
-
-    .checkboxes {
-        display: flex;
-        flex-direction: row;
-        width: calc(100% - 300px);
-    }
-
-    .checkbox {
-        margin-left: var(--componentInputInputContainerMarginLeft);
-        max-width: var(--componentInputInputContainerMaxWidth);
-    }
-
 }

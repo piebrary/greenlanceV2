@@ -29,8 +29,6 @@ export default function Settings(){
     const { applyTranslation } = useContext(LanguageContext)
     const { userData, isAdmin, saveUserData } = useContext(UserContext)
 
-    const { register, handleSubmit, reset, getValues, formState: { errors } } = useForm()
-
     const notifications = notificationManager()
 
     async function onSubmit(data){
@@ -60,12 +58,10 @@ export default function Settings(){
 
     }
 
-    function onReset(event){
-
-        event.preventDefault()
-
-        reset()
-
+    const defaultValues = {
+        username:userData.username,
+        email:userData.email,
+        'settings.language':languageOptions.find(o => o.value === userData.settings.language)
     }
 
     return (
@@ -78,8 +74,10 @@ export default function Settings(){
             <Card
                 customStyles={applyStyles([styles], 'card1')}>
                 <Form
-                    onSubmit={handleSubmit(onSubmit)}
-                    customStyles={applyStyles([styles], 'testform')}>
+                    onSubmit={onSubmit}
+                    customStyles={applyStyles([styles], 'testform')}
+                    defaultValues={defaultValues}
+                    >
                     <Label>
                         {applyTranslation('CREDENTIALS')}
                     </Label>
@@ -87,76 +85,36 @@ export default function Settings(){
                         label={applyTranslation('USERNAME')}
                         name={'username'}
                         type={'text'}
-                        defaultValue={userData.username}
-                        readOnly={true}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
+                        readOnly
                         />
                     <Input
                         label={applyTranslation('EMAIL')}
                         name={'email'}
                         type={'text'}
-                        defaultValue={userData.email}
-                        register={register}
-                        errors={errors}
                         />
                     <Input
                         label={applyTranslation('NEW_PASSWORD')}
                         name={'newPassword'}
                         type={'password'}
-                        passwordToggle={true}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            validate:{
-                                minLength: value => {
-                                    if(value.length === 0 || value.length > 7) return true
-                                    return 'New password is too short'
-                                },
-                                minNumbers: value => {
-                                    if(value.length === 0 || containsNumber(value)) return true
-                                    return 'New password must contain at least one number'
-                                }
-                            }
-                        }}
+                        passwordToggle
+                        shouldRegister
                         />
                     <Input
                         label={applyTranslation('REPEAT_PASSWORD')}
                         name={'repeatPassword'}
                         type={'password'}
-                        passwordToggle={true}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            validate:{
-                                passwordsMatch: () => {
-                                    if(getValues().newPassword === getValues().repeatPassword) return true
-                                    return 'Passwords don\'t match'
-                                }
-                            }
-                        }}
+                        passwordToggle
+                        shouldRegister
+
                         />
                     <Input
                         label={applyTranslation('CURRENT_PASSWORD')}
                         name={'currentPassword'}
                         type={'password'}
-                        passwordToggle={true}
-                        register={register}
-                        errors={errors}
-                        rules={{
-                            validate:{
-                                credentialsChanged: value => {
-                                    if(
-                                        value.length > 0
-                                        || (
-                                            getValues().email === userData.email
-                                            && getValues().newPassword.length === 0
-                                        )
-                                    ) return true
-                                    return 'Current password is required'
-                                }
-                            }
-                        }}
+                        passwordToggle
+                        shouldRegister
+
                         />
                     <Label>
                         {applyTranslation('REGIONAL_SETTINGS')}
@@ -165,23 +123,49 @@ export default function Settings(){
                         name={'settings.language'}
                         label={applyTranslation('LANGUAGE')}
                         options={languageOptions}
-                        defaultValue={languageOptions.find(o => o.value === userData.settings.language)}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
                         />
-                    <ButtonGroup>
-                        <Button
-                            label={applyTranslation('SAVE')}
-                            onClick={() => handleSubmit(onSubmit)}
-                            />
-                        <Button
-                            customStyles={applyStyles([styles], 'reset')}
-                            label={applyTranslation('RESET')}
-                            onClick={onReset}
-                            />
-                    </ButtonGroup>
                 </Form>
             </Card>
         </Layout>
     )
 }
+
+
+
+// rules={{
+//     validate:{
+//         minLength: value => {
+//             if(value.length === 0 || value.length > 7) return true
+//             return 'New password is too short'
+//         },
+//         minNumbers: value => {
+//             if(value.length === 0 || containsNumber(value)) return true
+//             return 'New password must contain at least one number'
+//         }
+//     }
+// }}
+//
+// rules={{
+//     validate:{
+//         passwordsMatch: () => {
+//             if(getValues().newPassword === getValues().repeatPassword) return true
+//             return 'Passwords don\'t match'
+//         }
+//     }
+// }}
+//
+// rules={{
+//     validate:{
+//         credentialsChanged: value => {
+//             if(
+//                 value.length > 0
+//                 || (
+//                     getValues().email === userData.email
+//                     && getValues().newPassword.length === 0
+//                 )
+//             ) return true
+//             return 'Current password is required'
+//         }
+//     }
+// }}

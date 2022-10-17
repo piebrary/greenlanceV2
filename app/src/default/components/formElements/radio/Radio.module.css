@@ -15,15 +15,12 @@
 }
 
 .radios {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    max-width: fit-content; */
     min-width: var(--componentRadiosMinWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    column-gap: 20px;
 }
 
 .radioPair {
@@ -31,7 +28,6 @@
     user-select: none;
     display: flex;
     align-items: center;
-    margin: var(--componentRadioPairMargin);
     padding: var(--componentRadioPairPadding);
     border-radius: var(--componentRadioPairBorderRadius);
 }
@@ -40,7 +36,6 @@
     user-select: none;
     display: flex;
     align-items: center;
-    margin: var(--componentRadioPairMargin);
     padding: var(--componentRadioPairPadding);
 }
 
@@ -130,29 +125,4 @@
     margin-right: var(--componentRadioMarginRight);
     transform: translateY(-0.075em);
     cursor: auto;
-}
-
-@media only screen and (min-width: 800px) {
-
-    .container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .label {
-        margin-bottom: 0px;
-    }
-
-    .radios {
-        display: flex;
-        flex-direction: row;
-        width: calc(100% - 300px);
-    }
-
-    .radio {
-        margin-left: var(--componentInputInputContainerMarginLeft);
-        max-width: var(--componentInputInputContainerMaxWidth);
-    }
-
 }

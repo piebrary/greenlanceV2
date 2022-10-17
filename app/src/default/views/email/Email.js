@@ -28,19 +28,13 @@ export default function EmailView(){
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, isAdmin } = useContext(UserContext)
 
-    const { register, handleSubmit, reset, getValues, setValue, formState: { errors } } = useForm()
+    const defaultValues = {
+        from:`${process.env.REACT_APP_NO_REPLY_EMAIL}`
+    }
 
     function onSubmit(data){
 
         sendEmail(data)
-
-    }
-
-    function onReset(event){
-
-        event.preventDefault()
-
-        reset()
 
     }
 
@@ -85,7 +79,7 @@ export default function EmailView(){
             </Card>
             <Card>
                 <Form
-                    onSubmit={handleSubmit(onSubmit)}
+                    onSubmit={onSubmit}
                     >
                     <Label>
                         {applyTranslation('EmailView.SEND_EMAIL')}
@@ -94,8 +88,8 @@ export default function EmailView(){
                         label={applyTranslation('EmailView.TO')}
                         name={'to'}
                         type={'email'}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
+                        required
                         />
                     <Select
                         name={'from'}
@@ -106,36 +100,23 @@ export default function EmailView(){
                                 value:`${process.env.REACT_APP_NO_REPLY_EMAIL}`,
                             }
                         ]}
-                        defaultValue={{
-                            value:`${process.env.REACT_APP_NO_REPLY_EMAIL}`
-                        }}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
+                        required
                         />
                     <Input
                         label={applyTranslation('EmailView.SUBJECT')}
                         name={'subject'}
                         type={'text'}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
+                        required
                         />
                     <Textarea
                         label={applyTranslation('EmailView.MESSAGE')}
                         name={'text'}
-                        register={register}
-                        errors={errors}
+                        shouldRegister
+                        required
                         rows={3}
                         />
-                    <ButtonGroup>
-                        <Button
-                            label={applyTranslation('SAVE')}
-                            onClick={() => handleSubmit(onSubmit)}
-                            />
-                        <Button
-                            label={applyTranslation('RESET')}
-                            onClick={onReset}
-                            />
-                    </ButtonGroup>
                 </Form>
             </Card>
         </Layout>

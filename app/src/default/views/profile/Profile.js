@@ -28,10 +28,14 @@ export default function Profile(){
     const { applyTranslation } = useContext(LanguageContext)
     const { userData, isAdmin, saveUserData, getProfilePicture } = useContext(UserContext)
 
-    const { register, handleSubmit, reset, formState: { errors } } = useForm()
-
     const onSubmit = data => saveUserData(data)
-    const onReset = event => { event.preventDefault(); reset(); }
+
+    const defaultValues = {
+        username:userData.username,
+        'name.first':userData.name.first,
+        'name.last':userData.name.last,
+    }
+
 
     return (
         <Layout
@@ -44,9 +48,6 @@ export default function Profile(){
                 customStyles={applyStyles([styles], 'card1')}>
                 <Grid customStyles={applyStyles([styles], 'grid')}>
                     <div className={styles.profilePictureContainer}>
-                        <div className={styles.categoryLabel}>
-                            {applyTranslation('PICTURE')}
-                        </div>
                         <ImageUploader
                             currentPicture={userData.profilePicture ? '/public/images/profile/' + userData.profilePicture : undefined}
                             defaultPicture={<BsPersonCircle size={'100%'} />}
@@ -54,8 +55,10 @@ export default function Profile(){
                     </div>
                     <div className={styles.formContainer}>
                         <Form
-                            onSubmit={handleSubmit(onSubmit)}
-                            customStyles={applyStyles([styles], 'testform')}>
+                            onSubmit={onSubmit}
+                            customStyles={applyStyles([styles], 'testform')}
+                            defaultValues={defaultValues}
+                            >
                             <div className={styles.categoryLabel}>
                                 {applyTranslation('PERSONAL_DATA')}
                             </div>
@@ -63,39 +66,25 @@ export default function Profile(){
                                 label={applyTranslation('USERNAME')}
                                 name={'username'}
                                 type={'text'}
-                                defaultValue={userData.username}
                                 customStyles={applyStyles([styles], 'inputField')}
-                                readOnly={true}
+                                shouldRegister
+                                readOnly
                                 />
                             <Input
                                 label={applyTranslation('FIRSTNAME')}
                                 name={'name.first'}
                                 type={'text'}
-                                defaultValue={userData.name.first}
-                                register={register}
-                                errors={errors}
                                 customStyles={applyStyles([styles], 'inputField')}
+                                shouldRegister
                                 />
                             <Input
                                 label={applyTranslation('LASTNAME')}
                                 name={'name.last'}
                                 type={'text'}
                                 defaultValue={userData.name.last}
-                                register={register}
-                                errors={errors}
+                                shouldRegister
                                 customStyles={applyStyles([styles], 'inputField')}
                                 />
-                            <ButtonGroup>
-                                <Button
-                                    label={applyTranslation('SAVE')}
-                                    onClick={() => handleSubmit(onSubmit)}
-                                    />
-                                <Button
-                                    customStyles={applyStyles([styles], 'reset')}
-                                    label={applyTranslation('RESET')}
-                                    onClick={onReset}
-                                    />
-                            </ButtonGroup>
                         </Form>
                     </div>
                 </Grid>

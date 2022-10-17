@@ -1,6 +1,8 @@
 .container {
+    background-color: var(--componentInputContainerBackgroundColor);
+    border-radius: var(--componentInputContainerBorderRadius);
+    padding: var(--componentInputContainerPadding);
     display: flex;
-    justify-content: start;
     flex-direction: column;
 }
 
@@ -34,14 +36,4 @@
     box-shadow: var(--componentInputInputFieldBoxShadowFocus);
     border-bottom-left-radius: var(--componentInputInputFieldBorderBottomLeftRadius);
     border-bottom-right-radius: var(--componentInputInputFieldBorderBottomRightRadius);
-}
-
-@media only screen and (min-width: 800px) {
-
-    .container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-
 }

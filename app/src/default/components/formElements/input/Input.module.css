@@ -2,6 +2,9 @@
     background-color: var(--componentInputContainerBackgroundColor);
     border-radius: var(--componentInputContainerBorderRadius);
     padding: var(--componentInputContainerPadding);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 }
 
 .label {
@@ -12,10 +15,9 @@
 }
 
 .inputContainer {
-    flex-grow: 1;
     width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
 }
 
 .inputField {
@@ -109,19 +111,20 @@
 @media only screen and (min-width: 800px) {
 
     .container {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        display: flex;
+        flex-direction: column;
     }
 
     .label {
-        margin-bottom: 0px;
+        margin-bottom: 6px;
     }
 
     .inputContainer {
         /* margin-left: var(--componentInputInputContainerMarginLeft); */
         /* max-width: var(--componentInputInputContainerMaxWidth); */
         /* max-width: calc(100% - 300px); */
+        display: flex;
+        flex-direction: row;
     }
 
 }

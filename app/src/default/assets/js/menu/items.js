@@ -22,6 +22,7 @@ import { AiOutlineCheck } from 'react-icons/ai'
 import { IoLogoCss3 } from 'react-icons/io5'
 import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
+import { HiOutlineLogout } from 'react-icons/hi'
 
 export function menuitems({ userData, isAdmin, applyTranslation }){
 
@@ -172,7 +173,7 @@ export function menuitems({ userData, isAdmin, applyTranslation }){
             },
             {
                 to:'/logout',
-                icon:<IoLanguageOutline size={20} />,
+                icon:<HiOutlineLogout size={20} />,
                 text:applyTranslation('LOGOUT')
             },
         ]

@@ -1,4 +1,6 @@
-export default function theme(){
+export default function theme(options){
+
+    const { darkmode } = options
 
     /* colors */
     /* https://www.schemecolor.com/red-white.php */
@@ -32,9 +34,12 @@ export default function theme(){
     /* layout */
     const layoutBreakpoint = '800px'
     const layoutMaxWidth = '1400px'
-    const layoutMinWidth = '360px'
+    const layoutMinWidth = '240px'
     const layoutBackground = colorGreyLighter
     const layoutContentSpacing = '10px'
+
+    const headerBackgroundColor = darkmode ? colorGreyDarkest : colorGreyLightest
+    const headerColor = darkmode ? colorGreyLightest : colorGreyDarkest
 
     /* menu */
     const menuWidth = '250px'
@@ -507,6 +512,8 @@ export default function theme(){
         layoutMinWidth,
         layoutBackground,
         layoutContentSpacing,
+        headerBackgroundColor,
+        headerColor,
         menuWidth,
         menuHeight,
         menuBackgroundColor,

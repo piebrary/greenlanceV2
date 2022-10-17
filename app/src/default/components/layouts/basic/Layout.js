@@ -1,9 +1,10 @@
 import { useState, useEffect, useContext } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
 import { UserContext } from '../../../contexts/UserContext'
 import { LanguageContext } from '../../../contexts/LanguageContext'
+import { VisualsContext } from '../../../contexts/VisualsContext'
 
 import Logo from '../../logo/Logo'
 
@@ -21,6 +22,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
     const { applyTranslation } = useContext(LanguageContext)
+    const { disableScroll, enableScroll } = useContext(VisualsContext)
 
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [menuClassList, setMenuClassList] = useState([createStyle([styles, customStyles], 'menu')])
@@ -32,6 +34,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
             setMenuClassList(previous => {
                 return [...previous, createStyle([styles, customStyles], 'menuOpen')]
             })
+            disableScroll()
         }
 
         if(!isMenuOpen){
@@ -41,6 +44,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
                 if(index > -1) list.splice(index, 1)
                 return list
             })
+            enableScroll()
         }
 
     }, [isMenuOpen, customStyles])
@@ -49,6 +53,8 @@ export default function Layout({ items = [], children, customStyles, title, cont
     // useEffect(() => {
     //
     //     const body = document.querySelector('body')
+    //
+    //     console.log(body)
     //
     //     body.scrollTo({
     //         top:0,
@@ -178,25 +184,25 @@ export default function Layout({ items = [], children, customStyles, title, cont
                     }
                 </div>
             </div>
+            <div className={createStyle([styles, customStyles], 'header')}>
+                {
+                    title && (
+                        <div className={createStyle([styles, customStyles], 'title')}>
+                            {title}
+                        </div>
+                    )
+                }
+                {
+                    controls && (
+                        <div className={createStyle([styles, customStyles], 'controls')}>
+                            {controls}
+                        </div>
+                    )
+                }
+            </div>
             <div
                 className={createStyle([styles, customStyles], 'page')}
                 >
-                <div className={createStyle([styles, customStyles], 'header')}>
-                    {
-                        title && (
-                            <div className={createStyle([styles, customStyles], 'title')}>
-                                {title}
-                            </div>
-                        )
-                    }
-                    {
-                        controls && (
-                            <div className={createStyle([styles, customStyles], 'controls')}>
-                                {controls}
-                            </div>
-                        )
-                    }
-                </div>
                 <div className={createStyle([styles, customStyles], 'content')}>
                     {children}
                 </div>

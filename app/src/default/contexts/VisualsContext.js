@@ -77,12 +77,26 @@ export default function VisualsContextProvider({ children }){
 
     }
 
+    function disableScroll(){
+
+        document.body.style.overflow = 'hidden'
+
+    }
+
+    function enableScroll(){
+
+        document.body.style.overflow = 'auto'
+
+    }
+
     const contextData = {
         changeTheme,
         toggleDarkmode,
         getDarkmode,
         getAvailableThemes,
-        getCurrentTheme
+        getCurrentTheme,
+        disableScroll,
+        enableScroll,
     }
 
     return (

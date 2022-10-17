@@ -45,29 +45,12 @@ html {
     margin-right: 20px;
 }
 
-.scrollToTopBtn:hover {
-    background-color: var(--colorPrimary1);
-    transition: 0.5s;
-}
-
 .menu {
     margin-top: var(--menuHeight);
     background-color: var(--menuBackgroundColor);
     display: block;
     width: 100%;
     overflow-y: auto;
-    /* width: 100%;
-    min-height: fit-content;
-    background-color: var(--menuBackgroundColor);
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column; */
-    /* height: fit-content;
-    min-height: fit-content; */
-    /* position: sticky;
-    position: -webkit-sticky;
-    z-index: 1000;
-    overflow-y: auto; */
 }
 
 .headerResponsive {
@@ -78,7 +61,7 @@ html {
     position: fixed;
     /* top: 0px;
     left: 0px; */
-    z-index: 10;
+    z-index: 101;
 }
 
 .header {
@@ -94,27 +77,10 @@ html {
     overflow-y: auto;
 }
 
-/* .logout {
-    display: none;
-    width: 100%;
-    user-select: none;
-    text-align: center;
-    margin: var(--menuLogoutBtnMargin);
-    color: var(--menuLogoutBtnAColor);
-}
-
-.logout a {
-    color: var(--menuLogoutBtnAColor);
-    text-decoration: none;
-    margin: var(--menuLogoutBtnAMargin);
-}
-
-.logout a:hover {
-    color: var(--menuLogoutBtnAColorHover);
-} */
-
 .menu.menuOpen {
     overflow-y: auto;
+    position: fixed;
+    z-index:100;
 }
 
 .menuOpen .items {
@@ -125,19 +91,6 @@ html {
 
 .container .menuOpen + .page {
     display: none;
-}
-
-.responsiveControls > * {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
-}
-
-.responsiveControls > * * {
-    color: var(--colorGreyLighter);
-    margin: 0px 20px;
 }
 
 .group {
@@ -238,17 +191,18 @@ html {
 
     .page {
         width: 100%;
-        margin-top: 0px;
+        margin-top: var(--menuHeight);
     }
 
     .header {
-        width: 100%;
-        /* margin-top: var(--menuHeaderMarginTop); */
-        position: relative;
+        width: calc(100% - var(--menuWidth));
+        left: var(--menuWidth);
+        position: fixed;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        background-color: white;
+        background-color: var(--headerBackgroundColor);
+        color: var(--headerColor);
         height: var(--menuHeight);
         border-bottom: 1px solid var(--colorGreyLighter);
         padding: 0px 20px;

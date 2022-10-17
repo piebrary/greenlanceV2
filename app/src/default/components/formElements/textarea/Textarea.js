@@ -7,6 +7,7 @@ export default function Textarea(attributes){
     const {
         customStyles,
         defaultValue,
+        placeholder,
         label,
         id,
         name,
@@ -15,11 +16,17 @@ export default function Textarea(attributes){
         onChange,
         register,
         errors,
-        rules,
+        rules = {},
         readOnly,
+        required,
+        shouldRegister,
     } = attributes
 
-    const reg = register && rules && register(name, rules) || register && register(name)
+    required && (
+        rules.required = placeholder && `${placeholder} is required` || 'Required'
+    )
+
+    const reg = register && register(name, rules)
 
     return (
         <div className={createStyle([styles, customStyles], 'container')}>

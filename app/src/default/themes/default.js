@@ -34,9 +34,12 @@ export default function theme(options){
     /* layout */
     const layoutBreakpoint = '1000px'
     const layoutMaxWidth = '1400px'
-    const layoutMinWidth = '360px'
+    const layoutMinWidth = '240px'
     const layoutBackground = colorGreyLighter
     const layoutContentSpacing = '10px'
+
+    const headerBackgroundColor = darkmode ? colorGreyDarkest : colorGreyLightest
+    const headerColor = darkmode ? colorGreyLightest : colorGreyDarkest
 
     /* menu */
     const menuWidth = '250px'
@@ -509,6 +512,8 @@ export default function theme(options){
         layoutMinWidth,
         layoutBackground,
         layoutContentSpacing,
+        headerBackgroundColor,
+        headerColor,
         menuWidth,
         menuHeight,
         menuBackgroundColor,

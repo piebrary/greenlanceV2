@@ -1,12 +1,18 @@
 .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .container > * {
-    margin: 0px 10px;
     cursor: pointer;
     font-size: 26px;
-    color: var(--colorGreyDarker);
-    display: inline;
+    color: var(--colorGreyLighter);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 20px;
 }
 
 .container > *:hover {
