@@ -1,0 +1,75 @@
+.table {
+    width: 100%;
+    border-radius: var(--componentTableTableBorderRadius);
+    border-spacing: var(--componentTableTableBorderSpacing);
+}
+
+.thead {
+    background-color: var(--componentTableTHeadBackgroundColor);
+    color: var(--componentTableTHeadColor);
+    user-select: none;
+}
+
+.thead .tr .th:first-child {
+    border-top-left-radius: var(--componentTableTHeadThFirstChildBorderTopLeftRadius);
+    border-bottom-left-radius: var(--componentTableTHeadThFirstChildBorderBottomLeftRadius);
+}
+
+.thead .tr .th:last-child {
+    border-bottom-right-radius: var(--componentTableTHeadThLastChildBorderTopRightRadius);
+    border-top-right-radius: var(--componentTableTHeadThLastChildBorderBottomRightRadius);
+}
+
+.thead .tr + .tr .th:hover {
+    background-color: var(--componentTableTHeadThBackgroundColorHover);
+    cursor: pointer;
+}
+
+.tr:last-child .td {
+    border-bottom: var(--componentTableTrBorderBottomLastChild);
+}
+
+.tr:nth-child(even) {
+    background-color: var(--componentTableTrBackgroundColorNthChild);
+}
+
+.th, .td {
+    margin: var(--componentTableThTdMargin);
+    padding: var(--componentTableThTdPadding);
+    text-align: var(--componentTableThTdTextAlign);
+}
+
+.td {
+    max-width: var(--componentTableTdMaxWidth);
+    word-break: break-all;
+    cursor: pointer;
+}
+
+.tbody .tr:hover {
+    color: var(--componentTableTBodyTrColorHover);
+    background-color: var(--componentTableTBodyTrBackgroundColorHover);
+}
+
+.th:last-child, .td:last-child {
+    border-right: var(--componentTableThTdBorderRightLastChild);
+}
+
+.td:first-child {
+    border-top-left-radius: var(--componentTableTdFirstChildBorderTopLeftRadius);
+    border-bottom-left-radius: var(--componentTableTdFirstChildBorderBottomLeftRadius);
+}
+.td:last-child {
+    border-bottom-right-radius: var(--componentTableTdLastChildBorderBottomRightRadius);
+    border-top-right-radius: var(--componentTableTdLastChildBorderTopRightRadius);
+}
+.container {
+    /* display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px; */
+    width: 100%;
+    box-sizing: border-box;
+    /* max-width: 1050px; */
+    /* background-color: white; */
+}

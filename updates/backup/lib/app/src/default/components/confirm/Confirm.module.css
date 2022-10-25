@@ -1,0 +1,59 @@
+.container {
+    position: var(--componentConfirmContainerPosition);
+    top: var(--componentConfirmContainerTop);
+    left: var(--componentConfirmContainerLeft);
+    width: var(--componentConfirmContainerWidth);
+    height: var(--componentConfirmContainerHeight);
+    background-color: var(--componentConfirmContainerBackgroundColor);
+    margin: 0px;
+    padding: 100px;
+    z-index: 100;
+}
+
+.container.isOpen {
+    display: block;
+}
+
+.card_container {
+    /* background-color: white; */
+    /* position: fixed; */
+    min-width: var(--componentConfirmCardContainerMinWidth);
+    max-width: var(--componentConfirmCardContainerMaxWidth);
+    position: var(--componentConfirmCardContainerPosition);
+    top: var(--componentConfirmCardContainerTop);
+    left: var(--componentConfirmCardContainerLeft);
+    transform: translate(-50%, -50%);
+}
+
+.card_body {
+    display: flex;
+    flex-direction: column;
+    font-size: var(--componentConfirmBodyFontSize);
+    padding: var(--componentConfirmBodyPadding);
+}
+
+.buttons_buttonGroup {
+    margin-top: var(--componentConfirmButtonsGroupMarginTop);
+    display: flex;
+    justify-content: space-between;
+}
+
+.okBtn_button {
+    background-color: var(--componentConfirmOkBtnBackgroundColor);
+    padding: var(--componentConfirmOkBtnPadding);
+    font-size: var(--componentConfirmOkBtnFontSize);
+}
+
+.okBtn_button:hover {
+    background-color: var(--componentConfirmOkBtnBackgroundColorHover);
+}
+
+.cancelBtn_button {
+    background-color: var(--componentConfirmCancelBtnBackgroundColor);
+    padding: var(--componentConfirmCancelBtnPadding);
+    font-size: var(--componentConfirmCancelBtnFontSize);
+}
+
+.cancelBtn_button:hover {
+    background-color: var(--componentConfirmCancelBtnBackgroundColorHover);
+}

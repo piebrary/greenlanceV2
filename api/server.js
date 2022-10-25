@@ -10,8 +10,6 @@ if(process.argv[2] !== 'development'){
 
 }
 
-console.log(process.env.NODE_ENV)
-
 try {
 
     require('./custom/server/index.js')()

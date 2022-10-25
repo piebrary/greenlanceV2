@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "jest",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "test:watchAll": "npm run test -- --watchAll"
   },
   "author": "PIEIT",
   "license": "ISC",

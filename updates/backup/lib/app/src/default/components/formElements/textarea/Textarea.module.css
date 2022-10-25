@@ -1,0 +1,39 @@
+.container {
+    background-color: var(--componentInputContainerBackgroundColor);
+    border-radius: var(--componentInputContainerBorderRadius);
+    padding: var(--componentInputContainerPadding);
+    display: flex;
+    flex-direction: column;
+}
+
+.label {
+    font-size: var(--componentInputInputFontSize);
+    word-wrap: break-word;
+    margin-bottom: 6px;
+    margin-left: 4px;
+}
+
+.textarea {
+    border: var(--componentInputInputBorder);
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    font-size: var(--componentInputInputFontSize);
+    padding: var(--componentInputInputPadding);
+    color: var(--componentInputInputColor);
+    outline: var(--componentInputInputOutline);
+    width: 100%;
+    height: fit-content;
+    resize: vertical;
+    transition: box-shadow var(--componentInputTransition);
+}
+
+.textarea:read-only {
+    background-color: var(--componentInputInputBackgroundColorReadOnly);
+}
+
+.textarea:focus-within:not(:read-only),
+.textarea:hover:not(:read-only) {
+    transition: box-shadow var(--componentInputTransition);
+    box-shadow: var(--componentInputInputFieldBoxShadowFocus);
+    border-bottom-left-radius: var(--componentInputInputFieldBorderBottomLeftRadius);
+    border-bottom-right-radius: var(--componentInputInputFieldBorderBottomRightRadius);
+}

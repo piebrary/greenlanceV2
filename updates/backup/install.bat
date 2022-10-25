@@ -1,0 +1,1 @@
+cd ./lib && node install.js

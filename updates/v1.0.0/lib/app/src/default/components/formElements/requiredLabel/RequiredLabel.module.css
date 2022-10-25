@@ -1,0 +1,14 @@
+.container {
+    /* background-color: var(--colorGreyLightest); */
+    color: var(--colorDangerNormal);
+    border: 1px solid var(--colorDangerNormal);
+    padding: 1px 8px;
+    border-radius: 6px;
+    margin: 0px 10px;
+    font-size: 12px;
+    font-weight: 300;
+    user-select: none;
+    max-height: fit-content;
+    max-width: fit-content;
+    height: fit-content;
+}

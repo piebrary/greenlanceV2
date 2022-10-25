@@ -1,0 +1,47 @@
+.container {
+    width: 100%;
+    display: grid;
+    grid-auto-flow: row;
+    grid-template-columns: var(--componentListContainerTemplateColumns);
+    grid-template-rows: var(--componentListContainerTemplateRows);
+    grid-gap: var(--componentListContainerGap);
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    background-color: var(--componentListItemBackgroundColor);
+    border-radius: var(--componentListItemBorderRadius);
+    padding: var(--componentListItemPadding);
+    user-select: none;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+.bullet {
+    display: inline-block;
+    margin-left: var(--componentListBulletMarginLeft);
+    margin-right: var(--componentListBulletMarginRight);
+    font-weight: var(--componentListBulletFontWeight);
+}
+
+.icon {
+    margin-left: var(--componentListIconMarginLeft);
+    margin-right: var(--componentListIconMarginRight);
+    color: var(--componentListIconColor);
+}
+
+.clickable:hover {
+    background-color: var(--componentListClickableBackgroundColorHover);
+    color: var(--componentListClickableColorHover);
+}
+
+.clickable:hover .icon {
+    color: var(--componentListClickableIconColorHover);
+}
+
+.clickable:hover .bullet {
+    color: var(--componentListClickableBullerColorHover);
+}

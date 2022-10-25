@@ -1,0 +1,16 @@
+.container {
+    font-size: var(--componentInputInputFontSize);
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    margin-left: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.title {
+}
+
+.labels {
+
+}
