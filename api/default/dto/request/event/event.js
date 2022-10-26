@@ -2,18 +2,12 @@ const sanitize = require('mongo-sanitize')
 
 module.exports = requestBody => {
 
-    let dateRequestDto, timeRequestDto, locationRequestDto, recurringRequestDto
+    let datetimeRequestDto, locationRequestDto, recurringRequestDto
 
     try {
-        dateRequestDto = require('../../../../custom/dto/request/event/date')
+        datetimeRequestDto = require('../../../../custom/dto/request/event/datetime')
     } catch {
-        dateRequestDto = require('../../../../default/dto/request/event/date')
-    }
-
-    try {
-        timeRequestDto = require('../../../../custom/dto/request/event/time')
-    } catch {
-        timeRequestDto = require('../../../../default/dto/request/event/time')
+        datetimeRequestDto = require('../../../../default/dto/request/event/datetime')
     }
 
     try {
@@ -29,11 +23,10 @@ module.exports = requestBody => {
     }
 
     const {
-        title,
-        body,
-        category,
-        date,
-        time,
+        name,
+        description,
+        label,
+        datetime,
         location,
         recurring,
         rights,
@@ -41,11 +34,10 @@ module.exports = requestBody => {
     } = sanitize(requestBody)
 
     return {
-        title,
-        body,
-        category,
-        date:dateRequestDto(date),
-        time:timeRequestDto(time),
+        name,
+        description,
+        label,
+        datetime:datetimeRequestDto(datetime),
         location:locationRequestDto(location),
         recurring:recurringRequestDto(recurring),
         rights,

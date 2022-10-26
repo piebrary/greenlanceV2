@@ -2,35 +2,25 @@ const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 
 module.exports = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
-    body:{
+    description:{
         type: String
     },
-    category:{
+    label:{
         type: String
     },
-    date:{
-        from: {
-            type: String,
+    datetime: {
+        start: {
+            type: Date,
             required: true,
         },
-        until: {
-            type: String,
+        end: {
+            type: Date,
             required: true
-        },
-    },
-    time:{
-        from: {
-            type: String,
-            required: true,
-        },
-        until: {
-            type: String,
-            required: true
-        },
+        }
     },
     location:{
         start: {

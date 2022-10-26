@@ -302,15 +302,11 @@ module.exports = (async () => {
             username:'admin1',
             password:'password1'
         },{
-            title:'1 name',
-            body:'event from admin1',
-            date:{
-                from:moment().format('yyyy-MM-DD'),
-                until:moment().format('yyyy-MM-DD')
-            },
-            time:{
-                from:moment().format('HH:mm'),
-                until:moment().add(1, 'hour').format('HH:mm')
+            name:'1 name',
+            description:'event from admin1',
+            datetime:{
+                start:new Date(),
+                end:(() => { const date = new Date(); date.setDate(date.getDate() + 2); return date; })()
             },
             location:{
                 start:{
@@ -329,15 +325,11 @@ module.exports = (async () => {
             username:'admin1',
             password:'password1'
         },{
-            title:'2 name',
-            body:'project van admin1',
-            date:{
-                from:moment().add(3, 'day').format('yyyy-MM-DD'),
-                until:moment().add(3, 'day').format('yyyy-MM-DD')
-            },
-            time:{
-                from:moment().add(1, 'hour').format('HH:mm'),
-                until:moment().add(3, 'hour').format('HH:mm')
+            name:'2 name',
+            description:'project van admin1',
+            datetime:{
+                start:(() => { const date = new Date(); date.setDate(date.getDate() + 4); date.setHours(date.getHours() + 3); return date; })(),
+                end:(() => { const date = new Date(); date.setDate(date.getDate() + 4); date.setHours(date.getHours() + 6); return date; })()
             },
             active:true
         })
@@ -346,15 +338,11 @@ module.exports = (async () => {
             username:'admin1',
             password:'password1'
         },{
-            title:'3 name',
-            body:'3 description',
-            date:{
-                from:moment().add(5, 'day').format('yyyy-MM-DD'),
-                until:moment().add(9, 'day').format('yyyy-MM-DD')
-            },
-            time:{
-                from:moment().add(5, 'hour').format('HH:mm'),
-                until:moment().add(3, 'hour').format('HH:mm')
+            name:'3 name',
+            description:'3 description',
+            datetime:{
+                start:(() => { const date = new Date(); date.setDate(date.getDate() + 6); date.setHours(date.getHours() + 12); return date; })(),
+                end:(() => { const date = new Date(); date.setDate(date.getDate() + 10); date.setHours(date.getHours() + 16); return date; })()
             },
             active:true
         })

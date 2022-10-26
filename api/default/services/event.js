@@ -14,7 +14,7 @@ module.exports = () => {
         getEvents,
         getEvent,
         createEvent,
-        updateEvent,
+        updatetimeEvent,
         deleteEvent
     }
 
@@ -69,11 +69,10 @@ module.exports = () => {
         try {
 
             const {
-                title,
-                body,
-                category,
-                date,
-                time,
+                name,
+                description,
+                label,
+                datetime,
                 location,
                 recurring,
                 rights,
@@ -83,11 +82,10 @@ module.exports = () => {
             const user_id = req.user._id
 
             const newEventDocument = new EventModel({
-                title,
-                body,
-                category,
-                time,
-                date,
+                name,
+                description,
+                label,
+                datetime,
                 location,
                 recurring,
                 rights:{
@@ -111,17 +109,16 @@ module.exports = () => {
 
     }
 
-    async function updateEvent(req){
+    async function updatetimeEvent(req){
 
         try {
 
             const {
                 _id,
-                title,
-                body,
-                category,
-                date,
-                time,
+                name,
+                description,
+                label,
+                datetime,
                 location,
                 recurring,
                 rights,
@@ -143,11 +140,10 @@ module.exports = () => {
 
             }
 
-            if(title) eventDocument.title = title
-            if(body) eventDocument.body = body
-            if(category) eventDocument.category = category
-            if(date) eventDocument.date = date
-            if(time) eventDocument.time = time
+            if(name) eventDocument.name = name
+            if(description) eventDocument.description = description
+            if(label) eventDocument.label = label
+            if(datetime) eventDocument.datetime = datetime
             if(location) eventDocument.location = location
             if(recurring) eventDocument.recurring = recurring
             if(rights) eventDocument.rights = rights

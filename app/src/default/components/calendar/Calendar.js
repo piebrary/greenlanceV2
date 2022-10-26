@@ -420,10 +420,10 @@ export default function Calendar(attributes){
 
                                     if(
                                         (
-                                            moment(calenderEvent.from).isAfter(d.startOfDay) && moment(calenderEvent.from).isBefore(d.endOfDay)
+                                            moment(calenderEvent.datetime?.start).isAfter(d.startOfDay) && moment(calenderEvent.datetime?.start).isBefore(d.endOfDay)
                                         )
                                         || (
-                                            moment(calenderEvent.from).isBefore(d.endOfDay) && moment(calenderEvent.until).isAfter(d.startOfDay)
+                                            moment(calenderEvent.datetime?.start).isBefore(d.endOfDay) && moment(calenderEvent.datetime?.end).isAfter(d.startOfDay)
                                         )
                                         // || (
                                         //     calenderEvent.dueDate > d.startOfDay && calenderEvent.dueDate < d.endOfDay
@@ -447,7 +447,7 @@ export default function Calendar(attributes){
 
                                                 }}
                                             >
-                                                <div>{calenderEvent.title}</div>
+                                                <div>{calenderEvent.name}</div>
                                             </div>
                                         )
 
@@ -497,10 +497,12 @@ export default function Calendar(attributes){
     }, [viewRange, selectedViewTime, events])
 
     const defaultValues = {
-        title:selectedEvent?.title,
-        until:toLocalDateTime(selectedEvent?.until),
-        from:toLocalDateTime(selectedEvent?.from),
-        body:selectedEvent?.body,
+        name:selectedEvent?.name,
+        datetime:{
+            start:toLocalDateTime(selectedEvent?.datetime?.start),
+            end:toLocalDateTime(selectedEvent?.datetime?.end)
+        },
+        description:selectedEvent?.description,
         location:{
             start:selectedEvent?.location?.start,
             end:selectedEvent?.location?.end
@@ -524,7 +526,7 @@ export default function Calendar(attributes){
                             <div
                                 className={createStyle([styles, customStyles], 'titleContainer')}
                                 >
-                                Update {selectedEvent.title}
+                                Update {selectedEvent.name}
                             </div>
                         )
                     }
@@ -533,7 +535,7 @@ export default function Calendar(attributes){
                             <div
                                 className={createStyle([styles, customStyles], 'titleContainer')}
                                 >
-                                {selectedEvent.title}
+                                {selectedEvent.name}
                             </div>
                         )
                     }
@@ -757,12 +759,12 @@ export default function Calendar(attributes){
                                         return (
                                             <div className={createStyle([styles, customStyles], 'listItem')} key={event._id}>
                                                 <div className={createStyle([styles, customStyles], 'listItemTitle')}>
-                                                    {event.title}
+                                                    {event.name}
                                                 </div>
                                                 <div className={createStyle([styles, customStyles], 'listItemContent')}>
                                                     From: {moment(event.from).format()} <br />
                                                     Until: {moment(event.until).format()} <br />
-                                                    Body: {event.body} <br />
+                                                    Description: {event.dscription} <br />
                                                 </div>
                                             </div>
                                         )
@@ -782,7 +784,7 @@ export default function Calendar(attributes){
                                 {
                                     (viewMode === 'create event' || viewMode === 'update event' ) && (
                                         <Input
-                                            name={'title'}
+                                            name={'name'}
                                             label={applyTranslation('CalendarComponent.TITLE_INPUT')}
                                             shouldRegister
                                             required={true}
@@ -790,7 +792,7 @@ export default function Calendar(attributes){
                                     )
                                 }
                                 <Textarea
-                                    name={'body'}
+                                    name={'description'}
                                     label={applyTranslation('CalendarComponent.BODY_INPUT')}
                                     readOnly={viewMode === 'view event' ? true : false}
                                     shouldRegister
@@ -801,7 +803,7 @@ export default function Calendar(attributes){
                                 <Input
                                     label={applyTranslation('CalendarComponent.DATE_INPUT')}
                                     type={'datetime-local'}
-                                    name={'from'}
+                                    name={'datetime.start'}
                                     readOnly={viewMode === 'view event' ? true : false}
                                     shouldRegister
                                     required={true}
@@ -812,7 +814,7 @@ export default function Calendar(attributes){
                                 <Input
                                     label={applyTranslation('CalendarComponent.DATE_INPUT')}
                                     type={'datetime-local'}
-                                    name={'until'}
+                                    name={'datetime.end'}
                                     readOnly={viewMode === 'view event' ? true : false}
                                     shouldRegister
                                     required={true}

@@ -1,17 +1,11 @@
 module.exports = document => {
 
-    let dateResponseDto, timeResponseDto, locationResponseDto, recurringResponseDto
+    let datetimeResponseDto, locationResponseDto, recurringResponseDto
 
     try {
-        dateResponseDto = require('../../../../custom/dto/response/event/date')
+        datetimeResponseDto = require('../../../../custom/dto/response/event/datetime')
     } catch {
-        dateResponseDto = require('../../../../default/dto/response/event/date')
-    }
-
-    try {
-        timeResponseDto = require('../../../../custom/dto/response/event/time')
-    } catch {
-        timeResponseDto = require('../../../../default/dto/response/event/time')
+        datetimeResponseDto = require('../../../../default/dto/response/event/datetime')
     }
 
     try {
@@ -28,11 +22,10 @@ module.exports = document => {
 
     const {
         _id,
-        title,
-        body,
-        category,
-        date,
-        time,
+        name,
+        description,
+        label,
+        datetime,
         location,
         recurring,
         active
@@ -40,11 +33,10 @@ module.exports = document => {
 
     return {
         _id,
-        title,
-        body,
-        category,
-        date:dateResponseDto(date),
-        time:timeResponseDto(time),
+        name,
+        description,
+        label,
+        datetime:datetimeResponseDto(datetime),
         location:locationResponseDto(location),
         recurring:recurringResponseDto(recurring),
         active
