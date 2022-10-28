@@ -51,16 +51,16 @@ module.exports = new Schema({
         },
     },
     creator:{
-        type: mongoose.Schema.Types.ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User'
     },
     rights:{
         view:{
-            type: [mongoose.Schema.Types.ObjectId],
+            type: [Schema.Types.ObjectId],
             ref: 'User',
         },
         edit:{
-            type: [mongoose.Schema.Types.ObjectId],
+            type: [Schema.Types.ObjectId],
             ref: 'User',
         },
     },
@@ -69,7 +69,7 @@ module.exports = new Schema({
         required: true
     },
     mutations:{
-        type: [mongoose.Schema.Types.ObjectId],
+        type: [Schema.Types.ObjectId],
         ref: 'Mutation',
     }
 },

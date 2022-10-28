@@ -1,12 +1,16 @@
 const bcrypt = require('bcrypt')
 const crypto = require("crypto")
 
-module.exports = () => {
+module.exports = async server => {
 
-    let TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer
+    const { express, db } = server
+    const connection = await db.connection
+
+    let UserModel, MutationModel, TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer
 
     try { TokenModel = require('../../custom/models/token') } catch { TokenModel = require('../../default/models/token') }
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
+    try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../../default/utils/encryptPassword') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
@@ -14,6 +18,11 @@ module.exports = () => {
     try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
     try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
     try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
+
+
+
+    // register function is only for self (public) registration
+    // register by an admin of other user is handled in users service
 
     async function register(req){
 
@@ -32,22 +41,91 @@ module.exports = () => {
 
             }
 
-            const newUserDocument = new UserModel()
-            newUserDocument.username = username
-            newUserDocument.passwordHash = await encryptPassword(password)
-            newUserDocument.email = email
-            newUserDocument.roles.push('user')
+            let response
 
-            const result = await newUserDocument.save()
-            const userDocumentDto = userResponseDto(result)
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
 
-            return successHandler(undefined, userDocumentDto)
+                const passwordHash = await encryptPassword(password)
+
+                const newUserDoc = new UserModel({
+                    username,
+                    password:passwordHash,
+                    email,
+                    roles:['user']
+                })
+
+                const newMutationDoc = new MutationModel({
+                    user:newUserDoc._id,
+                    action:'register',
+                    data:{
+                        username,
+                        email
+                    }
+                })
+
+                newUserDoc.mutation.push(newMutationDoc._id)
+
+                response = await newUserDoc.save()
+                await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const userDocDto = userResponseDto(response)
+
+            return successHandler(undefined, userDocDto)
 
         } catch (error) {
 
             return errorHandler(undefined, error)
 
         }
+
+        // try {
+        //
+        //     const {
+        //         username,
+        //         email,
+        //         password,
+        //         repeatPassword,
+        //     } = userRequestDto(req.body)
+        //
+        //     if(password !== repeatPassword){
+        //
+        //         return errorHandler(406, 'Passwords don\'t match')
+        //
+        //     }
+        //
+        //     const newMutationDocument = new MutationModel()
+        //     const newUserDocument = new UserModel()
+        //
+        //     newUserDocument.username = username
+        //     newUserDocument.passwordHash = await encryptPassword(password)
+        //     newUserDocument.email = email
+        //     newUserDocument.roles.push('user')
+        //     newUserDocument.mutations.push(newMutationDocument._id)
+        //
+        //     newMutationDocument.user = newUserDocument._id
+        //     newMutationDocument.action = 'create'
+        //     newMutationDocument.data = {
+        //         username,
+        //         email
+        //     }
+        //
+        //     const result = await newUserDocument.save()
+        //     await newMutationDocument.save()
+        //
+        //     const userDocumentDto = userResponseDto(result)
+        //
+        //     return successHandler(undefined, userDocumentDto)
+        //
+        // } catch (error) {
+        //
+        //     return errorHandler(undefined, error)
+        //
+        // }
 
     }
 

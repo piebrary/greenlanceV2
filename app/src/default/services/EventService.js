@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export async function getEvent(_id){
+export async function getEvents(){
 
     const options = {
-        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event${_id ? '/' + _id : ''}`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/events`,
         method:'GET',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem(`${process.env.REACT_APP_CLIENT_URL}_token`),
@@ -15,10 +15,10 @@ export async function getEvent(_id){
 
 }
 
-export async function getEvents(){
+export async function getEvent(_id){
 
     const options = {
-        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/events`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event/${_id}`,
         method:'GET',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem(`${process.env.REACT_APP_CLIENT_URL}_token`),
@@ -49,7 +49,7 @@ export async function postEvent(data){
 export async function putEvent(data){
 
     const options = {
-        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/event/${data._id}`,
         method:'PUT',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem(`${process.env.REACT_APP_CLIENT_URL}_token`),

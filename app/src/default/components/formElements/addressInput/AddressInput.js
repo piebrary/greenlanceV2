@@ -4,6 +4,7 @@ import { useForm, useFieldArray } from 'react-hook-form'
 
 import { LanguageContext } from '../../../../default/contexts/LanguageContext'
 
+import ErrorMessage from'../errorMessage/ErrorMessage'
 import Label from '../../label/Label'
 import Grid from '../../grid/Grid'
 import RequiredLabel from'../requiredLabel/RequiredLabel'
@@ -48,16 +49,12 @@ export default function AddressInput(attributes){
 
     return (
         <div
-            className={styles.container}
+            className={createStyle([styles, customStyles], 'container')}
             >
-            {
-                !readOnly && (
-                    <Title
-                        title={label}
-                        required={required}
-                        />
-                )
-            }
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
             <div
                 key={'addressContainer'}
                 className={createStyle([styles, customStyles], ['addressContainer'])}
@@ -128,6 +125,69 @@ export default function AddressInput(attributes){
                         />
                 </Grid>
             </div>
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].label
+                && <ErrorMessage
+                    errors={errors[name].label}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].street
+                && <ErrorMessage
+                    errors={errors[name].street}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].number
+                && <ErrorMessage
+                    errors={errors[name].number}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].zipCode
+                && <ErrorMessage
+                    errors={errors[name].zipCode}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].city
+                && <ErrorMessage
+                    errors={errors[name].city}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].province
+                && <ErrorMessage
+                    errors={errors[name].province}
+                    />
+            }
+            {
+                register
+                && errors
+                && errors[name]
+                && errors[name].country
+                && <ErrorMessage
+                    errors={errors[name].country}
+                    />
+            }
         </div>
     )
 

@@ -1,5 +1,5 @@
 import ErrorMessage from'../errorMessage/ErrorMessage'
-import RequiredLabel from'../requiredLabel/RequiredLabel'
+import Title from'../title/Title'
 
 import { createStyle } from '../../../utils/createStyle'
 
@@ -19,22 +19,18 @@ export default function Select(attributes){
         rules,
         multiple,
         size,
-        required
+        required,
+        readOnly
     } = attributes
 
     const reg = register && register(name)
 
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
-            {
-                label && (
-                    <label
-                        className={createStyle([styles, customStyles], 'label')}
-                        >
-                        {label}{required && <RequiredLabel />}
-                    </label>
-                )
-            }
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
             <select
                 id={name}
                 className={createStyle([styles, customStyles], 'select')}

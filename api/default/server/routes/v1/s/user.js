@@ -1,6 +1,8 @@
 const passport = require('passport')
 
-module.exports = express => {
+module.exports = async server => {
+
+    const { express } = server
 
     let UserService, upload
 
@@ -10,7 +12,7 @@ module.exports = express => {
         UserService = require('../../../../../default/services/user')
     }
 
-    const userService = UserService(process.env.ENVIRONMENT)
+    const userService = await UserService(server)
 
     try {
         upload = require('../../../../../custom/utils/uploadProfilePictureMiddleware')
@@ -33,25 +35,11 @@ module.exports = express => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/user',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const userData = await userService.getUser(req)
-
-            res
-                .status(userData.status)
-                .send(userData.body)
-
-        }
-    )
-
-    express.get(
         process.env.API_PREFIX + '/v1/s/user/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.getUser(req)
+            const userData = await userService.getUserById(req)
 
             res
                 .status(userData.status)
@@ -108,7 +96,7 @@ module.exports = express => {
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.updateUser(req)
+            const userData = await userService.updateUserById(req)
 
             res
                 .status(userData.status)
@@ -122,7 +110,7 @@ module.exports = express => {
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const userData = await userService.deleteUser(req)
+            const userData = await userService.deleteUserById(req)
 
             res
                 .status(userData.status)
@@ -139,6 +127,21 @@ module.exports = express => {
         async (req, res) => {
 
             const result = await userService.uploadProfilePicture(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.post(
+        process.env.API_PREFIX + '/v1/s/user/picture/:_id',
+        passport.authenticate('jwt', { session: false }),
+        upload.single('picture'),
+        async (req, res) => {
+
+            const result = await userService.uploadProfilePictureById(req)
 
             res
                 .status(result.status)

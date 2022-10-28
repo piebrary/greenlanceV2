@@ -1,8 +1,12 @@
-module.exports = () => {
+module.exports = async server => {
 
-    let UserModel, EventModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto
+    const { express, db } = server
+    const connection = await db.connection
+
+    let UserModel, MutationModel, EventModel, notFoundHandler, successHandler, errorHandler, eventRequestDto, eventResponseDto
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
+    try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { EventModel = require('../../custom/models/event') } catch { EventModel = require('../../default/models/event') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
@@ -12,10 +16,10 @@ module.exports = () => {
 
     return {
         getEvents,
-        getEvent,
+        getEventById,
         createEvent,
-        updatetimeEvent,
-        deleteEvent
+        updateEventById,
+        deleteEventById
     }
 
     async function getEvents(req){
@@ -25,7 +29,7 @@ module.exports = () => {
             const user_id = req.user._id
 
             const eventDocuments = await EventModel
-                .find({ 'rights.view':user_id })
+                .find()
                 .exec()
 
             const eventDocumentsDto = eventDocuments.map(t => eventResponseDto(t))
@@ -40,17 +44,21 @@ module.exports = () => {
 
     }
 
-    async function getEvent(req){
+    async function getEventById(req){
 
         try {
 
-            const user_id = req.user._id
+            const eventId = req.params._id
 
             const eventDocument = await EventModel
-                .findOne({ 'rights.view':user_id })
+                .findOne({ _id:eventId })
                 .exec()
 
-            if(!eventDocument) return notFoundHandler('Event')
+            if(!eventDocument){
+
+                return notFoundHandler('Event')
+
+            }
 
             const eventDocumentDto = eventResponseDto(eventDocument)
 
@@ -79,27 +87,50 @@ module.exports = () => {
                 active
             } = eventRequestDto(req.body)
 
-            const user_id = req.user._id
+            const userId = req.user._id
 
-            const newEventDocument = new EventModel({
-                name,
-                description,
-                label,
-                datetime,
-                location,
-                recurring,
-                rights:{
-                    view:[user_id],
-                    edit:[user_id]
-                },
-                active,
-                creator:user_id
+            let response
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                const newEventDoc = new EventModel({
+                    name,
+                    description,
+                    label,
+                    datetime,
+                    location,
+                    recurring,
+                    active,
+                    creator:userId
+                })
+
+                const newMutationDoc = new MutationModel({
+                    user:userId,
+                    action:'create',
+                    data:{
+                        name,
+                        description,
+                        label,
+                        datetime,
+                        location,
+                        recurring,
+                        active,
+                    }
+                })
+
+                newEventDoc.mutations.push(newMutationDoc._id)
+
+                response = await newEventDoc.save()
+                await newMutationDoc.save()
+
             })
 
-            const result = await newEventDocument.save()
-            const newEventDocumentDto = eventResponseDto(result)
+            session.endSession()
 
-            return successHandler(undefined, newEventDocumentDto)
+            const newEventDocDto = eventResponseDto(response)
+
+            return successHandler(undefined, newEventDocDto)
 
         } catch (error) {
 
@@ -109,12 +140,13 @@ module.exports = () => {
 
     }
 
-    async function updatetimeEvent(req){
+    async function updateEventById(req){
 
         try {
 
+            const eventId = req.params._id
+
             const {
-                _id,
                 name,
                 description,
                 label,
@@ -123,37 +155,57 @@ module.exports = () => {
                 recurring,
                 rights,
                 active
-            } = req.body
+            } = eventRequestDto(req.body)
 
-            const user_id = req.user
-
-            const eventDocument = await EventModel
-                .findOne({
-                    _id,
-                    'rights.edit':user_id
-                 })
+            const eventDoc = await EventModel
+                .findOne({ eventId })
                 .exec()
 
-            if(!eventDocument){
+            if(!eventDoc){
 
                 return notFoundHandler('Event')
 
             }
 
-            if(name) eventDocument.name = name
-            if(description) eventDocument.description = description
-            if(label) eventDocument.label = label
-            if(datetime) eventDocument.datetime = datetime
-            if(location) eventDocument.location = location
-            if(recurring) eventDocument.recurring = recurring
-            if(rights) eventDocument.rights = rights
-            if(active) eventDocument.active = active
+            let response
 
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
 
-            const result = await eventDocument.save()
-            const eventDocumentDto = eventResponseDto(result)
+                if(name) eventDoc.name = name
+                if(description) eventDoc.description = description
+                if(label) eventDoc.label = label
+                if(datetime) eventDoc.datetime = datetime
+                if(location) eventDoc.location = location
+                if(recurring) eventDoc.recurring = recurring
+                if(rights) eventDoc.rights = rights
+                if(active) eventDoc.active = active
 
-            return successHandler(undefined, eventDocumentDto)
+                const newMutationDoc = new MutationModel({
+                    user:req.user._id,
+                    action:'update',
+                    data:{
+                        name,
+                        description,
+                        label,
+                        datetime,
+                        location,
+                        recurring,
+                        rights,
+                        active
+                    }
+                })
+
+                response = await eventDoc.save()
+                await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const eventDocDto = eventResponseDto(response)
+
+            return successHandler(undefined, eventDocDto)
 
         } catch (error) {
 
@@ -163,18 +215,14 @@ module.exports = () => {
 
     }
 
-    async function deleteEvent(req){
+    async function deleteEventById(req){
 
         try {
 
-            const event_id = undefined// req.body._id
-            const user_id = req.user
+            const eventId = req.params._id
 
             const eventDocument = await EventModel
-                .findOneAndDelete({
-                    _id:event_id,
-                    'rights.edit':user_id
-                })
+                .findOneAndDelete({ _id:eventId })
                 .exec()
 
             if(!eventDocument){

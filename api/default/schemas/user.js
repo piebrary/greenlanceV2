@@ -32,6 +32,12 @@ module.exports = new Schema({
         unique: [true, 'That email address is taken.'],
         required: true
     },
+    phone: {
+        type: String
+    },
+    address: {
+        type: Schema.Types.Mixed
+    },
     emails: [
         {
             label: {
@@ -42,39 +48,19 @@ module.exports = new Schema({
             }
         }
     ],
-    phone: [
+    phones: [
         {
             label: {
                 type: String
             },
-            number: {
+            phone: {
                 type: String
             }
         }
     ],
-    address: [
+    addresses: [
         {
-            label: {
-                type: String
-            },
-            street: {
-                type: String
-            },
-            number: {
-                type: String
-            },
-            zipCode: {
-                type: String
-            },
-            city: {
-                type: String
-            },
-            province: {
-                type: String
-            },
-            country: {
-                type: String
-            },
+            type: Schema.Types.Mixed
         }
     ],
     settings: {
@@ -82,6 +68,10 @@ module.exports = new Schema({
             type: String,
             default: 'en'
         },
+    },
+    mutations:{
+        type: [Schema.Types.ObjectId],
+        ref: 'Mutation',
     }
 },
 {

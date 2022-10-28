@@ -1,6 +1,8 @@
 const passport = require('passport')
 
-module.exports = express => {
+module.exports = async server => {
+
+    const { express } = server
 
     let EventService
 
@@ -10,7 +12,7 @@ module.exports = express => {
         EventService = require('../../../../../default/services/event')
     }
 
-    const eventService = EventService(process.env.ENVIRONMENT)
+    const eventService = await EventService(server)
 
     express.get(
         process.env.API_PREFIX + '/v1/s/events',
@@ -27,11 +29,11 @@ module.exports = express => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await eventService.getEvent(req)
+            const result = await eventService.getEventById(req)
 
             res
                 .status(result.status)
@@ -55,11 +57,11 @@ module.exports = express => {
     )
 
     express.put(
-        process.env.API_PREFIX + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await eventService.updateEvent(req)
+            const result = await eventService.updateEventById(req)
 
             res
                 .status(result.status)
@@ -69,11 +71,11 @@ module.exports = express => {
     )
 
     express.delete(
-        process.env.API_PREFIX + '/v1/s/event',
+        process.env.API_PREFIX + '/v1/s/event/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await eventService.deleteEvent(req)
+            const result = await eventService.deleteEventById(req)
 
             res
                 .status(result.status)

@@ -105,6 +105,12 @@ module.exports = (async () => {
         }
 
         try {
+            MutationModel = require('../../custom/models/mutation')
+        } catch {
+            MutationModel = require('../../default/models/mutation')
+        }
+
+        try {
             encryptPassword = require('../../custom/utils/encryptPassword')
         } catch {
             encryptPassword = require('../../default/utils/encryptPassword')
@@ -121,6 +127,9 @@ module.exports = (async () => {
 
         await EventModel.collection?.dropIndexes()
         await EventModel.collection?.drop()
+
+        await MutationModel.collection?.dropIndexes()
+        await MutationModel.collection?.drop()
 
         await createFirstUser({
             username:'admin1',

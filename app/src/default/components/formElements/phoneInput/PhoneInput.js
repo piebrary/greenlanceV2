@@ -1,12 +1,19 @@
 import { useState, useContext, useEffect } from 'react'
 
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm, useFieldArray } from 'react-hook-form'
 
 import { LanguageContext } from '../../../../default/contexts/LanguageContext'
+
+import ErrorMessage from'../errorMessage/ErrorMessage'
+import Label from '../../label/Label'
+import Grid from '../../grid/Grid'
+import RequiredLabel from'../requiredLabel/RequiredLabel'
+import Title from'../title/Title'
 
 import { applyStyles } from '../../../utils/applyStyles'
 import { createStyle } from '../../../utils/createStyle'
 import { hasDuplicates } from '../../../utils/hasDuplicates'
+import { deepCopy } from '../../../utils/deepCopy'
 
 import { ImBin } from 'react-icons/im'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -19,154 +26,81 @@ export default function PhoneInput(attributes){
 
     const {
         customStyles,
-        defaultValue,
+        defaultValue = {},
         readOnly,
         name,
         label,
-        pattern = '',
         register,
         unregister,
         errors,
         getValues,
         control,
         reset,
-        expandable = true,
-        reduceable = true,
-        allowNoValue = false
+        required,
     } = attributes
-
-    const { fields, append, prepend, remove, swap, move, insert, replace } = useFieldArray({
-        control,
-        name: name,
-    })
-
-    useEffect(() => {
-
-        reset()
-
-    }, [])
-
-    const labelRules = {
-        validate:{
-            notEmpty: value => {
-
-                if(value === '') return '- Empty label is not allowed'
-
-                return true
-
-            },
-        }
-    }
-
-    const phoneRules = {
-        validate:{
-            notEmpty: value => {
-
-                if(value === '') return '- Empty phone is not allowed'
-
-                return true
-
-            }
-        }
-    }
 
     let Input
 
-    try { Input = require('../../../../custom/components/formElements/input/Input').default } catch { Input = require('../../../../default/components/formElements/input/Input').default }
+    try {
+        Input = require('../../../../custom/components/formElements/input/Input').default
+    } catch {
+        Input = require('../../../../default/components/formElements/input/Input').default
+    }
 
     return (
         <div
-            className={styles.container}
+            className={createStyle([styles, customStyles], 'container')}
             >
-            {label}
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
+            <div
+                key={'phoneContainer'}
+                className={createStyle([styles, customStyles], ['phoneContainer'])}
+                >
+                <Grid customStyles={applyStyles([styles, customStyles], ['phoneGrid'])}>
+                    <Input
+                        name={name + '.label'}
+                        placeholder={applyTranslation('LABEL')}
+                        defaultValue={defaultValue?.label}
+                        customStyles={applyStyles([styles, customStyles], ['input', 'phoneInput', 'phoneInputLabel'])}
+                        readOnly={readOnly}
+                        register={register}
+                        errors={errors}
+                        />
+                    <Input
+                        name={name + '.phone'}
+                        type={'tel'}
+                        placeholder={applyTranslation('PHONE')}
+                        defaultValue={defaultValue?.phone}
+                        customStyles={applyStyles([styles, customStyles], ['input', 'phoneInput', 'phoneInputStreet'])}
+                        readOnly={readOnly}
+                        register={register}
+                        errors={errors}
+                        />
+
+                </Grid>
+            </div>
             {
-                fields.map((e, i) => {
-
-                    return (
-                        <div
-                            key={'phoneContainer' + i}
-                            >
-                            <div
-                                className={styles.phoneContainer}
-                                >
-                                <div className={styles.label}>
-                                    <Input
-                                        key={'label' + i}
-                                        name={`${name}[${i}].label`}
-                                        placeholder={applyTranslation('LABEL')}
-                                        defaultValue={e.label}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'phoneInput'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={labelRules}
-                                        />
-                                </div>
-                                <div className={styles.phone}>
-                                    <Input
-                                        key={'phone' + i}
-                                        name={`${name}[${i}].phone`}
-                                        type={'tel'}
-                                        pattern={pattern}
-                                        placeholder={applyTranslation('PHONENUMBER')}
-                                        defaultValue={e.phone}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'phoneInput'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={phoneRules}
-                                        />
-                                </div>
-                                {
-                                    (
-                                        (i > 0 && !allowNoValue)
-                                        || allowNoValue
-                                    )
-                                    && !readOnly
-                                    && reduceable
-                                    && (
-                                        <div
-                                            className={styles.delete}
-                                            onClick={() => {
-
-                                                remove(i)
-
-                                            }}
-                                            >
-                                            <ImBin size={20}/>
-                                        </div>
-                                    )
-                                }
-                            </div>
-                            {register && errors[name] && errors[name][i] && errors[name][i]['label'] && (
-                                <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                                    {errors[name][i]['label'].message}
-                                </span>
-                            )}
-                            {register && errors[name] && errors[name][i] && errors[name][i]['phone'] &&(
-                                <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                                    {errors[name][i]['phone'].message}
-                                </span>
-                            )}
-                        </div>
-                    )
-
-                })
+                register
+                && errors
+                && errors[name]
+                && errors[name].label
+                && <ErrorMessage
+                    errors={errors[name].label}
+                    />
             }
             {
-                !readOnly && expandable && (
-                    <div
-                        className={styles.addBtn}
-                        onClick={() => {
-
-                            append({ label:'', number:'' })
-
-                        }}
-                        >
-                        Add phonenumber
-                    </div>
-                )
+                register
+                && errors
+                && errors[name]
+                && errors[name].phone
+                && <ErrorMessage
+                    errors={errors[name].phone}
+                    />
             }
+
         </div>
     )
 

@@ -1,6 +1,6 @@
 module.exports = document => {
 
-    let nameRequestDto, emailsRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+    let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
 
     try {
         nameRequestDto = require('../../../../custom/dto/response/user/name')
@@ -9,9 +9,9 @@ module.exports = document => {
     }
 
     try {
-        emailRequestDto = require('../../../../custom/dto/response/emails')
+        emailRequestDto = require('../../../../custom/dto/response/email')
     } catch {
-        emailRequestDto = require('../../../../default/dto/response/emails')
+        emailRequestDto = require('../../../../default/dto/response/email')
     }
 
     try {
@@ -50,9 +50,11 @@ module.exports = document => {
         username,
         name:nameRequestDto(name),
         email,
-        emails:emails && Array.isArray(emails) && emails.map(obj => emailsRequestDto(obj)),
-        phone:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
-        address:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
+        phone,
+        address,
+        emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
+        phones:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
+        addresses:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
         roles,
         settings:settings && settingsRequestDto(settings),
         profilePicture,

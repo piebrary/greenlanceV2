@@ -1,30 +1,32 @@
-import styles from './Checkbox.module.css'
+import ErrorMessage from'../errorMessage/ErrorMessage'
+import Title from'../title/Title'
 
 import { createStyle } from '../../../utils/createStyle'
+
+import styles from './Checkbox.module.css'
 
 export default function Checkbox(attributes){
 
     const {
         customStyles,
         label,
+        name,
         options,
         onClick,
         register,
         errors,
-        rules
+        shouldRegister,
+        required,
+        rules = {},
+        readOnly,
     } = attributes
 
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
-            {
-                label && (
-                    <label
-                        className={createStyle([styles, customStyles], 'label')}
-                        >
-                        {label}
-                    </label>
-                )
-            }
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
             <div className={createStyle([styles, customStyles], 'checkboxes')}>
                 {
                     options.map(o => {
@@ -48,6 +50,14 @@ export default function Checkbox(attributes){
                     })
                 }
             </div>
+            {
+                register
+                && errors
+                && errors[name]
+                && <ErrorMessage
+                    errors={errors[name]}
+                    />
+            }
         </div>
     )
 

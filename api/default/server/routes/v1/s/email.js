@@ -1,6 +1,8 @@
 const passport = require('passport')
 
-module.exports = express => {
+module.exports = server => {
+
+    const { express } = server
 
     let EmailService
 

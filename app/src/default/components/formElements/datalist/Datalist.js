@@ -1,3 +1,6 @@
+import ErrorMessage from'../errorMessage/ErrorMessage'
+import Title from'../title/Title'
+
 import { createStyle } from '../../../utils/createStyle'
 
 import styles from './Datalist.module.css'
@@ -13,21 +16,17 @@ export default function Datalist(attributes){
         onChange,
         register,
         errors,
-        rules,
-        multiple
+        rules = {},
+        multiple,
+        required
     } = attributes
 
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
-            {
-                label && (
-                    <label
-                        className={createStyle([styles, customStyles], 'label')}
-                        >
-                        {label}
-                    </label>
-                )
-            }
+            <Title
+                title={label}
+                required={required}
+                />
             <input
                 type={'text'}
                 list={name}
@@ -53,6 +52,14 @@ export default function Datalist(attributes){
                     })
                 }
             </datalist>
+            {
+                register
+                && errors
+                && errors[name]
+                && <ErrorMessage
+                    errors={errors[name]}
+                    />
+            }
         </div>
     )
 

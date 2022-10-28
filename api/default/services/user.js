@@ -3,11 +3,15 @@ const path = require('path')
 
 const profilePicturePath = path.join(__dirname, '../../public/images/profile/')
 
-module.exports = () => {
+module.exports = async server => {
 
-    let UserModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger
+    const { express, db } = server
+    const connection = await db.connection
+
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
+    try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
@@ -22,57 +26,71 @@ module.exports = () => {
 
         try {
 
-            const userDocument = await UserModel
-                .findOne({
-                    _id:req.params._id || req.user._id
-                })
-                .exec()
-
-            if(!userDocument){
-
-                return notFoundHandler('User')
-
-            }
-
-            if(
-                req.params._id === req.user._id
-                || !req.params._id
-            ){
-
-                const userDocumentDto = userResponseDto(userDocument)
-
-                return successHandler(undefined, userDocumentDto)
-
-            }
-
-            const currentUserDocument = await UserModel
+            const userDoc = await UserModel
                 .findOne({
                     _id:req.user._id
                 })
                 .exec()
 
-            if(!currentUserDocument){
+            if(!userDoc){
 
                 return notFoundHandler('User')
 
             }
 
-            if(currentUserDocument.isAdmin){
+            const userDocDto = userResponseDto(userDoc)
 
-                const userDocumentDto = userResponseDto(userDocument)
+            return successHandler(undefined, userDocDto)
 
-                return successHandler(undefined, userDocumentDto)
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function getUserById(req){
+
+        try {
+
+            const currentUserDoc = await UserModel
+                .findOne({
+                    _id:req.user._id
+                })
+                .exec()
+
+            if(!currentUserDoc){
+
+                return notFoundHandler('User')
 
             }
 
-            const userDocumentDto = userResponseDto(userDocument)
+            const userDoc = await UserModel
+                .findOne({
+                    _id:req.params._id
+                })
+                .exec()
 
-            return successHandler(
-                undefined,
-                {
-                    _id, username, profilePicture
-                } = userDocumentDto
-            )
+            if(!userDoc){
+
+                return notFoundHandler('User')
+
+            }
+
+            const userDocDto = userResponseDto(userDoc)
+
+            if(currentUserDoc.isAdmin){
+
+                return successHandler(undefined, userDocDto)
+
+            }
+
+            return successHandler(undefined, {
+                _id:userDocDto._id,
+                username:userDocDto.username,
+                profilePicture:userDocDto.profilePicture
+            })
 
         } catch (error) {
 
@@ -86,43 +104,41 @@ module.exports = () => {
 
         try {
 
-            const userDocuments = await UserModel
+            const userDocs = await UserModel
                 .find()
                 .exec()
 
-            const currentUserDocument = await UserModel
+            const currentUserDoc = await UserModel
                 .findOne({
                     _id:req.user._id
                 })
                 .exec()
 
-            if(!currentUserDocument){
+            if(!currentUserDoc){
 
                 return notFoundHandler('User')
 
             }
 
-            if(currentUserDocument.isAdmin){
+            if(currentUserDoc.isAdmin){
 
-                const userDocumentsDto = userDocuments.map(u => {
+                const userDocsDto = userDocs.map(u => userResponseDto(u))
 
-                    return userResponseDto(u, true)
-
-                })
-
-                return successHandler(undefined, userDocumentsDto)
+                return successHandler(undefined, userDocsDto)
 
             }
 
-            const userDocumentsDto = userDocuments.map(u => {
+            const userDocsDto = userDocs.map(u => {
 
                 return {
-                    _id, username, profilePicture
-                } = u
+                    _id:u._id,
+                    username:u._id,
+                    profilePicture:u.profilePicture
+                }
 
             })
 
-            return successHandler(undefined, userDocumentsDto)
+            return successHandler(undefined, userDocsDto)
 
         } catch (error) {
 
@@ -136,17 +152,17 @@ module.exports = () => {
 
         try {
 
-            const currentUser = await UserModel
+            const currentUserDoc = await UserModel
                 .findOne({ _id:req.user._id })
                 .exec()
 
-            if(!currentUser){
+            if(!currentUserDoc){
 
                 return notFoundHandler('User')
 
             }
 
-            if(!currentUser.isAdmin){
+            if(!currentUserDoc.isAdmin){
 
                 return errorHandler(403, 'Forbidden')
 
@@ -154,19 +170,16 @@ module.exports = () => {
 
             const {
                 username,
-                name,
                 email,
-                phone,
-                address,
                 newPassword,
                 repeatPassword,
                 currentPassword,
                 roles
             } = userRequestDto(req.body)
 
-            const matchingPasswords = await passwordsMatch(currentPassword, currentUser.passwordHash)
+            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
-            if(!matchingPasswords){
+            if(!matchingCurrentPasswords){
 
                 return errorHandler(406, 'Wrong password')
 
@@ -178,19 +191,42 @@ module.exports = () => {
 
             }
 
-            const newUserDocument = new UserModel()
-            newUserDocument.username = username
-            newUserDocument.passwordHash = await encryptPassword(newPassword)
-            newUserDocument.name = name
-            newUserDocument.email = email
-            newUserDocument.phone = phone
-            newUserDocument.address = address
-            newUserDocument.roles = roles
+            let response
 
-            const result = await newUserDocument.save()
-            const userDocumentDto = userResponseDto(result)
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
 
-            return successHandler(undefined, userDocumentDto)
+                const passwordHash = await encryptPassword(newPassword)
+
+                const newUserDoc = new UserModel({
+                    username,
+                    email,
+                    passwordHash,
+                    roles
+                })
+
+                const newMutationDoc = new MutationModel({
+                    user:currentUserDoc._id,
+                    action:'create',
+                    data:{
+                        username,
+                        email,
+                        roles
+                    }
+                })
+
+                newUserDoc.mutations.push(newMutationDoc._id)
+
+                response = await newUserDoc.save()
+                await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const userDocDto = userResponseDto(response)
+
+            return successHandler(undefined, userDocDto)
 
         } catch (error) {
 
@@ -204,35 +240,11 @@ module.exports = () => {
 
         try {
 
-            const currentUser = await UserModel
+            const userDoc = await UserModel
                 .findOne({ _id:req.user._id })
                 .exec()
 
-            if(req.params._id){
-
-                // get user who makes the request
-
-                // error if this user is not found
-                if(!currentUser){
-
-                    return notFoundHandler('User')
-
-                }
-
-                // error if the suer is not an admin
-                if(!currentUser.isAdmin){
-
-                    return errorHandler(403, 'Forbidden')
-
-                }
-
-            }
-
-            const userDocument = await UserModel
-                .findOne({ _id:req.params._id || req.user._id })
-                .exec()
-
-            if(!userDocument){
+            if(!userDoc){
 
                 return notFoundHandler('User')
 
@@ -243,46 +255,73 @@ module.exports = () => {
                 email,
                 phone,
                 address,
-                roles,
+                emails,
+                phones,
+                addresses,
                 settings,
                 newPassword,
                 currentPassword,
                 repeatPassword,
             } = userRequestDto(req.body)
 
-            // updating password or email or roles requires a current user password
-            if(newPassword || email || roles){
+            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
-                const matchingPasswords = passwordsMatch(currentPassword, currentUser.passwordHash)
+            if(!matchingCurrentPasswords){
 
-                if(!matchingPasswords){
-
-                    return errorHandler(406, 'Wrong password')
-
-                }
-
-                if(newPassword !== repeatPassword){
-
-                    return errorHandler(406, 'Passwords don\'t match')
-
-                }
-
-                if(newPassword) userDocument.passwordHash = await encryptPassword(newPassword)
-                if(email) userDocument.email = email
-                if(roles) userDocument.roles = roles
+                return errorHandler(406, 'Wrong password')
 
             }
 
-            // update user
-            if(name) userDocument.name = name
-            if(phone) userDocument.phone = phone
-            if(address) userDocument.address = address
-            if(settings) userDocument.settings = settings
+            let response
 
-            const result = await userDocument.save()
-            const userDocumentDto = userResponseDto(result, true)
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
 
-            return successHandler(undefined, userDocumentDto)
+                if(newPassword.length > 0){
+
+                    if(newPassword !== repeatPassword){
+
+                        return errorHandler(406, 'Passwords don\'t match')
+
+                    }
+
+                    const passwordHash = await encryptPassword(newPassword)
+
+                    userDoc.passwordHash = passwordHash
+
+                }
+
+                if(name) userDoc.name = name
+                if(email) userDoc.email = email
+                if(phone) userDoc.phone = phone
+                if(address) userDoc.address = address
+                if(emails) userDoc.emails = emails
+                if(phones) userDoc.phones = phones
+                if(addresses) userDoc.addresses = addresses
+                if(settings) userDoc.settings = settings
+
+                const newMutationDoc = new MutationModel({
+                    user:userDoc._id,
+                    action:'update',
+                    data:{
+                        username,
+                        email,
+                        roles
+                    }
+                })
+
+                newUserDoc.mutations.push(newMutationDoc._id)
+
+                response = await userDoc.save()
+                await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const userDocDto = userResponseDto(response)
+
+            return successHandler(undefined, userDocDto)
 
         } catch (error) {
 
@@ -292,7 +331,104 @@ module.exports = () => {
 
     }
 
-    async function deleteUser(req){
+    async function updateUserById(req){
+
+        try {
+
+            const currentUserDoc = await UserModel
+                .findOne({
+                    _id:req.user._id
+                })
+                .exec()
+
+            if(!currentUserDoc){
+
+                return notFoundHandler('User')
+
+            }
+
+            if(!currentUserDoc.isAdmin){
+
+                errorHandler(403, 'Forbidden')
+
+            }
+
+            const {
+                name,
+                email,
+                phone,
+                address,
+                emails,
+                phones,
+                addresses,
+                settings,
+                currentPassword,
+            } = userRequestDto(req.body)
+
+            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
+
+            if(!matchingCurrentPasswords){
+
+                return errorHandler(406, 'Wrong password')
+
+            }
+
+            const userDoc = await UserModel
+                .findOne({ _id:req.params._id })
+                .exec()
+
+            if(!userDoc){
+
+                return notFoundHandler('User')
+
+            }
+
+            let response
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                if(name) userDoc.name = name
+                if(email) userDoc.email = email
+                if(phone) userDoc.phone = phone
+                if(address) userDoc.address = address
+                if(emails) userDoc.emails = emails
+                if(phones) userDoc.phones = phones
+                if(addresses) userDoc.addresses = addresses
+                if(settings) userDoc.settings = settings
+
+                const newMutationDoc = new MutationModel({
+                    user:currentUserDoc._id,
+                    action:'update',
+                    data:{
+                        username:userDoc.username,
+                        email,
+                        roles
+                    }
+                })
+
+                userDoc.mutations.push(newMutationDoc._id)
+
+                response = await userDoc.save()
+                await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const userDocDto = userResponseDto(response)
+
+            return successHandler(undefined, userDocDto)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function deleteUserById(req){
 
         try {
 
@@ -330,34 +466,11 @@ module.exports = () => {
 
         try {
 
-            if(req.params._id){
-
-                // get user who makes the request
-                const currentUser = await UserModel
-                    .findOne({ _id:req.user._id })
-                    .exec()
-
-                // error if this user is not found
-                if(!currentUser){
-
-                    return notFoundHandler('User')
-
-                }
-
-                // error if the suer is not an admin
-                if(!currentUser.isAdmin){
-
-                    return errorHandler(403, 'Forbidden')
-
-                }
-
-            }
-
-            const userDocument = await UserModel
-                .findOne({ _id:req.params._id || req.user._id })
+            const userDoc = await UserModel
+                .findOne({ _id:req.user._id })
                 .exec()
 
-            if(!userDocument){
+            if(!userDoc){
 
                 return notFoundHandler('User')
 
@@ -367,9 +480,9 @@ module.exports = () => {
             const filename = await fileUpload.save(req.file.buffer)
 
             // delete old profile picture
-            if(userDocument.profilePicture){
+            if(userDoc.profilePicture){
 
-                fs.unlink(profilePicturePath + userDocument.profilePicture, error => {
+                fs.unlink(profilePicturePath + userDoc.profilePicture, error => {
 
                     if(error) {
 
@@ -384,9 +497,78 @@ module.exports = () => {
 
             }
 
-            userDocument.profilePicture = filename
+            userDoc.profilePicture = filename
 
-            const result = await userDocument.save()
+            const result = await userDoc.save()
+
+            return successHandler(undefined, filename)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+
+    }
+
+    async function uploadProfilePictureById(req){
+
+        try {
+
+            // get user who makes the request
+            const currentUser = await UserModel
+                .findOne({ _id:req.user._id })
+                .exec()
+
+            // error if this user is not found
+            if(!currentUser){
+
+                return notFoundHandler('User')
+
+            }
+
+            // error if the suer is not an admin
+            if(!currentUser.isAdmin){
+
+                return errorHandler(403, 'Forbidden')
+
+            }
+
+            const userDoc = await UserModel
+                .findOne({ _id:req.params._id })
+                .exec()
+
+            if(!userDoc){
+
+                return notFoundHandler('User')
+
+            }
+
+            const fileUpload = new Resize(profilePicturePath)
+            const filename = await fileUpload.save(req.file.buffer)
+
+            // delete old profile picture
+            if(userDoc.profilePicture){
+
+                fs.unlink(profilePicturePath + userDoc.profilePicture, error => {
+
+                    if(error) {
+
+                        logger.error({
+                            message:'New Error: fs.unlink on uploadProfilePicture()',
+                            data:error
+                        })
+
+                    }
+
+                })
+
+            }
+
+            userDoc.profilePicture = filename
+
+            const result = await userDoc.save()
 
             return successHandler(undefined, filename)
 
@@ -401,11 +583,14 @@ module.exports = () => {
 
     return {
         getUser,
+        getUserById,
         getUsers,
         createUser,
         updateUser,
-        deleteUser,
+        updateUserById,
+        deleteUserById,
         uploadProfilePicture,
+        uploadProfilePictureById,
     }
 
 }

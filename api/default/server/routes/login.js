@@ -1,7 +1,9 @@
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
 
-module.exports = express => {
+module.exports = server => {
+
+    const { express } = server
 
     express.post(process.env.API_PREFIX + '/login', (req, res) => {
 

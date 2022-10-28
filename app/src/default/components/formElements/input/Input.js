@@ -1,5 +1,7 @@
 import { useState } from 'react'
 
+import get from 'lodash/get'
+
 import ErrorMessage from'../errorMessage/ErrorMessage'
 import Title from'../title/Title'
 
@@ -34,7 +36,6 @@ export default function Input(attributes){
         step,
         autoFocus,
         autoComplete,
-        shouldRegister,
         required,
     } = attributes
 
@@ -54,7 +55,9 @@ export default function Input(attributes){
     )
 
     return (
-        <div className={createStyle([styles, customStyles], 'container')}>
+        <div
+            className={createStyle([styles, customStyles], 'container')}
+            >
             <Title
                 title={label}
                 required={!readOnly && required}
@@ -101,10 +104,10 @@ export default function Input(attributes){
             {
                 reg
                 && errors
-                && errors[name]
+                && get(errors, name)
                 && <ErrorMessage
-                    errors={errors[name]}
-                    />
+                        errors={get(errors, name)}
+                        />
             }
         </div>
     )

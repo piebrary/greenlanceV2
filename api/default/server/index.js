@@ -23,6 +23,7 @@ module.exports = async () => {
         }
 
         const express = Express()
+        const server = { express, db }
 
         express.use(Express.json())
         express.use(bodyParser.urlencoded({ extended: true }))
@@ -32,45 +33,45 @@ module.exports = async () => {
         express.use(Express.static(path.join(__dirname, 'frontend', 'build')))
 
         try {
-            require('../../custom/server/auth.js')()
-            require('../../default/server/auth.js')()
+            require('../../custom/server/auth.js')(server)
+            require('../../default/server/auth.js')(server)
         } catch {
-            require('../../default/server/auth.js')()
+            require('../../default/server/auth.js')(server)
         }
 
         try {
-            require('../../custom/server/routes/login')(express)
-            require('../../default/server/routes/login')(express)
+            require('../../custom/server/routes/login')(server)
+            require('../../default/server/routes/login')(server)
         } catch {
-            require('../../default/server/routes/login')(express)
+            require('../../default/server/routes/login')(server)
         }
 
         try {
-            require('../../custom/server/routes/v1')(express)
-            require('../../default/server/routes/v1')(express)
+            require('../../custom/server/routes/v1')(server)
+            require('../../default/server/routes/v1')(server)
         } catch {
-            require('../../default/server/routes/v1')(express)
+            require('../../default/server/routes/v1')(server)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/user')(express)
-            require('../../default/server/routes/v1/s/user')(express)
+            require('../../custom/server/routes/v1/s/user')(server)
+            require('../../default/server/routes/v1/s/user')(server)
         } catch {
-            require('../../default/server/routes/v1/s/user')(express)
+            require('../../default/server/routes/v1/s/user')(server)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/event')(express)
-            require('../../default/server/routes/v1/s/event')(express)
+            require('../../custom/server/routes/v1/s/event')(server)
+            require('../../default/server/routes/v1/s/event')(server)
         } catch {
-            require('../../default/server/routes/v1/s/event')(express)
+            require('../../default/server/routes/v1/s/event')(server)
         }
 
         try {
-            require('../../custom/server/routes/v1/s/email')(express)
-            require('../../default/server/routes/v1/s/email')(express)
+            require('../../custom/server/routes/v1/s/email')(server)
+            require('../../default/server/routes/v1/s/email')(server)
         } catch {
-            require('../../default/server/routes/v1/s/email')(express)
+            require('../../default/server/routes/v1/s/email')(server)
         }
 
         express.listen(

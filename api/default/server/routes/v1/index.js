@@ -1,4 +1,6 @@
-module.exports = express => {
+module.exports = server => {
+
+    const { express } = server
 
     let AuthService
 
@@ -8,7 +10,7 @@ module.exports = express => {
         AuthService = require('../../../../default/services/auth')
     }
 
-    const authService = AuthService(process.env.ENVIRONMENT)
+    const authService = AuthService(server)
 
     if(process.env.API_ENABLE_PUBLIC_REGISTRATION){
 

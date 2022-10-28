@@ -42,11 +42,12 @@ export default function Form(attributes){
         reset,
         control,
         formState:{
-            errors
+            errors,
+            dirtyFields
         },
     } = useForm({
         defaultValues,
-        resolver:yupResolver(validationSchema, { abortEarly:false }),
+        resolver:validationSchema && yupResolver(validationSchema, { abortEarly:false }),
         criteriaMode: 'all',
         mode: 'onTouched',
     })

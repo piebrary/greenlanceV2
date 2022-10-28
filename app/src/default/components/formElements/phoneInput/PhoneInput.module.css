@@ -1,18 +1,33 @@
 .container {
     background-color: var(--colorGreyLighter);
     border-radius: 4px;
+    /* padding: 10px; */
     padding: 10px;
 }
 
-.phoneContainer {
-    display: flex;
-    /* padding: 10px 10px 0px 10px; */
+.phoneGrid_grid {
+    width: 100%;
+    grid-template-columns: repeat(2, 1fr);
+
 }
 
-.inputContainer {
-    background-color: transparent;
+.phoneContainer + .phoneContainer {
+    padding-top: 40px;
+}
+
+.phoneInputLabel_container {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.phoneInputPhone_container {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 2;
+}
+
+.input_container {
     padding: 0px;
-    padding-bottom: 10px;
 }
 
 .label {
@@ -21,13 +36,7 @@
     width: 30%;
 }
 
-.phone {
-    flex-grow: 2;
-}
-
 .delete {
-    margin-left: 10px;
-    margin-bottom: 10px;
     padding: 8px;
     background-color: var(--colorWhite);
     border-radius: 4px;
@@ -35,6 +44,10 @@
     align-items: center;
     cursor: pointer;
     height: 40px;
+    grid-column-start: 4;
+    grid-column-end: 4;
+    width: 36px;
+    margin-left: auto;
 }
 
 .delete:hover {

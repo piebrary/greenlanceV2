@@ -1,6 +1,9 @@
-import styles from './Radio.module.css'
+import ErrorMessage from'../errorMessage/ErrorMessage'
+import Title from'../title/Title'
 
 import { createStyle } from '../../../utils/createStyle'
+
+import styles from './Radio.module.css'
 
 export default function Radio(attributes){
 
@@ -12,21 +15,19 @@ export default function Radio(attributes){
         onClick,
         register,
         errors,
-        rules
+        rules,
+        readOnly,
+        required,
     } = attributes
+
+    const reg = register && register(name)
 
     return options && (
         <div className={createStyle([styles, customStyles], 'container')}>
-            {
-                label && (
-                    <label
-                        htmlFor={name}
-                        className={createStyle([styles, customStyles], 'label')}
-                        >
-                        {label}
-                    </label>
-                )
-            }
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
             <div className={createStyle([styles, customStyles], 'radios')}>
                 {
                     options.map(o => {
@@ -51,6 +52,14 @@ export default function Radio(attributes){
                     })
                 }
             </div>
+            {
+                reg
+                && errors
+                && errors[name]
+                && <ErrorMessage
+                    errors={errors[name]}
+                    />
+            }
         </div>
     )
 

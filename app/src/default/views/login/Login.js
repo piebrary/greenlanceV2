@@ -1,15 +1,16 @@
 import { useContext, useState } from 'react'
 
-import { useForm } from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup'
-
 import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
-import { LoginSchema } from '../../schemas/Login'
+import { passwordResetRequest } from '../../../default/services/AuthenticationService'
 
+import { LoginSchema } from '../../schemas/Login'
+import { RegisterSchema } from '../../schemas/Register'
+import { PasswordResetRequestSchema } from '../../schemas/PasswordResetRequest'
+
+import Form from '../../../default/components/form/Form'
 import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
-import FormControls from '../../../default/components/formElements/formControls/FormControls'
 
 import LogoSmall from '../../../default/components/logo/Logo'
 
@@ -19,32 +20,12 @@ import styles from './Login.module.css'
 
 export default function Login(){
 
-    const { authenticate, authState } = useContext(AuthenticationContext)
+    const { authenticate, authState, register } = useContext(AuthenticationContext)
+
     const [authFailed, setAuthFailed] = useState(false)
+    const [curView, setCurView] = useState('login')
 
-    const defaultValues = {
-        username:'',
-        password:''
-    }
-
-    const {
-        register,
-        handleSubmit,
-        reset,
-        control,
-        formState:{
-            errors
-        },
-    } = useForm({
-        defaultValues,
-        resolver: yupResolver(LoginSchema, { abortEarly: false }),
-        criteriaMode: 'all',
-        mode: 'onTouched',
-    })
-
-    const onSubmit = async data => {
-
-        console.log(data)
+    const onLogin = async data => {
 
         const result = await authenticate(data.username, data.password)
 
@@ -62,12 +43,33 @@ export default function Login(){
 
     }
 
-    const handleReset = event => {
+    const onRegister = async data => {
 
-        event && event.preventDefault()
+        try {
 
-        reset()
+            await register(data)
+            await authenticate(data.username, data.password)
 
+        } catch (error) {
+
+            console.log(error.response || error)
+
+        }
+
+    }
+
+    const onPasswordResetRequest = async data => {
+
+        try {
+
+            await passwordResetRequest(data)
+            setCurView('passwordResetRequested')
+
+        } catch (error) {
+
+            console.log(error.response || error)
+
+        }
 
     }
 
@@ -78,40 +80,118 @@ export default function Login(){
             <main className={styles.main}>
                 <LogoSmall
                     customStyles={applyStyles([styles], 'customLogo')}/>
-                <form
-                    onSubmit={handleSubmit(onSubmit)}
-                    className={styles.form}
-                    >
-                    <Input
-                        label={'Username'}
-                        name={'username'}
-                        subtype={'text'}
-                        customStyles={applyStyles([styles], 'customInput')}
-                        errors={errors}
-                        register={register}
-                        required
-                        />
-                    <Input
-                        label={'Password'}
-                        name={'password'}
-                        type={'password'}
-                        passwordToggle
-                        customStyles={applyStyles([styles], 'customInput')}
-                        errors={errors}
-                        register={register}
-                        required
-                        />
-                    {authFailed && <div className={styles.loginFailed}>Login failed, your username or password may be incorrect.</div>}
-                    <FormControls
-                        handleReset={handleReset}
-                        />
-                </form>
-                <div
-                    className={styles.underMenu}
-                    >
-                    {process.env.REACT_APP_ENABLE_PUBLIC_REGISTRATION && <a href={'/register'}>Register</a>}
-                    <a href={'/passwordResetRequest'}>Reset password</a>
-                </div>
+                {
+                    curView === 'login' && (
+                        <>
+                            <Form
+                                onSubmit={onLogin}
+                                validationSchema={LoginSchema}
+                                >
+                                Login
+                                <Input
+                                    label={'Username'}
+                                    name={'username'}
+                                    shouldRegister
+                                    required
+                                    />
+                                <Input
+                                    label={'Password'}
+                                    name={'password'}
+                                    type={'password'}
+                                    passwordToggle
+                                    shouldRegister
+                                    required
+                                    />
+                                {authFailed && <div className={styles.loginFailed}>Login failed, your username or password may be incorrect.</div>}
+                            </Form>
+                            <div
+                                className={styles.underMenu}
+                                >
+                                {
+                                    process.env.REACT_APP_ENABLE_PUBLIC_REGISTRATION && (
+                                        <span onClick={() => setCurView('register')}>Register</span>
+                                    )
+                                }
+                                <span onClick={() => setCurView('passwordResetRequest')}>Reset password</span>
+                            </div>
+                        </>
+                    )
+                }
+                {
+                    curView === 'register' && (
+                        <>
+                            <Form
+                                onSubmit={onRegister}
+                                validationSchema={RegisterSchema}
+                                >
+                                Register
+                                <Input
+                                    label={'Username'}
+                                    name={'username'}
+                                    shouldRegister
+                                    required
+                                    />
+                                <Input
+                                    label={'Email'}
+                                    name={'email'}
+                                    shouldRegister
+                                    required
+                                    />
+                                <Input
+                                    label={'Password'}
+                                    name={'password'}
+                                    type={'password'}
+                                    passwordToggle
+                                    shouldRegister
+                                    required
+                                    />
+                                <Input
+                                    label={'Repeat password'}
+                                    name={'repeatPassword'}
+                                    type={'password'}
+                                    passwordToggle
+                                    shouldRegister
+                                    required
+                                    />
+                            </Form>
+                            <div
+                                className={styles.underMenu}
+                                >
+                                <span onClick={() => setCurView('login')}>Cancel</span>
+                            </div>
+                        </>
+                    )
+                }
+                {
+                    curView === 'passwordResetRequest' && (
+                        <>
+                            <Form
+                                onSubmit={onRegister}
+                                validationSchema={PasswordResetRequestSchema}
+                                >
+                                Request password reset
+                                <Input
+                                    label={'Email'}
+                                    name={'email'}
+                                    shouldRegister
+                                    required
+                                    />
+                            </Form>
+                            <div
+                                className={styles.underMenu}
+                                >
+                                <span onClick={() => setCurView('login')}>Cancel</span>
+                            </div>
+                        </>
+                    )
+                }
+                {
+                    curView === 'passwordResetRequested' && (
+                        <>
+                            Your password reset has ben requested, check your email!
+                        </>
+                    )
+                }
             </main>
         </div>
     )

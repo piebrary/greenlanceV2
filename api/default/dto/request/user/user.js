@@ -2,7 +2,7 @@ const sanitize = require('mongo-sanitize')
 
 module.exports = requestBody => {
 
-    let nameRequestDto, emailsRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+    let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
 
     try {
         nameRequestDto = require('../../../../custom/dto/request/user/name')
@@ -11,9 +11,9 @@ module.exports = requestBody => {
     }
 
     try {
-        emailRequestDto = require('../../../../custom/dto/request/emails')
+        emailRequestDto = require('../../../../custom/dto/request/email')
     } catch {
-        emailRequestDto = require('../../../../default/dto/request/emails')
+        emailRequestDto = require('../../../../default/dto/request/email')
     }
 
     try {
@@ -38,9 +38,11 @@ module.exports = requestBody => {
         username,
         name,
         email,
-        emails,
         phone,
         address,
+        emails,
+        phones,
+        addresses,
         password,
         roles,
         settings,
@@ -54,9 +56,11 @@ module.exports = requestBody => {
         username,
         name:nameRequestDto(name),
         email,
-        emails:emails && Array.isArray(emails) && emails.map(obj => emailsRequestDto(obj)),
-        phone:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
-        address:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
+        phone,
+        address,
+        emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
+        phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
+        addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
         password,
         roles,
         settings:settings && settingsRequestDto(settings),

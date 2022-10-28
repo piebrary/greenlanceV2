@@ -1,8 +1,5 @@
 import { useContext } from 'react'
 
-import { useForm } from 'react-hook-form'
-import * as yup from 'yup'
-
 import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import { UserContext } from '../../../default/contexts/UserContext'
 

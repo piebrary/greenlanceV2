@@ -35,12 +35,17 @@
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
+    gap: 1px;
 }
 
 .controlGroup {
     width: fit-content;
     display: flex;
     flex-direction: row;
+}
+
+.dayViewTitle {
+    color: red;
 }
 
 .controlBtn_button {
@@ -90,11 +95,15 @@
     border-radius: 4px;
     padding: 1px;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
 }
 
 .weekdays {
     display: flex;
     width: 100%;
+    gap: 1px;
 }
 
 .weekday {
@@ -107,7 +116,7 @@
     user-select: none;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: calc(100% / 7);
+    width: calc(100%);
     text-align: center;
     /* padding: 8px; */
     padding: 10px 1px 10px 1px;
@@ -175,12 +184,12 @@
 }
 
 .day {
-    width: calc(100% / 7);
-    max-width: calc(100% / 7);
+    width: calc(100%);
+    max-width: calc(100%);
     min-height: 80px;
     background-color: var(--colorWhite);
     border-radius: 2px;
-    margin: 1px;
+    /* margin: 1px; */
     /* padding: 10px; */
     overflow: hidden;
     cursor: pointer;

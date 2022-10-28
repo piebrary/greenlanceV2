@@ -1,14 +1,19 @@
 import { useState, useContext, useEffect } from 'react'
 
-import { useForm, useFieldArray } from "react-hook-form"
+import { useForm, useFieldArray } from 'react-hook-form'
 
 import { LanguageContext } from '../../../../default/contexts/LanguageContext'
 
+import ErrorMessage from'../errorMessage/ErrorMessage'
 import Label from '../../label/Label'
+import Grid from '../../grid/Grid'
+import RequiredLabel from'../requiredLabel/RequiredLabel'
+import Title from'../title/Title'
 
 import { applyStyles } from '../../../utils/applyStyles'
 import { createStyle } from '../../../utils/createStyle'
 import { hasDuplicates } from '../../../utils/hasDuplicates'
+import { deepCopy } from '../../../utils/deepCopy'
 
 import { ImBin } from 'react-icons/im'
 import { AiOutlinePlus } from 'react-icons/ai'
@@ -21,7 +26,7 @@ export default function EmailInput(attributes){
 
     const {
         customStyles,
-        defaultValue,
+        defaultValue = {},
         readOnly,
         name,
         label,
@@ -31,148 +36,71 @@ export default function EmailInput(attributes){
         getValues,
         control,
         reset,
-        expandable = true,
-        reduceable = true,
-        allowNoValue = false
+        required,
     } = attributes
-
-    const { fields, append, prepend, remove, swap, move, insert, replace } = useFieldArray({
-        control,
-        name: name,
-    })
-
-    useEffect(() => {
-
-        reset()
-
-    }, [])
-
-    const labelRules = {
-        validate:{
-            notEmpty: value => {
-
-                if(value === '') return '- Empty label is not allowed'
-
-                return true
-
-            },
-        }
-    }
-
-    const emailRules = {
-        validate:{
-            notEmpty: value => {
-
-                if(value === '') return '- Empty email is not allowed'
-
-                return true
-
-            },
-            validEmail: value => {
-
-                if(value.includes('@') && value.includes('.')) return true
-
-                return '- Please enter a valid emailaddress'
-
-            }
-        }
-    }
 
     let Input
 
-    try { Input = require('../../../../custom/components/formElements/input/Input').default } catch { Input = require('../../../../default/components/formElements/input/Input').default }
+    try {
+        Input = require('../../../../custom/components/formElements/input/Input').default
+    } catch {
+        Input = require('../../../../default/components/formElements/input/Input').default
+    }
 
     return (
         <div
-            className={styles.container}
+            className={createStyle([styles, customStyles], 'container')}
             >
-            {label}
+            <Title
+                title={label}
+                required={!readOnly && required}
+                />
+            <div
+                key={'emailContainer'}
+                className={createStyle([styles, customStyles], ['emailContainer'])}
+                >
+                <Grid customStyles={applyStyles([styles, customStyles], ['emailGrid'])}>
+                    <Input
+                        name={name + '.label'}
+                        placeholder={applyTranslation('LABEL')}
+                        defaultValue={defaultValue?.label}
+                        customStyles={applyStyles([styles, customStyles], ['input', 'emailInput', 'emailInputLabel'])}
+                        readOnly={readOnly}
+                        register={register}
+                        errors={errors}
+                        />
+                    <Input
+                        name={name + '.email'}
+                        type={'tel'}
+                        placeholder={applyTranslation('PHONE')}
+                        defaultValue={defaultValue?.email}
+                        customStyles={applyStyles([styles, customStyles], ['input', 'emailInput', 'emailInputStreet'])}
+                        readOnly={readOnly}
+                        register={register}
+                        errors={errors}
+                        />
+
+                </Grid>
+            </div>
             {
-                fields.map((e, i) => {
-
-                    return (
-                        <div
-                            key={'emailContainer' + i}
-                            >
-                            <div
-                                className={styles.emailContainer}
-                                >
-                                <div className={styles.label}>
-                                    <Input
-                                        key={'label' + i}
-                                        name={`${name}[${i}].label`}
-                                        placeholder={applyTranslation('LABEL')}
-                                        defaultValue={e.label}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'emailInput'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={labelRules}
-                                        />
-                                </div>
-                                <div className={styles.email}>
-                                    <Input
-                                        key={'email' + i}
-                                        name={`${name}[${i}].email`}
-                                        placeholder={applyTranslation('EMAIL')}
-                                        defaultValue={e.email}
-                                        customStyles={applyStyles([styles, customStyles], ['input', 'emailInput'])}
-                                        readOnly={readOnly}
-                                        register={register}
-                                        errors={errors}
-                                        rules={emailRules}
-                                        />
-                                </div>
-                                {
-                                    (
-                                        (i > 0 && !allowNoValue)
-                                        || allowNoValue
-                                    )
-                                    && !readOnly
-                                    && reduceable
-                                    && (
-                                        <div
-                                            className={styles.delete}
-                                            onClick={() => {
-
-                                                remove(i)
-
-                                            }}
-                                            >
-                                            <ImBin size={20}/>
-                                        </div>
-                                    )
-                                }
-                            </div>
-                            {register && errors[name] && errors[name][i] && errors[name][i]['label'] && (
-                                <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                                    {errors[name][i]['label'].message}
-                                </span>
-                            )}
-                            {register && errors[name] && errors[name][i] && errors[name][i]['email'] &&(
-                                <span className={createStyle([styles, customStyles], 'errorMessage')}>
-                                    {errors[name][i]['email'].message}
-                                </span>
-                            )}
-                        </div>
-                    )
-
-                })
+                register
+                && errors
+                && errors[name]
+                && errors[name].label
+                && <ErrorMessage
+                    errors={errors[name].label}
+                    />
             }
             {
-                !readOnly && expandable && (
-                    <div
-                        className={styles.addBtn}
-                        onClick={() => {
-
-                            append({ label:'', email:'' })
-
-                        }}
-                        >
-                        Add emailaddress
-                    </div>
-                )
+                register
+                && errors
+                && errors[name]
+                && errors[name].email
+                && <ErrorMessage
+                    errors={errors[name].email}
+                    />
             }
+
         </div>
     )
 

@@ -114,8 +114,6 @@ export default function Calendar(attributes){
 
     function onSubmit(data){
 
-        console.log(data)
-
         if(viewMode === 'update event'){
 
             updateEvent(data)
@@ -194,8 +192,6 @@ export default function Calendar(attributes){
     async function updateEvent(data){
 
         data._id = selectedEvent._id
-
-        console.log(data)
 
         const result = await onUpdateEvent(data)
 
@@ -345,7 +341,7 @@ export default function Calendar(attributes){
                             className={`${styles.day} ${viewRange === 'month' && !d.isMainMonth && createStyle([styles, customStyles], 'lowTransparency') || ''}`}
                             onClick={evt => {
 
-                                if(viewRange === 'month' && d.isMainMonth || viewRange !== 'month'){
+                                if(viewRange === 'month' && d.isMainMonth || viewRange === 'week'){
 
                                     evt.stopPropagation()
 
@@ -396,27 +392,24 @@ export default function Calendar(attributes){
                                 : null
                             }
                             {
-                                events.map(calenderEvent => {
+                                viewRange === 'day' && (
+                                    <Button
+                                        onClick={evt => {
 
-                                    // const fromDateSplitted = calenderEvent.date.from.split('-')
-                                    // const fromTimeSplitted = calenderEvent.time.from.split(':')
-                                    //
-                                    // const untilDateSplitted = calenderEvent.date.until.split('-')
-                                    // const untilTimeSplitted = calenderEvent.time.until.split(':')
-                                    //
-                                    // const fromDateTimeInTimestamp = new Date()
-                                    // fromDateTimeInTimestamp.setYear(fromDateSplitted[0])
-                                    // fromDateTimeInTimestamp.setMonth(fromDateSplitted[1] - 1)
-                                    // fromDateTimeInTimestamp.setDate(fromDateSplitted[2])
-                                    // fromDateTimeInTimestamp.setHours(fromTimeSplitted[0])
-                                    // fromDateTimeInTimestamp.setMinutes(fromTimeSplitted[1])
-                                    //
-                                    // const untilDateTimeInTimestamp = new Date()
-                                    // untilDateTimeInTimestamp.setYear(untilDateSplitted[0])
-                                    // untilDateTimeInTimestamp.setMonth(untilDateSplitted[1] - 1)
-                                    // untilDateTimeInTimestamp.setDate(untilDateSplitted[2])
-                                    // untilDateTimeInTimestamp.setHours(untilTimeSplitted[0])
-                                    // untilDateTimeInTimestamp.setMinutes(untilTimeSplitted[1])
+                                            evt.stopPropagation()
+
+                                            adjustViewMode('create event')
+                                            setSelectedEvent({})
+
+                                        }}
+                                        >
+                                        <AiFillPlusCircle size={25} style={{ margin: '15px' }}/>
+                                        Create new event
+                                    </Button>
+                                )
+                            }
+                            {
+                                events.map(calenderEvent => {
 
                                     if(
                                         (
@@ -456,30 +449,20 @@ export default function Calendar(attributes){
                                 })
                             }
                             {
-                                viewRange === 'day'
-                                ? (
-                                    <div
-                                        className={createStyle([styles, customStyles], 'headerButtonGroup')}
-                                        style={{ margin: '10px auto 10px auto' }}
+                                viewRange === 'day' && (
+                                    <Button
+                                        label={<><AiFillPlusCircle size={25} style={{ marginRight: '15px' }}/>Create new event</>}
+                                        onClick={evt => {
+
+                                            evt.stopPropagation()
+
+                                            adjustViewMode('create event')
+                                            setSelectedEvent({})
+
+                                        }}
                                         >
-                                        <button
-                                            className={createStyle([styles, customStyles], 'headerButton')}
-                                            onClick={evt => {
-
-                                                evt.stopPropagation()
-
-                                                adjustViewMode('create event')
-                                                setSelectedEvent({})
-
-                                            }}
-                                            style={{ fontSize: '20px', display: 'flex', justifyContent: 'center', alignItems:'center', padding: '10px 25px 10px 10px' }}
-                                            >
-                                            <AiFillPlusCircle size={25} style={{ margin: '15px' }}/>
-                                            Create new event
-                                        </button>
-                                    </div>
+                                    </Button>
                                 )
-                                : null
                             }
                         </div>
                     )
@@ -703,7 +686,7 @@ export default function Calendar(attributes){
                                 {
                                     viewRange === 'day' && (
                                         <div className={createStyle([styles, customStyles], 'calendar')}>
-                                            <div className={createStyle([styles, customStyles], 'dayViewTitle')}>
+                                            <div className={createStyle([styles, customStyles], 'weekday')}>
                                                 {moment(selectedViewTime).format('DD MMMM YYYY')}
                                             </div>
                                             <div className={createStyle([styles, customStyles], 'dayViewContent')}>
@@ -759,12 +742,12 @@ export default function Calendar(attributes){
                                         return (
                                             <div className={createStyle([styles, customStyles], 'listItem')} key={event._id}>
                                                 <div className={createStyle([styles, customStyles], 'listItemTitle')}>
-                                                    {event.name}
+                                                    {event?.name}
                                                 </div>
                                                 <div className={createStyle([styles, customStyles], 'listItemContent')}>
-                                                    From: {moment(event.from).format()} <br />
-                                                    Until: {moment(event.until).format()} <br />
-                                                    Description: {event.dscription} <br />
+                                                    Start: {moment(event?.datetime?.start).format()} <br />
+                                                    End: {moment(event?.datetime?.end).format()} <br />
+                                                    Description: {event?.description} <br />
                                                 </div>
                                             </div>
                                         )
@@ -839,7 +822,6 @@ export default function Calendar(attributes){
                                     {applyTranslation('CalendarComponent.RECURRING_LABEL')}
                                 </Label>
                             </Form>
-
                         )
                     }
                 </div>
