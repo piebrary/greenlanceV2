@@ -177,6 +177,22 @@ module.exports = async server => {
                 roles
             } = userRequestDto(req.body)
 
+            const adjustedRoles = []
+
+            roles.filter(role => {
+
+                for(let key in role){
+
+                    if(role[key] === true){
+
+                        adjustedRoles.push(key)
+
+                    }
+
+                }
+
+            })
+
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
             if(!matchingCurrentPasswords){
@@ -202,7 +218,7 @@ module.exports = async server => {
                     username,
                     email,
                     passwordHash,
-                    roles
+                    roles:adjustedRoles
                 })
 
                 const newMutationDoc = new MutationModel({
@@ -211,7 +227,7 @@ module.exports = async server => {
                     data:{
                         username,
                         email,
-                        roles
+                        roles:adjustedRoles
                     }
                 })
 
@@ -363,7 +379,24 @@ module.exports = async server => {
                 addresses,
                 settings,
                 currentPassword,
+                roles,
             } = userRequestDto(req.body)
+
+            const adjustedRoles = []
+
+            roles.filter(role => {
+
+                for(let key in role){
+
+                    if(role[key] === true){
+
+                        adjustedRoles.push(key)
+
+                    }
+
+                }
+
+            })
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
@@ -390,6 +423,7 @@ module.exports = async server => {
 
                 if(name) userDoc.name = name
                 if(email) userDoc.email = email
+                if(roles) userDoc.roles = adjustedRoles
                 if(phone) userDoc.phone = phone
                 if(address) userDoc.address = address
                 if(emails) userDoc.emails = emails
@@ -403,7 +437,13 @@ module.exports = async server => {
                     data:{
                         username:userDoc.username,
                         email,
-                        roles
+                        roles:adjustedRoles,
+                        phone,
+                        address,
+                        emails,
+                        phones,
+                        addresses,
+                        settings,
                     }
                 })
 

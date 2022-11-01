@@ -200,48 +200,6 @@ module.exports = (async () => {
             password:'password1'
         },
         {
-            username:'superuser1',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'superuser1@admins.com',
-            roles:['superuser'],
-            name: { first:'Superuser', last:'One' }
-        })
-
-        await createUser({
-            username:'admin1',
-            password:'password1'
-        },
-        {
-            username:'superuser2',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'superuser2@admins.com',
-            roles:['superuser'],
-            name: { first:'Superuser', last:'Two' }
-        })
-
-        await createUser({
-            username:'admin1',
-            password:'password1'
-        },
-        {
-            username:'superuser3',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'superuser3@admins.com',
-            roles:['superuser'],
-            name: { first:'Superuser', last:'Three' }
-        })
-
-        await createUser({
-            username:'admin1',
-            password:'password1'
-        },
-        {
             username:'user1',
             newPassword:'password1',
             repeatPassword:'password1',

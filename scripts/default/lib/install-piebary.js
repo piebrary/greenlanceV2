@@ -57,9 +57,11 @@ const fs = require('fs/promises')
         await fs.appendFile('../../../api/.env', `DB_USERNAME_DEV=${DB_USERNAME_DEV}\n`)
         await fs.appendFile('../../../api/.env', `DB_PASSWORD_DEV=${DB_PASSWORD_DEV}\n`)
         await fs.appendFile('../../../api/.env', `DB_URL_DEV=${DB_URL_DEV}\n`)
-        await fs.appendFile('../../../app/.env', `ENVIRONMENT=${ENVIRONMENT}\n`)
+        await fs.appendFile('../../../api/.env', `ENVIRONMENT=${ENVIRONMENT}\n`)
 
         console.log(`Successfully installed ${APP_NAME} with the help of PieBrary`)
+
+        process.exit()
 
     } catch (error) {
 

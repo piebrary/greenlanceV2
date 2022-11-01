@@ -29,7 +29,7 @@ export default function Checkbox(attributes){
                 />
             <div className={createStyle([styles, customStyles], 'checkboxes')}>
                 {
-                    options.map(o => {
+                    options.map((o, i) => {
 
                         return (
                             <label
@@ -41,7 +41,7 @@ export default function Checkbox(attributes){
                                     onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
-                                    {...register(label + o.value, rules)}
+                                    {...register(`${name}.${i}.${o.name}`, rules)}
                                     />
                                 {o.name}
                             </label>

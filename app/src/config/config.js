@@ -1,7 +1,7 @@
 module.exports = (() => {
 
     return {
-        THEME:'default',
+        THEME:'greenlance',
         DARKMODE:false
     }
 

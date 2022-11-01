@@ -41,7 +41,7 @@ export function en(){
         "CALENDAR":"Calendar",
         "TEXTAREA":"Textarea",
         "BASIC":"Basic",
-        "ADMIN":"Admin pages",
+        "ADMIN":"Admin",
         "COMPONENTS":"Components",
         "DEFAULT":"Default",
         "NOTIFICATIONS":"Notifications",

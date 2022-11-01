@@ -8,7 +8,7 @@ export default function LogoSmall({ customStyles }){
 
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
-            PieBrary
+            Greenlance
         </div>
     )
 

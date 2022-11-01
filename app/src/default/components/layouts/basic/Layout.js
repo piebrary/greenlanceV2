@@ -8,8 +8,6 @@ import { UserContext } from '../../../contexts/UserContext'
 import { LanguageContext } from '../../../contexts/LanguageContext'
 import { VisualsContext } from '../../../contexts/VisualsContext'
 
-import Logo from '../../logo/Logo'
-
 import { BiMenu } from 'react-icons/bi'
 import { IoIosArrowUp } from 'react-icons/io'
 import { BiLogOutCircle } from 'react-icons/bi'
@@ -20,6 +18,10 @@ import { createStyle } from '../../../utils/createStyle'
 import styles from './Layout.module.css'
 
 export default function Layout({ items = [], children, customStyles, title, controls, logo }){
+
+    let Logo
+
+    try { Logo = require('../../../../custom/components/logo/Logo').default } catch { Logo = require('../../../../default/components/logo/Logo').default }
 
     const { logout } = useContext(AuthenticationContext)
     const { userData } = useContext(UserContext)
@@ -168,7 +170,9 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
                                                 return createStyle([styles, customStyles], isActive ? 'itemIsActive' : 'item')}
 
-                                            }>
+                                            }
+                                            end
+                                            >
                                             <div className={styles.itemIcon}>{item.icon}</div>
                                             <div className={styles.itemText}>{item.text}</div>
                                         </NavLink>

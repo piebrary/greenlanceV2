@@ -10,7 +10,6 @@ import Layout from '../../../default/components/layouts/basic/Layout'
 import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../default/assets/js/menu/items'
-import { rolesOptions } from '../../../default/assets/js/user/roles'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { containsNumber } from '../../../default/utils/containsNumber'

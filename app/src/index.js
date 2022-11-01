@@ -2,16 +2,23 @@ import React from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { createRoot } from 'react-dom/client'
 
-import App from './default/App'
-
-import AuthenticationContextProvider from './default/contexts/AuthenticationContext'
-import UserContextProvider from './default/contexts/UserContext'
-import LanguageContextProvider from './default/contexts/LanguageContext'
-import VisualsContextProvider from './default/contexts/VisualsContext'
-
 import './index.css'
 
 import reportWebVitals from './reportWebVitals'
+
+let App,
+    AuthenticationContextProvider,
+    UserContextProvider,
+    LanguageContextProvider,
+    VisualsContextProvider,
+    RolesContextProvider
+
+try { App = require('./custom/App').default } catch { App = require('./default/App').default }
+try { AuthenticationContextProvider = require('./custom/contexts/AuthenticationContext').default } catch { AuthenticationContextProvider = require('./default/contexts/AuthenticationContext').default }
+try { UserContextProvider = require('./custom/contexts/UserContext').default } catch { UserContextProvider = require('./default/contexts/UserContext').default }
+try { LanguageContextProvider = require('./custom/contexts/LanguageContext').default } catch { LanguageContextProvider = require('./default/contexts/LanguageContext').default }
+try { VisualsContextProvider = require('./custom/contexts/VisualsContext').default } catch { VisualsContextProvider = require('./default/contexts/VisualsContext').default }
+try { RolesContextProvider = require('./custom/contexts/RolesContext').default } catch { RolesContextProvider = require('./default/contexts/RolesContext').default }
 
 createRoot(
     document.getElementById('root')
@@ -21,9 +28,11 @@ createRoot(
             <UserContextProvider>
                 <VisualsContextProvider>
                     <LanguageContextProvider>
-                        <Router>
-                            <App />
-                        </Router>
+                            <RolesContextProvider>
+                            <Router>
+                                <App />
+                            </Router>
+                        </RolesContextProvider>
                     </LanguageContextProvider>
                 </VisualsContextProvider>
             </UserContextProvider>

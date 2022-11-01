@@ -23,7 +23,7 @@ import Controls from '../../../default/components/controls/Controls'
 import { BiUserPlus } from 'react-icons/bi'
 import { FiCheckCircle } from 'react-icons/fi'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import { menuitems } from '../../../custom/assets/js/menu/items'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
@@ -123,7 +123,7 @@ export default function Users(){
             newPassword,
             repeatPassword,
             currentPassword,
-            roles
+            roles,
         } = data
 
         const _id = selectedUser._id

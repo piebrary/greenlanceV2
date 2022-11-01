@@ -1,20 +1,20 @@
 import { useContext, useState } from 'react'
 
-import { AuthenticationContext } from '../../contexts/AuthenticationContext'
+import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
-import { passwordResetRequest } from '../../services/AuthenticationService'
+import { passwordResetRequest } from '../../../default/services/AuthenticationService'
 
-import { LoginSchema } from '../../schemas/Login'
-import { RegisterSchema } from '../../schemas/Register'
-import { PasswordResetRequestSchema } from '../../schemas/PasswordResetRequest'
+import { LoginSchema } from '../../../default/schemas/Login'
+import { RegisterSchema } from '../../../default/schemas/Register'
+import { PasswordResetRequestSchema } from '../../../default/schemas/PasswordResetRequest'
 
-import Form from '../../components/form/Form'
-import Input from '../../components/formElements/input/Input'
-import Button from '../../components/button/Button'
+import Form from '../../../default/components/form/Form'
+import Input from '../../../default/components/formElements/input/Input'
+import Button from '../../../default/components/button/Button'
 
-import Logo from '../../components/logo/Logo'
+import LogoSmall from '../../../custom/components/logo/Logo'
 
-import { applyStyles } from '../../utils/applyStyles'
+import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Login.module.css'
 
@@ -78,7 +78,7 @@ export default function Login(){
             <header className={styles.header}>
             </header>
             <main className={styles.main}>
-                <Logo
+                <LogoSmall
                     customStyles={applyStyles([styles], 'customLogo')}/>
                 {
                     curView === 'login' && (

@@ -61,6 +61,13 @@ module.exports = async () => {
         }
 
         try {
+            require('../../custom/server/routes/v1/s/roles')(server)
+            require('../../default/server/routes/v1/s/roles')(server)
+        } catch {
+            require('../../default/server/routes/v1/s/roles')(server)
+        }
+
+        try {
             require('../../custom/server/routes/v1/s/event')(server)
             require('../../default/server/routes/v1/s/event')(server)
         } catch {
