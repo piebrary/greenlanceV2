@@ -34,8 +34,6 @@ export default function RolesContextProvider({ children }){
 
                     const response = await getRoles()
 
-                    console.log(response)
-
                     setAvailableRoles(response.data)
 
                 } catch (error) {

@@ -35,8 +35,6 @@ import { AuthenticationContext } from '../default/contexts/AuthenticationContext
 import { UserContext } from '../default/contexts/UserContext'
 import { VisualsContext } from '../default/contexts/VisualsContext'
 
-import config from '../config/config'
-
 import '../default/assets/css/reset.css'
 
 import styles from './App.module.css'

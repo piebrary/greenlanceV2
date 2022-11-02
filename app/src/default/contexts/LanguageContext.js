@@ -1,35 +1,62 @@
-import { createContext, useContext } from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
+import { ConfigContext } from './ConfigContext'
 import { UserContext } from './UserContext'
-
-import { en } from '../assets/lang/en'
-import { nl } from '../assets/lang/nl'
 
 export const LanguageContext = createContext({})
 
 export default function LanguageContextProvider({ children }){
 
+    const { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } = useContext(ConfigContext)
     const { settings } = useContext(UserContext)
-    const languages = { en:en(), nl:nl() }
+
+    const [languages, setLanguages] = useState({})
+
+    useEffect(() => {
+
+        const langs = {}
+
+        for(let lang of AVAILABLE_LANGUAGES){
+
+            try {
+
+                const defaultLang = require(`../../default/assets/lang/${lang}`).default()
+                const customLang = require(`../../custom/assets/lang/${lang}`).default()
+
+                const newLang = Object.assign(defaultLang, customLang)
+
+                langs[lang] = newLang
+
+            } catch {
+
+                langs[lang] = require(`../../default/assets/lang/${lang}`).default()
+
+            }
+
+        }
+
+        setLanguages(langs)
+
+    }, [])
 
     const contextData = {
         applyTranslation,
         createTranslation
     }
 
-    function applyTranslation(stringKey){
+    function applyTranslation(accessor){
 
-        return languages[settings.language][stringKey] || stringKey
+        return languages[settings.language][accessor] || accessor
 
     }
 
-    function createTranslation(key, translationObject){
+    function createTranslation(accessor, translations){
 
-        for(let language in languages){
+        for(let lang in languages){
 
-            if(translationObject[language]){
+            if(translations[lang]){
 
-                languages[language][key] = translationObject[language]
+                languages[lang][accessor] = translations[lang]
 
             }
 

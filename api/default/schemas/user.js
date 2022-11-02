@@ -66,7 +66,6 @@ module.exports = new Schema({
     settings: {
         language: {
             type: String,
-            default: 'en'
         },
     },
     mutations:{

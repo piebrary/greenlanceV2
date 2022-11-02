@@ -7,6 +7,7 @@ import './index.css'
 import reportWebVitals from './reportWebVitals'
 
 let App,
+    ConfigContextProvider,
     AuthenticationContextProvider,
     UserContextProvider,
     LanguageContextProvider,
@@ -14,6 +15,7 @@ let App,
     RolesContextProvider
 
 try { App = require('./custom/App').default } catch { App = require('./default/App').default }
+try { ConfigContextProvider = require('./custom/contexts/ConfigContext').default } catch { ConfigContextProvider = require('./default/contexts/ConfigContext').default }
 try { AuthenticationContextProvider = require('./custom/contexts/AuthenticationContext').default } catch { AuthenticationContextProvider = require('./default/contexts/AuthenticationContext').default }
 try { UserContextProvider = require('./custom/contexts/UserContext').default } catch { UserContextProvider = require('./default/contexts/UserContext').default }
 try { LanguageContextProvider = require('./custom/contexts/LanguageContext').default } catch { LanguageContextProvider = require('./default/contexts/LanguageContext').default }
@@ -24,19 +26,21 @@ createRoot(
     document.getElementById('root')
 ).render(
     <React.StrictMode>
-        <AuthenticationContextProvider>
-            <UserContextProvider>
-                <VisualsContextProvider>
-                    <LanguageContextProvider>
+        <ConfigContextProvider>
+            <AuthenticationContextProvider>
+                <UserContextProvider>
+                    <VisualsContextProvider>
+                        <LanguageContextProvider>
                             <RolesContextProvider>
-                            <Router>
-                                <App />
-                            </Router>
-                        </RolesContextProvider>
-                    </LanguageContextProvider>
-                </VisualsContextProvider>
-            </UserContextProvider>
-        </AuthenticationContextProvider>
+                                <Router>
+                                    <App />
+                                </Router>
+                            </RolesContextProvider>
+                        </LanguageContextProvider>
+                    </VisualsContextProvider>
+                </UserContextProvider>
+            </AuthenticationContextProvider>
+        </ConfigContextProvider>
     </React.StrictMode>
 )
 

@@ -25,7 +25,9 @@ import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { HiOutlineLogout } from 'react-icons/hi'
 import { FaFileInvoiceDollar } from 'react-icons/fa'
+import { FaQuestionCircle } from 'react-icons/fa'
 import { BsClockHistory } from 'react-icons/bs'
+import { FiMail } from 'react-icons/fi'
 
 export function menuitems({ userData, isAdmin, applyTranslation, createTranslation }){
 
@@ -90,6 +92,20 @@ export function menuitems({ userData, isAdmin, applyTranslation, createTranslati
                 text:applyTranslation('USERS'),
                 hidden:!isAdmin()
             } || undefined,
+        ],[
+            {
+                label:<>{applyTranslation('HELPDESK')}</>
+            },
+            {
+                to:'/faq',
+                icon:<FaQuestionCircle size={20} />,
+                text:applyTranslation('FAQ'),
+            },
+            {
+                to:'/contact',
+                icon:<FiMail size={20} />,
+                text:applyTranslation('CONTACT'),
+            },
         ],[
             {
                 label:<>{applyTranslation('LOGOUT')}</>

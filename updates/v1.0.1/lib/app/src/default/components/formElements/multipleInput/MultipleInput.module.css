@@ -1,0 +1,102 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--componentInputContainerBackgroundColor);
+    border-radius: var(--componentInputContainerBorderRadius);
+    padding: var(--componentInputContainerPadding);
+    gap: 10px;
+}
+
+.formElements {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+.removeOneButton {
+    width: 40px;
+    min-height: 100%;
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    background-color: var(--componentInputInputFieldBackgroundColor);
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.removeOneButton:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorDangerNormal);
+}
+
+.topControlsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--componentInputContainerBackgroundColor);
+    border-radius: var(--componentInputContainerBorderRadius);
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding: 6px 30px 0px 30px;
+    gap: 10px;
+    max-width: fit-content;
+    margin: 0px 40px -5px 40px;
+}
+
+.bottomControlsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    background-color: var(--componentInputContainerBackgroundColor);
+    border-radius: var(--componentInputContainerBorderRadius);
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding: 0px 40px 6px 40px;
+    gap: 10px;
+    max-width: fit-content;
+    margin: -5px 30px 0px 30px;
+}
+
+.removeButton {
+    width: 70px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    background-color: var(--componentInputInputFieldBackgroundColor);
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.removeButton:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorDangerNormal);
+}
+
+.controlButton {
+    width: 70px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--componentInputInputFieldBorderRadius);
+    background-color: var(--componentInputInputFieldBackgroundColor);
+    cursor: pointer;
+    font-size: 24px;
+}
+
+.controlButton:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorSuccessLight);
+}
+
+.removeElementContainerStyle_container {
+    background-color: transparent;
+    border-radius: 0px;
+    padding: 0px;
+}

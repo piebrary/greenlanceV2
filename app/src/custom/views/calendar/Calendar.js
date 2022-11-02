@@ -11,6 +11,7 @@ import Controls from '../../../default/components/controls/Controls'
 
 import { menuitems } from '../../../custom/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
+import { notificationManager } from '../../../default/utils/notifications'
 
 import styles from './Calendar.module.css'
 
@@ -19,6 +20,33 @@ export default function CalendarView(){
     const { applyTranslation } = useContext(LanguageContext)
     const { userData, isAdmin } = useContext(UserContext)
 
+    const notifications = notificationManager()
+
+    const [events, setEvents] = useState([])
+
+    useEffect(() => {
+
+        ;(async () => {
+
+            try {
+
+                const response = await getEvents()
+
+                setEvents(response.data)
+
+            } catch {
+
+                notifications.create({
+                    title: "Could not fetch settings",
+                    type: "danger",
+                })
+
+            }
+
+        })()
+
+    }, [])
+
     return (
         <Layout
             items={menuitems({ userData, isAdmin, applyTranslation })}
@@ -26,7 +54,7 @@ export default function CalendarView(){
             controls={<Controls />}
             >
             <Calendar
-                getEvents={getEvents}
+                events={events}
                 onCreateEvent={postEvent}
                 onUpdateEvent={putEvent}
                 onDeleteEvent={delEvent}

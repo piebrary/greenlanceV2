@@ -37,6 +37,8 @@ const fs = require('fs/promises')
         await fs.cp('../../../api/.env.example', `../../../updates/${NEW_VERSION_NUMBER}/lib/api/.env.example`)
         await fs.cp('../../../app/.env.example', `../../../updates/${NEW_VERSION_NUMBER}/lib/app/.env.example`)
         await fs.cp('../../../app/src/default', `../../../updates/${NEW_VERSION_NUMBER}/lib/app/src/default`, { recursive: true })
+        await fs.cp('../../../app/src/index.js', `../../../updates/${NEW_VERSION_NUMBER}/lib/app/src/index.js`, { recursive: true })
+        await fs.cp('../../../app/src/index.css', `../../../updates/${NEW_VERSION_NUMBER}/lib/app/src/index.css`, { recursive: true })
         await fs.cp('../../../documentation/default', `../../../updates/${NEW_VERSION_NUMBER}/lib/documentation/default`, { recursive: true })
         await fs.cp('../../../scripts/default', `../../../updates/${NEW_VERSION_NUMBER}/lib/scripts/default`, { recursive: true })
 

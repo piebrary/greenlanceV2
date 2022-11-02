@@ -1,0 +1,57 @@
+.container {
+    background-color: var(--componentSelectContainerBackgroundColor);
+    display: flex;
+    justify-content: start;
+    flex-direction: column;
+    border-radius: var(--componentSelectContainerBorderRadius);
+    padding: var(--componentSelectContainerPadding);
+}
+
+.label {
+    margin-bottom: 6px;
+    margin-left: 4px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.select {
+    border: var(--componentSelectSelectBorder);
+    border-radius: var(--componentSelectSelectBorderRadius);
+    font-size: var(--componentSelectSelectFontSize);
+    padding: var(--componentSelectSelectPadding);
+    color: var(--componentSelectSelectColor);
+    cursor: pointer;
+    outline: var(--componentSelectSelectOutline);
+    width: 100%;
+    transition: 0.3s ease-in-out;
+    background-color: var(--componentInputInputFieldBackgroundColor);
+    overflow: auto;
+    padding: 6px;
+}
+
+.select:focus-within, .select:hover {
+    color: var(--colorWhite);
+    /* background-color: var(--colorPrimary3); */
+    transition: 0.3s ease-in-out;
+}
+
+.select:not([multiple]):focus-within, .select:not([multiple]):hover {
+    background-color: var(--colorPrimary3);
+    transition: 0.3s ease-in-out;;
+    padding: 10px;
+}
+
+.select option {
+    color: black;
+    background-color: white;
+    padding: 6px;
+}
+
+.select option:hover,
+.select option:focus,
+.select option:active,
+.select option:checked {
+    background: linear-gradient(var(--colorPrimary3), var(--colorPrimary3));
+    border-radius: 5px;
+    color: white;
+}

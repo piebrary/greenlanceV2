@@ -32,7 +32,7 @@ export default function Calendar(attributes){
 
     const {
         customStyles,
-        getEvents,
+        events = [],
         onCreateEvent,
         onUpdateEvent,
         onDeleteEvent
@@ -42,7 +42,7 @@ export default function Calendar(attributes){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
 
-    const [events, setEvents] = useState([])
+    const [calendarEvents, setCalendarEvents] = useState(events)
     const [viewRange, setViewRange] = useState('month')
     const [viewMode, setViewMode] = useState('calendar')
     const [previousViewMode, setPreviousViewMode] = useState('calendar')
@@ -52,15 +52,9 @@ export default function Calendar(attributes){
 
     useEffect(() => {
 
-        (async () => {
+        setCalendarEvents(events)
 
-            const response = await getEvents()
-
-            setEvents(response.data)
-
-        })()
-
-    }, [])
+    }, [events])
 
     createTranslation('CalendarComponent.TITLE_LABEL', {
         en:'Title and description',
@@ -179,7 +173,7 @@ export default function Calendar(attributes){
 
         const result = await onCreateEvent(data)
 
-        setEvents(previous => {
+        setCalendarEvents(previous => {
 
             return [...previous, result.data]
 
@@ -195,7 +189,7 @@ export default function Calendar(attributes){
 
         const result = await onUpdateEvent(data)
 
-        setEvents(previous => {
+        setCalendarEvents(previous => {
 
             return previous.map(e => {
 
@@ -217,7 +211,7 @@ export default function Calendar(attributes){
 
             const result = await onDeleteEvent(selectedEvent._id)
 
-            setEvents(previous => {
+            setCalendarEvents(previous => {
 
                 return previous.filter(e => e._id !== selectedEvent._id)
 
@@ -409,7 +403,7 @@ export default function Calendar(attributes){
                                 )
                             }
                             {
-                                events.map(calenderEvent => {
+                                calendarEvents.map(calenderEvent => {
 
                                     if(
                                         (
@@ -477,7 +471,7 @@ export default function Calendar(attributes){
 
         setCalendar(rows)
 
-    }, [viewRange, selectedViewTime, events])
+    }, [viewRange, selectedViewTime, calendarEvents])
 
     const defaultValues = {
         name:selectedEvent?.name,
@@ -737,7 +731,7 @@ export default function Calendar(attributes){
                         viewMode === 'list' && (
                             <div className={createStyle([styles, customStyles], 'listContainer')}>
                                 {
-                                    events.map(event => {
+                                    calendarEvents.map(event => {
 
                                         return (
                                             <div className={createStyle([styles, customStyles], 'listItem')} key={event._id}>

@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+}
+
+.container div, .container a {
+    cursor: pointer;
+    font-size: 26px;
+    color: var(--colorGreyLighter);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 10px;
+}
+
+.container div:hover, .container a:hover {
+    color: var(--colorPrimary2);
+}

@@ -8,7 +8,7 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
@@ -21,26 +21,17 @@ module.exports = async server => {
     try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../../default/utils/encryptPassword') }
     try { passwordsMatch = require('../../custom/utils/passwordsMatch') } catch { passwordsMatch = require('../../default/utils/passwordsMatch') }
     try { logger = require('../../custom/utils/logger') } catch { logger = require('../../default/utils/logger') }
+    try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
     async function getUser(req){
 
         try {
 
-            const userDoc = await UserModel
-                .findOne({
-                    _id:req.user._id
-                })
-                .exec()
+            const currentUserDoc = await getCurrentUser(req)
+            if(!currentUserDoc) return notFoundHandler('User')
 
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
-
-            const userDocDto = userResponseDto(userDoc)
-
-            return successHandler(undefined, userDocDto)
+            const currentUserDocDto = userResponseDto(currentUserDoc)
+            return successHandler(undefined, currentUserDocDto)
 
         } catch (error) {
 
@@ -54,11 +45,7 @@ module.exports = async server => {
 
         try {
 
-            const currentUserDoc = await UserModel
-                .findOne({
-                    _id:req.user._id
-                })
-                .exec()
+            const currentUserDoc = await getCurrentUser(req)
 
             if(!currentUserDoc){
 
@@ -67,10 +54,8 @@ module.exports = async server => {
             }
 
             const userDoc = await UserModel
-                .findOne({
-                    _id:req.params._id
-                })
-                .exec()
+                .findOne({ _id:req.params._id })
+
 
             if(!userDoc){
 
@@ -106,13 +91,13 @@ module.exports = async server => {
 
             const userDocs = await UserModel
                 .find()
-                .exec()
+
 
             const currentUserDoc = await UserModel
                 .findOne({
                     _id:req.user._id
                 })
-                .exec()
+
 
             if(!currentUserDoc){
 
@@ -154,7 +139,7 @@ module.exports = async server => {
 
             const currentUserDoc = await UserModel
                 .findOne({ _id:req.user._id })
-                .exec()
+
 
             if(!currentUserDoc){
 
@@ -179,19 +164,23 @@ module.exports = async server => {
 
             const adjustedRoles = []
 
-            roles.filter(role => {
+            if(Array.isArray(roles)){
 
-                for(let key in role){
+                roles.map(role => {
 
-                    if(role[key] === true){
+                    for(let key in role){
 
-                        adjustedRoles.push(key)
+                        if(role[key] === true){
+
+                            adjustedRoles.push(key)
+
+                        }
 
                     }
 
-                }
+                })
 
-            })
+            }
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
@@ -258,7 +247,7 @@ module.exports = async server => {
 
             const userDoc = await UserModel
                 .findOne({ _id:req.user._id })
-                .exec()
+
 
             if(!userDoc){
 
@@ -355,7 +344,7 @@ module.exports = async server => {
                 .findOne({
                     _id:req.user._id
                 })
-                .exec()
+
 
             if(!currentUserDoc){
 
@@ -365,7 +354,7 @@ module.exports = async server => {
 
             if(!currentUserDoc.isAdmin){
 
-                errorHandler(403, 'Forbidden')
+                return errorHandler(403, 'Forbidden')
 
             }
 
@@ -384,19 +373,23 @@ module.exports = async server => {
 
             const adjustedRoles = []
 
-            roles.filter(role => {
+            if(Array.isArray(roles)){
 
-                for(let key in role){
+                roles.map(role => {
 
-                    if(role[key] === true){
+                    for(let key in role){
 
-                        adjustedRoles.push(key)
+                        if(role[key] === true){
+
+                            adjustedRoles.push(key)
+
+                        }
 
                     }
 
-                }
+                })
 
-            })
+            }
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
@@ -408,7 +401,7 @@ module.exports = async server => {
 
             const userDoc = await UserModel
                 .findOne({ _id:req.params._id })
-                .exec()
+
 
             if(!userDoc){
 
@@ -474,7 +467,7 @@ module.exports = async server => {
 
             const currentUser = await UserModel
                 .findOne({ _id:req.user._id })
-                .exec()
+
 
             if(!currentUser){
 
@@ -490,7 +483,7 @@ module.exports = async server => {
 
             const result = UserModel
                 .findOneAndDelete({ _id:req.params._id })
-                .exec()
+
 
             return successHandler(undefined, 'User successfully deleted')
 
@@ -508,7 +501,7 @@ module.exports = async server => {
 
             const userDoc = await UserModel
                 .findOne({ _id:req.user._id })
-                .exec()
+
 
             if(!userDoc){
 
@@ -559,7 +552,7 @@ module.exports = async server => {
             // get user who makes the request
             const currentUser = await UserModel
                 .findOne({ _id:req.user._id })
-                .exec()
+
 
             // error if this user is not found
             if(!currentUser){
@@ -577,7 +570,7 @@ module.exports = async server => {
 
             const userDoc = await UserModel
                 .findOne({ _id:req.params._id })
-                .exec()
+
 
             if(!userDoc){
 

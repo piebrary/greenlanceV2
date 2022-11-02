@@ -11,7 +11,7 @@ module.exports = async () => {
     try {
 
         try {
-            logger = require('../../custom/utils/logger')()
+            logger = require('../../custom/utils/logger')
         } catch {
             logger = require('../../default/utils/logger')
         }
@@ -30,7 +30,6 @@ module.exports = async () => {
         express.use(cors())
 
         express.use('/public', Express.static(path.join(__dirname, '../../public')))
-        express.use(Express.static(path.join(__dirname, 'frontend', 'build')))
 
         try {
             require('../../custom/server/auth.js')(server)

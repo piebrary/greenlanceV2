@@ -347,7 +347,7 @@ export default function theme(options){
     /* component.grid */
     const componentGridTemplateColumns = 'repeat(3, 1fr)'
     const componentGridTemplateGap = '10px'
-    const componentGridTemplateAutoRows = 'minmax(100px, auto)'
+    const componentGridTemplateAutoRows = 'minmax(fit-content, auto)'
     const componentGridItemBackgroundColor = colorPrimary3
     const componentGridItemBorderRadius = '4px'
 

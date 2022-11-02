@@ -1,4 +1,4 @@
-export function nl(){
+export default function nl(){
 
     return {
 

@@ -1,0 +1,90 @@
+.container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.categoryContainer {
+    width: fit-content;
+    min-width: fit-content;
+    box-sizing: border-box;
+    max-width: 100%;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    padding: 4px;
+    height: 100%;
+}
+
+.content {
+    max-width: 400px;
+    margin: auto;
+}
+
+.form1Submit_button {
+    background-color: var(--success1);
+    padding: 10px 15px;
+    color: var(--secondary3);
+    cursor: pointer;
+}
+
+.form1Submit_button:hover {
+    background-color: var(--success2);
+}
+
+.grid1_grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+
+.submit_button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--success2);
+    color: white;
+    cursor: pointer;
+}
+
+.submit_button:hover {
+    background-color: var(--success1);
+    color: white;
+}
+
+.reset_button {
+    border: 0px;
+    border-radius: 4px;
+    padding: 5px 10px;
+    background-color: var(--colorPrimary5);
+    color: white;
+    cursor: pointer;
+}
+
+.reset_button:hover {
+    background-color: var(--colorPrimary3);
+    color: white;
+}
+
+@media only screen and (min-width: 1100px) {
+
+    .grid1_grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        grid-auto-rows: minmax(100px, auto);
+    }
+
+    .card1_card {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .card2_card {
+        grid-column: 2 / 4;
+        grid-row: 1;
+    }
+
+}

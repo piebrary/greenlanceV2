@@ -1,0 +1,31 @@
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--componentFormItemsMarginBottom);
+}
+
+.submitBtn_button {
+    width: 100px;
+    padding: 10px 20px;
+    background-color: var(--colorSuccessLight);
+    color: var(--colorWhite);
+}
+
+.submitBtn_button:hover {
+    background-color: var(--colorSuccessNormal);
+    color: var(--colorWhite);
+}
+
+.resetBtn_button {
+    width: 100px;
+    padding: 10px 20px;
+    background-color: var(--colorDangerLight);
+    color: var(--colorWhite);
+}
+
+.resetBtn_button:hover {
+    background-color: var(--colorDangerNormal);
+    color: var(--colorWhite);
+}

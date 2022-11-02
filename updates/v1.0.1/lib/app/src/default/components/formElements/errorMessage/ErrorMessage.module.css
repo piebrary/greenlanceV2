@@ -1,0 +1,10 @@
+.errorMessage {
+    min-width: 100%;
+    color: var(--componentInputErrorMessageColor);
+    box-sizing: border-box;
+    display: block;
+    font-size: var(--componentInputErrorMessageFontSize);
+    text-align: left;
+    margin-top: var(--componentInputErrorMessageMarginTop);
+    margin-left: 10px;
+}

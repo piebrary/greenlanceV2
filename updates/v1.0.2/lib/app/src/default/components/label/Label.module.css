@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.label {
+    background-color: var(--colorGreyDarker);
+    padding: 10px;
+    width: fit-content;
+    max-width: 100%;
+    border-radius: 4px;
+    color: white;
+    user-select: none;
+}

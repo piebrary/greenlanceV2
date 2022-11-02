@@ -1,0 +1,4 @@
+#!/bin/sh
+
+cd ../../app && npm run test:watch
+read -p "Press any key to continue . . ."

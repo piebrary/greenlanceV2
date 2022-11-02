@@ -1,0 +1,49 @@
+.layoutContainer {
+    background-color: #002B4E;
+    width: 100%;
+    height: fit-content;
+    min-height: 100vh;
+}
+
+.menuContainer {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px;
+    position: fixed;
+    background: rgb(0,43,78);
+    background: linear-gradient(0deg, rgba(0,43,78,0) 0%, rgba(0,43,78,1) 40%, rgba(0,43,78,1) 100%);
+}
+
+.logo {
+    color: white;
+    font-size: 30px;
+}
+
+.menuitems {
+    display: flex;
+}
+
+.menuitem {
+    color: white;
+    font-style: bold;
+    padding: 10px 16px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.menuitem:hover, .menuitem:active, .menuitem:visited {
+    background-color: lightgreen;
+    color: #002B4E;
+}
+
+.menuitem + .menuitem {
+    margin-left: 20px;
+}
+
+
+.view {
+    padding-top: 140px;
+}

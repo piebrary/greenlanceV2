@@ -1,8 +1,6 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState, useEffect, useContext } from 'react'
 
-import config from '../../config/config'
-
-import { themes } from '../../default/assets/js/themes'
+import { ConfigContext } from './ConfigContext'
 
 import { deepCopy } from '../../default/utils/deepCopy'
 
@@ -10,20 +8,37 @@ export const VisualsContext = createContext({})
 
 export default function VisualsContextProvider({ children }){
 
-    const [currentTheme, setCurrentTheme] = useState(config.THEME || 'default')
+    const { AVAILABLE_THEMES, DEFAULT_THEME } = useContext(ConfigContext)
+
+    const [currentTheme, setCurrentTheme] = useState(DEFAULT_THEME)
     const [darkmode, setDarkmode] = useState(false)
 
-    let themes
+    const [themes, setThemes] = useState({})
+    const [defaultTheme, setDefaultTheme] = useState({})
 
-    try {
+    useEffect(() => {
 
-        themes = require('../../custom/assets/js/themes').themes
+        const themesContainer = {
+            default:require(`../../default/themes/default`).default
+        }
 
-    } catch (error) {
+        for(let theme of AVAILABLE_THEMES){
 
-        themes = require('../../default/assets/js/themes').themes
+            try {
 
-    }
+                themesContainer[theme] = require(`../../custom/themes/${theme}`).default
+
+            } catch {
+
+                themesContainer[theme] = require(`../../default/themes/${theme}`).default
+
+            }
+
+        }
+
+        setThemes(themesContainer)
+
+    }, [])
 
     function changeTheme(name){
 
@@ -43,9 +58,12 @@ export default function VisualsContextProvider({ children }){
 
     useEffect(() => {
 
-        if(!themes[currentTheme]){
+        if(
+            currentTheme === undefined
+            || themes[currentTheme] === undefined
+        ){
 
-            setCurrentTheme('default')
+            return
 
         }
 
@@ -57,11 +75,11 @@ export default function VisualsContextProvider({ children }){
 
         }
 
-    }, [currentTheme, darkmode])
+    }, [themes, currentTheme, darkmode])
 
     function getAvailableThemes(){
 
-        return Object.keys(themes)
+        return deepCopy(AVAILABLE_THEMES)
 
     }
 
