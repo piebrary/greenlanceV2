@@ -4,6 +4,9 @@ api/public
 # exclude ipa
 mobile-app/*.ipa
 
+# exclude updates folder
+updates/*
+
 # dotenv environment variables file
 .env
 .env.test
