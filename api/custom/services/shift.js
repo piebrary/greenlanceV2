@@ -25,8 +25,8 @@ module.exports = async server => {
         withdrawById,
         acceptById,
         declineById,
-        reportOnDuty,
-        checkout,
+        checkInById,
+        checkOutById,
     }
 
     async function getShifts(req){
@@ -45,7 +45,7 @@ module.exports = async server => {
 
                 const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentsDto = shiftDocuments.map(t => shiftAsFreelancerResponseDto(t))
+                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -57,7 +57,7 @@ module.exports = async server => {
 
                 const shiftDocuments = await ShiftModel.find({ business:currentBusinessDoc._id })
 
-                const shiftDocumentsDto = shiftDocuments.map(t => shiftAsBusinessResponseDto(t))
+                const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -189,13 +189,13 @@ module.exports = async server => {
 
     async function updateShiftById(req){
 
-        // only for employer
+        // only for business
 
         try {
 
             const currentUserDoc = await getCurrentUser(req)
 
-            if(!currentUserDoc.roles.includes('employer')) return errorHandler(403, 'Forbidden')
+            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
 
             const {
                 title,
@@ -267,7 +267,7 @@ module.exports = async server => {
 
     async function deleteShiftById(req){
 
-        // only for employer
+        // only for business
 
         try {
 
@@ -587,8 +587,104 @@ module.exports = async server => {
 
     }
 
+    async function checkInById(req){
 
-    reportOnDuty,
-    checkout,
+        try {
+
+            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+
+            const shiftDocument = await ShiftModel.findOne({
+                _id:req.params.shiftId
+            })
+
+            if(!shiftDocument) return notFoundHandler('Shift')
+            if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+
+            const checkInTime = req.query.datetime || new Date()
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                shiftDoc.checkIn.push({
+                    _id:freelancerDoc._id,
+                    datetime:checkInTime
+                })
+
+                const newMutationShiftDoc = new MutationModel({
+                    user:req.user._id,
+                    action:'reportCheckIn',
+                    datetime:checkInTime
+                })
+
+                shiftDocument.mutations.push(newMutationShiftDoc._id)
+                await shiftDocument.save()
+                await newMutationShiftDoc.save()
+
+            })
+
+            session.endSession()
+
+            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+
+            return successHandler(undefined, shiftDocumentDto)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function checkOutById(req){
+
+        try {
+
+            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+
+            const shiftDocument = await ShiftModel.findOne({
+                _id:req.params.shiftId
+            })
+
+            if(!shiftDocument) return notFoundHandler('Shift')
+            if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+
+            const checkOutTime = req.query.datetime || new Date()
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                shiftDoc.checkIn.push({
+                    _id:freelancerDoc._id,
+                    time:checkOutTime
+                })
+
+                const newMutationShiftDoc = new MutationModel({
+                    user:req.user._id,
+                    action:'reportCheckOut',
+                    time:checkOutTime
+                })
+
+                shiftDocument.mutations.push(newMutationShiftDoc._id)
+                await shiftDocument.save()
+                await newMutationShiftDoc.save()
+
+            })
+
+            session.endSession()
+
+            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+
+            return successHandler(undefined, shiftDocumentDto)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
 
 }

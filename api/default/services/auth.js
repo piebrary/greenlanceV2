@@ -15,8 +15,8 @@ module.exports = async server => {
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
-    try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
+    try { ownUserAsUserRequestDto = require('../../custom/dto/request/user/ownUserAsUser') } catch { ownUserAsUserRequestDto = require('../../default/dto/request/user/ownUserAsUser') }
+    try { ownUserAsUserResponseDto = require('../../custom/dto/response/user/ownUserAsUser') } catch { ownUserAsUserResponseDto = require('../../default/dto/response/user/ownUserAsUser') }
     try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
 
 
@@ -33,7 +33,7 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
-            } = userRequestDto(req.body)
+            } = ownUserAsUserRequestDto(req.body)
 
             if(password !== repeatPassword){
 
@@ -73,7 +73,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = userResponseDto(response)
+            const userDocDto = ownUserAsUserResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
@@ -82,50 +82,6 @@ module.exports = async server => {
             return errorHandler(undefined, error)
 
         }
-
-        // try {
-        //
-        //     const {
-        //         username,
-        //         email,
-        //         password,
-        //         repeatPassword,
-        //     } = userRequestDto(req.body)
-        //
-        //     if(password !== repeatPassword){
-        //
-        //         return errorHandler(406, 'Passwords don\'t match')
-        //
-        //     }
-        //
-        //     const newMutationDocument = new MutationModel()
-        //     const newUserDocument = new UserModel()
-        //
-        //     newUserDocument.username = username
-        //     newUserDocument.passwordHash = await encryptPassword(password)
-        //     newUserDocument.email = email
-        //     newUserDocument.roles.push('user')
-        //     newUserDocument.mutations.push(newMutationDocument._id)
-        //
-        //     newMutationDocument.user = newUserDocument._id
-        //     newMutationDocument.action = 'create'
-        //     newMutationDocument.data = {
-        //         username,
-        //         email
-        //     }
-        //
-        //     const result = await newUserDocument.save()
-        //     await newMutationDocument.save()
-        //
-        //     const userDocumentDto = userResponseDto(result)
-        //
-        //     return successHandler(undefined, userDocumentDto)
-        //
-        // } catch (error) {
-        //
-        //     return errorHandler(undefined, error)
-        //
-        // }
 
     }
 

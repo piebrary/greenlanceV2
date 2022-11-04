@@ -1,17 +1,26 @@
 const sanitize = require('mongo-sanitize')
 
-module.exports = data => {
+module.exports = documents => {
 
-    if(data === undefined) return undefined
+    if(Array.isArray(documents)){
 
-    const {
-        label,
-        number,
-    } = sanitize(data)
+        return documents.map(d => getDto(d))
 
-    return {
-        label,
-        number,
+    }
+
+    return getDto(documents)
+
+    function getDto(document){
+
+        const {
+            label,
+            number,
+        } = sanitize(document)
+
+        return {
+            label,
+            number,
+        }
     }
 
 }

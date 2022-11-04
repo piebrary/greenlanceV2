@@ -32,7 +32,7 @@ module.exports = async server => {
                 .find()
                 .exec()
 
-            const eventDocumentsDto = eventDocuments.map(t => eventResponseDto(t))
+            const eventDocumentsDto = eventResponseDto(eventDocuments)
 
             return successHandler(undefined, eventDocumentsDto)
 

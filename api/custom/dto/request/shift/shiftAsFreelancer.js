@@ -41,7 +41,7 @@ module.exports = documents => {
             recurring,
             rights,
             active
-        } = sanitize(document)
+        } = sanitize(requestBody)
 
         return {
             name,

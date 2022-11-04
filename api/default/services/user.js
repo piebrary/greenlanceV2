@@ -8,15 +8,19 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, Resize, encryptPassword, passwordsMatch, logger, getCurrentUser
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userAsAdminRequestDto, userAsAdminResponseDto, ownUserAsUserRequestDto, ownUserAsUserResponseDto, otherUserAsUserRequestDto, otherUserAsUserResponseDto, Resize, encryptPassword, passwordsMatch, logger, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { userRequestDto = require('../../custom/dto/request/user/user') } catch { userRequestDto = require('../../default/dto/request/user/user') }
-    try { userResponseDto = require('../../custom/dto/response/user/user') } catch { userResponseDto = require('../../default/dto/response/user/user') }
+    try { userAsAdminRequestDto = require('../../custom/dto/request/user/userAsAdmin') } catch { userAsAdminRequestDto = require('../../default/dto/request/user/userAsAdmin') }
+    try { userAsAdminResponseDto = require('../../custom/dto/response/user/userAsAdmin') } catch { userAsAdminResponseDto = require('../../default/dto/response/user/userAsAdmin') }
+    try { ownUserAsUserRequestDto = require('../../custom/dto/request/user/ownUserAsUser') } catch { ownUserAsUserRequestDto = require('../../default/dto/request/user/ownUserAsUser') }
+    try { ownUserAsUserResponseDto = require('../../custom/dto/response/user/ownUserAsUser') } catch { ownUserAsUserResponseDto = require('../../default/dto/response/user/ownUserAsUser') }
+    try { otherUserAsUserRequestDto = require('../../custom/dto/request/user/otherUserAsUser') } catch { otherUserAsUserRequestDto = require('../../default/dto/request/user/otherUserAsUser') }
+    try { otherUserAsUserResponseDto = require('../../custom/dto/response/user/otherUserAsUser') } catch { otherUserAsUserResponseDto = require('../../default/dto/response/user/otherUserAsUser') }
     try { Resize = require('../../custom/utils/Resize') } catch { Resize = require('../../default/utils/Resize') }
     try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../../default/utils/encryptPassword') }
     try { passwordsMatch = require('../../custom/utils/passwordsMatch') } catch { passwordsMatch = require('../../default/utils/passwordsMatch') }
@@ -30,7 +34,7 @@ module.exports = async server => {
             const currentUserDoc = await getCurrentUser(req)
             if(!currentUserDoc) return notFoundHandler('User')
 
-            const currentUserDocDto = userResponseDto(currentUserDoc)
+            const currentUserDocDto = ownUserAsUserResponseDto(currentUserDoc)
             return successHandler(undefined, currentUserDocDto)
 
         } catch (error) {
@@ -47,35 +51,31 @@ module.exports = async server => {
 
             const currentUserDoc = await getCurrentUser(req)
 
-            if(!currentUserDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if(!currentUserDoc) return notFoundHandler('User')
 
             const userDoc = await UserModel
                 .findOne({ _id:req.params._id })
 
 
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
-
-            const userDocDto = userResponseDto(userDoc)
+            if(!userDoc) return notFoundHandler('User')
 
             if(currentUserDoc.isAdmin){
+
+                const userDocDto = userAsAdminResponseDto(userDoc)
 
                 return successHandler(undefined, userDocDto)
 
             }
 
-            return successHandler(undefined, {
-                _id:userDocDto._id,
-                username:userDocDto.username,
-                profilePicture:userDocDto.profilePicture
-            })
+            if(currentUserDoc.isUser){
+
+                const userDocDto = otherUserAsUserResponseDto(userDoc)
+
+                return successHandler(undefined, userDocDto)
+
+            }
+
+            return errorHandler(406, 'User role not found')
 
         } catch (error) {
 
@@ -98,32 +98,25 @@ module.exports = async server => {
                     _id:req.user._id
                 })
 
-
-            if(!currentUserDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if(!currentUserDoc) return notFoundHandler('User')
 
             if(currentUserDoc.isAdmin){
 
-                const userDocsDto = userDocs.map(u => userResponseDto(u))
+                const userDocDto = userAsAdminResponseDto(userDoc)
 
-                return successHandler(undefined, userDocsDto)
+                return successHandler(undefined, userDocDto)
 
             }
 
-            const userDocsDto = userDocs.map(u => {
+            if(currentUserDoc.isUser){
 
-                return {
-                    _id:u._id,
-                    username:u._id,
-                    profilePicture:u.profilePicture
-                }
+                const userDocDto = otherUserAsUserResponseDto(userDoc)
 
-            })
+                return successHandler(undefined, userDocDto)
 
-            return successHandler(undefined, userDocsDto)
+            }
+
+            return errorHandler(406, 'User role not found')
 
         } catch (error) {
 
@@ -140,18 +133,8 @@ module.exports = async server => {
             const currentUserDoc = await UserModel
                 .findOne({ _id:req.user._id })
 
-
-            if(!currentUserDoc){
-
-                return notFoundHandler('User')
-
-            }
-
-            if(!currentUserDoc.isAdmin){
-
-                return errorHandler(403, 'Forbidden')
-
-            }
+            if(!currentUserDoc) return notFoundHandler('User')
+            if(!currentUserDoc.isAdmin) return errorHandler(403, 'Forbidden')
 
             const {
                 username,
@@ -184,17 +167,9 @@ module.exports = async server => {
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
-            if(!matchingCurrentPasswords){
+            if (!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
 
-                return errorHandler(406, 'Wrong password')
-
-            }
-
-            if(newPassword !== repeatPassword){
-
-                return errorHandler(406, 'Passwords don\'t match')
-
-            }
+            if (newPassword !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
 
             let response
 
@@ -229,7 +204,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = userResponseDto(response)
+            const userDocDto = userAsAdminResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
@@ -248,12 +223,7 @@ module.exports = async server => {
             const userDoc = await UserModel
                 .findOne({ _id:req.user._id })
 
-
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if(!userDoc) return notFoundHandler('User')
 
             const {
                 name,
@@ -271,11 +241,7 @@ module.exports = async server => {
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
-            if(!matchingCurrentPasswords){
-
-                return errorHandler(406, 'Wrong password')
-
-            }
+            if(!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
 
             let response
 
@@ -324,7 +290,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = userResponseDto(response)
+            const userDocDto = ownUserAsUserResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
@@ -345,18 +311,8 @@ module.exports = async server => {
                     _id:req.user._id
                 })
 
-
-            if(!currentUserDoc){
-
-                return notFoundHandler('User')
-
-            }
-
-            if(!currentUserDoc.isAdmin){
-
-                return errorHandler(403, 'Forbidden')
-
-            }
+            if(!currentUserDoc) return notFoundHandler('User')
+            if(!currentUserDoc.isAdmin) return errorHandler(403, 'Forbidden')
 
             const {
                 name,
@@ -393,21 +349,13 @@ module.exports = async server => {
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
-            if(!matchingCurrentPasswords){
-
-                return errorHandler(406, 'Wrong password')
-
-            }
+            if (!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
 
             const userDoc = await UserModel
                 .findOne({ _id:req.params._id })
 
 
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if (!userDoc) return notFoundHandler('User')
 
             let response
 
@@ -449,7 +397,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = userResponseDto(response)
+            const userDocDto = otherUserAsAdminResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
@@ -468,22 +416,11 @@ module.exports = async server => {
             const currentUser = await UserModel
                 .findOne({ _id:req.user._id })
 
-
-            if(!currentUser){
-
-                return notFoundHandler('User')
-
-            }
-
-            if(!currentUser.isAdmin){
-
-                return errorHandler(403, 'Forbidden')
-
-            }
+            if (!currentUser) return notFoundHandler('User')
+            if (!currentUser.isAdmin) return errorHandler(403, 'Forbidden')
 
             const result = UserModel
                 .findOneAndDelete({ _id:req.params._id })
-
 
             return successHandler(undefined, 'User successfully deleted')
 
@@ -502,12 +439,7 @@ module.exports = async server => {
             const userDoc = await UserModel
                 .findOne({ _id:req.user._id })
 
-
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if(!userDoc) return notFoundHandler('User')
 
             const fileUpload = new Resize(profilePicturePath)
             const filename = await fileUpload.save(req.file.buffer)
@@ -553,30 +485,16 @@ module.exports = async server => {
             const currentUser = await UserModel
                 .findOne({ _id:req.user._id })
 
-
             // error if this user is not found
-            if(!currentUser){
-
-                return notFoundHandler('User')
-
-            }
+            if(!currentUser) return notFoundHandler('User')
 
             // error if the suer is not an admin
-            if(!currentUser.isAdmin){
-
-                return errorHandler(403, 'Forbidden')
-
-            }
+            if(!currentUser.isAdmin) return errorHandler(403, 'Forbidden')
 
             const userDoc = await UserModel
                 .findOne({ _id:req.params._id })
 
-
-            if(!userDoc){
-
-                return notFoundHandler('User')
-
-            }
+            if(!userDoc) return notFoundHandler('User')
 
             const fileUpload = new Resize(profilePicturePath)
             const filename = await fileUpload.save(req.file.buffer)

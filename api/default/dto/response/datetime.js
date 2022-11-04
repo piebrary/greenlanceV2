@@ -1,5 +1,3 @@
-const sanitize = require('mongo-sanitize')
-
 module.exports = documents => {
 
     if(Array.isArray(documents)){
@@ -13,13 +11,13 @@ module.exports = documents => {
     function getDto(document){
 
         const {
-            label,
-            email,
-        } = sanitize(document)
+            start,
+            end,
+        } = document
 
         return {
-            label,
-            email,
+            start,
+            end,
         }
     }
 

@@ -1,15 +1,24 @@
-module.exports = data => {
+module.exports = documents => {
 
-    if(data === undefined) return undefined
+    if(Array.isArray(documents)){
 
-    const {
-        label,
-        number,
-    } = data
+        return documents.map(d => getDto(d))
 
-    return {
-        label,
-        number,
+    }
+
+    return getDto(documents)
+
+    function getDto(document){
+
+        const {
+            label,
+            number,
+        } = document
+
+        return {
+            label,
+            number,
+        }
     }
 
 }

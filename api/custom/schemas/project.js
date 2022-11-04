@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 
 module.exports = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
@@ -13,14 +13,12 @@ module.exports = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Business'
     },
-    payment:{
-        type: String
+    shifts:{
+        type: [Schema.Types.ObjectId],
+        ref: 'Shift',
     },
     label:{
         type: String
-    },
-    spots: {
-        type: Number
     },
     datetime: {
         start: {
@@ -52,52 +50,10 @@ module.exports = new Schema({
             country: String,
         },
     },
-    recurring:{
-        interval: {
-            type: String,
-        },
-        until: {
-            type: Number,
-        },
-    },
     creator:{
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
-    applied: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-    },
-    enrolled: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-    },
-    withdrawn: {
-        type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-    },
-    checkIn: [{
-        _id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Freelancer',
-            required: true
-        },
-        datetime: {
-            type: Date,
-            required: true
-        }
-    }],
-    checkOut: [{
-        _id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Freelancer',
-            required: true
-        },
-        datetime: {
-            type: Date,
-            required: true
-        }
-    }],
     active:{
         type: Boolean,
         required: true

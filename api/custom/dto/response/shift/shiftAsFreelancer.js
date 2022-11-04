@@ -39,7 +39,7 @@ module.exports = documents => {
             location,
             recurring,
             active
-        } = documents
+        } = document
 
         return {
             _id,
@@ -51,7 +51,6 @@ module.exports = documents => {
             recurring:recurringResponseDto(recurring),
             active
         }
-
     }
 
 }

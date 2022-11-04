@@ -13,23 +13,15 @@ module.exports = documents => {
     function getDto(document){
 
         const {
-            label,
-            street,
-            number,
-            zipCode,
-            city,
-            province,
-            country
+            start,
+            end,
+            interval
         } = sanitize(document)
 
         return {
-            label,
-            street,
-            number,
-            zipCode,
-            city,
-            province,
-            country
+            start,
+            end,
+            interval
         }
     }
 

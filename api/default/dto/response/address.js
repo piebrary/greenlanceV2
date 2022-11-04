@@ -1,25 +1,35 @@
-module.exports = data => {
+module.exports = documents => {
 
-    if(data === undefined) return undefined
+    if(Array.isArray(documents)){
 
-    const {
-        label,
-        street,
-        number,
-        zipCode,
-        city,
-        province,
-        country
-    } = data
+        return documents.map(d => getDto(d))
 
-    return {
-        label,
-        street,
-        number,
-        zipCode,
-        city,
-        province,
-        country
+    }
+
+    return getDto(documents)
+
+    function getDto(document){
+
+        const {
+            label,
+            street,
+            number,
+            zipCode,
+            city,
+            province,
+            country
+        } = document
+
+        return {
+            label,
+            street,
+            number,
+            zipCode,
+            city,
+            province,
+            country
+        }
+
     }
 
 }
