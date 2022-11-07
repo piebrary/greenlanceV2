@@ -6,21 +6,50 @@ module.exports = async server => {
     let UserModel, MutationModel, FreelancerModel, notFoundHandler, successHandler, errorHandler, freelancerRequestDto, freelancerResponseDto, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
+    try { BusinessModel = require('../../custom/models/business') } catch { BusinessModel = require('../../default/models/business') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { FreelancerModel = require('../../custom/models/freelancer') } catch { FreelancerModel = require('../../default/models/freelancer') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { freelancerRequestDto = require('../../custom/dto/request/freelancer/freelancer/') } catch { freelancerRequestDto = require('../../default/dto/request/freelancer/freelancer') }
-    try { freelancerResponseDto = require('../../custom/dto/response/freelancer/freelancer') } catch { freelancerResponseDto = require('../../default/dto/response/freelancer/freelancer') }
+    try { freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf/') } catch { freelancerAsSelfRequestDto = require('../../default/dto/request/freelancer/freelancerAsSelf') }
+    try { freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf') } catch { freelancerAsSelfResponseDto = require('../../default/dto/response/freelancer/freelancerAsSelf') }
+    try { freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness/') } catch { freelancerAsBusinessRequestDto = require('../../default/dto/request/freelancer/freelancerAsBusiness') }
+    try { freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness') } catch { freelancerAsBusinessResponseDto = require('../../default/dto/response/freelancer/freelancerAsBusiness') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
     return {
         getFreelancers,
         getFreelancerById,
         createFreelancer,
-        updateFreelancerById,
-        deleteFreelancerById,
+        // updateFreelancerById,
+        deleteFreelancerById
+    }
+
+    async function getFreelancer(req){
+
+        try {
+
+            const currentUserDoc = await getCurrentUser(req)
+
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            if(currentUserDoc.roles.includes('freelancer'){
+
+                const currentFreelancerDoc = await getCurrentFreelancer(req)
+
+                const freelancerDocumentDto = freelancerAsSelfResponseDto(freelancerDocuments)
+
+                return successHandler(undefined, freelancerDocumentsDto)
+
+            }
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
     }
 
     async function getFreelancers(req){
@@ -29,21 +58,15 @@ module.exports = async server => {
 
             const user_id = req.user._id
 
-            const currentUserDoc = await getCurrentUser(req)
+            const currentBusinessDoc = await getCurrentBusiness(req)
 
-            if(!currentUserDoc) return notFoundHandler('User')
+            if(!currentBusinessDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business'){
+            const freelancerDocuments = await BusinessModel.find({ users:req.user._id }).populate('freelancers')
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+            const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
 
-                const freelancerDocuments = await FreelancerModel.find({ business:currentBusinessDoc._id })
-
-                const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
-
-                return successHandler(undefined, freelancerDocumentsDto)
-
-            }
+            return successHandler(undefined, freelancerDocumentsDto)
 
         } catch (error) {
 
@@ -61,7 +84,10 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business'){
+            if(
+                currentUserDoc.roles.includes('business')
+                || currentUserDoc.roles.includes('admin')
+            ){
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
@@ -86,12 +112,9 @@ module.exports = async server => {
         try {
 
             const currentUserDoc = await getCurrentUser(req)
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            if(!currentUserDoc.roles.includes('freelancer')) return errorHandler(403, 'Forbidden')
 
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
-            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
-
-            const freelancerDto = freelancerRequestDto(req.body)
+            const freelancerDto = freelancerAsSelfRequestDto(req.body)
 
             let response
 
@@ -117,7 +140,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const newFreelancerDocDto = freelancerAsBusinessResponseDto(response)
+            const newFreelancerDocDto = freelancerAsSelfResponseDto(response)
 
             return successHandler(undefined, newFreelancerDocDto)
 
@@ -129,66 +152,74 @@ module.exports = async server => {
 
     }
 
-    async function updateFreelancerById(req){
+    // async function updateFreelancerById(req){
+    //
+    //     try {
+    //
+    //         const currentUserDoc = await getCurrentUser(req)
+    //
+    //         if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+    //
+    //         const freelancerDto = freelancerRequestDto(req.body)
+    //
+    //         const freelancerDoc = await FreelancerModel.findOne({ _id:req.params._id })
+    //
+    //         if(!freelancerDoc) return notFoundHandler('Freelancer')
+    //
+    //         let response
+    //
+    //         const session = await connection.startSession()
+    //         await session.withTransaction(async () => {
+    //
+    //             if(name) freelancerDoc.name = name
+    //             if(description) freelancerDoc.description = description
+    //             if(label) freelancerDoc.label = label
+    //             if(datetime) freelancerDoc.datetime = datetime
+    //             if(location) freelancerDoc.location = location
+    //             if(active) freelancerDoc.active = active
+    //
+    //             const newMutationDoc = new MutationModel({
+    //                 user:req.user._id,
+    //                 action:'update',
+    //                 data:freelancerDto
+    //             })
+    //
+    //             response = await freelancerDoc.save()
+    //             await newMutationDoc.save()
+    //
+    //         })
+    //
+    //         session.endSession()
+    //
+    //         const freelancerDocDto = freelancerAsBusinessResponseDto(response)
+    //
+    //         return successHandler(undefined, freelancerDocDto)
+    //
+    //     } catch (error) {
+    //
+    //         return errorHandler(undefined, error)
+    //
+    //     }
+    //
+    // }
+
+    async function deleteFreelancerById(req){
+
+        // only for freelancer
 
         try {
 
             const currentUserDoc = await getCurrentUser(req)
+            const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+            if(
+                !currentUserDoc.roles.includes('admin')
+                || currentFreelancerDoc._id !== req.params._id
+            ){
 
-            const freelancerDto = freelancerRequestDto(req.body)
+                return errorHandler(403, 'Forbidden')
 
-            const freelancerDoc = await FreelancerModel.findOne({ _id:req.params._id })
-
-            if(!freelancerDoc) return notFoundHandler('Freelancer')
-
-            let response
-
-            const session = await connection.startSession()
-            await session.withTransaction(async () => {
-
-                if(name) freelancerDoc.name = name
-                if(description) freelancerDoc.description = description
-                if(label) freelancerDoc.label = label
-                if(datetime) freelancerDoc.datetime = datetime
-                if(location) freelancerDoc.location = location
-                if(active) freelancerDoc.active = active
-
-                const newMutationDoc = new MutationModel({
-                    user:req.user._id,
-                    action:'update',
-                    data:freelancerDto
-                })
-
-                response = await freelancerDoc.save()
-                await newMutationDoc.save()
-
-            })
-
-            session.endSession()
-
-            const freelancerDocDto = freelancerAsBusinessResponseDto(response)
-
-            return successHandler(undefined, freelancerDocDto)
-
-        } catch (error) {
-
-            return errorHandler(undefined, error)
-
-        }
-
-    }
-
-    async function deleteFreelancerById(req){
-
-        // only for business
-
-        try {
-
-            const currentBusinessDoc = await getCurrentBusiness(req)
-
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
+            }
 
             const freelancerDocument = await FreelancerModel.findOneAndDelete({ _id:req.params._id })
 

@@ -8,7 +8,7 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userAsAdminRequestDto, userAsAdminResponseDto, ownUserAsUserRequestDto, ownUserAsUserResponseDto, otherUserAsUserRequestDto, otherUserAsUserResponseDto, Resize, encryptPassword, passwordsMatch, logger, getCurrentUser
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, userAsAdminRequestDto, userAsAdminResponseDto, userAsSelfRequestDto, userAsSelfResponseDto, userAsUserRequestDto, userAsUserResponseDto, Resize, encryptPassword, passwordsMatch, logger, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
@@ -17,10 +17,10 @@ module.exports = async server => {
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { userAsAdminRequestDto = require('../../custom/dto/request/user/userAsAdmin') } catch { userAsAdminRequestDto = require('../../default/dto/request/user/userAsAdmin') }
     try { userAsAdminResponseDto = require('../../custom/dto/response/user/userAsAdmin') } catch { userAsAdminResponseDto = require('../../default/dto/response/user/userAsAdmin') }
-    try { ownUserAsUserRequestDto = require('../../custom/dto/request/user/ownUserAsUser') } catch { ownUserAsUserRequestDto = require('../../default/dto/request/user/ownUserAsUser') }
-    try { ownUserAsUserResponseDto = require('../../custom/dto/response/user/ownUserAsUser') } catch { ownUserAsUserResponseDto = require('../../default/dto/response/user/ownUserAsUser') }
-    try { otherUserAsUserRequestDto = require('../../custom/dto/request/user/otherUserAsUser') } catch { otherUserAsUserRequestDto = require('../../default/dto/request/user/otherUserAsUser') }
-    try { otherUserAsUserResponseDto = require('../../custom/dto/response/user/otherUserAsUser') } catch { otherUserAsUserResponseDto = require('../../default/dto/response/user/otherUserAsUser') }
+    try { userAsSelfRequestDto = require('../../custom/dto/request/user/userAsSelf') } catch { userAsSelfRequestDto = require('../../default/dto/request/user/userAsSelf') }
+    try { userAsSelfResponseDto = require('../../custom/dto/response/user/userAsSelf') } catch { userAsSelfResponseDto = require('../../default/dto/response/user/userAsSelf') }
+    try { userAsUserRequestDto = require('../../custom/dto/request/user/userAsUser') } catch { userAsUserRequestDto = require('../../default/dto/request/user/userAsUser') }
+    try { userAsUserResponseDto = require('../../custom/dto/response/user/userAsUser') } catch { userAsUserResponseDto = require('../../default/dto/response/user/userAsUser') }
     try { Resize = require('../../custom/utils/Resize') } catch { Resize = require('../../default/utils/Resize') }
     try { encryptPassword = require('../../custom/utils/encryptPassword') } catch { encryptPassword = require('../../default/utils/encryptPassword') }
     try { passwordsMatch = require('../../custom/utils/passwordsMatch') } catch { passwordsMatch = require('../../default/utils/passwordsMatch') }
@@ -34,7 +34,7 @@ module.exports = async server => {
             const currentUserDoc = await getCurrentUser(req)
             if(!currentUserDoc) return notFoundHandler('User')
 
-            const currentUserDocDto = ownUserAsUserResponseDto(currentUserDoc)
+            const currentUserDocDto = userAsSelfResponseDto(currentUserDoc)
             return successHandler(undefined, currentUserDocDto)
 
         } catch (error) {
@@ -69,7 +69,7 @@ module.exports = async server => {
 
             if(currentUserDoc.isUser){
 
-                const userDocDto = otherUserAsUserResponseDto(userDoc)
+                const userDocDto = userAsUserResponseDto(userDoc)
 
                 return successHandler(undefined, userDocDto)
 
@@ -110,7 +110,7 @@ module.exports = async server => {
 
             if(currentUserDoc.isUser){
 
-                const userDocDto = otherUserAsUserResponseDto(userDoc)
+                const userDocDto = userAsUserResponseDto(userDoc)
 
                 return successHandler(undefined, userDocDto)
 
@@ -290,7 +290,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = ownUserAsUserResponseDto(response)
+            const userDocDto = userAsSelfResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
@@ -397,7 +397,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = otherUserAsAdminResponseDto(response)
+            const userDocDto = userAsAdminResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 

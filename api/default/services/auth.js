@@ -15,8 +15,8 @@ module.exports = async server => {
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { ownUserAsUserRequestDto = require('../../custom/dto/request/user/ownUserAsUser') } catch { ownUserAsUserRequestDto = require('../../default/dto/request/user/ownUserAsUser') }
-    try { ownUserAsUserResponseDto = require('../../custom/dto/response/user/ownUserAsUser') } catch { ownUserAsUserResponseDto = require('../../default/dto/response/user/ownUserAsUser') }
+    try { userAsSelfRequestDto = require('../../custom/dto/request/user/userAsSelf') } catch { userAsSelfRequestDto = require('../../default/dto/request/user/userAsSelf') }
+    try { userAsSelfResponseDto = require('../../custom/dto/response/user/userAsSelf') } catch { userAsSelfResponseDto = require('../../default/dto/response/user/userAsSelf') }
     try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
 
 
@@ -33,13 +33,9 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
-            } = ownUserAsUserRequestDto(req.body)
+            } = userAsSelfRequestDto(req.body)
 
-            if(password !== repeatPassword){
-
-                return errorHandler(406, 'Passwords don\'t match')
-
-            }
+            if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
 
             let response
 
@@ -73,7 +69,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const userDocDto = ownUserAsUserResponseDto(response)
+            const userDocDto = userAsSelfResponseDto(response)
 
             return successHandler(undefined, userDocDto)
 
