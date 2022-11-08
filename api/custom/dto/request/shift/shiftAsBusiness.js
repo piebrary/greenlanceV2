@@ -36,17 +36,21 @@ module.exports = documents => {
             name,
             description,
             label,
+            spots,
+            price,
             datetime,
             location,
             recurring,
             rights,
             active
-        } = sanitize(requestBody)
+        } = sanitize(document)
 
         return {
             name,
             description,
             label,
+            spots,
+            price,
             datetime:datetimeRequestDto(datetime),
             location:locationRequestDto(location),
             recurring:recurringRequestDto(recurring),

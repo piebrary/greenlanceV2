@@ -19,7 +19,7 @@ import styles from './Builder.module.css'
 export default function Builder(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     createTranslation('DocumentationView.INTRO', {
         en:`A comprehensive documentation is included. This documentation is updated regularly when an update is available through PieBrary updates. It provides developers working with PieBrary the necessary handles to develop a solid product fast and easy with the lowest change of bugs.`,
@@ -28,7 +28,7 @@ export default function Builder(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('Builder')}
             controls={<Controls />}
             >

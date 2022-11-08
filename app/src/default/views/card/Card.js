@@ -15,7 +15,7 @@ import styles from './Card.module.css'
 export default function CardView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     const data = []
 
@@ -51,7 +51,7 @@ export default function CardView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CARD')}
             controls={<Controls />}
             >

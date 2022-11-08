@@ -70,6 +70,34 @@ module.exports = (async () => {
 
     }
 
+    async function createBusiness(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/s/business',
+            data:data
+        })
+
+        console.log('created business', result.data)
+
+    }
+
+    async function createFreelancer(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/s/freelancer',
+            data:data
+        })
+
+        console.log('created freelancer', result.data)
+
+    }
+
     let UserModel, EventModel, FreelancerModel, BusinessModel, ReviewModel, ProjectModel, ShiftModel, MutationModel, encryptPassword, db
 
     try {
@@ -191,7 +219,7 @@ module.exports = (async () => {
             roles:['admin'],
         })
 
-        await createUser({
+        await createBusiness({
             username:'admin1',
             password:'password1'
         },
@@ -201,10 +229,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'bedrijf1@bedrijf1.nl',
-            roles:['business']
+            roles:['user', 'business']
         })
 
-        await createUser({
+        await createBusiness({
             username:'admin1',
             password:'password1'
         },
@@ -214,10 +242,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'bedrijf2@bedrijf2.nl',
-            roles:['business']
+            roles:['user', 'business']
         })
 
-        await createUser({
+        await createBusiness({
             username:'admin1',
             password:'password1'
         },
@@ -227,10 +255,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'bedrijf3@bedrijf3.nl',
-            roles:['business']
+            roles:['user', 'business']
         })
 
-        await createUser({
+        await createFreelancer({
             username:'admin1',
             password:'password1'
         },
@@ -240,10 +268,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'freelancer1@freelancer1.nl',
-            roles:['freelancer'],
+            roles:['user', 'freelancer'],
         })
 
-        await createUser({
+        await createFreelancer({
             username:'admin1',
             password:'password1'
         },
@@ -253,10 +281,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'freelancer2@freelancer2.nl',
-            roles:['freelancer'],
+            roles:['user', 'freelancer'],
         })
 
-        await createUser({
+        await createFreelancer({
             username:'admin1',
             password:'password1'
         },
@@ -266,10 +294,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'freelancer3@freelancer3.nl',
-            roles:['freelancer'],
+            roles:['user', 'freelancer'],
         })
 
-        await createUser({
+        await createFreelancer({
             username:'admin1',
             password:'password1'
         },
@@ -279,10 +307,10 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'freelancer4@freelancer4.nl',
-            roles:['freelancer'],
+            roles:['user', 'freelancer'],
         })
 
-        await createUser({
+        await createFreelancer({
             username:'admin1',
             password:'password1'
         },
@@ -292,7 +320,7 @@ module.exports = (async () => {
             repeatPassword:'password1',
             currentPassword:'password1',
             email:'freelancer5@freelancer5.nl',
-            roles:['freelancer'],
+            roles:['user', 'freelancer'],
         })
 
         console.log('Finished inserting data')

@@ -8,7 +8,7 @@ module.exports = documents => {
 
     return getDto(documents)
 
-    function getDto(document){
+    function getDto(document = {}){
 
         const {
             start,

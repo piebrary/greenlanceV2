@@ -6,7 +6,7 @@
     border-radius: var(--componentCheckboxContainerBorderRadius);
     padding: var(--componentCheckboxContainerPadding);
     word-wrap: break-word;
-    width: 100%;
+    align-items: center;
 }
 
 .label {
@@ -15,12 +15,9 @@
 }
 
 .checkboxes {
-    min-width: var(--componentCheckboxesMinWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
-    column-gap: 20px;
 }
 
 .checkboxPair {

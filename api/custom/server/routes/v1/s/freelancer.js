@@ -9,6 +9,20 @@ module.exports = async server => {
     const freelancerService = await FreelancerService(server)
 
     express.get(
+        process.env.API_PREFIX + '/v1/s/freelancer',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await freelancerService.getFreelancer(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.get(
         process.env.API_PREFIX + '/v1/s/freelancers',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {

@@ -39,7 +39,7 @@ module.exports = documents => {
             location,
             recurring,
             active
-        } = documents
+        } = document
 
         return {
             _id,

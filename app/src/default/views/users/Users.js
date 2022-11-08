@@ -35,7 +35,7 @@ import styles from './Users.module.css'
 export default function Users(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
+    const { userData, hasRole, saveUserData, getUsers, postUser, delUser } = useContext(UserContext)
     const { getAvailableRoles } = useContext(RolesContext)
 
     const notifications = notificationManager()
@@ -213,7 +213,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('USERS')}
             controls={<Controls />}
             >

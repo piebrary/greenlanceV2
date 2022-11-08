@@ -13,13 +13,15 @@ module.exports = documents => {
         const {
             _id,
             description,
-            labels
+            labels,
+            mutations,
         } = document
 
         return {
             _id,
             description,
-            labels
+            labels,
+            mutations,
         }
     }
 

@@ -42,7 +42,7 @@ import styles from './App.module.css'
 export default function App() {
 
     const { authState } = useContext(AuthenticationContext)
-    const { isAdmin } = useContext(UserContext)
+    const { hasRole } = useContext(UserContext)
     const { setTheme, currentTheme } = useContext(VisualsContext)
 
     const { pathname } = useLocation()
@@ -66,7 +66,7 @@ export default function App() {
                             <Route path="/" element={<DashboardView />} />
                             <Route path="/profile" element={<ProfileView />} />
                             <Route path="/settings" element={<SettingsView />} />
-                            { isAdmin() && <Route path="/users" element={<UsersView />} /> }
+                            { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
                             <Route path="/builder" element={<BuilderView />} />
                             <Route path="/documentation" element={<DocumentationView />} />
                             <Route path="/email" element={<EmailView />} />

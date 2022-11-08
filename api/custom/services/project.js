@@ -3,7 +3,7 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, ProjectModel, notFoundHandler, successHandler, errorHandler, projectRequestDto, projectResponseDto, getCurrentUser
+    let UserModel, MutationModel, ProjectModel, notFoundHandler, successHandler, errorHandler, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
@@ -11,9 +11,10 @@ module.exports = async server => {
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { projectRequestDto = require('../../custom/dto/request/project/project/') } catch { projectRequestDto = require('../../default/dto/request/project/project') }
-    try { projectResponseDto = require('../../custom/dto/response/project/project') } catch { projectResponseDto = require('../../default/dto/response/project/project') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
+
+    const projectAsBusinessRequestDto = require('../../custom/dto/request/project/projectAsBusiness')
+    const projectAsBusinessResponseDto = require('../../custom/dto/response/project/projectAsBusiness')
 
     return {
         getProjects,
@@ -33,7 +34,7 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business'){
+            if(currentUserDoc.roles.includes('business')){
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
@@ -61,13 +62,13 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business'){
+            if(currentUserDoc.roles.includes('business')){
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
                 const projectDocument = await ProjectModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
 
-                const projectDocumentDto = projectAsBusinessResponseDto(projectDocument))
+                const projectDocumentDto = projectAsBusinessResponseDto(projectDocument)
 
                 return successHandler(undefined, projectDocumentDto)
 
@@ -91,7 +92,7 @@ module.exports = async server => {
             if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
             if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
 
-            const projectDto = projectRequestDto(req.body)
+            const projectDto = projectAsBusinessRequestDto(req.body)
 
             let response
 
@@ -137,7 +138,7 @@ module.exports = async server => {
 
             if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
 
-            const projectDto = projectRequestDto(req.body)
+            const projectDto = projectAsBusinessRequestDto(req.body)
 
             const projectDoc = await ProjectModel.findOne({ _id:req.params._id })
 

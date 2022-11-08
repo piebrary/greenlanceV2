@@ -32,7 +32,7 @@ import styles from './Documentation.module.css'
 export default function Documentation(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     createTranslation('DocumentationView.INTRO', {
         en:`A comprehensive documentation is included. This documentation is updated regularly when an update is available through PieBrary updates. It provides developers working with PieBrary the necessary handles to develop a solid product fast and easy with the lowest change of bugs.`,
@@ -41,7 +41,7 @@ export default function Documentation(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('DOCUMENTATION')}
             controls={<Controls />}
             >

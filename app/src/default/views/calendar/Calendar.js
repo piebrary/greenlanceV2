@@ -18,7 +18,7 @@ import styles from './Calendar.module.css'
 export default function CalendarView(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     const notifications = notificationManager()
 
@@ -49,7 +49,7 @@ export default function CalendarView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CALENDAR')}
             controls={<Controls />}
             >

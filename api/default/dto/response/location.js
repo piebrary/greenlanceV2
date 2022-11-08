@@ -8,14 +8,14 @@ module.exports = documents => {
 
     return getDto(documents)
 
-    function getDto(document){
+    function getDto(document = {}){
 
         let addressResponseDto
 
         try {
-            addressResponseDto = require('../../../../custom/dto/response/address')
+            addressResponseDto = require('../../../custom/dto/response/address')
         } catch {
-            addressResponseDto = require('../../../../default/dto/response/address')
+            addressResponseDto = require('../../../default/dto/response/address')
         }
 
         const {

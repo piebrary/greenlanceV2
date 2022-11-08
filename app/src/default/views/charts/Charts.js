@@ -16,7 +16,7 @@ import styles from './Charts.module.css'
 export default function ButtonView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     createTranslation('ButtonView.Card1Body', {
         en:'The button component lets you easily create buttons which can be customized via css.',
@@ -25,7 +25,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('BUTTON')}
             controls={<Controls />}
             >

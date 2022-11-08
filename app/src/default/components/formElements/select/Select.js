@@ -1,5 +1,6 @@
 import ErrorMessage from'../errorMessage/ErrorMessage'
 import Title from'../title/Title'
+import Input from'../input/Input'
 
 import { createStyle } from '../../../utils/createStyle'
 
@@ -31,29 +32,41 @@ export default function Select(attributes){
                 title={label}
                 required={!readOnly && required}
                 />
-            <select
-                id={name}
-                className={createStyle([styles, customStyles], 'select')}
-                multiple={multiple}
-                size={size}
-                {...register(name, rules)}
-                onChange={onChange}>
-                {
-                    options.map(o => {
+            {
+                !readOnly && (
+                    <select
+                        id={name}
+                        className={createStyle([styles, customStyles], 'select')}
+                        multiple={multiple}
+                        size={size}
+                        {...register(name, rules)}
+                        onChange={onChange}>
+                        {
+                            options.map(o => {
 
-                        return (
-                            <option
-                                value={o.value}
-                                key={o.value}
-                                id={o.name}
-                                >
-                                {o.name}
-                            </option>
-                        )
+                                return (
+                                    <option
+                                        value={o.value}
+                                        key={o.value}
+                                        id={o.name}
+                                        >
+                                        {o.name}
+                                    </option>
+                                )
 
-                    })
-                }
-            </select>
+                            })
+                        }
+                    </select>
+                )
+            }
+            {
+                readOnly && (
+                    <Input
+                        readOnly={true}
+                        placeholder={defaultValue}
+                        />
+                )
+            }
             {
                 reg
                 && errors

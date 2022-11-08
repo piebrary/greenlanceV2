@@ -3,17 +3,21 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, ShiftModel, notFoundHandler, successHandler, errorHandler, shiftRequestDto, shiftResponseDto, getCurrentUser
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
-    try { ShiftModel = require('../../custom/models/shift') } catch { ShiftModel = require('../../default/models/shift') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { shiftRequestDto = require('../../custom/dto/request/shift/shift/') } catch { shiftRequestDto = require('../../default/dto/request/shift/shift') }
-    try { shiftResponseDto = require('../../custom/dto/response/shift/shift') } catch { shiftResponseDto = require('../../default/dto/response/shift/shift') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
+
+    const shiftAsBusinessRequestDto = require('../../custom/dto/request/shift/shiftAsBusiness')
+    const shiftAsFreelancerResponseDto = require('../../custom/dto/response/shift/shiftAsFreelancer')
+    const shiftAsBusinessResponseDto = require('../../custom/dto/response/shift/shiftAsBusiness')
+    const ShiftModel = require('../../custom/models/shift')
+    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
         getShifts,
@@ -39,11 +43,13 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('freelancer'){
+            if(currentUserDoc.roles.includes('freelancer')){
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-                const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
+                const shiftDocuments = await ShiftModel.find()
+                // use below line when enabling connected freelancers and businesses
+                // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
                 const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments)
 
@@ -51,7 +57,7 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business'){
+            if(currentUserDoc.roles.includes('business')){
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
@@ -62,6 +68,8 @@ module.exports = async server => {
                 return successHandler(undefined, shiftDocumentsDto)
 
             }
+
+            return errorHandler(403, 'Forbidden')
 
         } catch (error) {
 
@@ -79,7 +87,7 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('freelancer'){
+            if(currentUserDoc.roles.includes('freelancer')){
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
@@ -91,13 +99,13 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business'){
+            if(currentUserDoc.roles.includes('business')){
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
                 const shiftDocument = await ShiftModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
 
-                const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument))
+                const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
 
                 return successHandler(undefined, shiftDocumentDto)
 
@@ -120,50 +128,22 @@ module.exports = async server => {
 
             if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
 
-            const {
-                title,
-                description,
-                business,
-                payment,
-                label,
-                datetime,
-                location,
-                recurring,
-                active
-            } = shiftRequestDto(req.body)
+            const shiftDto = shiftAsBusinessRequestDto(req.body)
 
             let response
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                const newShiftDoc = new ShiftModel({
-                    title,
-                    description,
-                    business,
-                    payment,
-                    label,
-                    datetime,
-                    location,
-                    recurring,
-                    active,
-                    creator:currentUserDoc._id
-                })
+                shiftDto.business = currentBusinessDoc._id
+                shiftDto.creator = currentUserDoc._id
+
+                const newShiftDoc = new ShiftModel(shiftDto)
 
                 const newMutationDoc = new MutationModel({
                     user:currentUserDoc._id,
                     action:'create',
-                    data:{
-                        title,
-                        description,
-                        business,
-                        payment,
-                        label,
-                        datetime,
-                        location,
-                        recurring,
-                        active,
-                    }
+                    data:shiftDto
                 })
 
                 newShiftDoc.mutations.push(newMutationDoc._id)
@@ -206,7 +186,7 @@ module.exports = async server => {
                 location,
                 recurring,
                 active
-            } = shiftRequestDto(req.body)
+            } = shiftAsBusinessRequestDto(req.body)
 
             const shiftDoc = await ShiftModel.findOne({ _id:req.params._id })
 
@@ -296,8 +276,9 @@ module.exports = async server => {
             const currentFreelancerDoc = await getCurrentFreelancer(req)
             if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
 
+            // uncomment when  users need to be connected to a business
             const shiftDocument = await ShiftModel.findOne({
-                business:currentFreelancerDoc.businesses,
+                // business:currentFreelancerDoc.businesses,
                 _id:req.params._id
             })
 

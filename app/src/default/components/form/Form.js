@@ -23,7 +23,7 @@ export default function Form(attributes){
     let {
         customStyles,
         children,
-        onSubmit,
+        onSubmit = undefined,
         defaultValues,
         validationSchema,
         submitLabel = authState === 'success' && applyTranslation('SUBMIT') || 'Submit',
@@ -72,6 +72,7 @@ export default function Form(attributes){
             onSubmit={handleSubmit(onCustomSubmit)}
             className={createStyle([styles, customStyles], 'container')}
             >
+            {Object.keys(errors).length > 0 && process.env.REACT_APP_ENVIRONMENT === 'development' && console.log(errors)}
             {
                 children.map((child, i) => {
 
@@ -112,7 +113,7 @@ export default function Form(attributes){
                 })
             }
             {
-                amountOfRegisteredFields > amountOfReadOnlys && (
+                onSubmit && amountOfRegisteredFields > amountOfReadOnlys && (
                     <div
                         className={createStyle([styles, customStyles], 'btnContainer')}
                         >

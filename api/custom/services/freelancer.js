@@ -3,7 +3,7 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, FreelancerModel, notFoundHandler, successHandler, errorHandler, freelancerRequestDto, freelancerResponseDto, getCurrentUser
+    let UserModel, MutationModel, FreelancerModel, notFoundHandler, successHandler, errorHandler, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { BusinessModel = require('../../custom/models/business') } catch { BusinessModel = require('../../default/models/business') }
@@ -12,13 +12,18 @@ module.exports = async server => {
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf/') } catch { freelancerAsSelfRequestDto = require('../../default/dto/request/freelancer/freelancerAsSelf') }
-    try { freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf') } catch { freelancerAsSelfResponseDto = require('../../default/dto/response/freelancer/freelancerAsSelf') }
-    try { freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness/') } catch { freelancerAsBusinessRequestDto = require('../../default/dto/request/freelancer/freelancerAsBusiness') }
-    try { freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness') } catch { freelancerAsBusinessResponseDto = require('../../default/dto/response/freelancer/freelancerAsBusiness') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
+    const freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf')
+    const freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf')
+    const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
+    const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
+
+    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
+
     return {
+        getFreelancer,
         getFreelancers,
         getFreelancerById,
         createFreelancer,
@@ -34,13 +39,13 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('freelancer'){
+            if(currentUserDoc.roles.includes('freelancer')){
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-                const freelancerDocumentDto = freelancerAsSelfResponseDto(freelancerDocuments)
+                const freelancerDocumentDto = freelancerAsSelfResponseDto(currentFreelancerDoc)
 
-                return successHandler(undefined, freelancerDocumentsDto)
+                return successHandler(undefined, freelancerDocumentDto)
 
             }
 
@@ -93,7 +98,7 @@ module.exports = async server => {
 
                 const freelancerDocument = await FreelancerModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
 
-                const freelancerDocumentDto = freelancerAsBusinessResponseDto(freelancerDocument))
+                const freelancerDocumentDto = freelancerAsBusinessResponseDto(freelancerDocument)
 
                 return successHandler(undefined, freelancerDocumentDto)
 

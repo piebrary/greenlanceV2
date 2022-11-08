@@ -25,7 +25,7 @@ import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { HiOutlineLogout } from 'react-icons/hi'
 
-export function menuitems({ userData, isAdmin, applyTranslation }){
+export function menuitems({ userData, hasRole, applyTranslation }){
 
     return [
         [
@@ -47,29 +47,25 @@ export function menuitems({ userData, isAdmin, applyTranslation }){
                 icon:<VscSettings size={20} />,
                 text:applyTranslation('SETTINGS')
             },
-            isAdmin() && {
+            hasRole('admin') && {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS') + ' (ADMIN)',
-                hidden:!isAdmin()
             } || undefined,
-            isAdmin() && {
+            hasRole('admin') && {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
                 text:applyTranslation('BUILDER') + ' (ADMIN)',
-                hidden:!isAdmin()
             } || undefined,
-            isAdmin() && {
+            hasRole('admin') && {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
                 text:applyTranslation('DOCUMENTATION') + ' (ADMIN)',
-                hidden:!isAdmin()
             } || undefined,
-            isAdmin() && {
+            hasRole('admin') && {
                 to:'/email',
                 icon:<MdOutlineEmail size={20} />,
                 text:applyTranslation('EMAIL') + ' (ADMIN)',
-                hidden:!isAdmin()
             } || undefined,
         ],[
             {

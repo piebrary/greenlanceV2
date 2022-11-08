@@ -141,7 +141,7 @@
     vertical-align: var(--componentCalendarTableCellVerticalAlign);
     padding: var(--componentCalendarTableCellPadding);
     /* width: var(--componentCalendarWidth); */
-    cursor: pointer;
+    /* cursor: pointer; */
     overflow: hidden;
     /* min-width: var(--componentCalendarTableCellMinWidth); */
     transition: .5s;

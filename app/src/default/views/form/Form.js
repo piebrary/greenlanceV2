@@ -28,7 +28,7 @@ import styles from './Form.module.css'
 export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, settings } = useContext(UserContext)
+    const { userData, hasRole, settings } = useContext(UserContext)
 
     createTranslation('FORMVIEW.introMessage', {
         en:'The form component can be used to quickly build forms. It supports all normal form elements and provides validations and error messages.',
@@ -205,7 +205,7 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('FORM')}
             controls={<Controls />}
             >

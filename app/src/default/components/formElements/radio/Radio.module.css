@@ -6,7 +6,7 @@
     border-radius: var(--componentRadioContainerBorderRadius);
     padding: var(--componentRadioContainerPadding);
     word-wrap: break-word;
-    width: 100%;
+    align-items: center;
 }
 
 .label {
@@ -15,12 +15,10 @@
 }
 
 .radios {
-    min-width: var(--componentRadiosMinWidth);
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    width: 100%;
-    column-gap: 20px;
+    height: 100%;
 }
 
 .radioPair {

@@ -14,7 +14,7 @@ let App,
     VisualsContextProvider,
     RolesContextProvider
 
-try { App = require('./custom/App').default } catch { App = require('./default/App').default }
+try { App = require('./custom/App').default } catch (error) { App = require('./default/App').default }
 try { ConfigContextProvider = require('./custom/contexts/ConfigContext').default } catch { ConfigContextProvider = require('./default/contexts/ConfigContext').default }
 try { AuthenticationContextProvider = require('./custom/contexts/AuthenticationContext').default } catch { AuthenticationContextProvider = require('./default/contexts/AuthenticationContext').default }
 try { UserContextProvider = require('./custom/contexts/UserContext').default } catch { UserContextProvider = require('./default/contexts/UserContext').default }

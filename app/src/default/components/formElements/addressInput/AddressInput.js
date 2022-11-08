@@ -125,69 +125,69 @@ export default function AddressInput(attributes){
                         />
                 </Grid>
             </div>
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].label
-                && <ErrorMessage
-                    errors={errors[name].label}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].street
-                && <ErrorMessage
-                    errors={errors[name].street}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].number
-                && <ErrorMessage
-                    errors={errors[name].number}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].zipCode
-                && <ErrorMessage
-                    errors={errors[name].zipCode}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].city
-                && <ErrorMessage
-                    errors={errors[name].city}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].province
-                && <ErrorMessage
-                    errors={errors[name].province}
-                    />
-            }
-            {
-                register
-                && errors
-                && errors[name]
-                && errors[name].country
-                && <ErrorMessage
-                    errors={errors[name].country}
-                    />
-            }
+            {/*// {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].label
+            //     && <ErrorMessage
+            //         errors={errors[name].label}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].street
+            //     && <ErrorMessage
+            //         errors={errors[name].street}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].number
+            //     && <ErrorMessage
+            //         errors={errors[name].number}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].zipCode
+            //     && <ErrorMessage
+            //         errors={errors[name].zipCode}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].city
+            //     && <ErrorMessage
+            //         errors={errors[name].city}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].province
+            //     && <ErrorMessage
+            //         errors={errors[name].province}
+            //         />
+            // }
+            // {
+            //     register
+            //     && errors
+            //     && errors[name]
+            //     && errors[name].country
+            //     && <ErrorMessage
+            //         errors={errors[name].country}
+            //         />
+            // }*/}
         </div>
     )
 

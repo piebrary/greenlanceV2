@@ -27,7 +27,7 @@ import styles from './Email.module.css'
 export default function EmailView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     function onSubmit(data){
 
@@ -74,7 +74,7 @@ export default function EmailView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('EMAIL')}
             controls={<Controls />}
             >

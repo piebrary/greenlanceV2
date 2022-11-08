@@ -4,14 +4,7 @@ module.exports = async server => {
 
     const { express } = server
 
-    let ShiftService
-
-    try {
-        ShiftService = require('../../../../../custom/services/shift')
-    } catch {
-        ShiftService = require('../../../../../default/services/shift')
-    }
-
+    const ShiftService = require('../../../../../custom/services/shift')
     const shiftService = await ShiftService(server)
 
     express.get(
@@ -113,7 +106,7 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/shift/accept/:_id',
+        process.env.API_PREFIX + '/v1/s/shift/accept',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -127,7 +120,7 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/shift/decline/:_id',
+        process.env.API_PREFIX + '/v1/s/shift/decline',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -141,7 +134,7 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/shift/checkIn/:_id',
+        process.env.API_PREFIX + '/v1/s/shift/checkIn',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -155,7 +148,7 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/shift/checkOut/:_id',
+        process.env.API_PREFIX + '/v1/s/shift/checkOut',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 

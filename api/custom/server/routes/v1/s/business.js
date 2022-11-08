@@ -9,11 +9,11 @@ module.exports = async server => {
     const businessService = await BusinessService(server)
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/businesss',
+        process.env.API_PREFIX + '/v1/s/business',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await businessService.getBusinesss(req)
+            const result = await businessService.getBusiness(req)
 
             res
                 .status(result.status)

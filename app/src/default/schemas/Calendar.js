@@ -6,7 +6,7 @@ export const CalendarSchema = yup
         name:yup
             .string()
             .required('* An event title is required')
-            .min(4, 'min 4 chars'),
+            .min(4, '* An event title must have a minimum of 4 characters'),
         datetime:yup
             .object()
             .shape({

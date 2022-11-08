@@ -11,7 +11,7 @@ import { BiSlideshow } from 'react-icons/bi'
 import { IoImages } from 'react-icons/io5'
 import { BsTable } from 'react-icons/bs'
 import { IoMdHammer } from 'react-icons/io'
-import { BsBook } from 'react-icons/bs'
+import { RiProfileLine } from 'react-icons/ri'
 import { BsCalendar2Week } from 'react-icons/bs'
 import { BsCardText } from 'react-icons/bs'
 import { BsPalette } from 'react-icons/bs'
@@ -28,8 +28,9 @@ import { FaFileInvoiceDollar } from 'react-icons/fa'
 import { FaQuestionCircle } from 'react-icons/fa'
 import { BsClockHistory } from 'react-icons/bs'
 import { FiMail } from 'react-icons/fi'
+import { AiOutlineFileDone } from 'react-icons/ai'
 
-export function menuitems({ userData, isAdmin, applyTranslation, createTranslation }){
+export function menuitems({ userData, hasRole, applyTranslation, createTranslation }){
 
     return [
         [
@@ -46,27 +47,30 @@ export function menuitems({ userData, isAdmin, applyTranslation, createTranslati
                 icon:<BsCalendar2Week size={20} />,
                 text:applyTranslation('CALENDAR')
             },
-            {
+            (hasRole('freelancer') || hasRole('business')) && {
                 to:'/shifts',
-                icon:<BsClockHistory size={20} />,
+                icon:<AiOutlineFileDone size={20} />,
                 text:applyTranslation('SHIFTS')
             },
-            {
+            (hasRole('freelancer') || hasRole('business')) && {
                 to:'/invoices',
                 icon:<FaFileInvoiceDollar size={20} />,
                 text:applyTranslation('INVOICES')
             },
-            isAdmin() && {
+            (hasRole('freelancer') || hasRole('business')) && {
+                to:'/timesheets',
+                icon:<BsClockHistory size={20} />,
+                text:applyTranslation('TIMESHEETS')
+            },
+            hasRole('business') && {
                 to:'/projects',
                 icon:<AiOutlineFolderOpen size={20} />,
                 text:applyTranslation('PROJECTS'),
-                hidden:!isAdmin()
             } || undefined,
-            isAdmin() && {
+            (hasRole('freelancer') || hasRole('admin')) && {
                 to:'/business',
-                icon:<BsBook size={20} />,
-                text:applyTranslation('BUSINESS'),
-                hidden:!isAdmin()
+                icon:<RiProfileLine size={20} />,
+                text:applyTranslation('BUSINESS PROFILE'),
             } || undefined,
         ],[
             {
@@ -83,14 +87,13 @@ export function menuitems({ userData, isAdmin, applyTranslation, createTranslati
                 text:applyTranslation('SETTINGS')
             },
         ],[
-            {
+            hasRole('admin') && {
                 label:<>{applyTranslation('ADMIN')}</>
             },
-            isAdmin() && {
+            hasRole('admin') && {
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS'),
-                hidden:!isAdmin()
             } || undefined,
         ],[
             {

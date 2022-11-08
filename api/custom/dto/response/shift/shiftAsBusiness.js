@@ -35,10 +35,16 @@ module.exports = documents => {
             name,
             description,
             label,
+            price,
+            spots,
+            business,
             datetime,
             location,
             recurring,
-            active
+            active,
+            applied,
+            enrolled,
+            withdrawn,
         } = document
 
         return {
@@ -46,10 +52,16 @@ module.exports = documents => {
             name,
             description,
             label,
+            price,
+            spots,
+            business,
             datetime:datetimeResponseDto(datetime),
             location:locationResponseDto(location),
             recurring:recurringResponseDto(recurring),
-            active
+            active,
+            applied,
+            enrolled,
+            withdrawn,
         }
     }
 

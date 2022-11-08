@@ -1,4 +1,4 @@
-module.exports = server => {
+module.exports = async server => {
 
     const { express } = server
 
@@ -6,11 +6,11 @@ module.exports = server => {
 
     try {
         AuthService = require('../../../../custom/services/auth')
-    } catch {
+    } catch (error){console.log(error)
         AuthService = require('../../../../default/services/auth')
     }
 
-    const authService = AuthService(server)
+    const authService = await AuthService(server)
 
     if(process.env.API_ENABLE_PUBLIC_REGISTRATION){
 

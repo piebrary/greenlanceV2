@@ -19,8 +19,6 @@ module.exports = async server => {
     try { userAsSelfResponseDto = require('../../custom/dto/response/user/userAsSelf') } catch { userAsSelfResponseDto = require('../../default/dto/response/user/userAsSelf') }
     try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
 
-
-
     // register function is only for self (public) registration
     // register by an admin of other user is handled in users service
 
@@ -60,7 +58,7 @@ module.exports = async server => {
                     }
                 })
 
-                newUserDoc.mutation.push(newMutationDoc._id)
+                newUserDoc.mutations.push(newMutationDoc._id)
 
                 response = await newUserDoc.save()
                 await newMutationDoc.save()

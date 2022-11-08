@@ -24,7 +24,7 @@ import styles from './Profile.module.css'
 export default function Profile(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, saveUserData, getProfilePicture } = useContext(UserContext)
+    const { userData, hasRole, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const onSubmit = data => saveUserData(data)
 
@@ -38,7 +38,7 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('PROFILE')}
             controls={<Controls />}
             >

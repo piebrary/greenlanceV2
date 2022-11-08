@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema } = require('mongoose')
 
 module.exports = new Schema({
-    title: {
+    name: {
         type: String,
         required: true,
     },
@@ -13,7 +13,7 @@ module.exports = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Business'
     },
-    payment:{
+    price:{
         type: String
     },
     label:{
@@ -67,14 +67,17 @@ module.exports = new Schema({
     applied: {
         type: [Schema.Types.ObjectId],
         ref: 'Freelancer',
+        default:[]
     },
     enrolled: {
         type: [Schema.Types.ObjectId],
         ref: 'Freelancer',
+        default:[]
     },
     withdrawn: {
         type: [Schema.Types.ObjectId],
         ref: 'Freelancer',
+        default:[]
     },
     checkIn: [{
         _id: {
@@ -100,6 +103,7 @@ module.exports = new Schema({
     }],
     active:{
         type: Boolean,
+        default: true,
         required: true
     },
     mutations:{

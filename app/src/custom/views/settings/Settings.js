@@ -28,7 +28,7 @@ import styles from './Settings.module.css'
 export default function Settings(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, saveUserData } = useContext(UserContext)
+    const { userData, hasRole, saveUserData } = useContext(UserContext)
 
     const notifications = notificationManager()
 
@@ -68,7 +68,7 @@ export default function Settings(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('SETTINGS')}
             controls={<Controls />}
             >

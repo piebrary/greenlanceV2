@@ -21,12 +21,12 @@ import styles from './Table.module.css'
 export default function TableView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, settings } = useContext(UserContext)
+    const { userData, hasRole, settings } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('THEMES')}
             controls={<Controls />}
             >

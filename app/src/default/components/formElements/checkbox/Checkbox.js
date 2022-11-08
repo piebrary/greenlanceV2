@@ -41,9 +41,10 @@ export default function Checkbox(attributes){
                                     onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
-                                    {...register(`${name}.${i}.${o.name}`, rules)}
+                                    value={o.name}
+                                    {...register(`${name}.${o.name}`, rules)}
                                     />
-                                {o.name}
+                                {o.label}
                             </label>
                         )
 

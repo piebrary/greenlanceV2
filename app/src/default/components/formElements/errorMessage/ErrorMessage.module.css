@@ -1,6 +1,6 @@
 .errorMessage {
     min-width: 100%;
-    color: var(--componentInputErrorMessageColor);
+    color: var(--colorDangerNormal);
     box-sizing: border-box;
     display: block;
     font-size: var(--componentInputErrorMessageFontSize);

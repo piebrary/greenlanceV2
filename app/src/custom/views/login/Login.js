@@ -2,7 +2,7 @@ import { useContext, useState } from 'react'
 
 import { AuthenticationContext } from '../../../default/contexts/AuthenticationContext'
 
-import { passwordResetRequest } from '../../../default/services/AuthenticationService'
+import { passwordResetRequest, register } from '../../../default/services/AuthenticationService'
 
 import { LoginSchema } from '../../../default/schemas/Login'
 import { RegisterSchema } from '../../../default/schemas/Register'
@@ -11,6 +11,7 @@ import { PasswordResetRequestSchema } from '../../../default/schemas/PasswordRes
 import Form from '../../../default/components/form/Form'
 import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
+import Radio from '../../../default/components/formElements/radio/Radio'
 
 import LogoSmall from '../../../custom/components/logo/Logo'
 
@@ -20,7 +21,7 @@ import styles from './Login.module.css'
 
 export default function Login(){
 
-    const { authenticate, authState, register } = useContext(AuthenticationContext)
+    const { authenticate, authState } = useContext(AuthenticationContext)
 
     const [authFailed, setAuthFailed] = useState(false)
     const [curView, setCurView] = useState('login')
@@ -136,6 +137,23 @@ export default function Login(){
                                     name={'email'}
                                     shouldRegister
                                     required
+                                    />
+                                <Radio
+                                    label={'Do you want to register as Freelancer or aas a business?'}
+                                    name={'accountType'}
+                                    shouldRegister
+                                    required
+                                    options={[
+                                        {
+                                            name:'freelancer',
+                                            label:'Freelancer',
+                                            checked:false,
+                                        },{
+                                            name:'business',
+                                            label:'Business',
+                                            checked:false,
+                                        },
+                                    ]}
                                     />
                                 <Input
                                     label={'Password'}

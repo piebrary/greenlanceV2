@@ -15,9 +15,9 @@ module.exports = documents => {
         let addressRequestDto
 
         try {
-            addressRequestDto = require('../../../../custom/dto/request/address')
+            addressRequestDto = require('../../../custom/dto/request/address')
         } catch {
-            addressRequestDto = require('../../../../default/dto/request/address')
+            addressRequestDto = require('../../../default/dto/request/address')
         }
 
         const {

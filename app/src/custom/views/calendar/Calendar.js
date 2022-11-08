@@ -3,7 +3,7 @@ import { useContext, useState, useEffect } from 'react'
 import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import { UserContext } from '../../../default/contexts/UserContext'
 
-import { getEvent, getEvents, postEvent, putEvent, delEvent } from '../../../default/services/EventService'
+import { getShifts } from '../../../custom/services/ShiftService'
 
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Calendar from '../../../default/components/calendar/Calendar'
@@ -18,7 +18,7 @@ import styles from './Calendar.module.css'
 export default function CalendarView(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     const notifications = notificationManager()
 
@@ -30,14 +30,18 @@ export default function CalendarView(){
 
             try {
 
-                const response = await getEvents()
+                // const result = await Promise.all([getEvents(), getShifts()])
+                //
+                // setEvents([...result[0].data, ...result[1].data])
+
+                const response = await getShifts()
 
                 setEvents(response.data)
 
-            } catch {
+            } catch (error) {
 
                 notifications.create({
-                    title: "Could not fetch settings",
+                    title: "Could not fetch events and shifts",
                     type: "danger",
                 })
 
@@ -49,15 +53,12 @@ export default function CalendarView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CALENDAR')}
             controls={<Controls />}
             >
             <Calendar
                 events={events}
-                onCreateEvent={postEvent}
-                onUpdateEvent={putEvent}
-                onDeleteEvent={delEvent}
                 />
         </Layout>
     )

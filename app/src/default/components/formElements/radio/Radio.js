@@ -13,7 +13,7 @@ export default function Radio(attributes){
         name,
         options,
         onClick,
-        register,
+        register = () => {},
         errors,
         rules,
         readOnly,
@@ -38,14 +38,14 @@ export default function Radio(attributes){
                                 key={o.name}>
                                 <input
                                     type='radio'
-                                    name={name}
                                     className={createStyle([styles, customStyles], 'radio')}
                                     onClick={event => onClick && onClick(event)}
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
-                                    value={o.value}
-                                    {...register(name, rules)}/>
-                                {o.name}
+                                    value={o.name}
+                                    {...register(name, rules)}
+                                    />
+                                {o.label}
                             </label>
                         )
 

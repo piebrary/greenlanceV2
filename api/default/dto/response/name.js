@@ -1,6 +1,4 @@
-module.exports = name => {
-
-    if(name === undefined) return undefined
+module.exports = (name = {}) => {
 
     const {
         first,

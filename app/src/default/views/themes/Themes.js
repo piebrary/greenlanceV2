@@ -21,7 +21,7 @@ import styles from './Themes.module.css'
 export default function FormView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin, settings } = useContext(UserContext)
+    const { userData, hasRole, settings } = useContext(UserContext)
     const { changeTheme, getAvailableThemes } = useContext(VisualsContext)
 
     createTranslation('ThemeView.Description', {
@@ -32,7 +32,7 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('THEMES')}
             controls={<Controls />}
             >

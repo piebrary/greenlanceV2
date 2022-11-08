@@ -17,7 +17,7 @@ export default function UserContextProvider({ children }){
     const [email, setEmail] = useState()
     const [phone, setPhone] = useState()
     const [address, setAddress] = useState()
-    const [roles, setRoles] = useState()
+    const [roles, setRoles] = useState([])
     const [settings, setSettings] = useState()
     const [profilePicture, setProfilePicture] = useState()
     const [userData, setUserData] = useState()
@@ -30,9 +30,7 @@ export default function UserContextProvider({ children }){
         phone,
         address,
         roles,
-        isAdmin,
-        isSuperuser,
-        isUser,
+        hasRole,
         settings,
         profilePicture,
         saveUserData,
@@ -162,24 +160,9 @@ export default function UserContextProvider({ children }){
 
     }
 
-    function isAdmin(){
+    function hasRole(role){
 
-        if(roles) return roles.includes('admin')
-        return false
-
-    }
-
-    function isSuperuser(){
-
-        if(roles) return roles.includes('superuser')
-        return false
-
-    }
-
-    function isUser(){
-
-        if(roles) return roles.includes('user')
-        return false
+        return roles.includes(role)
 
     }
 

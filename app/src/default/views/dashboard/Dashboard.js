@@ -20,12 +20,12 @@ import styles from './Dashboard.module.css'
 export default function Dashboard(){
 
     const { applyTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('DASHBOARD')}
             controls={<Controls />}
             >

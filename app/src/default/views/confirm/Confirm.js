@@ -18,7 +18,7 @@ import styles from './Confirm.module.css'
 export default function ConfirmView(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
-    const { userData, isAdmin } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
     const { disableScroll, enableScroll } = useContext(VisualsContext)
 
     const [showConfirm, setShowConfirm] = useState(false)
@@ -57,7 +57,7 @@ export default function ConfirmView(){
 
     return (
         <Layout
-            items={menuitems({ userData, isAdmin, applyTranslation })}
+            items={menuitems({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CONFIRM_DIALOG')}
             controls={<Controls />}
             >

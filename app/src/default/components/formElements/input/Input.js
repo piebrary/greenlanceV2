@@ -41,7 +41,7 @@ export default function Input(attributes){
 
     const [isHidden, setIsHidden] = useState(true)
 
-    const reg = register && register(name, rules)
+    const reg = register && register(name, { onChange, ...rules })
 
     const isPicker = !readOnly && (
         type === 'color'
@@ -81,7 +81,6 @@ export default function Input(attributes){
                         autoFocus={autoFocus}
                         autoComplete={autoComplete}
                         onClick={() => isPicker && !readOnly && document.getElementById(name).showPicker() }
-                        onChange={onChange}
                         step={step || 'any'}
                         {...reg}
                         />

@@ -108,17 +108,8 @@ export default function Calendar(attributes){
 
     function onSubmit(data){
 
-        if(viewMode === 'update event'){
-
-            updateEvent(data)
-
-        }
-
-        if(viewMode === 'create event'){
-
-            createEvent(data)
-
-        }
+        if(viewMode === 'update event') updateEvent(data)
+        if(viewMode === 'create event') createEvent(data)
 
     }
 
@@ -333,9 +324,14 @@ export default function Calendar(attributes){
                         <div
                             key={d.dateFormatted}
                             className={`${styles.day} ${viewRange === 'month' && !d.isMainMonth && createStyle([styles, customStyles], 'lowTransparency') || ''}`}
+                            style={!onCreateEvent && { cursor:'auto' } || {}}
                             onClick={evt => {
 
-                                if(viewRange === 'month' && d.isMainMonth || viewRange === 'week'){
+                                if(
+                                    onCreateEvent && (
+                                        viewRange === 'month' && d.isMainMonth || viewRange === 'week'
+                                    )
+                                ){
 
                                     evt.stopPropagation()
 
@@ -386,7 +382,7 @@ export default function Calendar(attributes){
                                 : null
                             }
                             {
-                                viewRange === 'day' && (
+                                viewRange === 'day' && onCreateEvent && (
                                     <Button
                                         onClick={evt => {
 
@@ -443,7 +439,7 @@ export default function Calendar(attributes){
                                 })
                             }
                             {
-                                viewRange === 'day' && (
+                                viewRange === 'day' && onCreateEvent && (
                                     <Button
                                         label={<><AiFillPlusCircle size={25} style={{ marginRight: '15px' }}/>Create new event</>}
                                         onClick={evt => {
@@ -599,23 +595,31 @@ export default function Calendar(attributes){
                                 <div
                                     className={createStyle([styles, customStyles], 'controls')}
                                     >
-                                    <Button
-                                        label={applyTranslation('EDIT')}
-                                        onClick={evt => {
+                                    {
+                                        onUpdateEvent && (
+                                            <Button
+                                                label={applyTranslation('EDIT')}
+                                                onClick={evt => {
 
-                                            evt.stopPropagation()
+                                                    evt.stopPropagation()
 
-                                            adjustViewMode('update event')
-                                            setSelectedEvent(selectedEvent)
+                                                    adjustViewMode('update event')
+                                                    setSelectedEvent(selectedEvent)
 
-                                        }}
-                                        customStyles={applyStyles([styles], 'editBtn')}
-                                        />
-                                    <Button
-                                        label={applyTranslation('DELETE')}
-                                        onClick={deleteEvent}
-                                        customStyles={applyStyles([styles], 'deleteBtn')}
-                                        />
+                                                }}
+                                                customStyles={applyStyles([styles], 'editBtn')}
+                                                />
+                                        )
+                                    }
+                                    {
+                                        onDeleteEvent && (
+                                            <Button
+                                                label={applyTranslation('DELETE')}
+                                                onClick={deleteEvent}
+                                                customStyles={applyStyles([styles], 'deleteBtn')}
+                                                />
+                                        )
+                                    }
                                     <Button
                                         label={applyTranslation('CLOSE')}
                                         onClick={event => {

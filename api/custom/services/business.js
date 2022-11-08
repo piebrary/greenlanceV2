@@ -3,20 +3,22 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, BusinessModel, notFoundHandler, successHandler, errorHandler, businessRequestDto, businessResponseDto, getCurrentUser
+    let UserModel, MutationModel, notFoundHandler, successHandler, errorHandler, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
-    try { BusinessModel = require('../../custom/models/business') } catch { BusinessModel = require('../../default/models/business') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
-    try { businessAsSelfRequestDto = require('../../custom/dto/request/business/businessAsSelf/') } catch { businessAsSelfRequestDto = require('../../default/dto/request/business/businessAsSelf') }
-    try { businessAsSelfResponseDto = require('../../custom/dto/response/business/businessAsSelf') } catch { businessAsSelfResponseDto = require('../../default/dto/response/business/businessAsSelf') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
+    const BusinessModel = require('../../custom/models/business')
+    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const businessAsSelfRequestDto = require('../../custom/dto/request/business/businessAsSelf')
+    const businessAsSelfResponseDto = require('../../custom/dto/response/business/businessAsSelf')
+
     return {
-        getBusinesss,
+        getBusiness,
         getBusinessById,
         createBusiness,
         // updateBusinessById,
@@ -58,7 +60,7 @@ module.exports = async server => {
                 || businessDocument.users.includes(currentUserDoc._id)
             ){
 
-                const businessDocumentDto = businessAsBusinessResponseDto(businessDocument))
+                const businessDocumentDto = businessAsBusinessResponseDto(businessDocument)
 
                 return successHandler(undefined, businessDocumentDto)
 
@@ -66,7 +68,7 @@ module.exports = async server => {
 
             if(currentUserDoc.roles.includes('freelancer')){
 
-                const businessDocumentDto = businessAsFreelancerResponseDto(businessDocument))
+                const businessDocumentDto = businessAsFreelancerResponseDto(businessDocument)
 
                 return successHandler(undefined, businessDocumentDto)
 

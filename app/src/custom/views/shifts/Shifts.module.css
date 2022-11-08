@@ -1,0 +1,84 @@
+.createShiftButton_button {
+    background-color: var(--colorWhite);
+    width: fit-content;
+    padding: 6px;
+    border: 2px solid transparent;
+    gap: 10px;
+}
+
+.createShiftButton_button:hover {
+    color: var(--colorGreyDark);
+    background-color: var(--colorPrimary6);
+    border: 2px solid var(--colorPrimary3);
+}
+
+.cancelShiftButton_button {
+    background-color: var(--colorWhite);
+    width: fit-content;
+    padding: 6px;
+    border: 2px solid transparent;
+    gap: 10px;
+    margin-left: auto;
+}
+
+.cancelShiftButton_button:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorDangerLight);
+    border: 2px solid var(--colorDangerDark);
+}
+
+.shiftsHeaderForm_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.shiftsUnderHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.shiftsGrid_grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 10px;
+    grid-auto-rows: auto;
+}
+
+.shiftCard_body {
+    flex-direction: column;
+    align-items: start;
+}
+
+@media only screen and (min-width: 500px) {
+
+    .griditem {
+        border: 1px solid rgb(199, 0, 0);
+        background-color: rgba(199, 0, 0, 0.5);
+        border-radius: 4px;
+        padding: 10px;
+    }
+
+    .shiftsGrid_grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media only screen and (min-width: 1000px) {
+
+    .shiftsHeaderForm_container {
+        flex-direction: row;
+    }
+
+    .shiftsHeaderElement_container {
+        max-width: fit-content;
+    }
+
+    .shiftsGrid_grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}

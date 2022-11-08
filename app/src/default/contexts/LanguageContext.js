@@ -46,7 +46,15 @@ export default function LanguageContextProvider({ children }){
 
     function applyTranslation(accessor){
 
-        return languages[settings.language][accessor] || accessor
+        if(
+            languages
+            && settings
+            && settings.language
+            && languages[settings.language]
+            && languages[settings.language][accessor]
+        ) return languages[settings.language][accessor]
+
+        return accessor
 
     }
 
