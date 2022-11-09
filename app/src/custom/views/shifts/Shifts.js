@@ -7,11 +7,13 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import { FreelancerContext } from '../../../custom/contexts/FreelancerContext'
 
 import { getShift, getShifts, postShift, putShift, delShift, applyForShift, withdrawFromShift, acceptForShift, declineForShift } from '../../../custom/services/ShiftService'
+import { getFreelancersById } from '../../../custom/services/FreelancerService'
 
 import { ShiftSchema } from '../../schemas/Shift'
 
 import Grid from '../../../default/components/grid/Grid'
 import Button from '../../../default/components/button/Button'
+import List from '../../../default/components/list/List'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import Controls from '../../../default/components/controls/Controls'
@@ -48,7 +50,8 @@ export default function Shifts(){
     const [shiftTypes, setShiftTypes] = useState(['available', 'applied', 'enrolled'])
     const [shiftStates, setShiftStates] = useState(['fullfilled', 'unfullfilled'])
     const [searchInput, setSearchInput] = useState('')
-    const [selectedShift, setSelectedShift] = useState({})
+    const [selectedShift, setSelectedShift] = useState()
+    const [shiftDetails, setShiftDetails] = useState()
 
     const notifications = notificationManager()
 
@@ -80,11 +83,64 @@ export default function Shifts(){
 
     }, [shifts, timeframe, shiftTypes, shiftStates, searchInput])
 
+    useEffect(() => {
+
+        ;(async () => {
+
+            if(hasRole('business') && selectedShift){
+
+                try {
+
+                    const freelancers = [...selectedShift.applied, ...selectedShift.enrolled]
+
+                    const response = await getFreelancersById(freelancers)
+
+                    setShiftDetails([
+                        ...selectedShift.applied.map(a => {
+                            const freelancer = response.data.find(f => f._id === a)
+                            freelancer.status = 'applied'
+                            return freelancer
+                        }),
+                        ...selectedShift.enrolled.map(a => {
+                            const freelancer = response.data.find(f => f._id === a)
+                            freelancer.status = 'enrolled'
+                            return freelancer
+                        })
+                    ])
+
+                } catch (error) {
+
+                    notifications.create({
+                        title: "Could not load shift details",
+                        type: 'danger',
+                        container:'center'
+                    })
+
+                }
+
+            }
+
+        })()
+
+    }, [selectedShift])
+
     async function fetchShifts(){
 
-        const response = await getShifts()
+        try {
 
-        setShifts(response.data)
+            const response = await getShifts()
+
+            setShifts(response.data)
+
+        } catch (error) {
+
+            notifications.create({
+                title: "Could not load shifts",
+                type: 'danger',
+                container:'center'
+            })
+
+        }
 
     }
 
@@ -154,6 +210,7 @@ export default function Shifts(){
             })
 
             setViewMode('view shifts')
+            setSelectedShift()
 
             notifications.create({
                 title: "Shift successfully created",
@@ -183,11 +240,18 @@ export default function Shifts(){
 
             setShifts(previous => {
 
-                return [...previous, response.data]
+                const newShifts = [...previous]
+                    .map(shift => {
+                        if(shift._id !== response.data._id) return shift
+                        return response.data
+                    })
+
+                return newShifts
 
             })
 
             setViewMode('view shifts')
+            setSelectedShift()
 
             notifications.create({
                 title: "Shift successfully updated",
@@ -198,7 +262,43 @@ export default function Shifts(){
         } catch (error) {
 
             notifications.create({
-                title: "Could not update shifts",
+                title: "Could not update shift",
+                type: 'danger',
+                container:'center'
+            })
+
+        }
+
+    }
+
+    async function deleteShift(){
+
+        try {
+
+            const response = await delShift(selectedShift._id)
+
+            setShifts(previous => {
+
+                const newShifts = [...previous]
+                    .filter(shift => shift._id !== selectedShift._id)
+
+                return newShifts
+
+            })
+
+            setViewMode('view shifts')
+            setSelectedShift()
+
+            notifications.create({
+                title: "Shift successfully deleted",
+                type: 'success',
+                container:'center'
+            })
+
+        } catch (error) {
+
+            notifications.create({
+                title: "Could not delete shift",
                 type: 'danger',
                 container:'center'
             })
@@ -216,12 +316,16 @@ export default function Shifts(){
             setShifts(previous => {
 
                 const newShifts = [...previous]
-                newShifts.map(shift => {
-                    if(shift._id !== response.data._id) return shift
-                    return response.data
-                })
+                    .map(shift => {
+                        if(shift._id !== response.data._id) return shift
+                        return response.data
+                    })
+
+                return newShifts
 
             })
+
+            setSelectedShift(response.data)
 
             notifications.create({
                 title: "Successfully applied for shift",
@@ -250,12 +354,16 @@ export default function Shifts(){
             setShifts(previous => {
 
                 const newShifts = [...previous]
-                newShifts.map(shift => {
-                    if(shift._id !== response.data._id) return shift
-                    return response.data
-                })
+                    .map(shift => {
+                        if(shift._id !== response.data._id) return shift
+                        return response.data
+                    })
+
+                return newShifts
 
             })
+
+            setSelectedShift(response.data)
 
             notifications.create({
                 title: "Successfully withdrawn from shift",
@@ -275,21 +383,25 @@ export default function Shifts(){
 
     }
 
-    async function accept(_id){
+    async function accept(freelancerId){
 
         try {
 
-            const response = await acceptForShift(_id, freelancerData._id)
+            const response = await acceptForShift(selectedShift._id, freelancerId)
 
             setShifts(previous => {
 
                 const newShifts = [...previous]
-                newShifts.map(shift => {
-                    if(shift._id !== response.data._id) return shift
-                    return response.data
-                })
+                    .map(shift => {
+                        if(shift._id !== response.data._id) return shift
+                        return response.data
+                    })
+
+                return newShifts
 
             })
+
+            setSelectedShift(response.data)
 
             notifications.create({
                 title: "Successfully accepted freelancer for shift",
@@ -309,21 +421,25 @@ export default function Shifts(){
 
     }
 
-    async function decline(_id){
+    async function decline(freelancerId){
 
         try {
 
-            const response = await declineForShift(_id, freelancerData._id)
+            const response = await declineForShift(selectedShift._id, freelancerId)
 
             setShifts(previous => {
 
                 const newShifts = [...previous]
-                newShifts.map(shift => {
-                    if(shift._id !== response.data._id) return shift
-                    return response.data
-                })
+                    .map(shift => {
+                        if(shift._id !== response.data._id) return shift
+                        return response.data
+                    })
+
+                return newShifts
 
             })
+
+            setSelectedShift(response.data)
 
             notifications.create({
                 title: "Successfully declined freelancer for shift",
@@ -445,7 +561,9 @@ export default function Shifts(){
                                     <Button
                                         label={'Create Shift'}
                                         customStyles={applyStyles([styles], 'createShiftButton')}
-                                        onClick={() => setViewMode('create shift')}
+                                        onClick={() => {
+                                            setViewMode('create shift')
+                                        }}
                                         />
                                 )
                             }
@@ -458,7 +576,6 @@ export default function Shifts(){
                                         <Card
                                             title={shift.name}
                                             customStyles={applyStyles([styles], 'shiftCard')}
-                                            onClick={() => openShiftDetails(shift)}
                                             key={shift._id}
                                             >
                                             <p>Price per hour: {shift.price}</p>
@@ -466,6 +583,7 @@ export default function Shifts(){
                                             <p>End time: {moment(shift.datetime.end).format('DD-MM hh:mm')}</p>
                                             <p>Start location: {shift.location.start.city}</p>
                                             <p>End location: {shift.location.end.city}</p>
+                                            <Button label={'Open'} onClick={() => openShiftDetails(shift)} />
                                             {hasRole('freelancer') && !shift.applied.includes(freelancerData._id) && !shift.enrolled.includes(freelancerData._id) && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
                                             {hasRole('freelancer') && (shift.applied.includes(freelancerData._id) || shift.enrolled.includes(freelancerData._id)) && <Button label={'Withdraw'} onClick={() => withdraw(shift._id)} />}
                                         </Card>
@@ -478,13 +596,47 @@ export default function Shifts(){
                 )
             }
             {
-                (viewMode === 'create shift' || viewMode === 'update shift') && (
+                viewMode === 'update shift' && (
+                    <>
+                        <Button
+                            customStyles={applyStyles([styles], 'cancelShiftButton')}
+                            label={'Delete'}
+                            onClick={event => {
+                                deleteShift()
+                            }}
+                            />
+                        <Button
+                            customStyles={applyStyles([styles], 'cancelShiftButton')}
+                            label={'Cancel'}
+                            onClick={event => {
+                                setViewMode('view shift')
+                            }}
+                            />
+                    </>
+                )
+            }
+            {
+                viewMode === 'create shift' && (
+                    <>
+                        <Button
+                            customStyles={applyStyles([styles], 'cancelShiftButton')}
+                            label={'Cancel'}
+                            onClick={event => {
+                                setViewMode('view shifts')
+                            }}
+                            />
+                    </>
+                )
+            }
+            {
+                viewMode === 'view shift' && hasRole('business') && (
                     <Button
-                        customStyles={applyStyles([styles], 'cancelShiftButton')}
-                        label={'Cancel'}
-                        onClick={event => {
-                            setViewMode('view shifts')
+                        label={applyTranslation('EDIT')}
+                        onClick={evt => {
+                            setViewMode('update shift')
+                            setSelectedShift(selectedShift)
                         }}
+                            customStyles={applyStyles([styles], 'cancelShiftButton')}
                         />
                 )
             }
@@ -494,6 +646,7 @@ export default function Shifts(){
                         customStyles={applyStyles([styles], 'cancelShiftButton')}
                         label={'Close'}
                         onClick={event => {
+                            setSelectedShift()
                             setViewMode('view shifts')
                         }}
                         />
@@ -505,99 +658,128 @@ export default function Shifts(){
                     || viewMode === 'update shift'
                     || viewMode === 'view shift'
                 ) && (
-                    <Card
-                        title={
-                            viewMode === 'create shift'
-                            ? 'Create new shift'
-                            : viewMode === 'update shift'
-                            ? 'Update shift'
-                            : 'View shift'
-                        }
-                        >
-                        <Form
-                            onSubmit={createShift}
-                            defaultValues={defaultValues}
-                            validationSchema={ShiftSchema}
+                    <>
+                        <Card
+                            title={
+                                viewMode === 'create shift'
+                                ? 'Create new shift'
+                                : viewMode === 'update shift'
+                                ? 'Update shift'
+                                : 'View shift'
+                            }
                             >
-                            <Input
-                                name={'name'}
-                                label={applyTranslation('NAME')}
-                                shouldRegister
-                                required={true}
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <Textarea
-                                name={'description'}
-                                label={applyTranslation('DESCRIPTION')}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <Input
-                                name={'price'}
-                                label={applyTranslation('PRICE')}
-                                shouldRegister
-                                required={true}
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <Select
-                                name={'label'}
-                                label={applyTranslation('LABEL')}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                options={[
+                            <Form
+                                onSubmit={onSubmit}
+                                defaultValues={defaultValues}
+                                validationSchema={ShiftSchema}
+                                >
+                                <Input
+                                    name={'name'}
+                                    label={applyTranslation('NAME')}
+                                    shouldRegister
+                                    required={true}
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <Textarea
+                                    name={'description'}
+                                    label={applyTranslation('DESCRIPTION')}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <Input
+                                    name={'price'}
+                                    label={applyTranslation('PRICE')}
+                                    shouldRegister
+                                    required={true}
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <Select
+                                    name={'label'}
+                                    label={applyTranslation('LABEL')}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    options={[
+                                        {
+                                            name:applyTranslation('LABEL 1'),
+                                            value:'label1',
+                                        }, {
+                                            name:applyTranslation('LABEL 2'),
+                                            value:'label2',
+                                        }, {
+                                            name:applyTranslation('LABEL 3'),
+                                            value:'label3'
+                                        },
+                                    ]}
+                                    />
+                                <Input
+                                    name={'spots'}
+                                    label={applyTranslation('SPOTS')}
+                                    type={'number'}
+                                    shouldRegister
+                                    required={true}
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <Input
+                                    label={applyTranslation('START TIME')}
+                                    name={'datetime.start'}
+                                    type={'datetime-local'}
+                                    required={true}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <Input
+                                    label={applyTranslation('END TIME')}
+                                    name={'datetime.end'}
+                                    type={'datetime-local'}
+                                    required={true}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <AddressInput
+                                    label={applyTranslation('START LOCATION')}
+                                    name={'location.start'}
+                                    required={true}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                <AddressInput
+                                    label={applyTranslation('END LOCATION')}
+                                    name={'location.end'}
+                                    required={true}
+                                    shouldRegister
+                                    readOnly={viewMode === 'view shift' ? true : false}
+                                    />
+                                RECURRING
+                            </Form>
+                        </Card>
+                        {
+                            hasRole('business') && shiftDetails && (
+                                <>
+                                    Freelancer applications:
                                     {
-                                        name:applyTranslation('LABEL 1'),
-                                        value:'label1',
-                                    }, {
-                                        name:applyTranslation('LABEL 2'),
-                                        value:'label2',
-                                    }, {
-                                        name:applyTranslation('LABEL 3'),
-                                        value:'label3'
-                                    },
-                                ]}
-                                />
-                            <Input
-                                name={'spots'}
-                                label={applyTranslation('SPOTS')}
-                                type={'number'}
-                                shouldRegister
-                                required={true}
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <Input
-                                label={applyTranslation('START TIME')}
-                                name={'datetime.start'}
-                                type={'datetime-local'}
-                                required={true}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <Input
-                                label={applyTranslation('END TIME')}
-                                name={'datetime.end'}
-                                type={'datetime-local'}
-                                required={true}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <AddressInput
-                                label={applyTranslation('START LOCATION')}
-                                name={'location.start'}
-                                required={true}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            <AddressInput
-                                label={applyTranslation('END LOCATION')}
-                                name={'location.end'}
-                                required={true}
-                                shouldRegister
-                                readOnly={viewMode === 'view shift' ? true : false}
-                                />
-                            RECURRING
-                        </Form>
-                    </Card>
+                                        shiftDetails.map(sd => {
+
+                                            const key = sd._id
+
+                                            return (
+                                                <Card
+                                                    key={key}
+                                                    >
+                                                    Business: {sd.name}
+                                                    Rating: {sd.rating || 'Not yet rated'}
+                                                    Status: {sd.status}
+                                                    {sd.status === 'applied' && <Button label={'Accept'} onClick={() => accept(sd._id)} />}
+                                                    {sd.status === 'applied' && <Button label={'Decline'} onClick={() => decline(sd._id)} />}
+                                                    {sd.status === 'enrolled' && <Button label={'Cancel hiring'} onClick={() => decline(sd._id)} />}
+                                                </Card>
+                                            )
+
+                                        })
+                                    }
+                                </>
+                            )
+                        }
+                    </>
                 )
             }
         </Layout>

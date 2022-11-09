@@ -22,62 +22,6 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/shift/:_id',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.getShiftById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.post(
-        process.env.API_PREFIX + '/v1/s/shift',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.createShift(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.put(
-        process.env.API_PREFIX + '/v1/s/shift/:_id',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.updateShiftById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.delete(
-        process.env.API_PREFIX + '/v1/s/shift/:_id',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.deleteShiftById(req)
-
-            res
-                .status(result.status)
-                .end()
-
-        }
-    )
-
-    express.get(
         process.env.API_PREFIX + '/v1/s/shift/apply/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
@@ -157,6 +101,62 @@ module.exports = async server => {
             res
                 .status(result.status)
                 .send(result.body)
+
+        }
+    )
+
+    express.get(
+        process.env.API_PREFIX + '/v1/s/shift/:_id',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.getShiftById(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.post(
+        process.env.API_PREFIX + '/v1/s/shift',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.createShift(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.put(
+        process.env.API_PREFIX + '/v1/s/shift/:_id',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.updateShiftById(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.delete(
+        process.env.API_PREFIX + '/v1/s/shift/:_id',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.deleteShiftById(req)
+
+            res
+                .status(result.status)
+                .end()
 
         }
     )

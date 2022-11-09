@@ -13,7 +13,7 @@ module.exports = documents => {
         const {
             _id,
             description,
-            labels,
+            name,
             rating,
             reviews,
         } = document
@@ -21,7 +21,7 @@ module.exports = documents => {
         return {
             _id,
             description,
-            labels,
+            name,
             rating,
             reviews,
         }

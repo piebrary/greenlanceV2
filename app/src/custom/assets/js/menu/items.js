@@ -67,7 +67,7 @@ export function menuitems({ userData, hasRole, applyTranslation, createTranslati
                 icon:<AiOutlineFolderOpen size={20} />,
                 text:applyTranslation('PROJECTS'),
             } || undefined,
-            (hasRole('freelancer') || hasRole('admin')) && {
+            (hasRole('freelancer') || hasRole('business')) && {
                 to:'/business',
                 icon:<RiProfileLine size={20} />,
                 text:applyTranslation('BUSINESS PROFILE'),

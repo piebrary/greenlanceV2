@@ -26,6 +26,7 @@ module.exports = async server => {
         getFreelancer,
         getFreelancers,
         getFreelancerById,
+        getFreelancersById,
         createFreelancer,
         // updateFreelancerById,
         deleteFreelancerById
@@ -59,6 +60,8 @@ module.exports = async server => {
 
     async function getFreelancers(req){
 
+        // this is not correct, fix later
+
         try {
 
             const user_id = req.user._id
@@ -67,7 +70,9 @@ module.exports = async server => {
 
             if(!currentBusinessDoc) return notFoundHandler('User')
 
-            const freelancerDocuments = await BusinessModel.find({ users:req.user._id }).populate('freelancers')
+            const freelancerDocuments = await BusinessModel
+                .find({ users:req.user._id })
+                .populate('freelancers')
 
             const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
 
@@ -103,6 +108,37 @@ module.exports = async server => {
                 return successHandler(undefined, freelancerDocumentDto)
 
             }
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function getFreelancersById(req){
+
+        try {
+
+            const currentUserDoc = await getCurrentUser(req)
+
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            if(
+                currentUserDoc.roles.includes('business')
+                || currentUserDoc.roles.includes('admin')
+            ){
+
+                const freelancerDocuments = await FreelancerModel.find({ _id:req.body.ids })
+
+                const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
+
+                return successHandler(undefined, freelancerDocumentsDto)
+
+            }
+
+            return errorHandler(403, 'Forbidden')
 
         } catch (error) {
 

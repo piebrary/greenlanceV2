@@ -16,6 +16,7 @@ module.exports = async server => {
     const shiftAsFreelancerResponseDto = require('../../custom/dto/response/shift/shiftAsFreelancer')
     const shiftAsBusinessResponseDto = require('../../custom/dto/response/shift/shiftAsBusiness')
     const ShiftModel = require('../../custom/models/shift')
+    const FreelancerModel = require('../../custom/models/freelancer')
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
@@ -61,7 +62,8 @@ module.exports = async server => {
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
-                const shiftDocuments = await ShiftModel.find({ business:currentBusinessDoc._id })
+                const shiftDocuments = await ShiftModel
+                    .find({ business:currentBusinessDoc._id })
 
                 const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
 
@@ -103,7 +105,9 @@ module.exports = async server => {
 
                 const currentBusinessDoc = await getCurrentBusiness(req)
 
-                const shiftDocument = await ShiftModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
+                const shiftDocument = await ShiftModel
+                    .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
+                    .populate('applied enrolled withdrawn checkIn checkOut')
 
                 const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
 
@@ -178,9 +182,10 @@ module.exports = async server => {
             if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
 
             const {
-                title,
+                name,
                 description,
-                payment,
+                price,
+                spots,
                 label,
                 datetime,
                 location,
@@ -202,9 +207,10 @@ module.exports = async server => {
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                if(title) shiftDoc.title = title
+                if(name) shiftDoc.name = name
                 if(description) shiftDoc.description = description
-                if(payment) shiftDoc.payment = payment
+                if(price) shiftDoc.price = price
+                if(spots) shiftDoc.spots = spots
                 if(label) shiftDoc.label = label
                 if(datetime) shiftDoc.datetime = datetime
                 if(location) shiftDoc.location = location
@@ -217,7 +223,8 @@ module.exports = async server => {
                     data:{
                         name,
                         description,
-                        payment,
+                        price,
+                        spots,
                         label,
                         datetime,
                         location,
@@ -404,25 +411,25 @@ module.exports = async server => {
             const currentBusinessDoc = await getCurrentBusiness(req)
             if(!currentBusinessDoc) return notFoundHandler('Business')
 
-            const freelancerDoc = await FreelancerModel.findOne({ _id:req.params.freelancerId })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+            const freelancerDoc = await FreelancerModel.findOne({ _id:req.query.freelancerId })
+            if(!freelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                business:currentBusinessDoc._id,
-                _id:req.params.shiftId
+                // business:currentBusinessDoc._id,
+                _id:req.query.shiftId
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.applied.includes(req.params.freelancerId)) return errorHandler(409, 'Freelancer hat not applied')
-            if(shiftDocument.enrolled.includes(req.params.freelancerId)) return errorHandler(409, 'Freelancer is already enrolled')
+            if(!shiftDocument.applied.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer hat not applied')
+            if(shiftDocument.enrolled.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer is already enrolled')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                const shiftDocAppliedIndex = shiftDoc.applied.indexOf(freelancerDoc._id)
-                if(shiftDocAppliedIndex > -1) shiftDoc.applied.splice(shiftDocAppliedIndex, 1)
+                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDoc._id)
+                if(shiftDocAppliedIndex > -1) shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
 
-                shiftDocument.enrolled.push(req.params.freelancerId)
+                shiftDocument.enrolled.push(req.query.freelancerId)
 
                 const newMutationShiftDoc = new MutationModel({
                     user:currentUserDoc._id,
@@ -473,25 +480,27 @@ module.exports = async server => {
             const currentBusinessDoc = await getCurrentBusiness(req)
             if(!currentBusinessDoc) return notFoundHandler('Business')
 
-            const freelancerDoc = await FreelancerModel.findOne({ _id:req.params.freelancerId })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+            const freelancerDocument = await FreelancerModel.findOne({ _id:req.query.freelancerId })
+            if(!freelancerDocument) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                business:currentBusinessDoc._id,
-                _id:req.params.shiftId
+                // business:currentBusinessDoc._id,
+                _id:req.query.shiftId
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.applied.includes(req.params.freelancerId)) return errorHandler(409, 'Freelancer has not applied')
-            if(!shiftDocument.enrolled.includes(req.params.freelancerId)) return errorHandler(409, 'Freelancer is not enrolled')
+            if(
+                !shiftDocument.applied.includes(req.query.freelancerId)
+                && !shiftDocument.enrolled.includes(req.query.freelancerId)
+            ) return errorHandler(409, 'Freelancer has not applied or is not enrolled')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                const shiftDocAppliedIndex = shiftDoc.applied.indexOf(freelancerDoc._id)
+                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDocument._id)
                 if(shiftDocAppliedIndex > -1){
 
-                     shiftDoc.applied.splice(shiftDocAppliedIndex, 1)
+                     shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
 
                     const newMutationShiftDoc = new MutationModel({
                         user:currentUserDoc._id,
@@ -504,10 +513,10 @@ module.exports = async server => {
 
                 }
 
-                const shiftDocEnrolledIndex = shiftDoc.enrolled.indexOf(freelancerDoc._id)
+                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(freelancerDocument._id)
                 if(shiftDocEnrolledIndex > -1){
 
-                     shiftDoc.enrolled.splice(shiftDocEnrolledIndex, 1)
+                     shiftDocument.enrolled.splice(shiftDocEnrolledIndex, 1)
 
                     const newMutationShiftDoc = new MutationModel({
                         user:currentUserDoc._id,
@@ -520,12 +529,12 @@ module.exports = async server => {
 
                 }
 
-                const freelancerDocAppliedIndex = freelancerDoc.applied.indexOf(shiftDoc._id)
+                const freelancerDocAppliedIndex = freelancerDocument.applied.indexOf(shiftDocument._id)
                 if(freelancerDocAppliedIndex > -1){
 
-                     freelancerDoc.applied.splice(freelancerDocAppliedIndex, 1)
+                     freelancerDocument.applied.splice(freelancerDocAppliedIndex, 1)
 
-                    const newMutationShiftDoc = new MutationModel({
+                    const newMutationFreelancerDoc = new MutationModel({
                         user:currentUserDoc._id,
                         action:'decline'
                     })
@@ -536,10 +545,10 @@ module.exports = async server => {
 
                 }
 
-                const freelancerDocEnrolledIndex = freelancerDoc.enrolled.indexOf(shiftDoc._id)
+                const freelancerDocEnrolledIndex = freelancerDocument.enrolled.indexOf(shiftDocument._id)
                 if(freelancerDocEnrolledIndex > -1){
 
-                     freelancerDoc.enrolled.splice(freelancerDocEnrolledIndex, 1)
+                     freelancerDocument.enrolled.splice(freelancerDocEnrolledIndex, 1)
 
                     const newMutationFreelancerDoc = new MutationModel({
                         user:currentUserDoc._id,
@@ -576,7 +585,7 @@ module.exports = async server => {
             if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                _id:req.params.shiftId
+                _id:req.query.shiftId
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
@@ -626,7 +635,7 @@ module.exports = async server => {
             if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                _id:req.params.shiftId
+                _id:req.query.shiftId
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')

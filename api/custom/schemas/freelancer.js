@@ -5,9 +5,37 @@ module.exports = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
     },
+    name:{
+        type: String
+    },
     description: {
         type: String,
     },
+    experience: [{
+        duration: {
+            type: String
+        },
+        description: {
+            type: String
+        },
+    }],
+    businessInfo: {
+        kvk: {
+            type: String
+        },
+        tax: {
+            type: String
+        },
+    },
+    addresses: [{
+        type: Schema.Types.Mixed
+    }],
+    phones: [{
+        type: String
+    }],
+    emails: [{
+        type: String
+    }],
     labels:{
         type: [String]
     },
@@ -18,7 +46,7 @@ module.exports = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Review',
     },
-    businesses: {
+    connectedBusinesses: {
         type: [Schema.Types.ObjectId],
         ref: 'Business',
     },

@@ -23,7 +23,7 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/freelancers',
+        process.env.API_PREFIX + '/v1/s/freelancers/all',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
@@ -42,6 +42,20 @@ module.exports = async server => {
         async (req, res) => {
 
             const result = await freelancerService.getFreelancerById(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.post(
+        process.env.API_PREFIX + '/v1/s/freelancers',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await freelancerService.getFreelancersById(req)
 
             res
                 .status(result.status)

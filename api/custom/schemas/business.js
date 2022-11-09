@@ -11,6 +11,23 @@ module.exports = new Schema({
     description: {
         type: String,
     },
+    businessInfo: {
+        kvk: {
+            type: String
+        },
+        tax: {
+            type: String
+        },
+    },
+    addresses: [{
+        type: Schema.Types.Mixed
+    }],
+    phones: [{
+        type: String
+    }],
+    emails: [{
+        type: String
+    }],
     labels:{
         type: [String]
     },
@@ -21,7 +38,15 @@ module.exports = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Review',
     },
-    freelancers: {
+    connectedFreelancers: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Freelancer',
+    },
+    blacklistedFreelancers: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Freelancer',
+    },
+    whitelistedFreelancers: {
         type: [Schema.Types.ObjectId],
         ref: 'Freelancer',
     },
