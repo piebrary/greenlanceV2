@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = async server => {
 
     const { express, db } = server
@@ -16,6 +18,7 @@ module.exports = async server => {
     const shiftAsFreelancerResponseDto = require('../../custom/dto/response/shift/shiftAsFreelancer')
     const shiftAsBusinessResponseDto = require('../../custom/dto/response/shift/shiftAsBusiness')
     const ShiftModel = require('../../custom/models/shift')
+    const BusinessModel = require('../../custom/models/business')
     const FreelancerModel = require('../../custom/models/freelancer')
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
@@ -32,6 +35,8 @@ module.exports = async server => {
         declineById,
         checkInById,
         checkOutById,
+        getApprovedShiftsForToday,
+        getEnrolledShifts,
     }
 
     async function getShifts(req){
@@ -52,7 +57,7 @@ module.exports = async server => {
                 // use below line when enabling connected freelancers and businesses
                 // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments)
+                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, currentFreelancerDoc._id)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -81,6 +86,104 @@ module.exports = async server => {
 
     }
 
+    async function getEnrolledShifts(req){
+
+        try {
+
+            const user_id = req.user._id
+
+            const currentUserDoc = await getCurrentUser(req)
+            const currentFreelancerDoc = await getCurrentFreelancer(req)
+
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            if(currentUserDoc.roles.includes('freelancer')){
+
+                const enrolledDocs = await FreelancerModel
+                    .findOne({ user:req.user._id })
+                    .select('enrolled')
+                    // .populate('enrolled', 'datetime enrolled timesheets business')
+                    .populate({
+                        path:'enrolled',
+                        model: 'Shift',
+                        select: 'datetime enrolled timesheets business',
+                        populate: {
+                            path: 'business',
+                            model: 'Business',
+                            select: 'name'
+                        }
+                    })
+
+                const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, currentFreelancerDoc._id)
+
+                return successHandler(undefined, enrolledDocsDto)
+
+            }
+
+            return errorHandler(403, 'Forbidden')
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function getApprovedShiftsForToday(req){
+
+        try {
+
+            const user_id = req.user._id
+
+            const currentUserDoc = await getCurrentUser(req)
+
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            if(currentUserDoc.roles.includes('freelancer')){
+
+                const currentFreelancerDoc = await getCurrentFreelancer(req)
+
+                const shiftDocuments = await ShiftModel.find({
+                    datetime: {
+                        start: {
+                            $gte:moment().startOf('day').toDate(),
+                            $lte:moment().endOf('day').toDate()
+                        }
+                    }
+                })
+                // use below line when enabling connected freelancers and businesses
+                // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
+
+                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, currentFreelancerDoc._id)
+
+                return successHandler(undefined, shiftDocumentsDto)
+
+            }
+
+            // if(currentUserDoc.roles.includes('business')){
+            //
+            //     const currentBusinessDoc = await getCurrentBusiness(req)
+            //
+            //     const shiftDocuments = await ShiftModel
+            //         .find({ business:currentBusinessDoc._id })
+            //
+            //     const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
+            //
+            //     return successHandler(undefined, shiftDocumentsDto)
+            //
+            // }
+
+            return errorHandler(403, 'Forbidden')
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
     async function getShiftById(req){
 
         try {
@@ -95,7 +198,7 @@ module.exports = async server => {
 
                 const shiftDocument = await ShiftModel.findOne({ _id:req.params._id, business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument)
+                const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
 
                 return successHandler(undefined, shiftDocumentDto)
 
@@ -322,7 +425,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument)
+            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
 
             return successHandler(undefined, shiftDocumentDto)
 
@@ -389,7 +492,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDOcument)
+            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
 
             return successHandler(undefined, shiftDocumentDto)
 

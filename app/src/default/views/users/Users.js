@@ -319,7 +319,7 @@ export default function Users(){
 
                                     return {
                                         name:name,
-                                        value:name,
+                                        label:name,
                                         checked:selectedUser.roles.includes(name) ? true : false
                                     }
 

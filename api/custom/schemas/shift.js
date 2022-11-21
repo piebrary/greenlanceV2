@@ -19,7 +19,7 @@ module.exports = new Schema({
     label:{
         type: String
     },
-    spots: {
+    positions: {
         type: Number
     },
     datetime: {
@@ -55,9 +55,15 @@ module.exports = new Schema({
     recurring:{
         interval: {
             type: String,
+            required: true
         },
-        until: {
-            type: Number,
+        start: {
+            type: Date,
+            required: true
+        },
+        end: {
+            type: Date,
+            required: true
         },
     },
     creator:{
@@ -79,24 +85,17 @@ module.exports = new Schema({
         ref: 'Freelancer',
         default:[]
     },
-    checkIn: [{
+    timesheets: [{
         _id: {
             type: Schema.Types.ObjectId,
             ref: 'Freelancer',
             required: true
         },
-        datetime: {
+        start: {
             type: Date,
             required: true
-        }
-    }],
-    checkOut: [{
-        _id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Freelancer',
-            required: true
         },
-        datetime: {
+        end: {
             type: Date,
             required: true
         }

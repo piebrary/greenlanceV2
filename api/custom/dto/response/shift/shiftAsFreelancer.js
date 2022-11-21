@@ -1,4 +1,4 @@
-module.exports = documents => {
+module.exports = (documents, freelancerId) => {
 
     if(Array.isArray(documents)){
 
@@ -36,7 +36,7 @@ module.exports = documents => {
             description,
             label,
             price,
-            spots,
+            positions,
             business,
             datetime,
             location,
@@ -45,6 +45,7 @@ module.exports = documents => {
             applied,
             enrolled,
             withdrawn,
+            timesheets
         } = document
 
         return {
@@ -53,15 +54,16 @@ module.exports = documents => {
             description,
             label,
             price,
-            spots,
+            positions,
             business,
-            datetime:datetimeResponseDto(datetime),
-            location:locationResponseDto(location),
-            recurring:recurringResponseDto(recurring),
+            datetime:datetime.toObject() && datetimeResponseDto(datetime),
+            location:location.toObject() && locationResponseDto(location),
+            recurring:recurring.toObject() && recurringResponseDto(recurring),
             active,
-            applied,
-            enrolled,
-            withdrawn,
+            applied:applied?.filter(_id => _id.equals(freelancerId)),
+            enrolled:enrolled?.filter(_id => _id.equals(freelancerId)),
+            withdrawn:withdrawn?.filter(_id => _id.equals(freelancerId)),
+            timesheets:timesheets?.filter(timesheet => timesheet.freelancerId.equals(freelancerId)),
         }
     }
 

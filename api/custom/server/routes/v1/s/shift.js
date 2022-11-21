@@ -22,6 +22,34 @@ module.exports = async server => {
     )
 
     express.get(
+        process.env.API_PREFIX + '/v1/s/shifts/approved/today',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.getApprovedShiftsForToday(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.get(
+        process.env.API_PREFIX + '/v1/s/shifts/enrolled',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await shiftService.getEnrolledShifts(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
+    express.get(
         process.env.API_PREFIX + '/v1/s/shift/apply/:_id',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
@@ -69,34 +97,6 @@ module.exports = async server => {
         async (req, res) => {
 
             const result = await shiftService.declineById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.get(
-        process.env.API_PREFIX + '/v1/s/shift/checkIn',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.checkInById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.get(
-        process.env.API_PREFIX + '/v1/s/shift/checkOut',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await shiftService.checkOutById(req)
 
             res
                 .status(result.status)

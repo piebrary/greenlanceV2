@@ -20,6 +20,7 @@ import UsersView from '../custom/views/users/Users'
 import CalendarView from '../custom/views/calendar/Calendar'
 import LogoutView from '../default/views/logout/Logout'
 import ShiftsView from '../custom/views/shifts/Shifts'
+import TimesheetsView from '../custom/views/timesheets/Timesheets'
 
 import { AuthenticationContext } from '../default/contexts/AuthenticationContext'
 import { UserContext } from '../default/contexts/UserContext'
@@ -59,8 +60,9 @@ export default function App() {
                                     <Route path="/profile" element={<ProfileView />} />
                                     <Route path="/settings" element={<SettingsView />} />
                                     { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
-                                    <Route path="/calendar" element={<CalendarView />} />
+                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/calendar" element={<CalendarView />} /> }
                                     { (hasRole('freelancer') || hasRole('business')) && <Route path="/shifts" element={<ShiftsView />} /> }
+                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/timesheets" element={<TimesheetsView />} /> }
                                     <Route path="/logout" element={<LogoutView />} />
                                     <Route path="*" element={<Navigate to="/" />} />
                             </Routes>

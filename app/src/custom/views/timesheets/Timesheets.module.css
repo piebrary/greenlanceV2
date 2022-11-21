@@ -1,0 +1,18 @@
+.tableCardControls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.tableCard_body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.timesheetInput_container {
+    padding: 0px;
+    border: 1px solid var(--colorGreyLighter);
+}

@@ -80,6 +80,12 @@
     overflow-y: auto;
 }
 
+.usernameContainer {
+    color: var(--colorGreyLight);
+    margin: 10px auto;
+    text-align: center;
+}
+
 .menu.menuOpen {
     overflow-y: auto;
     position: fixed;

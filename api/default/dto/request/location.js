@@ -26,8 +26,8 @@ module.exports = documents => {
         } = sanitize(document)
 
         return {
-            start:addressRequestDto(start),
-            end:addressRequestDto(end),
+            start:start && addressRequestDto(start),
+            end:end && addressRequestDto(end),
         }
     }
 

@@ -102,17 +102,17 @@ module.exports = async server => {
 
             if(currentUserDoc.isAdmin){
 
-                const userDocDto = userAsAdminResponseDto(userDoc)
+                const userDocsDto = userAsAdminResponseDto(userDocs)
 
-                return successHandler(undefined, userDocDto)
+                return successHandler(undefined, userDocsDto)
 
             }
 
             if(currentUserDoc.isUser){
 
-                const userDocDto = userAsUserResponseDto(userDoc)
+                const userDocsDto = userAsUserResponseDto(userDocs)
 
-                return successHandler(undefined, userDocDto)
+                return successHandler(undefined, userDocsDto)
 
             }
 

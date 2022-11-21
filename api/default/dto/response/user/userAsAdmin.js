@@ -62,11 +62,11 @@ module.exports = documents => {
             email,
             phone,
             address,
-            emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
-            addresses:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
+            emails:emails.toObject() && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
+            phones:phone.toObject() && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
+            addresses:address.toObject() && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
             roles,
-            settings:settings && settingsRequestDto(settings),
+            settings:settings.toObject() && settingsRequestDto(settings),
             profilePicture,
         }
     }

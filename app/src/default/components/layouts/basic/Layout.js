@@ -135,6 +135,9 @@ export default function Layout({ items = [], children, customStyles, title, cont
                             </div>
                         )
                     }
+                    <div className={styles.usernameContainer}>
+                        Welcome {userData.username}
+                    </div>
                     {
                         items.map((group, i) => {
 

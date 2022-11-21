@@ -12,10 +12,6 @@ module.exports = documents => {
 
     function getDto(document){
 
-        if(document === undefined) return {}
-
-        // not in effect now
-
         const {
             start,
             end,

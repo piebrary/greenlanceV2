@@ -38,6 +38,10 @@ module.exports = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Review',
     },
+    shifts: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Shift',
+    },
     connectedFreelancers: {
         type: [Schema.Types.ObjectId],
         ref: 'Freelancer',

@@ -39,13 +39,25 @@
     text-align: var(--componentTableThTdTextAlign);
 }
 
-.td {
-    max-width: var(--componentTableTdMaxWidth);
-    word-break: break-all;
+.tr.trHoverable:hover {
+    color: var(--componentTableTBodyTrColorHover);
+    background-color: var(--componentTableTBodyTrBackgroundColorHover);
+}
+
+.tr.trHoverable {
     cursor: pointer;
 }
 
-.tbody .tr:hover {
+.td {
+    max-width: var(--componentTableTdMaxWidth);
+    word-break: break-all;
+}
+
+.td.tdClickable {
+    cursor: pointer;
+}
+
+.td.tdClickable:hover {
     color: var(--componentTableTBodyTrColorHover);
     background-color: var(--componentTableTBodyTrBackgroundColorHover);
 }

@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useEffect } from 'react'
 
 import { useTable, useSortBy } from 'react-table'
 
@@ -20,10 +20,10 @@ export default function Table(attributes){
         getCellProps = () => ({}),
     } = attributes
 
-    const memoColumns = useMemo(
-       () => columns,
-       []
-    )
+    // const filteredColumns = columns.filter(col => col.isVisible !== false)
+
+    const dataMemoized = useMemo(() => data, [data])
+    const columnsMemoized = useMemo(() => columns, [])
 
     const {
         getTableProps,
@@ -31,13 +31,20 @@ export default function Table(attributes){
         headerGroups,
         rows,
         prepareRow,
+        setHiddenColumns,
     } = useTable(
         {
-            columns,
-            data,
+            columns:columnsMemoized,
+            data:dataMemoized,
         },
         useSortBy
     )
+
+    useEffect(() => {
+
+        setHiddenColumns(columnsMemoized.filter(col => col.isVisible === false).map(col => col.Header))
+
+    }, [columnsMemoized])
 
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
@@ -52,7 +59,7 @@ export default function Table(attributes){
                        {...headerGroup.getHeaderGroupProps()}>
                        {headerGroup.headers.map(column => (
                          <th
-                           className={styles.th}
+                           className={createStyle([styles, customStyles], ['th'])}
                            {...column.getHeaderProps([
                                column.getSortByToggleProps(),
                                getColumnProps(column),
@@ -74,19 +81,19 @@ export default function Table(attributes){
                    ))}
                    </thead>
                    <tbody
-                       className={styles.tbody}
+                       className={createStyle([styles, customStyles], ['tbody'])}
                        {...getTableBodyProps()}>
                        {rows.map((row, i) => {
                          prepareRow(row)
                          return (
                            <tr
-                               className={styles.tr}
+                               className={createStyle([styles, customStyles], ['tr', onRowClick && 'trHoverable'])}
                                onClick={e => onRowClick && onRowClick(row.original)}
                                {...row.getRowProps(getRowProps(row))}>
                                  {row.cells.map(cell => {
                                    return (
                                        <td
-                                           className={styles.td}
+                                           className={createStyle([styles, customStyles], ['td', onCellClick && 'tdClickable'])}
                                            onClick={e => onCellClick && onCellClick(cell)}
                                            {...cell.getCellProps([
                                                getColumnProps(cell.column),

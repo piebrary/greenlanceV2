@@ -29,6 +29,7 @@ import { FaQuestionCircle } from 'react-icons/fa'
 import { BsClockHistory } from 'react-icons/bs'
 import { FiMail } from 'react-icons/fi'
 import { AiOutlineFileDone } from 'react-icons/ai'
+import { VscGraphLine } from 'react-icons/vsc'
 
 export function menuitems({ userData, hasRole, applyTranslation, createTranslation }){
 
@@ -53,24 +54,29 @@ export function menuitems({ userData, hasRole, applyTranslation, createTranslati
                 text:applyTranslation('SHIFTS')
             },
             (hasRole('freelancer') || hasRole('business')) && {
+                to:'/timesheets',
+                icon:<BsClockHistory size={20} />,
+                text:applyTranslation('TIMESHEETS')
+            },
+            (hasRole('freelancer') || hasRole('business')) && {
                 to:'/invoices',
                 icon:<FaFileInvoiceDollar size={20} />,
                 text:applyTranslation('INVOICES')
             },
             (hasRole('freelancer') || hasRole('business')) && {
-                to:'/timesheets',
-                icon:<BsClockHistory size={20} />,
-                text:applyTranslation('TIMESHEETS')
+                to:'/financials',
+                icon:<VscGraphLine size={20} />,
+                text:applyTranslation('FINANCIALS')
             },
-            hasRole('business') && {
-                to:'/projects',
-                icon:<AiOutlineFolderOpen size={20} />,
-                text:applyTranslation('PROJECTS'),
-            } || undefined,
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/business',
                 icon:<RiProfileLine size={20} />,
                 text:applyTranslation('BUSINESS PROFILE'),
+            } || undefined,
+            hasRole('business') && {
+                to:'/projects',
+                icon:<AiOutlineFolderOpen size={20} />,
+                text:applyTranslation('PROJECTS'),
             } || undefined,
         ],[
             {

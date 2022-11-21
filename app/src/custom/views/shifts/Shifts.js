@@ -113,7 +113,7 @@ export default function Shifts(){
                     notifications.create({
                         title: "Could not load shift details",
                         type: 'danger',
-                        container:'center'
+                        container:'bottom-center'
                     })
 
                 }
@@ -137,7 +137,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not load shifts",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -215,7 +215,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Shift successfully created",
                 type: 'success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -223,7 +223,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not create shifts",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -256,7 +256,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Shift successfully updated",
                 type: 'success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -264,7 +264,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not update shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -292,7 +292,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Shift successfully deleted",
                 type: 'success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -300,7 +300,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not delete shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -330,7 +330,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Successfully applied for shift",
                 type: 'Success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -338,7 +338,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not apply for shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -368,7 +368,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Successfully withdrawn from shift",
                 type: 'Success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -376,7 +376,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not withdraw from shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -406,7 +406,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Successfully accepted freelancer for shift",
                 type: 'Success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -414,7 +414,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not accept freelancer for shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }
@@ -444,7 +444,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Successfully declined freelancer for shift",
                 type: 'Success',
-                container:'center'
+                container:'bottom-center'
             })
 
         } catch (error) {
@@ -452,7 +452,7 @@ export default function Shifts(){
             notifications.create({
                 title: "Could not decline freelancer for shift",
                 type: 'danger',
-                container:'center'
+                container:'bottom-center'
             })
 
         }

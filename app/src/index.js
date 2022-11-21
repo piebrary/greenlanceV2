@@ -14,7 +14,8 @@ let App,
     VisualsContextProvider,
     RolesContextProvider
 
-try { App = require('./custom/App').default } catch (error) { console.log(error); App = require('./default/App').default }
+App = require('./custom/App').default
+
 try { ConfigContextProvider = require('./custom/contexts/ConfigContext').default } catch { ConfigContextProvider = require('./default/contexts/ConfigContext').default }
 try { AuthenticationContextProvider = require('./custom/contexts/AuthenticationContext').default } catch { AuthenticationContextProvider = require('./default/contexts/AuthenticationContext').default }
 try { UserContextProvider = require('./custom/contexts/UserContext').default } catch { UserContextProvider = require('./default/contexts/UserContext').default }
@@ -25,23 +26,21 @@ try { RolesContextProvider = require('./custom/contexts/RolesContext').default }
 createRoot(
     document.getElementById('root')
 ).render(
-    <React.StrictMode>
-        <ConfigContextProvider>
-            <AuthenticationContextProvider>
-                <UserContextProvider>
-                    <VisualsContextProvider>
-                        <LanguageContextProvider>
-                            <RolesContextProvider>
-                                <Router>
-                                    <App />
-                                </Router>
-                            </RolesContextProvider>
-                        </LanguageContextProvider>
-                    </VisualsContextProvider>
-                </UserContextProvider>
-            </AuthenticationContextProvider>
-        </ConfigContextProvider>
-    </React.StrictMode>
+    <ConfigContextProvider>
+        <AuthenticationContextProvider>
+            <UserContextProvider>
+                <VisualsContextProvider>
+                    <LanguageContextProvider>
+                        <RolesContextProvider>
+                            <Router>
+                                <App />
+                            </Router>
+                        </RolesContextProvider>
+                    </LanguageContextProvider>
+                </VisualsContextProvider>
+            </UserContextProvider>
+        </AuthenticationContextProvider>
+    </ConfigContextProvider>
 )
 
 // If you want to start measuring performance in your app, pass a function
