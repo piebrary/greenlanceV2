@@ -143,7 +143,7 @@ module.exports = async server => {
                 repeatPassword,
                 currentPassword,
                 roles
-            } = userRequestDto(req.body)
+            } = userAsAdminRequestDto(req.body)
 
             const adjustedRoles = []
 
@@ -237,7 +237,7 @@ module.exports = async server => {
                 newPassword,
                 currentPassword,
                 repeatPassword,
-            } = userRequestDto(req.body)
+            } = userAsSelfRequestDto(req.body)
 
             const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
 
@@ -325,7 +325,7 @@ module.exports = async server => {
                 settings,
                 currentPassword,
                 roles,
-            } = userRequestDto(req.body)
+            } = userAsAdminRequestDto(req.body)
 
             const adjustedRoles = []
 

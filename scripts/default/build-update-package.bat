@@ -1,2 +1,1 @@
-cd ./lib && node build-update-package.js
-pause
+cd ./lib && node build-update-package.js && pause

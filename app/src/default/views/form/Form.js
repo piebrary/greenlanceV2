@@ -18,7 +18,7 @@ import Textarea from '../../../default/components/formElements/textarea/Textarea
 import Datalist from '../../../default/components/formElements/datalist/Datalist'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { containsNumber } from '../../../default/utils/containsNumber'
@@ -205,7 +205,7 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('FORM')}
             controls={<Controls />}
             >

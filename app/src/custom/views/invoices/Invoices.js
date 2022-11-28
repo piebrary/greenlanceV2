@@ -13,6 +13,7 @@ import Controls from '../../../default/components/controls/Controls'
 import Input from '../../../default/components/formElements/input/Input'
 import Logo from '../../../custom/components/logo/Logo'
 import Menu from '../../../custom/components/menu/Menu'
+import Table from '../../../default/components/table/Table'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
@@ -20,16 +21,51 @@ import { notificationManager } from '../../../default/utils/notifications'
 
 import { GiConfirmed } from 'react-icons/gi'
 
-import styles from './Timesheets.module.css'
+import styles from './Invoices.module.css'
 
-export default function Timesheets(){
+export default function Invoices(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, hasRole } = useContext(UserContext)
 
-    const [shifts, setShifts] = useState([])
+    const [timesheets, setTimesheets] = useState([])
 
     const notifications = notificationManager()
+
+    const openHoursColumns = [
+        {
+            Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
+            accessor: data => data.business.name,
+        },
+        {
+            Header: applyTranslation('HOURS'),
+            accessor: data => data.project,
+            // isVisible: hasRole('business') || false,
+        },
+    ]
+
+    const invoicesColumns = [
+        {
+            Header: applyTranslation('DATE'),
+            accessor: data => data.project,
+        },
+        {
+            Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
+            accessor: data => data.business.name,
+        },
+        {
+            Header: applyTranslation('HOURS'),
+            accessor: data => data.project,
+        },
+        {
+            Header: applyTranslation('AMOUNT'),
+            accessor: data => data.project,
+        },
+        {
+            Header: applyTranslation('VIEW'),
+            accessor: data => data.project,
+        },
+    ]
 
     useEffect(() => {
 
@@ -45,23 +81,23 @@ export default function Timesheets(){
 
                 const response = await getEnrolledShifts()
 
-                setShifts(response.data)
+                setTimesheets(response.data)
 
             }
 
             if(hasRole('business')){
 
-                // get all shifts from business
+                // get all timesheets from business
                 const response = await getShifts()
 
-                setShifts(response.data)
+                setTimesheets(response.data)
 
             }
 
         } catch (error) {
 
             notifications.create({
-                title: "Could not load shifts",
+                title: "Could not load timesheets",
                 type: 'danger',
                 container:'bottom-right'
             })
@@ -76,7 +112,7 @@ export default function Timesheets(){
 
             const response = await updateTimesheetActual(_id, value)
 
-            setShifts(previous => {
+            setTimesheets(previous => {
 
                 const newShifts = previous.map(shift => {
 
@@ -109,42 +145,13 @@ export default function Timesheets(){
 
     }
 
-    // async function accept(_id, value){
-    //
-    //     try {
-    //
-    //         const response = await acceptTimesheet(_id)
-    //
-    //         setShifts(previous => {
-    //
-    //             const newShifts = previous.map(shift => {
-    //
-    //                 if(shift._id !== response.data._id) return shift
-    //                 return response.data
-    //
-    //             })
-    //
-    //         })
-    //
-    //     } catch (error) {
-    //
-    //         notifications.create({
-    //             title: "Could not accept timesheet",
-    //             type: 'danger',
-    //             container:'bottom-right'
-    //         })
-    //
-    //     }
-    //
-    // }
-
     async function dispute(_id, value){
 
         try {
 
             const response = await disputeTimesheet(_id)
 
-            setShifts(previous => {
+            setTimesheets(previous => {
 
                 const newShifts = previous.map(shift => {
 
@@ -181,31 +188,29 @@ export default function Timesheets(){
         <Layout
             className={styles.container}
             items={Menu({ userData, hasRole, applyTranslation, createTranslation })}
-            title={applyTranslation('TIMESHEETS')}
+            title={applyTranslation('INVOICES')}
             logo={<Logo />}
             controls={<Controls />}
             >
-            {/*
-                {
-                hasRole('freelancer') && (
-                    <Card>
-                        Checkin or checkout here
-                    </Card>
-                )
-            }
             <Card
-                customStyles={applyStyles([styles], 'tableCard')}
+                title={hasRole('business') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
                 >
-                <div
-                    className={styles.cardControls}
-                    >
-                    <div>Viewing past 30 days</div>
-                    <Button label={'View full history'} />
-                </div>
+                <Table
+                    columns={openHoursColumns}
+                    data={[]}
+                    />
             </Card>
-            */}
+            <Card
+                title={'INVOICES'}
+                >
+                <Table
+                    columns={invoicesColumns}
+                    data={[]}
+                    />
+            </Card>
+                {/*
             {
-                shifts.map(shift => {
+                timesheets.map(shift => {
 
                     const key = shift._id
 
@@ -227,8 +232,7 @@ export default function Timesheets(){
                                             description={'Status: ' + timesheet.status}
                                             >
                                             <div
-                                                className={styles.timesheetCardContent}
-                                                >
+                                                className={styles.timesheetCardContent}>
                                                 {
                                                     timesheet.status === 'open'
                                                     && (
@@ -332,6 +336,7 @@ export default function Timesheets(){
                 })
 
             }
+            */}
         </Layout>
     )
 }

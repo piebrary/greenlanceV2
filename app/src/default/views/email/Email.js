@@ -19,7 +19,7 @@ import Select from '../../../default/components/formElements/select/Select'
 import Textarea from '../../../default/components/formElements/textarea/Textarea'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Email.module.css'
@@ -74,7 +74,7 @@ export default function EmailView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('EMAIL')}
             controls={<Controls />}
             >

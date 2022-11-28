@@ -12,6 +12,7 @@ module.exports = documents => {
 
         const {
             _id,
+            name,
             description,
             labels,
             mutations,
@@ -19,6 +20,7 @@ module.exports = documents => {
 
         return {
             _id,
+            name,
             description,
             labels,
             mutations,

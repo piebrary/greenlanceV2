@@ -36,9 +36,9 @@ module.exports = documents => {
             name,
             description,
             label,
-            datetime,
-            location,
-            recurring,
+            datetime = {},
+            location = {},
+            recurring = {},
             rights,
             active
         } = sanitize(document)

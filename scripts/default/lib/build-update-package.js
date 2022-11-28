@@ -13,7 +13,7 @@ const fs = require('fs/promises')
 
     try {
 
-        CURRENT_INSTALLED_VERSION = await fs.readFile('../../../updates/current_installed_version')
+        CURRENT_INSTALLED_VERSION = await fs.readFile('../../../updates/current_installed_version.txt')
 
     } catch (error) {
 
@@ -43,11 +43,15 @@ const fs = require('fs/promises')
         await fs.cp('../../../scripts/default', `../../../updates/${NEW_VERSION_NUMBER}/lib/scripts/default`, { recursive: true })
 
         // create install.bat & install.sh which start install.js in update package
-        await fs.writeFile(`../../../updates/${NEW_VERSION_NUMBER}/install.bat`, `cd ./lib && node install.js`)
-        await fs.writeFile(`../../../updates/${NEW_VERSION_NUMBER}/install.sh`, `cd ./lib && node install.js`)
+        await fs.writeFile(`../../../updates/${NEW_VERSION_NUMBER}/install.bat`, `cd ./lib && node install.js && pause`)
+        await fs.writeFile(`../../../updates/${NEW_VERSION_NUMBER}/install.sh`, `cd ./lib && node install.js && read -p "Press any key to continue . . ."`)
 
         // copy install.js to version folder
         await fs.cp('./install.js', `../../../updates/${NEW_VERSION_NUMBER}/lib/install.js`, { recursive: true })
+
+        // also add new version number to own package verions.log and current_installed_version.txt
+        await fs.writeFile(`../../../updates/current_installed_version.txt`, `${NEW_VERSION_NUMBER}\n`, { flag:'w' })
+        await fs.appendFile(`../../../updates/versions.log`, `${NEW_VERSION_NUMBER}\n`)
 
         console.log(`Finished building update package ${NEW_VERSION_NUMBER}`)
 

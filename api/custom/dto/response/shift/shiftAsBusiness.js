@@ -30,13 +30,15 @@ module.exports = documents => {
             recurringResponseDto = require('../../../../default/dto/response/recurring')
         }
 
+        const timesheetAsAll = require('../../../../custom/dto/response/timesheet/timesheetAsAll')
+
         const {
             _id,
             name,
             description,
             label,
             price,
-            spots,
+            positions,
             business,
             datetime,
             location,
@@ -45,6 +47,7 @@ module.exports = documents => {
             applied,
             enrolled,
             withdrawn,
+            timesheets
         } = document
 
         return {
@@ -53,15 +56,33 @@ module.exports = documents => {
             description,
             label,
             price,
-            spots,
+            positions,
             business,
-            datetime:datetime.toObject() && datetimeResponseDto(datetime),
-            location:location.toObject() && locationResponseDto(location),
-            recurring:recurring.toObject() && recurringResponseDto(recurring),
+            datetime:datetime && datetimeResponseDto(datetime),
+            location:location && locationResponseDto(location),
+            recurring:recurring && recurringResponseDto(recurring),
             active,
-            applied,
-            enrolled,
-            withdrawn,
+            applied:applied?.map(
+                application => {
+                    const { name, rating } = application
+                    return { name, rating }
+                }
+            ),
+            enrolled:enrolled?.map(
+                enrolment => {
+                    const { name, rating } = enrolment
+                    return { name, rating }
+                }
+            ),
+            withdrawn:withdrawn?.map(
+                withdrawment => {
+                    const { name, rating } = withdrawment
+                    return { name, rating }
+                }
+            ),
+            timesheets:timesheets?.map(
+                timesheet => timesheetAsAll(timesheet)
+            )
         }
     }
 

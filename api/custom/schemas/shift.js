@@ -54,16 +54,13 @@ module.exports = new Schema({
     },
     recurring:{
         interval: {
-            type: String,
-            required: true
+            type: String
         },
         start: {
-            type: Date,
-            required: true
+            type: Date
         },
         end: {
-            type: Date,
-            required: true
+            type: Date
         },
     },
     creator:{
@@ -85,21 +82,16 @@ module.exports = new Schema({
         ref: 'Freelancer',
         default:[]
     },
-    timesheets: [{
-        _id: {
-            type: Schema.Types.ObjectId,
-            ref: 'Freelancer',
-            required: true
-        },
-        start: {
-            type: Date,
-            required: true
-        },
-        end: {
-            type: Date,
-            required: true
-        }
-    }],
+    declined: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Freelancer',
+        default:[]
+    },
+    timesheets: {
+        type: [Schema.Types.ObjectId],
+        ref: 'Timesheet',
+        default:[]
+    },
     active:{
         type: Boolean,
         default: true,

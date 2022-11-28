@@ -8,8 +8,8 @@ import { getShifts } from '../../../custom/services/ShiftService'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Calendar from '../../../default/components/calendar/Calendar'
 import Controls from '../../../default/components/controls/Controls'
+import Menu from '../../../custom/components/menu/Menu'
 
-import { menuitems } from '../../../custom/assets/js/menu/items'
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { notificationManager } from '../../../default/utils/notifications'
 
@@ -53,7 +53,7 @@ export default function CalendarView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CALENDAR')}
             controls={<Controls />}
             >

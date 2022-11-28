@@ -23,6 +23,7 @@ export default function Input(attributes){
         readOnly,
         defaultValue,
         onChange,
+        onBlur,
         passwordToggle,
         rules = {},
         register,
@@ -81,6 +82,8 @@ export default function Input(attributes){
                         autoFocus={autoFocus}
                         autoComplete={autoComplete}
                         onClick={() => isPicker && !readOnly && document.getElementById(name).showPicker() }
+                        onBlur={onBlur}
+                        onChange={onChange}
                         step={step || 'any'}
                         {...reg}
                         />

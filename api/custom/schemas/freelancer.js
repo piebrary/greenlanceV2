@@ -1,8 +1,8 @@
 const { Schema } = require('mongoose')
 
 module.exports = new Schema({
-    user: {
-        type: Schema.Types.ObjectId,
+    users: {
+        type: [Schema.Types.ObjectId],
         ref: 'User',
     },
     name:{

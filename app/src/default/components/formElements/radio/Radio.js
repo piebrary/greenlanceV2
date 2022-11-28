@@ -13,6 +13,7 @@ export default function Radio(attributes){
         name,
         options,
         onClick,
+        onChange,
         register = () => {},
         errors,
         rules,
@@ -43,6 +44,7 @@ export default function Radio(attributes){
                                     defaultChecked={o.checked}
                                     disabled={o.disabled}
                                     value={o.name}
+                                    onChange={onChange}
                                     {...register(name, rules)}
                                     />
                                 {o.label}

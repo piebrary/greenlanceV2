@@ -22,7 +22,7 @@ import { BsPersonCircle } from 'react-icons/bs'
 import { BsCheck } from 'react-icons/bs'
 import { BiUserPlus } from 'react-icons/bi'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { containsNumber } from '../../../default/utils/containsNumber'
@@ -41,7 +41,7 @@ export default function Documentation(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('DOCUMENTATION')}
             controls={<Controls />}
             >

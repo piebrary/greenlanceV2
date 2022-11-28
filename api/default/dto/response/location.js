@@ -24,8 +24,8 @@ module.exports = documents => {
         } = document
 
         return {
-            start:start.toObject() && addressResponseDto(start),
-            end:end.toObject() && addressResponseDto(end),
+            start:start && addressResponseDto(start),
+            end:end && addressResponseDto(end),
         }
     }
 

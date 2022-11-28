@@ -39,7 +39,6 @@ module.exports = async server => {
             } = userAsSelfRequestDto(req.body)
 
             if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
-
             if(accountType === undefined) return errorHandler(400, 'An account type must be chosen')
 
             let response
@@ -56,25 +55,25 @@ module.exports = async server => {
                     roles:['user', accountType]
                 })
 
-                let newFreelancerDoc
-
-                if(accountType === 'freelancer'){
-
-                    newFreelancerDoc = new FreelancerModel({
-                        user:newUserDoc._id
-                    })
-
-                }
-
-                let newBusinessDoc
-
-                if(accountType === 'business'){
-
-                    newBusinessDoc = new BusinessModel()
-
-                    newBusinessDoc.users.push(newUserDoc._id)
-
-                }
+                // let newFreelancerDoc
+                //
+                // if(accountType === 'freelancer'){
+                //
+                //     newFreelancerDoc = new FreelancerModel({
+                //         user:newUserDoc._id
+                //     })
+                //
+                // }
+                //
+                // let newBusinessDoc
+                //
+                // if(accountType === 'business'){
+                //
+                //     newBusinessDoc = new BusinessModel()
+                //
+                //     newBusinessDoc.users.push(newUserDoc._id)
+                //
+                // }
 
                 const newMutationDoc = new MutationModel({
                     user:newUserDoc._id,
@@ -87,8 +86,8 @@ module.exports = async server => {
 
                 newUserDoc.mutations.push(newMutationDoc._id)
 
-                if(newFreelancerDoc) await newFreelancerDoc.save()
-                if(newBusinessDoc) await newBusinessDoc.save()
+                // if(newFreelancerDoc) await newFreelancerDoc.save()
+                // if(newBusinessDoc) await newBusinessDoc.save()
 
                 response = await newUserDoc.save()
                 await newMutationDoc.save()

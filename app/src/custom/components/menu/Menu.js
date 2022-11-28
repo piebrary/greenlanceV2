@@ -31,12 +31,12 @@ import { FiMail } from 'react-icons/fi'
 import { AiOutlineFileDone } from 'react-icons/ai'
 import { VscGraphLine } from 'react-icons/vsc'
 
-export function menuitems({ userData, hasRole, applyTranslation, createTranslation }){
+export default function menu({ userData, hasRole, applyTranslation, createTranslation }){
 
     return [
         [
             {
-                label:<>{applyTranslation('WORK')}</>
+                label:<>{applyTranslation('BUSINESS')}</>
             },
             {
                 to:'/',
@@ -71,7 +71,7 @@ export function menuitems({ userData, hasRole, applyTranslation, createTranslati
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/business',
                 icon:<RiProfileLine size={20} />,
-                text:applyTranslation('BUSINESS PROFILE'),
+                text:applyTranslation('PROFILE'),
             } || undefined,
             hasRole('business') && {
                 to:'/projects',

@@ -19,17 +19,21 @@ module.exports = documents => {
         }
 
         const {
-            freelancerId,
-            planned,
+            _id,
+            shift,
             freelancer,
-            business,
+            planned,
+            actualByFreelancer,
+            actualByBusiness,
         } = sanitize(document)
 
         return {
-            freelancerId,
+            _id,
+            shift,
+            freelancer,
             planned:planned && datetimeRequestDto(planned),
-            freelancer:freelancer && datetimeRequestDto(freelancer),
-            business:business && datetimeRequestDto(business),
+            actualByFreelancer:actualByFreelancer && datetimeRequestDto(actualByFreelancer),
+            actualByBusiness:actualByBusiness && datetimeRequestDto(actualByBusiness),
         }
     }
 

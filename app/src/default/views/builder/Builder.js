@@ -9,7 +9,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { containsNumber } from '../../../default/utils/containsNumber'
@@ -28,7 +28,7 @@ export default function Builder(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('Builder')}
             controls={<Controls />}
             >

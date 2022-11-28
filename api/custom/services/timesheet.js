@@ -16,14 +16,15 @@ module.exports = async server => {
     const timesheetAsAllResponseDto = require('../../custom/dto/response/timesheet/timesheetAsAll')
     const ShiftModel = require('../../custom/models/shift')
     const FreelancerModel = require('../../custom/models/freelancer')
+    const TimesheetModel = require('../../custom/models/timesheet')
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
         getTimesheets,
         getTimesheetById,
-        checkInById,
-        checkOutById,
+        updateTimesheetActual,
+        disputeTimesheetActual,
     }
 
     async function getTimesheets(req){
@@ -101,7 +102,7 @@ module.exports = async server => {
 
                 const timesheetDocument = await TimesheetModel
                     .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
-                    .populate('applied enrolled withdrawn checkIn checkOut')
+                    .populate('applied enrolled withdrawn')
 
                 const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
 
@@ -117,47 +118,80 @@ module.exports = async server => {
 
     }
 
-    async function checkInById(req){
+    async function updateTimesheetActual(req){
 
         try {
 
-            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+            const currentUserDoc = await getCurrentUser(req)
 
-            const timesheetDocument = await TimesheetModel.findOne({
-                _id:req.query.timesheetId
-            })
+            if(!currentUserDoc) return notFoundHandler('User')
 
-            if(!timesheetDocument) return notFoundHandler('Timesheet')
-            if(!timesheetDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+            // get timesheet for user
+            const timesheetDocument = await TimesheetModel
+                .findOne({ _id:req.params._id })
+                .populate({
+                    path:'freelancer',
+                    model:'Freelancer',
+                    select:'name'
+                })
+                // .select('name')
 
-            const checkInTime = req.query.datetime || new Date()
+                // {
+                //         path:'freelancer',
+                //         model:'Freelancer',
+                //         select:'name profilePhoto'
+                //     }
+                // })
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                timesheetDoc.checkIn.push({
-                    _id:freelancerDoc._id,
-                    datetime:checkInTime
-                })
+                if(currentUserDoc.roles.includes('freelancer')){
 
-                const newMutationTimesheetDoc = new MutationModel({
+                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByFreelancer:req.body })
+
+                    // update actual time of timeshift with value { start } or { end }
+                    if(timesheetRequestDto.actualByFreelancer?.start) timesheetDocument.actualByFreelancer.start = timesheetRequestDto.actualByFreelancer?.start
+                    if(timesheetRequestDto.actualByFreelancer?.end) timesheetDocument.actualByFreelancer.end = timesheetRequestDto.actualByFreelancer?.end
+
+                }
+
+                if(currentUserDoc.roles.includes('business')){
+
+                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByBusiness:req.body })
+
+                    // update actual time of timeshift with value { start } or { end }
+                    if(timesheetRequestDto.actualByBusiness?.start) timesheetDocument.actualByBusiness.start = timesheetRequestDto.actualByBusiness?.start
+                    if(timesheetRequestDto.actualByBusiness?.end) timesheetDocument.actualByBusiness.end = timesheetRequestDto.actualByBusiness?.end
+
+                }
+
+                if(
+                    timesheetDocument.actualByFreelancer?.start === timesheetDocument.actualByBusiness?.start
+                    && timesheetDocument.actualByFreelancer?.end === timesheetDocument.actualByBusiness?.end
+                ){
+
+                    timesheetDocument.status = 'accepted'
+
+                }
+
+                const newMutationDoc = new MutationModel({
                     user:req.user._id,
-                    action:'reportCheckIn',
-                    datetime:checkInTime
+                    action:'updateTimesheetActual',
+                    data:timesheetDocument
                 })
 
-                timesheetDocument.mutations.push(newMutationTimesheetDoc._id)
-                await timesheetDocument.save()
-                await newMutationTimesheetDoc.save()
+                timesheetDocument.save()
+                newMutationDoc.save()
 
             })
 
             session.endSession()
 
-            const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+            // return shift
+            const timesheetResponseDto = timesheetAsAllResponseDto(timesheetDocument)
 
-            return successHandler(undefined, timesheetDocumentDto)
+            return successHandler(undefined, timesheetDocument)
 
         } catch (error) {
 
@@ -167,47 +201,60 @@ module.exports = async server => {
 
     }
 
-    async function checkOutById(req){
+    async function disputeTimesheetActual(req){
 
         try {
 
-            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+            const currentUserDoc = await getCurrentUser(req)
 
-            const timesheetDocument = await TimesheetModel.findOne({
-                _id:req.query.timesheetId
-            })
+            if(!currentUserDoc) return notFoundHandler('User')
 
-            if(!timesheetDocument) return notFoundHandler('Timesheet')
-            if(!timesheetDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
-
-            const checkOutTime = req.query.datetime || new Date()
+            // get timesheet for user
+            const timesheetDocument = await TimesheetModel
+                .findOne({ _id:req.params._id })
+                .populate({
+                    path:'freelancer',
+                    model:'Freelancer',
+                    select:'name'
+                })
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                timesheetDoc.checkIn.push({
-                    _id:freelancerDoc._id,
-                    time:checkOutTime
-                })
+                if(
+                    (
+                        timesheetDocument.actualByFreelancer?.start
+                        && timesheetDocument.actualByFreelancer?.end
+                        && timesheetDocument.actualByFreelancer?.start
+                        && timesheetDocument.actualByBusiness?.end
+                    )
+                    && (
+                        timesheetDocument.actualByFreelancer?.start !== timesheetDocument.actualByBusiness?.start
+                        || timesheetDocument.actualByFreelancer?.end !== timesheetDocument.actualByBusiness?.end
+                    )
+                ){
 
-                const newMutationTimesheetDoc = new MutationModel({
-                    user:req.user._id,
-                    action:'reportCheckOut',
-                    time:checkOutTime
-                })
+                    timesheetDocument.status = 'disputed'
 
-                timesheetDocument.mutations.push(newMutationTimesheetDoc._id)
-                await timesheetDocument.save()
-                await newMutationTimesheetDoc.save()
+                    const newMutationDoc = new MutationModel({
+                        user:req.user._id,
+                        action:'disputeTimesheetActual',
+                        data:timesheetDocument
+                    })
+
+                    timesheetDocument.save()
+                    newMutationDoc.save()
+
+                }
 
             })
 
             session.endSession()
 
-            const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+            // return shift
+            const timesheetResponseDto = timesheetAsAllResponseDto(timesheetDocument)
 
-            return successHandler(undefined, timesheetDocumentDto)
+            return successHandler(undefined, timesheetDocument)
 
         } catch (error) {
 
@@ -216,5 +263,105 @@ module.exports = async server => {
         }
 
     }
+
+    // async function checkInById(req){
+    //
+    //     try {
+    //
+    //         const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+    //         if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+    //
+    //         const timesheetDocument = await TimesheetModel.findOne({
+    //             _id:req.query.timesheetId
+    //         })
+    //
+    //         if(!timesheetDocument) return notFoundHandler('Timesheet')
+    //         if(!timesheetDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+    //
+    //         const checkInTime = req.query.datetime || new Date()
+    //
+    //         const session = await connection.startSession()
+    //         await session.withTransaction(async () => {
+    //
+    //             timesheetDoc.checkIn.push({
+    //                 _id:freelancerDoc._id,
+    //                 datetime:checkInTime
+    //             })
+    //
+    //             const newMutationTimesheetDoc = new MutationModel({
+    //                 user:req.user._id,
+    //                 action:'reportCheckIn',
+    //                 datetime:checkInTime
+    //             })
+    //
+    //             timesheetDocument.mutations.push(newMutationTimesheetDoc._id)
+    //             await timesheetDocument.save()
+    //             await newMutationTimesheetDoc.save()
+    //
+    //         })
+    //
+    //         session.endSession()
+    //
+    //         const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+    //
+    //         return successHandler(undefined, timesheetDocumentDto)
+    //
+    //     } catch (error) {
+    //
+    //         return errorHandler(undefined, error)
+    //
+    //     }
+    //
+    // }
+    //
+    // async function checkOutById(req){
+    //
+    //     try {
+    //
+    //         const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+    //         if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+    //
+    //         const timesheetDocument = await TimesheetModel.findOne({
+    //             _id:req.query.timesheetId
+    //         })
+    //
+    //         if(!timesheetDocument) return notFoundHandler('Timesheet')
+    //         if(!timesheetDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+    //
+    //         const checkOutTime = req.query.datetime || new Date()
+    //
+    //         const session = await connection.startSession()
+    //         await session.withTransaction(async () => {
+    //
+    //             timesheetDoc.checkIn.push({
+    //                 _id:freelancerDoc._id,
+    //                 time:checkOutTime
+    //             })
+    //
+    //             const newMutationTimesheetDoc = new MutationModel({
+    //                 user:req.user._id,
+    //                 action:'reportCheckOut',
+    //                 time:checkOutTime
+    //             })
+    //
+    //             timesheetDocument.mutations.push(newMutationTimesheetDoc._id)
+    //             await timesheetDocument.save()
+    //             await newMutationTimesheetDoc.save()
+    //
+    //         })
+    //
+    //         session.endSession()
+    //
+    //         const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+    //
+    //         return successHandler(undefined, timesheetDocumentDto)
+    //
+    //     } catch (error) {
+    //
+    //         return errorHandler(undefined, error)
+    //
+    //     }
+    //
+    // }
 
 }

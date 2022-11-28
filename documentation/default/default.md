@@ -21,8 +21,8 @@ PieBrary let's you easily create, update and publish beautiful responsive websit
     5. [Pushing](#git-push) *pushing your edited repository to the Git cloud*
     6. [Workflow](#git-workflow) *workflow of working with Git*
 5. [Publishing App](#publishing-app) *publishing your website to the web*
-6. [Building and submitting Mobile Client](#building-mobile-client) *building your mobile app and submit it to Appstore or Google Play*
-7. [Building Desktop Client](#building-desktop-client) *Building your desktop app to an executable*
+6. [Building and submitting Mobile App](#building-mobile-app) *building your mobile app and submit it to Appstore or Google Play*
+7. [Building Desktop App](#building-desktop-app) *Building your desktop app to an executable*
 8. [PieBrary](#piebrary)
     1. [Installing Updates](#piebrary-installing-updates)
     2. [App](#piebrary-app)
@@ -88,6 +88,8 @@ The PieBrary Github repository serves as a basis for any new PieBrary derived pr
 - 4: In local folder run `git remote set-url origin git@github.com/[github-account-name]/[repository-name]`
 - 5: Run `git push` to push the repository contents to the new folder in Github
 
+In case of a Github error saying the repo does not exist or you may not have the correct credentials make sure you have an ssh key generated and configured with your Github account. ALso make sure ssh-agent is started by running ```eval `ssh-agent -s```` and ```ssh-add [your-ssh-priv-key-location]```
+
 
 ## Git<a name="git"></a>
 Git is a protocol which securely stores your repository in the cloud. This way you always have a backup, you can browse the history of the changes made and even work with multiple people on the same project. In this documentation we use Github but there are many more Git clients.
@@ -152,15 +154,15 @@ With publishing we mean downloading the updated repository with it's chances on 
 - When the process succeeded we copy the files to the location where our website is hosted. Normally this location is `/var/www/html`. Copy the files with `sudo cp -r build/* /var/www/html` and provide your password. The newly build website is now available to the web.
 - When changes were made to the api, we need to navigate there with `cd ../api` and restart the process with `pm2 restart [repository-name]-api`
 
-## Building and submitting Mobile Client<a name="building-mobile-client"></a>
+## Building and submitting Mobile App<a name="building-mobile-app"></a>
 Submitting your app to the Appstore or Google Play makes it available on iOS and Android devices. The process is handled by expo to make it easy to build and submit without needing a macOS device.
 
-- First navigate to the mobile-client repository in you main folder
+- First navigate to the mobile-app repository in you main folder
 - Increment the version number in app.json. If you don't, Apple will tell you you already have a build with that version number and won't accept the new build
 - Run `eas build -p ios` to create an iOS binary or `eas build -p android` to create an Android binary
 - To Submit run `eas submit -p ios` or `eas submit -p android`
 
-## Building Desktop Client<a name="building-desktop-client"></a>
+## Building Desktop App<a name="building-desktop-app"></a>
 
 ## PieBrary<a name="piebrary"></a>
 PieBrary delivers you the most powerfull noeJS/React development kit. This chapter wil go through the library itself
@@ -168,7 +170,8 @@ PieBrary delivers you the most powerfull noeJS/React development kit. This chapt
 ### Installing Updates<a name="piebrary-installing-updates"></a>
 Installing new updates is an important feature of PieBrary. This way the code changes of the native PieBrary package get shipped easily to your own software. This includes files and folder called default.
 
-- When receiving an update package named "update-package" copy this entire folder to the main folder of your project, next to the "api", "app", "assets" etc.
-- Open the "update-package" folder.
+- When receiving an update package named with a version name (ex v1.0.1) copy this entire folder to the updates folder of your project.
+- Close all running app and api terminal scripts to prevent errors.
+- Open the update (ex v1.0.1) folder.
 - Double click the "install.bat" folder when on windows or "install.sh" when on macOS or Linux
 - When the Terminal window prints "Press any key to continue..." the installing is complete and the "update-package" folder can be safely deleted.

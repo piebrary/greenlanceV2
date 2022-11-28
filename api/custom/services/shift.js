@@ -20,6 +20,7 @@ module.exports = async server => {
     const ShiftModel = require('../../custom/models/shift')
     const BusinessModel = require('../../custom/models/business')
     const FreelancerModel = require('../../custom/models/freelancer')
+    const TimesheetModel = require('../../custom/models/timesheet')
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
@@ -53,7 +54,8 @@ module.exports = async server => {
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-                const shiftDocuments = await ShiftModel.find()
+                const shiftDocuments = await ShiftModel
+                    .find()
                 // use below line when enabling connected freelancers and businesses
                 // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
@@ -69,6 +71,34 @@ module.exports = async server => {
 
                 const shiftDocuments = await ShiftModel
                     .find({ business:currentBusinessDoc._id })
+                    // .populate('applied enrolled withdrawn declined')
+                    .populate([
+                        {
+                            path:'applied',
+                            model: 'User',
+                        },
+                        {
+                            path:'enrolled',
+                            model: 'User',
+                        },
+                        {
+                            path:'withdrawn',
+                            model: 'User',
+                        },
+                        {
+                            path:'declined',
+                            model: 'User',
+                        },
+                        {
+                            path:'timesheets',
+                            model: 'Timesheet',
+                            populate: {
+                                path:'freelancer',
+                                model:'Freelancer',
+                                select:'name profilePhoto'
+                            }
+                        }
+                    ])
 
                 const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
 
@@ -107,11 +137,15 @@ module.exports = async server => {
                         path:'enrolled',
                         model: 'Shift',
                         select: 'datetime enrolled timesheets business',
-                        populate: {
+                        populate: [{
                             path: 'business',
                             model: 'Business',
                             select: 'name'
-                        }
+                        },{
+                            path: 'timesheets',
+                            model: 'Timesheet',
+                            select: 'shift freelancer planned actualByBusiness actualByFreelancer accepted disputed status'
+                        }]
                     })
 
                 const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, currentFreelancerDoc._id)
@@ -210,7 +244,7 @@ module.exports = async server => {
 
                 const shiftDocument = await ShiftModel
                     .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
-                    .populate('applied enrolled withdrawn checkIn checkOut')
+                    .populate('applied enrolled withdrawn')
 
                 const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
 
@@ -444,17 +478,46 @@ module.exports = async server => {
             const currentFreelancerDoc = await getCurrentFreelancer(req)
             if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
 
-            const shiftDocument = await ShiftModel.findOne({
-                business:currentFreelancerDoc.businesses,
-                _id:req.params._id
-            })
+            const shiftDocument = await ShiftModel
+                .findOne({
+                    // business:currentFreelancerDoc.businesses,
+                    _id:req.params._id
+                })
+                .populate('timesheets')
 
+            // const timesheetDocument = await TimesheetModel.findOne({
+            //     // business:currentFreelancerDoc.businesses,
+            //     shift:req.params._id
+            // })
+            //
+            // if(!timesheetDocument) return notFoundHandler('Timesheet')
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.applied.includes(currentFreelancerDoc._id)) return errorHandler(409, 'Freelancer has not applied')
-            if(!shiftDocument.enrolled.includes(currentFreelancerDoc._id)) return errorHandler(409, 'Freelancer has not enrolled')
+
+            if(
+                !shiftDocument.applied.includes(currentFreelancerDoc._id)
+                && !shiftDocument.enrolled.includes(currentFreelancerDoc._id)
+            ) return errorHandler(409, 'Freelancer has not applied or is enrolled')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
+
+                // const shiftDocTimesheetIndex = shiftDocument.timesheets.indexOf(timesheetDocument._id)
+                // if(shiftDocTimesheetIndex > -1){
+                //
+                //     shiftDocument.timesheets.splice(shiftDocTimesheetIndex, 1)
+                //
+                //     const newMutationTimesheetDoc = new MutationModel({
+                //         user:currentFreelancerDoc._id,
+                //         action:'withdraw'
+                //     })
+                //
+                //     timesheetDocument.mutations.push(newMutationTimesheetDoc._id)
+                //
+                // }
+
+                shiftDocument.withdrawn.push(currentFreelancerDoc._id)
+
+                shiftDocument.timesheets = shiftDocument.timesheets.filter(timesheet => !timesheet.freelancer.equals(currentFreelancerDoc._id))
 
                 const shiftDocAppliedIndex = shiftDocument.applied.indexOf(currentFreelancerDoc._id)
                 if(shiftDocAppliedIndex > -1){
@@ -467,7 +530,23 @@ module.exports = async server => {
                     })
 
                     shiftDocument.mutations.push(newMutationShiftDoc._id)
-                    await shiftDocument.save()
+
+                    await newMutationShiftDoc.save()
+
+                }
+
+                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(currentFreelancerDoc._id)
+                if(shiftDocEnrolledIndex > -1){
+
+                    shiftDocument.enrolled.splice(shiftDocEnrolledIndex, 1)
+
+                    const newMutationShiftDoc = new MutationModel({
+                        user:currentFreelancerDoc._id,
+                        action:'withdraw'
+                    })
+
+                    shiftDocument.mutations.push(newMutationShiftDoc._id)
+
                     await newMutationShiftDoc.save()
 
                 }
@@ -483,10 +562,14 @@ module.exports = async server => {
                     })
 
                     currentFreelancerDoc.mutations.push(newMutationFreelancerDoc._id)
+
                     await currentFreelancerDoc.save()
                     await newMutationFreelancerDoc.save()
 
                 }
+
+                await shiftDocument.save()
+                await shiftDocument.populate('timesheets')
 
             })
 
@@ -518,13 +601,14 @@ module.exports = async server => {
             if(!freelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                // business:currentBusinessDoc._id,
+                business:currentBusinessDoc._id,
                 _id:req.query.shiftId
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.applied.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer hat not applied')
+            if(!shiftDocument.applied.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer has not applied')
             if(shiftDocument.enrolled.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer is already enrolled')
+            if(shiftDocument.positions <= shiftDocument.enrolled.length) return errorHandler(409, 'No open spots available')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
@@ -532,30 +616,50 @@ module.exports = async server => {
                 const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDoc._id)
                 if(shiftDocAppliedIndex > -1) shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
 
+                const newTimesheetDoc = new TimesheetModel({
+                    shift:shiftDocument._id,
+                    freelancer:freelancerDoc._id,
+                    planned:shiftDocument.datetime,
+                })
+
+                const newMutationTimesheetDoc = new MutationModel({
+                    user:currentUserDoc._id,
+                    action:'create timesheet',
+                    data:{
+                        shift:shiftDocument._id,
+                        freelancer:freelancerDoc._id,
+                        planned:shiftDocument.datetime,
+                    }
+                })
+
+                newTimesheetDoc.mutations.push(newMutationTimesheetDoc._id)
+
+                shiftDocument.timesheets.push(newTimesheetDoc._id)
                 shiftDocument.enrolled.push(req.query.freelancerId)
 
                 const newMutationShiftDoc = new MutationModel({
                     user:currentUserDoc._id,
-                    action:'accept'
+                    action:'accept freelancer for shift',
+                    data:{
+                        shift:shiftDocument._id,
+                        freelancer:freelancerDoc._id,
+                    }
                 })
 
                 shiftDocument.mutations.push(newMutationShiftDoc._id)
-                await shiftDocument.save()
-                await newMutationShiftDoc.save()
 
                 const freelancerDocAppliedIndex = freelancerDoc.applied.indexOf(shiftDocument._id)
                 if(freelancerDocAppliedIndex > -1) freelancerDoc.applied.splice(freelancerDocAppliedIndex, 1)
 
                 freelancerDoc.enrolled.push(shiftDocument._id)
 
-                const newMutationFreelancerDoc = new MutationModel({
-                    user:shiftDocument._id,
-                    action:'accept'
-                })
+                freelancerDoc.mutations.push(newMutationShiftDoc._id)
 
-                freelancerDoc.mutations.push(newMutationFreelancerDoc._id)
+                await shiftDocument.save()
+                await newMutationTimesheetDoc.save()
+                await newMutationShiftDoc.save()
                 await freelancerDoc.save()
-                await newMutationFreelancerDoc.save()
+                await newTimesheetDoc.save()
 
             })
 
@@ -599,6 +703,8 @@ module.exports = async server => {
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
+
+                shiftDocument.declined.push(currentUserDoc._id)
 
                 const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDocument._id)
                 if(shiftDocAppliedIndex > -1){

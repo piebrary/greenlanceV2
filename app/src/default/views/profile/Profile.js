@@ -15,7 +15,7 @@ import Controls from '../../../default/components/controls/Controls'
 
 import { BsPersonCircle } from 'react-icons/bs'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 
@@ -38,7 +38,7 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('PROFILE')}
             controls={<Controls />}
             >

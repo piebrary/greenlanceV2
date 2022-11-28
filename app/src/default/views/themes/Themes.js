@@ -12,7 +12,7 @@ import Button from '../../../default/components/button/Button.js'
 import Grid from '../../../default/components/grid/Grid.js'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 
@@ -32,7 +32,7 @@ export default function FormView(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('THEMES')}
             controls={<Controls />}
             >

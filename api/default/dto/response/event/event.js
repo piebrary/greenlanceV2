@@ -46,9 +46,9 @@ module.exports = documents => {
             name,
             description,
             label,
-            datetime:datetime.toObject() && datetimeResponseDto(datetime),
-            location:location.toObject() && locationResponseDto(location),
-            recurring:recurring.toObject() && recurringResponseDto(recurring),
+            datetime:datetime && datetimeResponseDto(datetime),
+            location:location && locationResponseDto(location),
+            recurring:recurring && recurringResponseDto(recurring),
             active
         }
 

@@ -37,7 +37,6 @@ export function applyStyles(styles, names){
         }
 
     }
-    
 
     return resultObj
 

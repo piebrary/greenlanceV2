@@ -9,7 +9,7 @@ import Button from '../../../default/components/button/Button'
 import Grid from '../../../default/components/grid/Grid'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { notificationManager } from '../../../default/utils/notifications'
 
@@ -54,7 +54,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('NOTIFICATIONS')}
             controls={<Controls />}
             >

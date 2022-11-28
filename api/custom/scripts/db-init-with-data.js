@@ -30,14 +30,14 @@ module.exports = (async () => {
 
     async function getUserData(){
 
-        const userData = await axios({
+        const result = await axios({
             url:url + '/v1/s/user',
             method:'get'
         })
 
         console.log('userdata fetched')
 
-        return userData.data
+        return result.data
 
     }
 
@@ -50,9 +50,11 @@ module.exports = (async () => {
         newUserDocument.roles = data.roles
         newUserDocument.name = data.name
 
-        await newUserDocument.save()
+        const result = await newUserDocument.save()
 
         console.log('created first user admin')
+
+        return result.data
 
     }
 
@@ -68,6 +70,24 @@ module.exports = (async () => {
 
         console.log('created user', result.data)
 
+        return result.data
+
+    }
+
+    async function register(data){
+
+        // await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/register',
+            data:data
+        })
+
+        console.log('registered user', result.data)
+
+        return result.data
+
     }
 
     async function createBusiness(credentials, data){
@@ -82,6 +102,8 @@ module.exports = (async () => {
 
         console.log('created business', result.data)
 
+        return result.data
+
     }
 
     async function createFreelancer(credentials, data){
@@ -95,6 +117,84 @@ module.exports = (async () => {
         })
 
         console.log('created freelancer', result.data)
+
+        return result.data
+
+    }
+
+    async function createShift(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/s/shift',
+            data:data
+        })
+
+        console.log('created shift', result.data)
+
+        return result.data
+
+    }
+
+    async function applyForShift(credentials, _id){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'get',
+            url:url + `/v1/s/shift/apply/${_id}`,
+        })
+
+        console.log('applied for shift', result.data)
+
+        return result.data
+
+    }
+
+    async function withdrawFromShift(credentials, _id){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'get',
+            url:url + `/v1/s/shift/withdraw/${_id}`,
+        })
+
+        console.log('withdrawn from shift', result.data)
+
+        return result.data
+
+    }
+
+    async function acceptForShift(credentials, shiftId, freelancerId){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'get',
+            url:url + `/v1/s/shift/accept?shiftId=${shiftId}&freelancerId=${freelancerId}`
+        })
+
+        console.log('accepted for shift', result.data)
+
+        return result.data
+
+    }
+
+    async function declineForShift(credentials, shiftId, freelancerId){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'get',
+            url:url + `/v1/s/shift/decline?shiftId=${shiftId}&freelancerId=${freelancerId}`
+        })
+
+        console.log('declineed for shift', result.data)
+
+        return result.data
 
     }
 
@@ -186,6 +286,8 @@ module.exports = (async () => {
         await MutationModel.collection?.dropIndexes()
         await MutationModel.collection?.drop()
 
+        // create admins
+
         await createFirstUser({
             username:'admin1',
             password:'password1',
@@ -206,122 +308,285 @@ module.exports = (async () => {
             roles:['admin'],
         })
 
-        await createUser({
-            username:'admin1',
-            password:'password1'
-        },
-        {
-            username:'admin3',
-            newPassword:'password1',
+        // create users which will belong to employer businesses
+
+        await register({
+            username:'businessUser1',
+            password:'password1',
             repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'admin3@@greenlance.nl',
-            roles:['admin'],
+            email:'businessUser1@@greenlance.nl',
+            roles:['user'],
+            accountType:'business'
+        })
+
+        await register({
+            username:'businessUser2',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'businessUser2@@greenlance.nl',
+            roles:['user'],
+            accountType:'business'
+        })
+
+        await register({
+            username:'businessUser3',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'businessUser3@@greenlance.nl',
+            roles:['user'],
+            accountType:'business'
+        })
+
+        // create users which will belong to freelance businesses
+
+        const freelancerUser1 = await register({
+            username:'freelancerUser1',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'freelancerUser1@@greenlance.nl',
+            roles:['user'],
+            accountType:'freelancer'
+        })
+
+        const freelancerUser2 = await register({
+            username:'freelancerUser2',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'freelancerUser2@@greenlance.nl',
+            roles:['user'],
+            accountType:'freelancer'
+        })
+
+        const freelancerUser3 = await register({
+            username:'freelancerUser3',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'freelancerUser3@@greenlance.nl',
+            roles:['user'],
+            accountType:'freelancer'
+        })
+
+        const freelancerUser4 = await register({
+            username:'freelancerUser4',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'freelancerUser4@@greenlance.nl',
+            roles:['user'],
+            accountType:'freelancer'
+        })
+
+        const freelancerUser5 = await register({
+            username:'freelancerUser5',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'freelancerUser5@@greenlance.nl',
+            roles:['user'],
+            accountType:'freelancer'
+        })
+
+        // create businesses
+
+        await createBusiness({
+            username:'businessUser1',
+            password:'password1'
+        },{
+            name:'business1',
         })
 
         await createBusiness({
-            username:'admin1',
+            username:'businessUser2',
             password:'password1'
-        },
-        {
-            username:'Bedrijf1',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'bedrijf1@bedrijf1.nl',
-            roles:['user', 'business']
+        },{
+            name:'business2',
         })
 
         await createBusiness({
-            username:'admin1',
+            username:'businessUser3',
             password:'password1'
-        },
-        {
-            username:'Bedrijf2',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'bedrijf2@bedrijf2.nl',
-            roles:['user', 'business']
+        },{
+            name:'business3',
         })
 
-        await createBusiness({
-            username:'admin1',
+        // create freelancers
+
+        const freelancer1 = await createFreelancer({
+            username:'freelancerUser1',
             password:'password1'
-        },
-        {
-            username:'Bedrijf3',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'bedrijf3@bedrijf3.nl',
-            roles:['user', 'business']
+        },{
+            name:'freelancer1',
         })
 
-        await createFreelancer({
-            username:'admin1',
+        const freelancer2 = await createFreelancer({
+            username:'freelancerUser2',
             password:'password1'
-        },
-        {
-            username:'freelancer1',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'freelancer1@freelancer1.nl',
-            roles:['user', 'freelancer'],
+        },{
+            name:'freelancer2',
         })
 
-        await createFreelancer({
-            username:'admin1',
+        const freelancer3 = await createFreelancer({
+            username:'freelancerUser3',
             password:'password1'
-        },
-        {
-            username:'freelancer2',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'freelancer2@freelancer2.nl',
-            roles:['user', 'freelancer'],
+        },{
+            name:'freelancer3',
         })
 
-        await createFreelancer({
-            username:'admin1',
+        const freelancer4 = await createFreelancer({
+            username:'freelancerUser4',
             password:'password1'
-        },
-        {
-            username:'freelancer3',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'freelancer3@freelancer3.nl',
-            roles:['user', 'freelancer'],
+        },{
+            name:'freelancer4',
         })
 
-        await createFreelancer({
-            username:'admin1',
+        const freelancer5 = await createFreelancer({
+            username:'freelancerUser5',
             password:'password1'
-        },
-        {
-            username:'freelancer4',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'freelancer4@freelancer4.nl',
-            roles:['user', 'freelancer'],
+        },{
+            name:'freelancer5',
         })
 
-        await createFreelancer({
-            username:'admin1',
+        // create shifts
+
+        const shift1 = await createShift({
+            username:'businessUser1',
+            password:'password1'
+        },{
+            name:'Snoeien',
+            description:'Snoeiwerkzaamheden aan het spoor',
+            price:'30,00',
+            positions:3,
+            datetime:{
+                start:'2022-11-24T07:00:00Z',
+                end:'2022-11-24T15:00:00Z',
+            },
+            location:{
+                start:'Kampen',
+                end:'Kampen'
+            }
+        })
+
+        const shift2 = await createShift({
+            username:'businessUser1',
+            password:'password1'
+        },{
+            name:'Snoeien',
+            description:'Snoeiwerkzaamheden aan het spoor',
+            price:'30,00',
+            positions:3,
+            datetime:{
+                start:'2022-11-25T07:00:00Z',
+                end:'2022-11-25T15:00:00Z',
+            },
+            location:{
+                start:'Kampen',
+                end:'Kampen'
+            }
+        })
+
+        const shift3 = await createShift({
+            username:'businessUser2',
+            password:'password1'
+        },{
+            name:'Rupsen',
+            description:'Nesten weghalen',
+            price:'32,00',
+            positions:2,
+            datetime:{
+                start:'2022-11-24T08:00:00Z',
+                end:'2022-11-24T16:00:00Z',
+            },
+            location:{
+                start:'Staphorst',
+                end:'Staphorst'
+            }
+        })
+
+        await applyForShift({
+            username:'freelancerUser1',
             password:'password1'
         },
-        {
-            username:'freelancer5',
-            newPassword:'password1',
-            repeatPassword:'password1',
-            currentPassword:'password1',
-            email:'freelancer5@freelancer5.nl',
-            roles:['user', 'freelancer'],
-        })
+            shift1._id
+        )
+
+        await applyForShift({
+            username:'freelancerUser2',
+            password:'password1'
+        },
+            shift1._id
+        )
+
+        await applyForShift({
+            username:'freelancerUser3',
+            password:'password1'
+        },
+            shift1._id
+        )
+
+        await applyForShift({
+            username:'freelancerUser4',
+            password:'password1'
+        },
+            shift1._id
+        )
+
+        await acceptForShift(
+            {
+                username:'businessUser1',
+                password:'password1'
+            },
+            shift1._id,
+            freelancer1._id
+        )
+
+        await acceptForShift(
+            {
+                username:'businessUser1',
+                password:'password1'
+            },
+            shift1._id,
+            freelancer2._id
+        )
+
+        await acceptForShift(
+            {
+                username:'businessUser1',
+                password:'password1'
+            },
+            shift1._id,
+            freelancer3._id
+        )
+
+        await withdrawFromShift(
+            {
+                username:'freelancerUser1',
+                password:'password1'
+            },
+            shift1._id,
+        )
+
+        await acceptForShift(
+            {
+                username:'businessUser1',
+                password:'password1'
+            },
+            shift1._id,
+            freelancer4._id
+        )
+
+        await applyForShift({
+            username:'freelancerUser1',
+            password:'password1'
+        },
+            shift2._id
+        )
+
+        await declineForShift(
+            {
+                username:'businessUser2',
+                password:'password1'
+            },
+            shift2._id,
+            freelancer1._id
+        )
 
         console.log('Finished inserting data')
 

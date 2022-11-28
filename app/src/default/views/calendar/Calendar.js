@@ -9,7 +9,7 @@ import Layout from '../../../default/components/layouts/basic/Layout'
 import Calendar from '../../../default/components/calendar/Calendar'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { notificationManager } from '../../../default/utils/notifications'
 
@@ -49,7 +49,7 @@ export default function CalendarView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('CALENDAR')}
             controls={<Controls />}
             >

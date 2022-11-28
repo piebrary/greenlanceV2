@@ -23,7 +23,7 @@ import Controls from '../../../default/components/controls/Controls'
 import { BiUserPlus } from 'react-icons/bi'
 import { FiCheckCircle } from 'react-icons/fi'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
@@ -213,7 +213,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('USERS')}
             controls={<Controls />}
             >

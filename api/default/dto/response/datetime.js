@@ -16,8 +16,8 @@ module.exports = documents => {
         } = document
 
         return {
-            start:new Date(start).toISOString().replace('Z', ''),
-            end:new Date(end).toISOString().replace('Z', ''),
+            start:start && new Date(start).toISOString().replace('Z', ''),
+            end:end && new Date(end).toISOString().replace('Z', ''),
         }
     }
 

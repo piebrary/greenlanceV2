@@ -28,11 +28,10 @@ const fs = require('fs/promises')
         await fs.appendFile(`../../versions.log`, `${UPDATE_PACKAGE_VERSION}\n`)
 
         // install.js remove all destination folders which will be updated
-        // DO NOT USE THIS< NOT WORKING CORRECTLY
-        // await fs.rm('../../../api/default', { recursive: true, force: true })
-        // await fs.rm('../../../app/src/default', { recursive: true, force: true })
-        // await fs.rm('../../../documentation/default', { recursive: true, force: true })
-        // await fs.rm('../../../scripts/default', { recursive: true, force: true })
+        await fs.rm('../../../api/default', { recursive: true, force: true })
+        await fs.rm('../../../app/src/default', { recursive: true, force: true })
+        await fs.rm('../../../documentation/default', { recursive: true, force: true })
+        await fs.rm('../../../scripts/default', { recursive: true, force: true })
 
         // install.js install copys all folders in update package to their destination folders
         await fs.cp('./api/default', '../../../api/default', { recursive: true })

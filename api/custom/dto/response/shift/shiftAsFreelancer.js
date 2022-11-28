@@ -30,6 +30,8 @@ module.exports = (documents, freelancerId) => {
             recurringResponseDto = require('../../../../default/dto/response/recurring')
         }
 
+        const timesheetAsAll = require('../../../../custom/dto/response/timesheet/timesheetAsAll')
+
         const {
             _id,
             name,
@@ -56,14 +58,14 @@ module.exports = (documents, freelancerId) => {
             price,
             positions,
             business,
-            datetime:datetime.toObject() && datetimeResponseDto(datetime),
-            location:location.toObject() && locationResponseDto(location),
-            recurring:recurring.toObject() && recurringResponseDto(recurring),
+            datetime:datetime && datetimeResponseDto(datetime),
+            location:location && locationResponseDto(location),
+            recurring:recurring && recurringResponseDto(recurring),
             active,
             applied:applied?.filter(_id => _id.equals(freelancerId)),
             enrolled:enrolled?.filter(_id => _id.equals(freelancerId)),
             withdrawn:withdrawn?.filter(_id => _id.equals(freelancerId)),
-            timesheets:timesheets?.filter(timesheet => timesheet.freelancerId.equals(freelancerId)),
+            timesheets:timesheets?.filter(timesheet => timesheet?.freelancer?.equals(freelancerId)).map(timesheet => timesheetAsAll(timesheet)),
         }
     }
 

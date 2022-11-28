@@ -17,17 +17,23 @@ module.exports = documents => {
         }
 
         const {
-            freelancerId,
-            planned,
+            _id,
+            shift,
             freelancer,
-            business,
+            planned,
+            actualByFreelancer,
+            actualByBusiness,
+            status,
         } = document
 
         return {
-            freelancerId,
-            planned:planned.toObject() && datetimeRequestDto(planned),
-            freelancer:freelancer.toObject() && datetimeRequestDto(freelancer),
-            business:business.toObject() && datetimeRequestDto(business),
+            _id,
+            shift,
+            freelancer,
+            planned:planned && datetimeRequestDto(planned),
+            actualByFreelancer:actualByFreelancer && datetimeRequestDto(actualByFreelancer),
+            actualByBusiness:actualByBusiness && datetimeRequestDto(actualByBusiness),
+            status,
         }
     }
 

@@ -51,10 +51,15 @@ module.exports = documents => {
             email,
             emails,
             phone,
+            phones,
             address,
+            addresses,
             roles,
             settings,
             profilePicture,
+            currentPassword,
+            newPassword,
+            repeatPassword,
         } = sanitize(document)
 
         return {
@@ -65,11 +70,14 @@ module.exports = documents => {
             phone,
             address,
             emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phone && Array.isArray(phone) && phone.map(obj => phoneRequestDto(obj)),
-            addresses:address && Array.isArray(address) && address.map(obj => addressRequestDto(obj)),
+            phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
+            addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
             roles,
             settings:settings && settingsRequestDto(settings),
             profilePicture,
+            currentPassword,
+            newPassword,
+            repeatPassword,
         }
     }
 

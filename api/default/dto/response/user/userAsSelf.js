@@ -60,15 +60,15 @@ module.exports = documents => {
         return {
             _id,
             username,
-            name:name.toObject() && nameRequestDto(name),
+            name:name && nameRequestDto(name),
             email,
             phone,
             address,
-            emails:emails.toObject() && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phones.toObject() && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
-            addresses:addresses.toObject() && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
+            emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
+            phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
+            addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
             roles,
-            settings:settings.toObject() && settingsRequestDto(settings),
+            settings:settings && settingsRequestDto(settings),
             profilePicture,
         }
     }

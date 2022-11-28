@@ -6,7 +6,7 @@ module.exports = async server => {
 
     try {
         AuthService = require('../../../../custom/services/auth')
-    } catch (error){console.log(error)
+    } catch (error){
         AuthService = require('../../../../default/services/auth')
     }
 

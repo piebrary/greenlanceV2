@@ -8,7 +8,7 @@ import Card from '../../../default/components/card/Card'
 import Grid from '../../../default/components/grid/Grid'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Grid.module.css'
@@ -27,7 +27,7 @@ export default function GridView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('GRID')}
             controls={<Controls />}
             >

@@ -24,10 +24,8 @@ import Input from '../../../default/components/formElements/input/Input'
 import Textarea from '../../../default/components/formElements/textarea/Textarea'
 import Select from '../../../default/components/formElements/select/Select'
 import AddressInput from '../../../default/components/formElements/addressInput/AddressInput'
-
 import Logo from '../../../custom/components/logo/Logo'
-
-import { menuitems } from '../../../custom/assets/js/menu/items'
+import Menu from '../../../custom/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { notificationManager } from '../../../default/utils/notifications'
@@ -57,7 +55,7 @@ export default function Shifts(){
 
     const defaultValues = {
         name:selectedShift?.name,
-        spots:selectedShift?.spots,
+        positions:selectedShift?.positions,
         price:selectedShift?.price,
         label:selectedShift?.label,
         datetime:{
@@ -172,14 +170,14 @@ export default function Shifts(){
             })
             .filter(shift => {
                 if(hasRole('business')) return shift
-                if(hasRole('freelancer') && shiftTypes.includes('available') && shift.applied.length < shift.spots) return shift
+                if(hasRole('freelancer') && shiftTypes.includes('available') && shift.applied.length < shift.positions) return shift
                 if(hasRole('freelancer') && shiftTypes.includes('applied') && shift.applied.includes(freelancerData._id)) return shift
                 if(hasRole('freelancer') && shiftTypes.includes('enrolled') && shift.enrolled.includes(freelancerData._id)) return shift
             })
             .filter(shift => {
                 if(hasRole('freelancer')) return shift
-                if(hasRole('business') && shiftStates.includes('fullfilled') && shift.enrolled?.length === shift.spots) return shift
-                if(hasRole('business') && shiftStates.includes('unfullfilled') && shift.enrolled?.length < shift.spots) return shift
+                if(hasRole('business') && shiftStates.includes('fullfilled') && shift.enrolled?.length === shift.positions) return shift
+                if(hasRole('business') && shiftStates.includes('unfullfilled') && shift.enrolled?.length < shift.positions) return shift
             })
             .filter(shift => {
                 if(JSON.stringify(shift).includes(searchInput)) return shift
@@ -462,7 +460,7 @@ export default function Shifts(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('SHIFTS')}
             logo={<Logo />}
             controls={<Controls />}
@@ -579,12 +577,12 @@ export default function Shifts(){
                                             key={shift._id}
                                             >
                                             <p>Price per hour: {shift.price}</p>
-                                            <p>Start time: {moment(shift.datetime.start).format('DD-MM hh:mm')}</p>
-                                            <p>End time: {moment(shift.datetime.end).format('DD-MM hh:mm')}</p>
+                                            <p>Start time: {moment(shift.datetime.start).format('DD-MM HH:mm')}</p>
+                                            <p>End time: {moment(shift.datetime.end).format('DD-MM HH:mm')}</p>
                                             <p>Start location: {shift.location.start.city}</p>
                                             <p>End location: {shift.location.end.city}</p>
                                             <Button label={'Open'} onClick={() => openShiftDetails(shift)} />
-                                            {hasRole('freelancer') && !shift.applied.includes(freelancerData._id) && !shift.enrolled.includes(freelancerData._id) && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
+                                            {hasRole('freelancer') && !shift.applied.includes(freelancerData._id) && !shift.enrolled.includes(freelancerData._id) && new Date(shift.datetime.start) > new Date() && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
                                             {hasRole('freelancer') && (shift.applied.includes(freelancerData._id) || shift.enrolled.includes(freelancerData._id)) && <Button label={'Withdraw'} onClick={() => withdraw(shift._id)} />}
                                         </Card>
                                     )
@@ -712,8 +710,8 @@ export default function Shifts(){
                                     ]}
                                     />
                                 <Input
-                                    name={'spots'}
-                                    label={applyTranslation('SPOTS')}
+                                    name={'positions'}
+                                    label={applyTranslation('POSITIONS')}
                                     type={'number'}
                                     shouldRegister
                                     required={true}

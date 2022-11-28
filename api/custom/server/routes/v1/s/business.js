@@ -50,6 +50,20 @@ module.exports = async server => {
         }
     )
 
+    express.post(
+        process.env.API_PREFIX + '/v1/s/business',
+        passport.authenticate('jwt', { session: false }),
+        async (req, res) => {
+
+            const result = await businessService.createBusiness(req)
+
+            res
+                .status(result.status)
+                .send(result.body)
+
+        }
+    )
+
     express.delete(
         process.env.API_PREFIX + '/v1/s/business/:_id',
         passport.authenticate('jwt', { session: false }),

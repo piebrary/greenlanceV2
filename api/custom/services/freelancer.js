@@ -16,8 +16,8 @@ module.exports = async server => {
 
     const freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf')
     const freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf')
-    const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
-    const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
+    // const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
+    // const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
 
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
@@ -152,23 +152,27 @@ module.exports = async server => {
 
         try {
 
-            const currentUserDoc = await getCurrentUser(req)
-            if(!currentUserDoc.roles.includes('freelancer')) return errorHandler(403, 'Forbidden')
+            // const currentUserDoc = await getCurrentUser(req)
+            // if(!currentUserDoc.roles.includes('freelancer')) return errorHandler(403, 'Forbidden')
 
             const freelancerDto = freelancerAsSelfRequestDto(req.body)
+
+            const freelancerWithIdenticalName = await FreelancerModel.findOne({ name:freelancerDto.name })
+
+            if(freelancerWithIdenticalName) return errorHandler(409, 'A freelancer with that name already exists')
 
             let response
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                freelancerDto.creator = currentUserDoc._id
-
                 const newFreelancerDoc = new FreelancerModel(freelancerDto)
 
+                newFreelancerDoc.users.push(req.user._id)
+
                 const newMutationDoc = new MutationModel({
-                    user:currentUserDoc._id,
-                    action:'create',
+                    user:req.user._id,
+                    action:'create freelancer',
                     data:freelancerDto
                 })
 

@@ -8,7 +8,7 @@ import Card from '../../../default/components/card/Card'
 import Button from '../../../default/components/button/Button'
 import Controls from '../../../default/components/controls/Controls'
 
-import { menuitems } from '../../../default/assets/js/menu/items'
+import Menu from '../../../default/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 
 import styles from './Button.module.css'
@@ -25,7 +25,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('BUTTON')}
             controls={<Controls />}
             >

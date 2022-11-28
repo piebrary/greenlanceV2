@@ -11,7 +11,7 @@ export const ShiftSchema = yup
             .string()
             .matches(/^[1-9]\d*(\,\d+)?$/gi, '* Price must be a number greater than 0')
             .required('* A price is required'),
-        spots:yup
+        positions:yup
             .string()
             .matches(/^[1-9]+$/gi, '* Spots must be a number greater than 0')
             .required('* The number of available spots is required'),

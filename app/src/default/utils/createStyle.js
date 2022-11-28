@@ -5,9 +5,9 @@ export function createStyle(styles, classNames){
 
             if(s && Array.isArray(classNames)){
 
-                // if(classNames.length === 2) console.log(classNames, classNames.filter(cl => s && s[cl]))
-
-                return classNames.filter(cl => s && s[cl])
+                return classNames
+                    .filter(cl => s && s[cl])
+                    .join(' ')
 
             }
 
@@ -20,14 +20,9 @@ export function createStyle(styles, classNames){
         })
         .map(s => {
 
-            if(Array.isArray(classNames)){
+            if(Array.isArray(s[classNames])){
 
-                const ret = classNames
-                    .filter(cl => s[cl])
-                    .map(cl => s && s[cl])
-                    .join(' ')
-
-                return ret
+                return s[classNames].join(' ')
 
             }
 

@@ -12,10 +12,9 @@ import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
 import ImageUploader from '../../../default/components/imageUploader/ImageUploader'
 import Controls from '../../../default/components/controls/Controls'
+import Menu from '../../../custom/components/menu/Menu'
 
 import { BsPersonCircle } from 'react-icons/bs'
-
-import { menuitems } from '../../../custom/assets/js/menu/items'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 
@@ -38,7 +37,7 @@ export default function Profile(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('PROFILE')}
             controls={<Controls />}
             >

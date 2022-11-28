@@ -30,17 +30,8 @@ export default function Login(){
 
         const result = await authenticate(data.username, data.password)
 
-        if(result){
-
-            setAuthFailed(false)
-
-        }
-
-        if(!result){
-
-            setAuthFailed(true)
-
-        }
+        if(result) setAuthFailed(false)
+        if(!result) setAuthFailed(true)
 
     }
 
@@ -138,23 +129,6 @@ export default function Login(){
                                     shouldRegister
                                     required
                                     />
-                                <Radio
-                                    label={'Do you want to register as Freelancer or aas a business?'}
-                                    name={'accountType'}
-                                    shouldRegister
-                                    required
-                                    options={[
-                                        {
-                                            name:'freelancer',
-                                            label:'Freelancer',
-                                            checked:false,
-                                        },{
-                                            name:'business',
-                                            label:'Business',
-                                            checked:false,
-                                        },
-                                    ]}
-                                    />
                                 <Input
                                     label={'Password'}
                                     name={'password'}
@@ -170,6 +144,23 @@ export default function Login(){
                                     passwordToggle
                                     shouldRegister
                                     required
+                                    />
+                                <Radio
+                                    label={'Do you want to register as Freelancer or as a business?'}
+                                    name={'accountType'}
+                                    shouldRegister
+                                    required
+                                    options={[
+                                        {
+                                            name:'freelancer',
+                                            label:'Freelancer',
+                                            checked:false,
+                                        },{
+                                            name:'business',
+                                            label:'Business',
+                                            checked:false,
+                                        },
+                                    ]}
                                     />
                             </Form>
                             <div

@@ -19,11 +19,10 @@ import Table from '../../../default/components/table/Table'
 import Checkbox from '../../../default/components/formElements/checkbox/Checkbox'
 import Label from '../../../default/components/label/Label'
 import Controls from '../../../default/components/controls/Controls'
+import Menu from '../../../custom/components/menu/Menu'
 
 import { BiUserPlus } from 'react-icons/bi'
 import { FiCheckCircle } from 'react-icons/fi'
-
-import { menuitems } from '../../../custom/assets/js/menu/items'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
@@ -213,7 +212,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('USERS')}
             controls={<Controls />}
             >

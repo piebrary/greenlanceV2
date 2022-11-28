@@ -51,11 +51,11 @@ module.exports = async server => {
     )
 
     express.post(
-        process.env.API_PREFIX + '/v1/s/freelancers',
+        process.env.API_PREFIX + '/v1/s/freelancer',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await freelancerService.getFreelancersById(req)
+            const result = await freelancerService.createFreelancer(req)
 
             res
                 .status(result.status)

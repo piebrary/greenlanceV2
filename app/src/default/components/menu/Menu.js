@@ -25,7 +25,7 @@ import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { HiOutlineLogout } from 'react-icons/hi'
 
-export function menuitems({ userData, hasRole, applyTranslation }){
+export default function Menu({ userData, hasRole, applyTranslation }){
 
     return [
         [

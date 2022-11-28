@@ -8,10 +8,8 @@ import Button from '../../../default/components/button/Button'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import Controls from '../../../default/components/controls/Controls'
-
 import Logo from '../../../custom/components/logo/Logo'
-
-import { menuitems } from '../../../custom/assets/js/menu/items'
+import Menu from '../../../custom/components/menu/Menu'
 
 import { applyStyles } from '../../../default/utils/applyStyles'
 
@@ -25,12 +23,12 @@ export default function Dashboard(){
     return (
         <Layout
             className={styles.container}
-            items={menuitems({ userData, hasRole, applyTranslation })}
+            items={Menu({ userData, hasRole, applyTranslation })}
             title={applyTranslation('DASHBOARD')}
             logo={<Logo />}
             controls={<Controls />}
             >
-            <Card
+            {/*<Card
                 title={'Grid component'}
                 customStyles={applyStyles([styles], 'card1')}
                 onClick={event => alert('You clicked on a card component!')}>
@@ -127,7 +125,7 @@ export default function Dashboard(){
                     customStyles={applyStyles([styles], 'griditemSix')}>
                     Six
                 </Card>
-            </Grid>
+            </Grid>*/}
         </Layout>
     )
 }
