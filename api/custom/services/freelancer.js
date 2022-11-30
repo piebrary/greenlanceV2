@@ -16,8 +16,8 @@ module.exports = async server => {
 
     const freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf')
     const freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf')
-    // const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
-    // const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
+    const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
+    const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
 
     const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')

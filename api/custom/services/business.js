@@ -21,6 +21,7 @@ module.exports = async server => {
         getBusiness,
         getBusinessById,
         createBusiness,
+        addUserToBusiness,
         // updateBusinessById,
         deleteBusinessById
     }
@@ -116,6 +117,56 @@ module.exports = async server => {
 
                 response = await newBusinessDoc.save()
                 await newMutationDoc.save()
+
+            })
+
+            session.endSession()
+
+            const newBusinessDocDto = businessAsSelfResponseDto(response)
+
+            return successHandler(undefined, newBusinessDocDto)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function addUserToBusiness(req){
+
+        try {
+
+            const businessDto = businessAsSelfRequestDto(req.body)
+
+            let response
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                const businessDocument = await BusinessModel
+                    .findOne({ users:req.user._id })
+
+                if(!businessDocument) return notFoundHandler('Business')
+
+                const currentUserDoc = await getCurrentUser(req)
+                if(!currentUserDoc) return notFoundHandler('User')
+
+                const targetUserDoc = await UserModel
+                    .findOne({ _id:req.body.user })
+                if(!targetUserDoc) return notFoundHandler('User')
+
+                if(
+                    currentUserDoc.roles.includes('admin')
+                    || businessDocument.users.includes(currentUserDoc._id)
+                ){
+
+                    businessDocument.users.push(req.body.user)
+
+                }
+
+                response = await businessDocument.save()
 
             })
 

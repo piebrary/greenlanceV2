@@ -106,6 +106,22 @@ module.exports = (async () => {
 
     }
 
+    async function addUserToBusiness(credentials, data){
+
+        await login(credentials.username, credentials.password)
+
+        const result = await axios({
+            method:'post',
+            url:url + '/v1/s/business/user',
+            data:data
+        })
+
+        console.log('created business', result.data)
+
+        return result.data
+
+    }
+
     async function createFreelancer(credentials, data){
 
         await login(credentials.username, credentials.password)
@@ -168,13 +184,13 @@ module.exports = (async () => {
 
     }
 
-    async function acceptForShift(credentials, shiftId, freelancerId){
+    async function acceptForShift(credentials, shiftId, userId){
 
         await login(credentials.username, credentials.password)
 
         const result = await axios({
             method:'get',
-            url:url + `/v1/s/shift/accept?shiftId=${shiftId}&freelancerId=${freelancerId}`
+            url:url + `/v1/s/shift/accept?shiftId=${shiftId}&userId=${userId}`
         })
 
         console.log('accepted for shift', result.data)
@@ -183,13 +199,13 @@ module.exports = (async () => {
 
     }
 
-    async function declineForShift(credentials, shiftId, freelancerId){
+    async function declineForShift(credentials, shiftId, userId){
 
         await login(credentials.username, credentials.password)
 
         const result = await axios({
             method:'get',
-            url:url + `/v1/s/shift/decline?shiftId=${shiftId}&freelancerId=${freelancerId}`
+            url:url + `/v1/s/shift/decline?shiftId=${shiftId}&userId=${userId}`
         })
 
         console.log('declineed for shift', result.data)
@@ -245,6 +261,18 @@ module.exports = (async () => {
         }
 
         try {
+            TimesheetModel = require('../../custom/models/timesheet')
+        } catch {
+            TimesheetModel = require('../../default/models/timesheet')
+        }
+
+        try {
+            InvoiceModel = require('../../custom/models/invoice')
+        } catch {
+            InvoiceModel = require('../../default/models/invoice')
+        }
+
+        try {
             MutationModel = require('../../custom/models/mutation')
         } catch {
             MutationModel = require('../../default/models/mutation')
@@ -283,6 +311,12 @@ module.exports = (async () => {
         await ShiftModel.collection?.dropIndexes()
         await ShiftModel.collection?.drop()
 
+        await TimesheetModel.collection?.dropIndexes()
+        await TimesheetModel.collection?.drop()
+
+        await InvoiceModel.collection?.dropIndexes()
+        await InvoiceModel.collection?.drop()
+
         await MutationModel.collection?.dropIndexes()
         await MutationModel.collection?.drop()
 
@@ -310,76 +344,94 @@ module.exports = (async () => {
 
         // create users which will belong to employer businesses
 
-        await register({
-            username:'businessUser1',
+        const user1 = await register({
+            username:'user1',
             password:'password1',
             repeatPassword:'password1',
-            email:'businessUser1@@greenlance.nl',
+            email:'user1@business1.nl',
             roles:['user'],
             accountType:'business'
         })
 
-        await register({
-            username:'businessUser2',
+        const user2 = await register({
+            username:'user2',
             password:'password1',
             repeatPassword:'password1',
-            email:'businessUser2@@greenlance.nl',
+            email:'user2@business1.nl',
             roles:['user'],
             accountType:'business'
         })
 
-        await register({
-            username:'businessUser3',
+        const user3 = await register({
+            username:'user3',
             password:'password1',
             repeatPassword:'password1',
-            email:'businessUser3@@greenlance.nl',
+            email:'user3@business1.nl',
+            roles:['user'],
+            accountType:'business'
+        })
+
+        const user4 = await register({
+            username:'user4',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'user4@business2.nl',
+            roles:['user'],
+            accountType:'business'
+        })
+
+        const user5 = await register({
+            username:'user5',
+            password:'password1',
+            repeatPassword:'password1',
+            email:'user5@business2.nl',
             roles:['user'],
             accountType:'business'
         })
 
         // create users which will belong to freelance businesses
 
-        const freelancerUser1 = await register({
-            username:'freelancerUser1',
+        const user6 = await register({
+            username:'user6',
             password:'password1',
             repeatPassword:'password1',
-            email:'freelancerUser1@@greenlance.nl',
+            email:'user6@freelancer1.nl',
             roles:['user'],
             accountType:'freelancer'
         })
 
-        const freelancerUser2 = await register({
-            username:'freelancerUser2',
+        const user7 = await register({
+            username:'user7',
             password:'password1',
             repeatPassword:'password1',
-            email:'freelancerUser2@@greenlance.nl',
+            email:'user7@freelancer2.nl',
             roles:['user'],
             accountType:'freelancer'
         })
 
-        const freelancerUser3 = await register({
-            username:'freelancerUser3',
+        const user8 = await register({
+            username:'user8',
             password:'password1',
             repeatPassword:'password1',
-            email:'freelancerUser3@@greenlance.nl',
+            email:'user8@freelancer3.nl',
             roles:['user'],
             accountType:'freelancer'
         })
 
-        const freelancerUser4 = await register({
-            username:'freelancerUser4',
+        const user9 = await register({
+            username:'user9',
             password:'password1',
             repeatPassword:'password1',
-            email:'freelancerUser4@@greenlance.nl',
+            email:'user9@freelancer4.nl',
             roles:['user'],
             accountType:'freelancer'
         })
 
-        const freelancerUser5 = await register({
-            username:'freelancerUser5',
+        const user10 = await register({
+            username:'user10',
             password:'password1',
             repeatPassword:'password1',
-            email:'freelancerUser5@@greenlance.nl',
+            email:'user10@freelancer5.nl',
             roles:['user'],
             accountType:'freelancer'
         })
@@ -387,58 +439,68 @@ module.exports = (async () => {
         // create businesses
 
         await createBusiness({
-            username:'businessUser1',
+            username:'user1',
             password:'password1'
         },{
             name:'business1',
         })
 
         await createBusiness({
-            username:'businessUser2',
+            username:'user4',
             password:'password1'
         },{
             name:'business2',
         })
 
-        await createBusiness({
-            username:'businessUser3',
+        // add user to business
+
+        await addUserToBusiness({
+            username:'user1',
             password:'password1'
         },{
-            name:'business3',
+            user:user2._id,
         })
+
+        await addUserToBusiness({
+            username:'user4',
+            password:'password1'
+        },{
+            user:user5._id,
+        })
+
 
         // create freelancers
 
         const freelancer1 = await createFreelancer({
-            username:'freelancerUser1',
+            username:'user6',
             password:'password1'
         },{
             name:'freelancer1',
         })
 
         const freelancer2 = await createFreelancer({
-            username:'freelancerUser2',
+            username:'user7',
             password:'password1'
         },{
             name:'freelancer2',
         })
 
         const freelancer3 = await createFreelancer({
-            username:'freelancerUser3',
+            username:'user8',
             password:'password1'
         },{
             name:'freelancer3',
         })
 
         const freelancer4 = await createFreelancer({
-            username:'freelancerUser4',
+            username:'user9',
             password:'password1'
         },{
             name:'freelancer4',
         })
 
         const freelancer5 = await createFreelancer({
-            username:'freelancerUser5',
+            username:'user10',
             password:'password1'
         },{
             name:'freelancer5',
@@ -447,7 +509,7 @@ module.exports = (async () => {
         // create shifts
 
         const shift1 = await createShift({
-            username:'businessUser1',
+            username:'user1',
             password:'password1'
         },{
             name:'Snoeien',
@@ -455,17 +517,17 @@ module.exports = (async () => {
             price:'30,00',
             positions:3,
             datetime:{
-                start:'2022-11-24T07:00:00Z',
-                end:'2022-11-24T15:00:00Z',
+                start:moment().startOf('day').add(1, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(1, 'days').add(16, 'hours'),
             },
             location:{
-                start:'Kampen',
-                end:'Kampen'
+                start:{ city:'Kampen' },
+                end:{ city:'Kampen' },
             }
         })
 
         const shift2 = await createShift({
-            username:'businessUser1',
+            username:'user1',
             password:'password1'
         },{
             name:'Snoeien',
@@ -473,17 +535,35 @@ module.exports = (async () => {
             price:'30,00',
             positions:3,
             datetime:{
-                start:'2022-11-25T07:00:00Z',
-                end:'2022-11-25T15:00:00Z',
+                start:moment().startOf('day').add(7, 'days').add(10, 'hours'),
+                end:moment().startOf('day').add(7, 'days').add(20, 'hours'),
             },
             location:{
-                start:'Kampen',
-                end:'Kampen'
+                start:{ city:'Kampen' },
+                end:{ city:'Kampen' },
             }
         })
 
         const shift3 = await createShift({
-            username:'businessUser2',
+            username:'user1',
+            password:'password1'
+        },{
+            name:'Snoeien',
+            description:'Snoeiwerkzaamheden aan het spoor',
+            price:'30,00',
+            positions:3,
+            datetime:{
+                start:moment().startOf('day').add(1, 'days').add(10, 'hours'),
+                end:moment().startOf('day').add(1, 'days').add(20, 'hours'),
+            },
+            location:{
+                start:{ city:'Kampen' },
+                end:{ city:'Kampen' },
+            }
+        })
+
+        const shift4 = await createShift({
+            username:'user2',
             password:'password1'
         },{
             name:'Rupsen',
@@ -491,38 +571,110 @@ module.exports = (async () => {
             price:'32,00',
             positions:2,
             datetime:{
-                start:'2022-11-24T08:00:00Z',
-                end:'2022-11-24T16:00:00Z',
+                start:moment().startOf('day').add(2, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(2, 'days').add(16, 'hours'),
             },
             location:{
-                start:'Staphorst',
-                end:'Staphorst'
+                start:{ city:'Staphorst' },
+                end:{ city:'Staphorst' },
+            }
+        })
+
+        const shift5 = await createShift({
+            username:'user2',
+            password:'password1'
+        },{
+            name:'Rupsen',
+            description:'Nesten weghalen',
+            price:'32,00',
+            positions:2,
+            datetime:{
+                start:moment().startOf('day').add(3, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(3, 'days').add(16, 'hours'),
+            },
+            location:{
+                start:{ city:'Staphorst' },
+                end:{ city:'Staphorst' },
+            }
+        })
+
+        const shift6 = await createShift({
+            username:'user2',
+            password:'password1'
+        },{
+            name:'Rupsen',
+            description:'Nesten weghalen',
+            price:'32,00',
+            positions:2,
+            datetime:{
+                start:moment().startOf('day').add(4, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(4, 'days').add(16, 'hours'),
+            },
+            location:{
+                start:{ city:'Staphorst' },
+                end:{ city:'Staphorst' },
+            }
+        })
+
+        const shift7 = await createShift({
+            username:'user2',
+            password:'password1'
+        },{
+            name:'Rupsen',
+            description:'Nesten weghalen',
+            price:'32,00',
+            positions:2,
+            datetime:{
+                start:moment().startOf('day').add(5, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(5, 'days').add(16, 'hours'),
+            },
+            location:{
+                start:{ city:'Staphorst' },
+                end:{ city:'Staphorst' },
+            }
+        })
+
+        const shift8 = await createShift({
+            username:'user2',
+            password:'password1'
+        },{
+            name:'Rupsen',
+            description:'Nesten weghalen',
+            price:'32,00',
+            positions:2,
+            datetime:{
+                start:moment().startOf('day').add(6, 'days').add(8, 'hours'),
+                end:moment().startOf('day').add(6, 'days').add(16, 'hours'),
+            },
+            location:{
+                start:{ city:'Staphorst' },
+                end:{ city:'Staphorst' },
             }
         })
 
         await applyForShift({
-            username:'freelancerUser1',
+            username:'user6',
             password:'password1'
         },
             shift1._id
         )
 
         await applyForShift({
-            username:'freelancerUser2',
+            username:'user7',
             password:'password1'
         },
             shift1._id
         )
 
         await applyForShift({
-            username:'freelancerUser3',
+            username:'user8',
             password:'password1'
         },
             shift1._id
         )
 
         await applyForShift({
-            username:'freelancerUser4',
+            username:'user9',
             password:'password1'
         },
             shift1._id
@@ -530,34 +682,34 @@ module.exports = (async () => {
 
         await acceptForShift(
             {
-                username:'businessUser1',
+                username:'user1',
                 password:'password1'
             },
             shift1._id,
-            freelancer1._id
+            user6._id
         )
 
         await acceptForShift(
             {
-                username:'businessUser1',
+                username:'user1',
                 password:'password1'
             },
             shift1._id,
-            freelancer2._id
+            user7._id
         )
 
         await acceptForShift(
             {
-                username:'businessUser1',
+                username:'user2',
                 password:'password1'
             },
             shift1._id,
-            freelancer3._id
+            user8._id
         )
 
         await withdrawFromShift(
             {
-                username:'freelancerUser1',
+                username:'user6',
                 password:'password1'
             },
             shift1._id,
@@ -565,15 +717,15 @@ module.exports = (async () => {
 
         await acceptForShift(
             {
-                username:'businessUser1',
+                username:'user2',
                 password:'password1'
             },
             shift1._id,
-            freelancer4._id
+            user9._id
         )
 
         await applyForShift({
-            username:'freelancerUser1',
+            username:'user10',
             password:'password1'
         },
             shift2._id
@@ -581,11 +733,11 @@ module.exports = (async () => {
 
         await declineForShift(
             {
-                username:'businessUser2',
+                username:'user1',
                 password:'password1'
             },
             shift2._id,
-            freelancer1._id
+            user10._id
         )
 
         console.log('Finished inserting data')

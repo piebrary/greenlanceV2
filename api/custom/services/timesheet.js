@@ -22,6 +22,7 @@ module.exports = async server => {
 
     return {
         getTimesheets,
+        getAcceptedTimesheets,
         getTimesheetById,
         updateTimesheetActual,
         disputeTimesheetActual,
@@ -40,7 +41,7 @@ module.exports = async server => {
             if(currentUserDoc.roles.includes('freelancer')){
 
                 const freelancerDocument = await FreelancerModel
-                    .findOne({ user:req.user._id })
+                    .findOne({ users:req.user._id })
                     .populate('enrolled')
 
                 const timesheets = freelancerDocument.enrolled
@@ -60,7 +61,70 @@ module.exports = async server => {
                 const timesheetDocuments = await TimesheetModel
                     .find({ business:currentBusinessDoc._id })
 
-                const timesheetDocumentsDto = timesheetAsBusinessResponseDto(timesheetDocuments)
+                const timesheetDocumentsDto = timesheetAsAllResponseDto(timesheetDocuments)
+
+                return successHandler(undefined, timesheetDocumentsDto)
+
+            }
+
+            return errorHandler(403, 'Forbidden')
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function getAcceptedTimesheets(req){
+
+        try {
+
+            const user_id = req.user._id
+
+            const currentUserDoc = await getCurrentUser(req)
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            if(currentUserDoc.roles.includes('freelancer')){
+
+                const currentFreelancerDoc = await getCurrentFreelancer(req)
+                if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+
+                const timesheets = await TimesheetModel
+                    .find({
+                        freelancer:currentFreelancerDoc._id,
+                        status:'accepted'
+                    })
+                    .populate({
+                        path:'business',
+                        model:'Business',
+                        select:'name'
+                    })
+
+                const timesheetDocumentsDto = timesheetAsAllResponseDto(timesheets)
+
+                return successHandler(undefined, timesheets)
+
+            }
+
+            if(currentUserDoc.roles.includes('business')){
+
+                const currentBusinessDoc = await getCurrentBusiness(req)
+                if(!currentBusinessDoc) return notFoundHandler('Business')
+
+                const timesheets = await TimesheetModel
+                    .find({
+                        business:currentBusinessDoc._id,
+                        status:'accepted'
+                    })
+                    .populate({
+                        path:'freelancer',
+                        model:'Freelancer',
+                        select:'name'
+                    })
+
+                const timesheetDocumentsDto = timesheetAsAllResponseDto(timesheets)
 
                 return successHandler(undefined, timesheetDocumentsDto)
 
@@ -90,7 +154,7 @@ module.exports = async server => {
 
                 const timesheetDocument = await TimesheetModel.findOne({ _id:req.params._id, business:currentFreelancerDoc.businesses })
 
-                const timesheetDocumentDto = timesheetAsFreelancerResponseDto(timesheetDocument)
+                const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
 
                 return successHandler(undefined, timesheetDocumentDto)
 
@@ -104,7 +168,7 @@ module.exports = async server => {
                     .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
                     .populate('applied enrolled withdrawn')
 
-                const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+                const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
 
                 return successHandler(undefined, timesheetDocumentDto)
 
@@ -167,8 +231,8 @@ module.exports = async server => {
                 }
 
                 if(
-                    timesheetDocument.actualByFreelancer?.start === timesheetDocument.actualByBusiness?.start
-                    && timesheetDocument.actualByFreelancer?.end === timesheetDocument.actualByBusiness?.end
+                    timesheetDocument.actualByFreelancer?.start?.toString() === timesheetDocument.actualByBusiness?.start?.toString()
+                    && timesheetDocument.actualByFreelancer?.end?.toString() === timesheetDocument.actualByBusiness?.end?.toString()
                 ){
 
                     timesheetDocument.status = 'accepted'
@@ -191,7 +255,7 @@ module.exports = async server => {
             // return shift
             const timesheetResponseDto = timesheetAsAllResponseDto(timesheetDocument)
 
-            return successHandler(undefined, timesheetDocument)
+            return successHandler(undefined, timesheetResponseDto)
 
         } catch (error) {
 
@@ -302,7 +366,7 @@ module.exports = async server => {
     //
     //         session.endSession()
     //
-    //         const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+    //         const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
     //
     //         return successHandler(undefined, timesheetDocumentDto)
     //
@@ -352,7 +416,7 @@ module.exports = async server => {
     //
     //         session.endSession()
     //
-    //         const timesheetDocumentDto = timesheetAsBusinessResponseDto(timesheetDocument)
+    //         const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
     //
     //         return successHandler(undefined, timesheetDocumentDto)
     //

@@ -34,8 +34,8 @@ module.exports = async server => {
         withdrawById,
         acceptById,
         declineById,
-        checkInById,
-        checkOutById,
+        // checkInById,
+        // checkOutById,
         getApprovedShiftsForToday,
         getEnrolledShifts,
     }
@@ -59,7 +59,7 @@ module.exports = async server => {
                 // use below line when enabling connected freelancers and businesses
                 // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, currentFreelancerDoc._id)
+                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, req.user._id)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -95,7 +95,7 @@ module.exports = async server => {
                             populate: {
                                 path:'freelancer',
                                 model:'Freelancer',
-                                select:'name profilePhoto'
+                                select:'name'
                             }
                         }
                     ])
@@ -148,7 +148,7 @@ module.exports = async server => {
                         }]
                     })
 
-                const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, currentFreelancerDoc._id)
+                const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, req.user._id)
 
                 return successHandler(undefined, enrolledDocsDto)
 
@@ -189,7 +189,7 @@ module.exports = async server => {
                 // use below line when enabling connected freelancers and businesses
                 // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, currentFreelancerDoc._id)
+                const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, req.user._id)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -232,7 +232,7 @@ module.exports = async server => {
 
                 const shiftDocument = await ShiftModel.findOne({ _id:req.params._id, business:currentFreelancerDoc.businesses })
 
-                const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
+                const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, req.user._id)
 
                 return successHandler(undefined, shiftDocumentDto)
 
@@ -427,16 +427,16 @@ module.exports = async server => {
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(shiftDocument.applied.includes(currentFreelancerDoc._id)) return errorHandler(409, 'Freelancer is already applied')
-            if(shiftDocument.enrolled.includes(currentFreelancerDoc._id)) return errorHandler(409, 'Freelancer is already enrolled')
+            if(shiftDocument.applied.includes(req.user._id)) return errorHandler(409, 'Freelancer is already applied')
+            if(shiftDocument.enrolled.includes(req.user._id)) return errorHandler(409, 'Freelancer is already enrolled')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                shiftDocument.applied.push(currentFreelancerDoc._id)
+                shiftDocument.applied.push(req.user._id)
 
                 const newMutationShiftDoc = new MutationModel({
-                    user:currentFreelancerDoc._id,
+                    user:req.user._id,
                     action:'apply'
                 })
 
@@ -459,7 +459,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
+            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, req.user._id)
 
             return successHandler(undefined, shiftDocumentDto)
 
@@ -494,8 +494,8 @@ module.exports = async server => {
             if(!shiftDocument) return notFoundHandler('Shift')
 
             if(
-                !shiftDocument.applied.includes(currentFreelancerDoc._id)
-                && !shiftDocument.enrolled.includes(currentFreelancerDoc._id)
+                !shiftDocument.applied.includes(req.user._id)
+                && !shiftDocument.enrolled.includes(req.user._id)
             ) return errorHandler(409, 'Freelancer has not applied or is enrolled')
 
             const session = await connection.startSession()
@@ -507,7 +507,7 @@ module.exports = async server => {
                 //     shiftDocument.timesheets.splice(shiftDocTimesheetIndex, 1)
                 //
                 //     const newMutationTimesheetDoc = new MutationModel({
-                //         user:currentFreelancerDoc._id,
+                //         user:req.user._id,
                 //         action:'withdraw'
                 //     })
                 //
@@ -515,17 +515,17 @@ module.exports = async server => {
                 //
                 // }
 
-                shiftDocument.withdrawn.push(currentFreelancerDoc._id)
+                shiftDocument.withdrawn.push(req.user._id)
 
-                shiftDocument.timesheets = shiftDocument.timesheets.filter(timesheet => !timesheet.freelancer.equals(currentFreelancerDoc._id))
+                shiftDocument.timesheets = shiftDocument.timesheets.filter(timesheet => !timesheet.freelancer.equals(req.user._id))
 
-                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(currentFreelancerDoc._id)
+                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(req.user._id)
                 if(shiftDocAppliedIndex > -1){
 
                     shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
 
                     const newMutationShiftDoc = new MutationModel({
-                        user:currentFreelancerDoc._id,
+                        user:req.user._id,
                         action:'withdraw'
                     })
 
@@ -535,13 +535,13 @@ module.exports = async server => {
 
                 }
 
-                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(currentFreelancerDoc._id)
+                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(req.user._id)
                 if(shiftDocEnrolledIndex > -1){
 
                     shiftDocument.enrolled.splice(shiftDocEnrolledIndex, 1)
 
                     const newMutationShiftDoc = new MutationModel({
-                        user:currentFreelancerDoc._id,
+                        user:req.user._id,
                         action:'withdraw'
                     })
 
@@ -575,7 +575,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, currentFreelancerDoc._id)
+            const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, req.user._id)
 
             return successHandler(undefined, shiftDocumentDto)
 
@@ -597,7 +597,7 @@ module.exports = async server => {
             const currentBusinessDoc = await getCurrentBusiness(req)
             if(!currentBusinessDoc) return notFoundHandler('Business')
 
-            const freelancerDoc = await FreelancerModel.findOne({ _id:req.query.freelancerId })
+            const freelancerDoc = await FreelancerModel.findOne({ users:req.query.userId })
             if(!freelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
@@ -606,19 +606,20 @@ module.exports = async server => {
             })
 
             if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.applied.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer has not applied')
-            if(shiftDocument.enrolled.includes(req.query.freelancerId)) return errorHandler(409, 'Freelancer is already enrolled')
+            if(!shiftDocument.applied.includes(req.query.userId)) return errorHandler(409, 'Freelancer has not applied')
+            if(shiftDocument.enrolled.includes(req.query.userId)) return errorHandler(409, 'Freelancer is already enrolled')
             if(shiftDocument.positions <= shiftDocument.enrolled.length) return errorHandler(409, 'No open spots available')
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDoc._id)
+                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(req.query.userId)
                 if(shiftDocAppliedIndex > -1) shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
 
                 const newTimesheetDoc = new TimesheetModel({
                     shift:shiftDocument._id,
-                    freelancer:freelancerDoc._id,
+                    freelancer:req.query.userId,
+                    business:currentBusinessDoc._id,
                     planned:shiftDocument.datetime,
                 })
 
@@ -627,22 +628,23 @@ module.exports = async server => {
                     action:'create timesheet',
                     data:{
                         shift:shiftDocument._id,
-                        freelancer:freelancerDoc._id,
+                        freelancer:req.query.userId,
                         planned:shiftDocument.datetime,
+                        business:currentBusinessDoc._id,
                     }
                 })
 
                 newTimesheetDoc.mutations.push(newMutationTimesheetDoc._id)
 
                 shiftDocument.timesheets.push(newTimesheetDoc._id)
-                shiftDocument.enrolled.push(req.query.freelancerId)
+                shiftDocument.enrolled.push(req.query.userId)
 
                 const newMutationShiftDoc = new MutationModel({
                     user:currentUserDoc._id,
                     action:'accept freelancer for shift',
                     data:{
                         shift:shiftDocument._id,
-                        freelancer:freelancerDoc._id,
+                        freelancer:req.query.userId,
                     }
                 })
 
@@ -687,7 +689,7 @@ module.exports = async server => {
             const currentBusinessDoc = await getCurrentBusiness(req)
             if(!currentBusinessDoc) return notFoundHandler('Business')
 
-            const freelancerDocument = await FreelancerModel.findOne({ _id:req.query.freelancerId })
+            const freelancerDocument = await FreelancerModel.findOne({ users:req.query.userId })
             if(!freelancerDocument) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
@@ -697,8 +699,8 @@ module.exports = async server => {
 
             if(!shiftDocument) return notFoundHandler('Shift')
             if(
-                !shiftDocument.applied.includes(req.query.freelancerId)
-                && !shiftDocument.enrolled.includes(req.query.freelancerId)
+                !shiftDocument.applied.includes(req.query.userId)
+                && !shiftDocument.enrolled.includes(req.query.userId)
             ) return errorHandler(409, 'Freelancer has not applied or is not enrolled')
 
             const session = await connection.startSession()
@@ -706,7 +708,7 @@ module.exports = async server => {
 
                 shiftDocument.declined.push(currentUserDoc._id)
 
-                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(freelancerDocument._id)
+                const shiftDocAppliedIndex = shiftDocument.applied.indexOf(req.query.userId)
                 if(shiftDocAppliedIndex > -1){
 
                      shiftDocument.applied.splice(shiftDocAppliedIndex, 1)
@@ -722,7 +724,7 @@ module.exports = async server => {
 
                 }
 
-                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(freelancerDocument._id)
+                const shiftDocEnrolledIndex = shiftDocument.enrolled.indexOf(req.query.userId)
                 if(shiftDocEnrolledIndex > -1){
 
                      shiftDocument.enrolled.splice(shiftDocEnrolledIndex, 1)
@@ -770,55 +772,7 @@ module.exports = async server => {
 
                 }
 
-            })
-
-            session.endSession()
-
-            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
-
-            return successHandler(undefined, shiftDocumentDto)
-
-        } catch (error) {
-
-            return errorHandler(undefined, error)
-
-        }
-
-    }
-
-    async function checkInById(req){
-
-        try {
-
-            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
-
-            const shiftDocument = await ShiftModel.findOne({
-                _id:req.query.shiftId
-            })
-
-            if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
-
-            const checkInTime = req.query.datetime || new Date()
-
-            const session = await connection.startSession()
-            await session.withTransaction(async () => {
-
-                shiftDoc.checkIn.push({
-                    _id:freelancerDoc._id,
-                    datetime:checkInTime
-                })
-
-                const newMutationShiftDoc = new MutationModel({
-                    user:req.user._id,
-                    action:'reportCheckIn',
-                    datetime:checkInTime
-                })
-
-                shiftDocument.mutations.push(newMutationShiftDoc._id)
-                await shiftDocument.save()
-                await newMutationShiftDoc.save()
+                const timesheetDocument = await FreelancerModel.deleteOne({ _id:req.query.shiftId })
 
             })
 
@@ -836,54 +790,104 @@ module.exports = async server => {
 
     }
 
-    async function checkOutById(req){
-
-        try {
-
-            const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
-            if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
-
-            const shiftDocument = await ShiftModel.findOne({
-                _id:req.query.shiftId
-            })
-
-            if(!shiftDocument) return notFoundHandler('Shift')
-            if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
-
-            const checkOutTime = req.query.datetime || new Date()
-
-            const session = await connection.startSession()
-            await session.withTransaction(async () => {
-
-                shiftDoc.checkIn.push({
-                    _id:freelancerDoc._id,
-                    time:checkOutTime
-                })
-
-                const newMutationShiftDoc = new MutationModel({
-                    user:req.user._id,
-                    action:'reportCheckOut',
-                    time:checkOutTime
-                })
-
-                shiftDocument.mutations.push(newMutationShiftDoc._id)
-                await shiftDocument.save()
-                await newMutationShiftDoc.save()
-
-            })
-
-            session.endSession()
-
-            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
-
-            return successHandler(undefined, shiftDocumentDto)
-
-        } catch (error) {
-
-            return errorHandler(undefined, error)
-
-        }
-
-    }
+    // async function checkInById(req){
+    //
+    //     try {
+    //
+    //         const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+    //         if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+    //
+    //         const shiftDocument = await ShiftModel.findOne({
+    //             _id:req.query.shiftId
+    //         })
+    //
+    //         if(!shiftDocument) return notFoundHandler('Shift')
+    //         if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+    //
+    //         const checkInTime = req.query.datetime || new Date()
+    //
+    //         const session = await connection.startSession()
+    //         await session.withTransaction(async () => {
+    //
+    //             shiftDoc.checkIn.push({
+    //                 _id:freelancerDoc._id,
+    //                 datetime:checkInTime
+    //             })
+    //
+    //             const newMutationShiftDoc = new MutationModel({
+    //                 user:req.user._id,
+    //                 action:'reportCheckIn',
+    //                 datetime:checkInTime
+    //             })
+    //
+    //             shiftDocument.mutations.push(newMutationShiftDoc._id)
+    //             await shiftDocument.save()
+    //             await newMutationShiftDoc.save()
+    //
+    //         })
+    //
+    //         session.endSession()
+    //
+    //         const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+    //
+    //         return successHandler(undefined, shiftDocumentDto)
+    //
+    //     } catch (error) {
+    //
+    //         return errorHandler(undefined, error)
+    //
+    //     }
+    //
+    // }
+    //
+    // async function checkOutById(req){
+    //
+    //     try {
+    //
+    //         const freelancerDoc = await FreelancerModel.findOne({ user:req.user._id })
+    //         if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
+    //
+    //         const shiftDocument = await ShiftModel.findOne({
+    //             _id:req.query.shiftId
+    //         })
+    //
+    //         if(!shiftDocument) return notFoundHandler('Shift')
+    //         if(!shiftDocument.enrolled.includes(freelancerDoc._id)) return errorHandler(409, 'Freelancer is not enrolled')
+    //
+    //         const checkOutTime = req.query.datetime || new Date()
+    //
+    //         const session = await connection.startSession()
+    //         await session.withTransaction(async () => {
+    //
+    //             shiftDoc.checkIn.push({
+    //                 _id:freelancerDoc._id,
+    //                 time:checkOutTime
+    //             })
+    //
+    //             const newMutationShiftDoc = new MutationModel({
+    //                 user:req.user._id,
+    //                 action:'reportCheckOut',
+    //                 time:checkOutTime
+    //             })
+    //
+    //             shiftDocument.mutations.push(newMutationShiftDoc._id)
+    //             await shiftDocument.save()
+    //             await newMutationShiftDoc.save()
+    //
+    //         })
+    //
+    //         session.endSession()
+    //
+    //         const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+    //
+    //         return successHandler(undefined, shiftDocumentDto)
+    //
+    //     } catch (error) {
+    //
+    //         return errorHandler(undefined, error)
+    //
+    //     }
+    //
+    // }
 
 }

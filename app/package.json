@@ -30,6 +30,7 @@
     "react-scripts": "^5.0.1",
     "react-table": "^7.7.0",
     "react-vis": "^1.11.7",
+    "stringtime": "^2.0.2",
     "styled-components": "^5.3.5",
     "web-vitals": "^2.1.4",
     "yup": "^0.32.11"

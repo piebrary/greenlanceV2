@@ -78,11 +78,11 @@ module.exports = async server => {
     )
 
     express.get(
-        process.env.API_PREFIX + '/v1/s/timesheet/checkIn',
+        process.env.API_PREFIX + '/v1/s/timesheets/accepted',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await timesheetService.checkInById(req)
+            const result = await timesheetService.getAcceptedTimesheets(req)
 
             res
                 .status(result.status)
@@ -91,18 +91,32 @@ module.exports = async server => {
         }
     )
 
-    express.get(
-        process.env.API_PREFIX + '/v1/s/timesheet/checkOut',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await timesheetService.checkOutById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
+    // express.get(
+    //     process.env.API_PREFIX + '/v1/s/timesheet/checkIn',
+    //     passport.authenticate('jwt', { session: false }),
+    //     async (req, res) => {
+    //
+    //         const result = await timesheetService.checkInById(req)
+    //
+    //         res
+    //             .status(result.status)
+    //             .send(result.body)
+    //
+    //     }
+    // )
+    //
+    // express.get(
+    //     process.env.API_PREFIX + '/v1/s/timesheet/checkOut',
+    //     passport.authenticate('jwt', { session: false }),
+    //     async (req, res) => {
+    //
+    //         const result = await timesheetService.checkOutById(req)
+    //
+    //         res
+    //             .status(result.status)
+    //             .send(result.body)
+    //
+    //     }
+    // )
 
 }

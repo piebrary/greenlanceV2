@@ -14,18 +14,16 @@ module.exports = documents => {
 
         const {
             _id,
-            name,
-            description,
-            labels,
-            mutations,
+            business,
+            businessName,
+            timesheets,
         } = sanitize(document)
 
         return {
             _id,
-            name,
-            description,
-            labels,
-            mutations,
+            business,
+            businessName,
+            timesheets,
         }
     }
 

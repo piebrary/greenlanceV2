@@ -85,6 +85,7 @@ module.exports = async () => {
         require('../../custom/server/routes/v1/s/freelancer')(server)
         require('../../custom/server/routes/v1/s/business')(server)
         require('../../custom/server/routes/v1/s/timesheet')(server)
+        require('../../custom/server/routes/v1/s/invoice')(server)
 
         express.listen(
             process.env.API_PORT,

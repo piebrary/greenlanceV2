@@ -1,36 +1,17 @@
-.cardControls {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-.timesheetCardContent {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    justify-content: space-between;
-    width: 100%;
-}
-
-.timesheetInput_container {
-    padding: 0px;
-    border: 1px solid var(--colorGreyLighter);
-}
-
-.timesheetGroup {
-    gap: 10px;
-    display: flex;
+.tableCard_body {
     flex-direction: column;
 }
 
-.timesheetTitle {
-    padding-left: 5px;
+.cardTitle {
+    padding: 10px;
+    font-weight: 900;
 }
 
-.timesheetsContainer {
-    gap: 10px;
-    display: flex;
-    flex-direction: column;
+.tableCellContent_container {
+    text-align: center;
+    border-radius: 0px;
+}
+
+.createInvoiceBtn {
+    cursor: pointer;
 }

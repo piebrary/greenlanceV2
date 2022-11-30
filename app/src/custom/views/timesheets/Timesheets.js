@@ -45,7 +45,10 @@ export default function Timesheets(){
 
                 const response = await getEnrolledShifts()
 
-                setShifts(response.data)
+                setShifts(
+                    response.data
+                        .sort((a, b) => new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime())
+                )
 
             }
 
@@ -54,7 +57,10 @@ export default function Timesheets(){
                 // get all shifts from business
                 const response = await getShifts()
 
-                setShifts(response.data)
+                setShifts(
+                    response.data
+                        .sort((a, b) => new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime())
+                )
 
             }
 
@@ -94,6 +100,7 @@ export default function Timesheets(){
                 })
 
                 return newShifts
+                    .sort((a, b) => new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime())
 
             })
 
@@ -108,35 +115,6 @@ export default function Timesheets(){
         }
 
     }
-
-    // async function accept(_id, value){
-    //
-    //     try {
-    //
-    //         const response = await acceptTimesheet(_id)
-    //
-    //         setShifts(previous => {
-    //
-    //             const newShifts = previous.map(shift => {
-    //
-    //                 if(shift._id !== response.data._id) return shift
-    //                 return response.data
-    //
-    //             })
-    //
-    //         })
-    //
-    //     } catch (error) {
-    //
-    //         notifications.create({
-    //             title: "Could not accept timesheet",
-    //             type: 'danger',
-    //             container:'bottom-right'
-    //         })
-    //
-    //     }
-    //
-    // }
 
     async function dispute(_id, value){
 
@@ -162,6 +140,7 @@ export default function Timesheets(){
                 })
 
                 return newShifts
+                    .sort((a, b) => new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime())
 
             })
 
@@ -185,25 +164,6 @@ export default function Timesheets(){
             logo={<Logo />}
             controls={<Controls />}
             >
-            {/*
-                {
-                hasRole('freelancer') && (
-                    <Card>
-                        Checkin or checkout here
-                    </Card>
-                )
-            }
-            <Card
-                customStyles={applyStyles([styles], 'tableCard')}
-                >
-                <div
-                    className={styles.cardControls}
-                    >
-                    <div>Viewing past 30 days</div>
-                    <Button label={'View full history'} />
-                </div>
-            </Card>
-            */}
             {
                 shifts.map(shift => {
 
@@ -218,6 +178,8 @@ export default function Timesheets(){
                                 shift.timesheets.map((timesheet, index) => {
 
                                     const key = timesheet._id
+
+                                    console.log(timesheet)
 
                                     return (
                                         <Card

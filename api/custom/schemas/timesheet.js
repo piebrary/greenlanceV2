@@ -9,6 +9,10 @@ module.exports = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Freelancer',
     },
+    business:{
+        type: Schema.Types.ObjectId,
+        ref: 'Business',
+    },
     planned: {
         start: {
             type: Date,

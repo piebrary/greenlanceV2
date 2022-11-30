@@ -1,10 +1,14 @@
 import { useContext, useState, useEffect } from 'react'
 
+import moment from 'moment'
+import { toObject as stringtimeToObject } from 'stringtime'
+
 import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import { UserContext } from '../../../default/contexts/UserContext'
 
 import { getEnrolledShifts, getShifts } from '../../services/ShiftService'
-import { acceptTimesheet, disputeTimesheet, updateTimesheetActual } from '../../services/TimesheetService'
+import { getAcceptedTimesheets } from '../../services/TimesheetService'
+import { getInvoices, createInvoice } from '../../services/InvoiceService'
 
 import Button from '../../../default/components/button/Button'
 import Layout from '../../../default/components/layouts/basic/Layout'
@@ -19,7 +23,8 @@ import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
 import { notificationManager } from '../../../default/utils/notifications'
 
-import { GiConfirmed } from 'react-icons/gi'
+import { AiOutlineFileAdd } from 'react-icons/ai'
+import { AiOutlineFileSearch } from 'react-icons/ai'
 
 import styles from './Invoices.module.css'
 
@@ -29,25 +34,31 @@ export default function Invoices(){
     const { userData, hasRole } = useContext(UserContext)
 
     const [timesheets, setTimesheets] = useState([])
+    const [invoices, setInvoices] = useState([])
+    const [groupedTimesheets, setGroupedTimesheets] = useState([])
+    const [viewmode, setViewmode] = useState('overview')
 
     const notifications = notificationManager()
 
     const openHoursColumns = [
         {
             Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
-            accessor: data => data.business.name,
+            accessor: data => data.businessName,
         },
         {
             Header: applyTranslation('HOURS'),
-            accessor: data => data.project,
-            // isVisible: hasRole('business') || false,
+            accessor: data => data.hours,
+        },
+        {
+            Header: applyTranslation('CREATE INVOICE'),
+            accessor: data => <div className={styles.createInvoiceBtn} onClick={event => createNewInvoice(data)}><AiOutlineFileAdd size={20} /></div>,
         },
     ]
 
     const invoicesColumns = [
         {
             Header: applyTranslation('DATE'),
-            accessor: data => data.project,
+            accessor: data => moment(data.billingDate).format('DD-MM-YYYY'),
         },
         {
             Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
@@ -55,44 +66,82 @@ export default function Invoices(){
         },
         {
             Header: applyTranslation('HOURS'),
-            accessor: data => data.project,
+            accessor: data => data.hours,
         },
         {
             Header: applyTranslation('AMOUNT'),
-            accessor: data => data.project,
+            accessor: data => data.amount,
         },
         {
             Header: applyTranslation('VIEW'),
-            accessor: data => data.project,
+            accessor: data => <div className={styles.createInvoiceBtn} onClick={event => console.log(event, data)}><AiOutlineFileSearch size={20} /></div>,
         },
     ]
 
     useEffect(() => {
 
-        fetchShifts()
+        fetchAcceptedTimesheets()
+        fetchInvoices()
 
     }, [])
 
-    async function fetchShifts(){
+    async function createNewInvoice(data){
 
         try {
 
-            if(hasRole('freelancer')){
+            const response = await createInvoice(data)
 
-                const response = await getEnrolledShifts()
+            console.log(response.data)
 
-                setTimesheets(response.data)
+            fetchAcceptedTimesheets()
+            fetchInvoices()
+
+        } catch (error) {
+
+            notifications.create({
+                title: "Could not create new invoice",
+                type: 'danger',
+                container:'bottom-right'
+            })
+
+        }
+
+    }
+
+    async function fetchAcceptedTimesheets(){
+
+        try {
+
+            const response = await getAcceptedTimesheets()
+
+            const groupedInObject = {}
+
+            for(let timesheet of response.data){
+
+                const hours = new Date(timesheet.actualByBusiness.end).getTime() - new Date(timesheet.actualByBusiness.start).getTime()
+
+                if(!groupedInObject[timesheet.business._id]) groupedInObject[timesheet.business._id] = {
+                    businessName:timesheet.business.name,
+                    hours:0,
+                    timesheets:[]
+                }
+
+                groupedInObject[timesheet.business._id || timesheet.freelancer._id].hours += Math.floor(hours / 1000 / 60 / 60)
+                groupedInObject[timesheet.business._id || timesheet.freelancer._id].timesheets.push(timesheet._id)
 
             }
 
-            if(hasRole('business')){
+            const groupedInArray = []
 
-                // get all timesheets from business
-                const response = await getShifts()
+            for(let business in groupedInObject){
 
-                setTimesheets(response.data)
+                groupedInObject[business].business = business
+
+                groupedInArray.push(groupedInObject[business])
 
             }
+
+            setGroupedTimesheets(groupedInArray)
 
         } catch (error) {
 
@@ -106,76 +155,18 @@ export default function Invoices(){
 
     }
 
-    async function updateTimesheet(_id, value){
+    async function fetchInvoices(){
 
         try {
 
-            const response = await updateTimesheetActual(_id, value)
+            const response = await getInvoices()
 
-            setTimesheets(previous => {
-
-                const newShifts = previous.map(shift => {
-
-                    const timesheets = shift.timesheets.map(timesheet => {
-
-                        if(timesheet._id === _id) return response.data
-                        return timesheet
-
-                    })
-
-                    shift.timesheets = timesheets
-
-                    return shift
-
-                })
-
-                return newShifts
-
-            })
+            setInvoices(response.data)
 
         } catch (error) {
 
             notifications.create({
-                title: "Could not update timesheet",
-                type: 'danger',
-                container:'bottom-right'
-            })
-
-        }
-
-    }
-
-    async function dispute(_id, value){
-
-        try {
-
-            const response = await disputeTimesheet(_id)
-
-            setTimesheets(previous => {
-
-                const newShifts = previous.map(shift => {
-
-                    const timesheets = shift.timesheets.map(timesheet => {
-
-                        if(timesheet._id === _id) return response.data
-                        return timesheet
-
-                    })
-
-                    shift.timesheets = timesheets
-
-                    return shift
-
-                })
-
-                return newShifts
-
-            })
-
-        } catch (error) {
-
-            notifications.create({
-                title: "Could not dispute timesheet",
+                title: "Could not fetch invoices",
                 type: 'danger',
                 container:'bottom-right'
             })
@@ -192,151 +183,49 @@ export default function Invoices(){
             logo={<Logo />}
             controls={<Controls />}
             >
-            <Card
-                title={hasRole('business') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
-                >
-                <Table
-                    columns={openHoursColumns}
-                    data={[]}
-                    />
-            </Card>
-            <Card
-                title={'INVOICES'}
-                >
-                <Table
-                    columns={invoicesColumns}
-                    data={[]}
-                    />
-            </Card>
-                {/*
             {
-                timesheets.map(shift => {
-
-                    const key = shift._id
-
-                    return (
-                        <div
-                            className={styles.timesheetsContainer}
-                            key={key}
+                viewmode === 'overview' && (
+                    <>
+                        <Card
+                            customStyles={applyStyles([styles], 'tableCard')}
                             >
-                            {
-                                shift.timesheets.map((timesheet, index) => {
-
-                                    const key = timesheet._id
-
-                                    return (
-                                        <Card
-                                            key={key}
-                                            className={styles.timesheetCard}
-                                            title={shift.business?.name || timesheet.freelancer?.name}
-                                            description={'Status: ' + timesheet.status}
-                                            >
-                                            <div
-                                                className={styles.timesheetCardContent}>
-                                                {
-                                                    timesheet.status === 'open'
-                                                    && (
-                                                        (
-                                                            timesheet.actualByFreelancer?.start
-                                                            && timesheet.actualByFreelancer?.end
-                                                            && timesheet.actualByFreelancer?.start
-                                                            && timesheet.actualByBusiness?.end
-                                                        )
-                                                        && (
-                                                            timesheet.actualByFreelancer?.start !== timesheet.actualByBusiness?.start
-                                                            || timesheet.actualByFreelancer?.end !== timesheet.actualByBusiness?.end
-                                                        )
-                                                    )
-                                                    && (
-                                                        <Button
-                                                            label={'Open dispute'}
-                                                            onClick={() => dispute(timesheet._id)}
-                                                            />
-                                                    )
-                                                }
-                                                <div className={styles.timesheetGroup}>
-                                                    <div className={styles.timesheetTitle}>Planned</div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`shift.timesheets[${index}].planned.start`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.planned?.start}
-                                                            readOnly
-                                                            />
-                                                    </div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`shift.timesheets[${index}].planned.end`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.planned?.end}
-                                                            readOnly
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.timesheetGroup}>
-                                                    <div className={styles.timesheetTitle}>
-                                                        Actual By Freelancer
-                                                    </div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`timesheet[${index}].actualByFreelancer.start`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByFreelancer?.start}
-                                                            onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
-                                                            readOnly={!hasRole('freelancer') || timesheet.actualByFreelancer?.start}
-                                                            />
-                                                    </div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`timesheet[${index}].actualByFreelancer.end`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByFreelancer?.end}
-                                                            onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
-                                                            readOnly={!hasRole('freelancer') || timesheet.actualByFreelancer?.end}
-                                                            />
-                                                    </div>
-                                                </div>
-                                                <div className={styles.timesheetGroup}>
-                                                    <div className={styles.timesheetTitle}>
-                                                        Actual By Business
-                                                    </div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`timesheet[${index}].actualByBusiness.start`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByBusiness?.start}
-                                                            onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
-                                                            readOnly={!hasRole('business') || timesheet.actualByBusiness?.start}
-                                                            />
-                                                    </div>
-                                                    <div className={styles.timesheetValue}>
-                                                        <Input
-                                                            name={`timesheet[${index}].actualByBusiness.end`}
-                                                            type={'datetime-local'}
-                                                            customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByBusiness?.end}
-                                                            onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
-                                                            readOnly={!hasRole('business') || timesheet.actualByBusiness?.end}
-                                                            />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </Card>
-                                    )
-                                })
-                            }
-                        </div>
-                    )
-
-                })
-
+                            <div
+                                className={styles.cardTitle}
+                                >
+                                {hasRole('business') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
+                            </div>
+                            <Table
+                                columns={openHoursColumns}
+                                data={groupedTimesheets}
+                                customStyles={applyStyles([styles], 'tableCellContent')}
+                                noRecordsMessage={'There are no billable hours. Timesheets of shifts must first be accepted by both parties.'}
+                                />
+                        </Card>
+                        <Card
+                            customStyles={applyStyles([styles], 'tableCard')}
+                            >
+                            <div
+                                className={styles.cardTitle}
+                                >
+                                INVOICES
+                            </div>
+                            <Table
+                                columns={invoicesColumns}
+                                data={invoices}
+                                customStyles={applyStyles([styles], 'tableCellContent')}
+                                noRecordsMessage={'There are no invoices yet'}
+                                />
+                        </Card>
+                    </>
+                )
             }
-            */}
+            {
+                viewmode === 'invoice' && (
+                    <>
+
+                    </>
+                )
+            }
         </Layout>
     )
 }

@@ -36,12 +36,26 @@ module.exports = async server => {
         }
     )
 
-    express.put(
-        process.env.API_PREFIX + '/v1/s/business/:_id',
+    // express.put(
+    //     process.env.API_PREFIX + '/v1/s/business/:_id',
+    //     passport.authenticate('jwt', { session: false }),
+    //     async (req, res) => {
+    //
+    //         const result = await businessService.updateBusinessById(req)
+    //
+    //         res
+    //             .status(result.status)
+    //             .send(result.body)
+    //
+    //     }
+    // )
+
+    express.post(
+        process.env.API_PREFIX + '/v1/s/business/user',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await businessService.updateBusinessById(req)
+            const result = await businessService.addUserToBusiness(req)
 
             res
                 .status(result.status)

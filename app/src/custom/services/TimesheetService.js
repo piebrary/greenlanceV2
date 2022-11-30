@@ -15,6 +15,21 @@ export async function getTimesheets(){
 
 }
 
+export async function getAcceptedTimesheets(){
+
+    const options = {
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/timesheets/accepted`,
+        method:'GET',
+        headers: {
+            Authorization:'Bearer ' + localStorage.getItem(`${process.env.REACT_APP_CLIENT_URL}_token`),
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return await axios(options)
+
+}
+
 export async function getTimesheet(_id){
 
     const options = {

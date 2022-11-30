@@ -182,7 +182,10 @@ export default function Shifts(){
             .filter(shift => {
                 if(JSON.stringify(shift).includes(searchInput)) return shift
             })
-            .sort((a, b) => a.datetime.start > b.datetime.start)
+            .sort((a, b) => {
+                if(timeframe === 'future') return new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime()
+                if(timeframe === 'past') return new Date(b.datetime.start).getTime() - new Date(a.datetime.start).getTime()
+            })
 
         setFilteredShifts(filtered)
 
@@ -582,8 +585,8 @@ export default function Shifts(){
                                             <p>Start location: {shift.location.start.city}</p>
                                             <p>End location: {shift.location.end.city}</p>
                                             <Button label={'Open'} onClick={() => openShiftDetails(shift)} />
-                                            {hasRole('freelancer') && !shift.applied.includes(freelancerData._id) && !shift.enrolled.includes(freelancerData._id) && new Date(shift.datetime.start) > new Date() && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
-                                            {hasRole('freelancer') && (shift.applied.includes(freelancerData._id) || shift.enrolled.includes(freelancerData._id)) && <Button label={'Withdraw'} onClick={() => withdraw(shift._id)} />}
+                                            {hasRole('freelancer') && !shift.applied.includes(userData._id) && !shift.enrolled.includes(userData._id) && new Date(shift.datetime.start) > new Date() && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
+                                            {hasRole('freelancer') && (shift.applied.includes(userData._id) || shift.enrolled.includes(userData._id)) && <Button label={'Withdraw'} onClick={() => withdraw(shift._id)} />}
                                         </Card>
                                     )
 

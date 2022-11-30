@@ -1,3 +1,5 @@
+const sanitize = require('mongo-sanitize')
+
 module.exports = documents => {
 
     if(Array.isArray(documents)){
@@ -15,13 +17,15 @@ module.exports = documents => {
             name,
             description,
             labels,
-        } = document
+            user,
+        } = sanitize(document)
 
         return {
             _id,
             name,
             description,
             labels,
+            user,
         }
     }
 
