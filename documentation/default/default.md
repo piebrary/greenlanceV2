@@ -152,7 +152,7 @@ With publishing we mean downloading the updated repository with it's chances on 
 - First navigate to the repository with the command line. When you are in the repositories top level folder we will fetch or pull the changes. Use `git pull`
 - Then we want to create a build package of the repository. First navigate to the app folder with `cd app` and then build the source with `npm run build`
 - When the process succeeded we copy the files to the location where our website is hosted. Normally this location is `/var/www/html`. Copy the files with `sudo cp -r build/* /var/www/html` and provide your password. The newly build website is now available to the web.
-- When changes were made to the api, we need to navigate there with `cd ../api` and restart the process with `pm2 restart [repository-name]-api`
+- When changes were made to the api, we need to navigate there with `cd ../api` and restart the process with `pm2 restart server.js --name [repository-name]-api -- [production or development]`
 
 ## Building and submitting Mobile App<a name="building-mobile-app"></a>
 Submitting your app to the Appstore or Google Play makes it available on iOS and Android devices. The process is handled by expo to make it easy to build and submit without needing a macOS device.
