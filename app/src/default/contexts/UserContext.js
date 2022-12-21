@@ -122,7 +122,7 @@ export default function UserContextProvider({ children }){
 
             const response = await putUser(data)
 
-            if(data._id === id){
+            if(response.data._id === id){
 
                 setUser(response.data)
 

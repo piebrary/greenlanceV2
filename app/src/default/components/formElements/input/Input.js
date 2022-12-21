@@ -9,7 +9,6 @@ import { createStyle } from '../../../utils/createStyle'
 
 import { AiOutlineEyeInvisible } from 'react-icons/ai'
 import { AiOutlineEye } from 'react-icons/ai'
-import moment from 'moment'
 
 import styles from './Input.module.css'
 
@@ -56,11 +55,6 @@ export default function Input(attributes){
         || type === 'week'
     )
 
-    // convert utc gmt time to local time
-    let inputValue
-    if(defaultValue && type === 'datetime-local') inputValue = moment(defaultValue).format('YYYY-MM-DDTHH:mm')
-    else inputValue = defaultValue
-
     return (
         <div
             className={createStyle([styles, customStyles], 'container')}
@@ -76,7 +70,7 @@ export default function Input(attributes){
                         id={name}
                         type={type !== 'password' ? type : type === 'password' && !isHidden ? 'text' : 'password'}
                         placeholder={placeholder}
-                        defaultValue={inputValue}
+                        defaultValue={defaultValue}
                         value={value}
                         readOnly={readOnly}
                         min={min}

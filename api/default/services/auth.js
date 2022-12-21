@@ -6,7 +6,7 @@ module.exports = async server => {
     const { express, db } = server
     const connection = await db.connection
 
-    let UserModel, MutationModel, TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer
+    let UserModel, MutationModel, TokenModel, encryptPassword, notFoundHandler, successHandler, errorHandler, userRequestDto, userResponseDto, mailer, availableRoles
 
     try { TokenModel = require('../../custom/models/token') } catch { TokenModel = require('../../default/models/token') }
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
@@ -18,6 +18,7 @@ module.exports = async server => {
     try { userAsSelfRequestDto = require('../../custom/dto/request/user/userAsSelf') } catch { userAsSelfRequestDto = require('../../default/dto/request/user/userAsSelf') }
     try { userAsSelfResponseDto = require('../../custom/dto/response/user/userAsSelf') } catch { userAsSelfResponseDto = require('../../default/dto/response/user/userAsSelf') }
     try { mailer = require('../../custom/utils/mailer')() } catch { mailer = require('../../default/utils/mailer')() }
+    try { availableRoles = require('../../custom/assets/roles') } catch { availableRoles = require('../../default/assets/roles') }
 
     // register function is only for self (public) registration
     // register by an admin of other user is handled in users service
@@ -31,6 +32,7 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
+                roles:providedRoles
             } = userAsSelfRequestDto(req.body)
 
             if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
@@ -41,12 +43,13 @@ module.exports = async server => {
             await session.withTransaction(async () => {
 
                 const passwordHash = await encryptPassword(password)
+                const userRoles = providedRoles.filter(role => availableRoles.map(role => role.name).includes(role))
 
                 const newUserDoc = new UserModel({
                     username,
-                    password:passwordHash,
+                    passwordHash,
                     email,
-                    roles:['user']
+                    roles:userRoles
                 })
 
                 const newMutationDoc = new MutationModel({
@@ -54,7 +57,8 @@ module.exports = async server => {
                     action:'register',
                     data:{
                         username,
-                        email
+                        email,
+                        roles:userRoles
                     }
                 })
 

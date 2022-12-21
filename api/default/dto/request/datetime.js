@@ -18,8 +18,8 @@ module.exports = documents => {
         } = sanitize(document)
 
         return {
-            start:start && new Date(start).toISOString(),
-            end:end && new Date(end).toISOString(),
+            start,
+            end,
         }
     }
 

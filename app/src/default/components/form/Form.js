@@ -28,6 +28,7 @@ export default function Form(attributes){
         validationSchema,
         submitLabel = authState === 'success' && applyTranslation('SUBMIT') || 'Submit',
         resetLabel = authState === 'success' && applyTranslation('RESET') || 'Reset',
+        disableReset
     } = attributes
 
     // make sure children is always an array, because when one child is passed react jsut passed the child as react object
@@ -51,6 +52,12 @@ export default function Form(attributes){
         criteriaMode: 'all',
         mode: 'onTouched',
     })
+
+    useEffect(() => {
+
+        reset(defaultValues)
+
+    }, [defaultValues])
 
     const onCustomSubmit = data => {
 
@@ -122,11 +129,15 @@ export default function Form(attributes){
                             type={'submit'}
                             customStyles={applyStyles([styles, customStyles], 'submitBtn')}
                             />
-                        <Button
-                            label={resetLabel}
-                            onClick={handleReset}
-                            customStyles={applyStyles([styles, customStyles], 'resetBtn')}
-                            />
+                        {
+                            disableReset !== true && (
+                                <Button
+                                    label={resetLabel}
+                                    onClick={handleReset}
+                                    customStyles={applyStyles([styles, customStyles], 'resetBtn')}
+                                    />
+                            )
+                        }
                     </div>
                 )
             }

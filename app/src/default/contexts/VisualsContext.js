@@ -19,18 +19,18 @@ export default function VisualsContextProvider({ children }){
     useEffect(() => {
 
         const themesContainer = {
-            default:require(`../../default/themes/default`).default
+            default:require(`../../default/assets/themes/default`).default
         }
 
         for(let theme of AVAILABLE_THEMES){
 
             try {
 
-                themesContainer[theme] = require(`../../custom/themes/${theme}`).default
+                themesContainer[theme] = require(`../../custom/assets/themes/${theme}`).default
 
             } catch {
 
-                themesContainer[theme] = require(`../../default/themes/${theme}`).default
+                themesContainer[theme] = require(`../../default/assets/themes/${theme}`).default
 
             }
 

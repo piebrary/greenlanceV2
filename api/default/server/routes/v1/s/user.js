@@ -91,19 +91,19 @@ module.exports = async server => {
         }
     )
 
-    express.put(
-        process.env.API_PREFIX + '/v1/s/user/:_id',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const userData = await userService.updateUserById(req)
-
-            res
-                .status(userData.status)
-                .send(userData.body)
-
-        }
-    )
+    // express.put(
+    //     process.env.API_PREFIX + '/v1/s/user/:_id',
+    //     passport.authenticate('jwt', { session: false }),
+    //     async (req, res) => {
+    //
+    //         const userData = await userService.updateUserById(req)
+    //
+    //         res
+    //             .status(userData.status)
+    //             .send(userData.body)
+    //
+    //     }
+    // )
 
     express.delete(
         process.env.API_PREFIX + '/v1/s/user/:_id',

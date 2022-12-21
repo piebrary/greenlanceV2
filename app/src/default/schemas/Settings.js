@@ -3,10 +3,15 @@ import * as yup from 'yup'
 export const SettingsSchema = yup
     .object()
     .shape({
-        email:yup
+        email:
+            yup
             .string()
-            .required('* Email is required')
-            .email('* Please provide a valid emailaddess'),
+            .when('email', {
+                is: value => value && value.length > 0,
+                then: yup
+                    .string()
+                    .required('* Email is required')
+            }),
         newPassword:yup
             .string()
             .matches(/.{8,}/, {
@@ -20,18 +25,19 @@ export const SettingsSchema = yup
         newPasswordRepeat:yup
             .string()
             .oneOf([yup.ref('newPassword'), null], '* Passwords must match'),
-        currentPassword:yup
+        password:yup
             .string()
-            .when('newPassword', {
-                is: value => value && value.length > 0,
-                then: yup
-                    .string()
-                    .required('* Current password is required')
-                })
-            .when('email', {
-                is: value => value && value.length > 0,
-                then: yup
-                    .string()
-                    .required('* Current password is required')
-                }),
-    })
+            .required('* Password is required')
+            // .when('newPassword', {
+            //     is: value => value && value.length > 0,
+            //     then: yup
+            //         .string()
+            //         .required('* Current password is required')
+            //     })
+            // .when('email', {
+            //     is: value => value && value.length > 0,
+            //     then: yup
+            //         .string()
+            //         .required('* Current password is required')
+            //     }),
+    }, [['email', 'email']])

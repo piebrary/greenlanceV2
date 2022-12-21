@@ -1,4 +1,8 @@
+const logger = require('../utils/logger')
+
 module.exports = (status = 500, error) => {
+
+    logger.error({ message:'New error', data:error })
 
     const response = {
         status,
@@ -9,7 +13,7 @@ module.exports = (status = 500, error) => {
 
         response.body.error = error
 
-        console.log(error)
+        // console.log(error)
 
     }
 

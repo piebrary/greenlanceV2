@@ -216,93 +216,92 @@ module.exports = async server => {
 
     }
 
+    // async function updateUser(req){
+
+        // try {
+        //
+        //     const userDoc = await UserModel
+        //         .findOne({ _id:req.user._id })
+        //
+        //     if(!userDoc) return notFoundHandler('User')
+        //
+        //     const {
+        //         name,
+        //         email,
+        //         phone,
+        //         address,
+        //         emails,
+        //         phones,
+        //         addresses,
+        //         settings,
+        //         newPassword,
+        //         password,
+        //         repeatPassword,
+        //     } = userAsSelfRequestDto(req.body)
+        //
+        //     const matchingCurrentPasswords = await passwordsMatch(password, userDoc.passwordHash)
+        //
+        //     if(!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
+        //
+        //     let response
+        //
+        //     const session = await connection.startSession()
+        //     await session.withTransaction(async () => {
+        //
+        //         if(newPassword && repeatPassword && newPassword.length > 0){
+        //
+        //             if(newPassword !== repeatPassword){
+        //
+        //                 return errorHandler(406, 'Passwords don\'t match')
+        //
+        //             }
+        //
+        //             const passwordHash = await encryptPassword(newPassword)
+        //
+        //             userDoc.passwordHash = passwordHash
+        //
+        //         }
+        //
+        //         if(name) userDoc.name = name
+        //         if(email) userDoc.email = email
+        //         if(phone) userDoc.phone = phone
+        //         if(address) userDoc.address = address
+        //         if(emails) userDoc.emails = emails
+        //         if(phones) userDoc.phones = phones
+        //         if(addresses) userDoc.addresses = addresses
+        //         if(settings) userDoc.settings = settings
+        //
+        //         const newMutationDoc = new MutationModel({
+        //             user:userDoc._id,
+        //             action:'update',
+        //             data:{
+        //                 username:req.user._id,
+        //                 email
+        //             }
+        //         })
+        //
+        //         userDoc.mutations.push(newMutationDoc._id)
+        //
+        //         response = await userDoc.save()
+        //         await newMutationDoc.save()
+        //
+        //     })
+        //
+        //     session.endSession()
+        //
+        //     const userDocDto = userAsSelfResponseDto(response)
+        //
+        //     return successHandler(undefined, userDocDto)
+        //
+        // } catch (error) {
+        //
+        //     return errorHandler(undefined, error)
+        //
+        // }
+
+    // }
+
     async function updateUser(req){
-
-        try {
-
-            const userDoc = await UserModel
-                .findOne({ _id:req.user._id })
-
-            if(!userDoc) return notFoundHandler('User')
-
-            const {
-                name,
-                email,
-                phone,
-                address,
-                emails,
-                phones,
-                addresses,
-                settings,
-                newPassword,
-                currentPassword,
-                repeatPassword,
-            } = userAsSelfRequestDto(req.body)
-
-            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
-
-            if(!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
-
-            let response
-
-            const session = await connection.startSession()
-            await session.withTransaction(async () => {
-
-                if(newPassword.length > 0){
-
-                    if(newPassword !== repeatPassword){
-
-                        return errorHandler(406, 'Passwords don\'t match')
-
-                    }
-
-                    const passwordHash = await encryptPassword(newPassword)
-
-                    userDoc.passwordHash = passwordHash
-
-                }
-
-                if(name) userDoc.name = name
-                if(email) userDoc.email = email
-                if(phone) userDoc.phone = phone
-                if(address) userDoc.address = address
-                if(emails) userDoc.emails = emails
-                if(phones) userDoc.phones = phones
-                if(addresses) userDoc.addresses = addresses
-                if(settings) userDoc.settings = settings
-
-                const newMutationDoc = new MutationModel({
-                    user:userDoc._id,
-                    action:'update',
-                    data:{
-                        username,
-                        email,
-                        roles
-                    }
-                })
-
-                newUserDoc.mutations.push(newMutationDoc._id)
-
-                response = await userDoc.save()
-                await newMutationDoc.save()
-
-            })
-
-            session.endSession()
-
-            const userDocDto = userAsSelfResponseDto(response)
-
-            return successHandler(undefined, userDocDto)
-
-        } catch (error) {
-
-            return errorHandler(undefined, error)
-
-        }
-
-    }
-
-    async function updateUserById(req){
 
         try {
 
@@ -312,9 +311,9 @@ module.exports = async server => {
                 })
 
             if(!currentUserDoc) return notFoundHandler('User')
-            if(!currentUserDoc.isAdmin) return errorHandler(403, 'Forbidden')
 
             const {
+                _id,
                 name,
                 email,
                 phone,
@@ -323,36 +322,42 @@ module.exports = async server => {
                 phones,
                 addresses,
                 settings,
-                currentPassword,
+                password,
                 roles,
             } = userAsAdminRequestDto(req.body)
 
+            if(!currentUserDoc.isAdmin && _id !== req.user._id) return errorHandler(403, 'Forbidden')
+
             const adjustedRoles = []
 
-            if(Array.isArray(roles)){
+            if(currentUserDoc.isAdmin){
 
-                roles.map(role => {
+                if(Array.isArray(roles)){
 
-                    for(let key in role){
+                    roles.map(role => {
 
-                        if(role[key] === true){
+                        for(let key in role){
 
-                            adjustedRoles.push(key)
+                            if(role[key] === true){
+
+                                adjustedRoles.push(key)
+
+                            }
 
                         }
 
-                    }
+                    })
 
-                })
+                }
 
             }
 
-            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
+            const matchingCurrentPasswords = await passwordsMatch(password, currentUserDoc.passwordHash)
 
             if (!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
 
             const userDoc = await UserModel
-                .findOne({ _id:req.params._id })
+                .findOne({ _id:_id })
 
 
             if (!userDoc) return notFoundHandler('User')
@@ -364,7 +369,7 @@ module.exports = async server => {
 
                 if(name) userDoc.name = name
                 if(email) userDoc.email = email
-                if(roles) userDoc.roles = adjustedRoles
+                if(roles && currentUserDoc.isAdmin) userDoc.roles = adjustedRoles
                 if(phone) userDoc.phone = phone
                 if(address) userDoc.address = address
                 if(emails) userDoc.emails = emails
@@ -538,7 +543,7 @@ module.exports = async server => {
         getUsers,
         createUser,
         updateUser,
-        updateUserById,
+        // updateUserById,
         deleteUserById,
         uploadProfilePicture,
         uploadProfilePictureById,

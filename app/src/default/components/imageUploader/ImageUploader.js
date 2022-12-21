@@ -61,7 +61,7 @@ export default function ImageUploader(attributes){
                             <img
                                 src={URL.createObjectURL(selectedPicture)}
                                 contenttype={'image/*'}
-                                className={styles.selectedPicture}
+                                className={createStyle([styles, customStyles], 'selectedPicture')}
                                 />
                         </label>
                     )
@@ -69,12 +69,12 @@ export default function ImageUploader(attributes){
                 {
                     !selectedPicture && currentPicture && (
                         <label
-                            className={styles.pictureBackground}
+                            className={createStyle([styles, customStyles], 'pictureBackground')}
                             htmlFor="image-upload">
                             <img
                                 src={currentPicture}
                                 contenttype={'image/*'}
-                                className={styles.selectedPicture}
+                                className={createStyle([styles, customStyles], 'selectedPicture')}
                                 />
                         </label>
                     )
@@ -82,9 +82,9 @@ export default function ImageUploader(attributes){
                 {
                     !selectedPicture && !currentPicture && placeholder && (
                         <label
-                            className={styles.pictureBackground}
+                            className={createStyle([styles, customStyles], 'pictureBackground')}
                             htmlFor="image-upload">
-                            <div className={styles.selectedPicture}>
+                            <div className={createStyle([styles, customStyles], 'selectedPicture')}>
                                 {placeholder}
                             </div>
                         </label>

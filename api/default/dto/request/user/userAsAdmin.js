@@ -57,7 +57,7 @@ module.exports = documents => {
             roles,
             settings,
             profilePicture,
-            currentPassword,
+            password,
             newPassword,
             repeatPassword,
         } = sanitize(document)
@@ -75,7 +75,7 @@ module.exports = documents => {
             roles,
             settings:settings && settingsRequestDto(settings),
             profilePicture,
-            currentPassword,
+            password,
             newPassword,
             repeatPassword,
         }

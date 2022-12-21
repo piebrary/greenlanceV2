@@ -27,6 +27,9 @@ module.exports = new Schema({
             type: String
         }
     },
+    title:{
+        type:String
+    },
     email: {
         type: String,
         unique: [true, 'That email address is taken.'],

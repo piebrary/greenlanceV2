@@ -50,7 +50,7 @@ export async function postUser(data){
 export async function putUser(data){
 
     const options = {
-        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/user${data._id ? '/' + data._id : ''}`,
+        url:`${process.env.REACT_APP_API_PREFIX}/v1/s/user`,
         method:'PUT',
         headers: {
             Authorization:'Bearer ' + localStorage.getItem(`${process.env.REACT_APP_CLIENT_URL}_token`),
