@@ -48,7 +48,7 @@ module.exports = (async () => {
         newUserDocument.passwordHash = await encryptPassword(data.password)
         newUserDocument.email = data.email
         newUserDocument.roles = data.roles
-        newUserDocument.name = data.name
+        newUserDocument.profile.name = data.name
 
         await newUserDocument.save()
 

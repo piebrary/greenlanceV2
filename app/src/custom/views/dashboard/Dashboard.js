@@ -17,13 +17,13 @@ import styles from './Dashboard.module.css'
 
 export default function Dashboard(){
 
-    const { applyTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, hasRole } = useContext(UserContext)
 
     return (
         <Layout
             className={styles.container}
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('DASHBOARD')}
             logo={<Logo />}
             controls={<Controls />}

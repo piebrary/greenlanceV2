@@ -37,7 +37,7 @@ import styles from './Shifts.module.css'
 
 export default function Shifts(){
 
-    const { applyTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, _id, hasRole } = useContext(UserContext)
     const { freelancerData } = useContext(FreelancerContext)
 
@@ -463,8 +463,8 @@ export default function Shifts(){
     return (
         <Layout
             className={styles.container}
-            items={Menu({ userData, hasRole, applyTranslation })}
-            title={applyTranslation('SHIFTS')}
+            items={Menu()}
+            title={applyTranslation('Menu.SHIFTS')}
             logo={<Logo />}
             controls={<Controls />}
             >

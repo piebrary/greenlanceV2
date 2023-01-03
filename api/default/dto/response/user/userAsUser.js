@@ -13,13 +13,13 @@ module.exports = documents => {
         const {
             _id,
             username,
-            profilePicture,
+            profile,
         } = document
 
         return {
             _id,
             username,
-            profilePicture,
+            profile:profile && profileResponseDto(profile),
         }
     }
 

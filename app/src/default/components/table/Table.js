@@ -49,13 +49,13 @@ export default function Table(attributes){
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
             <table
-                className={styles.table}
+                className={createStyle([styles, customStyles], ['table'])}
                 {...getTableProps()}>
                <thead
-                   className={styles.thead}>
+                   className={createStyle([styles, customStyles], ['thead'])}>
                    {headerGroups.map((headerGroup, i) => (
                      <tr
-                       className={styles.tr}
+                       className={createStyle([styles, customStyles], ['tr'])}
                        {...headerGroup.getHeaderGroupProps()}>
                        {headerGroup.headers.map(column => (
                          <th

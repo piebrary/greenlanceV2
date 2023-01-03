@@ -6,7 +6,8 @@ module.exports = new Schema({
         ref: 'User',
     },
     name:{
-        type: String
+        type: String,
+        required: true
     },
     description: {
         type: String,

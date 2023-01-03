@@ -1,3 +1,10 @@
+import { useContext } from 'react'
+
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
+import { UserContext } from '../../../default/contexts/UserContext'
+import { BusinessContext } from '../../../custom/contexts/BusinessContext'
+import { FreelancerContext } from '../../../custom/contexts/FreelancerContext'
+
 import { BiHome } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import { VscSettings } from 'react-icons/vsc'
@@ -31,19 +38,93 @@ import { FiMail } from 'react-icons/fi'
 import { AiOutlineFileDone } from 'react-icons/ai'
 import { VscGraphLine } from 'react-icons/vsc'
 
-export default function menu({ userData, hasRole, applyTranslation, createTranslation }){
+export default function Menu(){
+
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
+    const { userData, hasRole } = useContext(UserContext)
+    const { businessData } = useContext(BusinessContext)
+    const { freelancerData } = useContext(FreelancerContext)
+
+    createTranslation('Menu.PROFILE', {
+        en:'Profile',
+        nl:'Profiel'
+    })
+
+    createTranslation('Menu.BUSINESS', {
+        en:'Business',
+        nl:'Bedrijf'
+    })
+
+    createTranslation('Menu.SHIFTS', {
+        en:'Shifts',
+        nl:'Diensten'
+    })
+
+    createTranslation('Menu.TIMESHEETS', {
+        en:'Timesheets',
+        nl:'Urenstaten'
+    })
+
+    createTranslation('Menu.INVOICES', {
+        en:'Invoices',
+        nl:'Facturen'
+    })
+
+    createTranslation('Menu.FINANCIALS', {
+        en:'Financials',
+        nl:'Financiele data'
+    })
+
+    createTranslation('Menu.BUSINESS_PROFILE', {
+        en:'Business profile',
+        nl:'Bedrijfsprofiel'
+    })
+
+    createTranslation('Menu.PROJECTS', {
+        en:'Projects',
+        nl:'Projecten'
+    })
+
+    createTranslation('Menu.PERSONAL', {
+        en:'Personal',
+        nl:'Persoonlijk'
+    })
+
+    createTranslation('Menu.HELPDESK', {
+        en:'Helpdesk',
+        nl:'Helpdesk'
+    })
+
+    createTranslation('Menu.FAQ', {
+        en:'Faq',
+        nl:'Faq'
+    })
+
+    createTranslation('Menu.CONTACT', {
+        en:'Contact',
+        nl:'Contact'
+    })
 
     return [
         [
             {
-                label:<>{applyTranslation('BUSINESS')}</>
+                label:(
+                    <>
+                        <p>{userData.username}</p>
+                        <p>{businessData?.name || freelancerData?.name}</p>
+                    </>
+                )
+            }
+        ],[
+            {
+                label:<>{applyTranslation('Menu.BUSINESS')}</>
             },
             {
                 to:'/',
                 icon:<BiHome size={20} />,
                 text:applyTranslation('DASHBOARD')
             },
-            {
+            (hasRole('freelancer') || hasRole('business')) && {
                 to:'/calendar',
                 icon:<BsCalendar2Week size={20} />,
                 text:applyTranslation('CALENDAR')
@@ -51,36 +132,36 @@ export default function menu({ userData, hasRole, applyTranslation, createTransl
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/shifts',
                 icon:<AiOutlineFileDone size={20} />,
-                text:applyTranslation('SHIFTS')
+                text:applyTranslation('Menu.SHIFTS')
             },
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/timesheets',
                 icon:<BsClockHistory size={20} />,
-                text:applyTranslation('TIMESHEETS')
+                text:applyTranslation('Menu.TIMESHEETS')
             },
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/invoices',
                 icon:<FaFileInvoiceDollar size={20} />,
-                text:applyTranslation('INVOICES')
+                text:applyTranslation('Menu.INVOICES')
             },
             (hasRole('freelancer') || hasRole('business')) && {
                 to:'/financials',
                 icon:<VscGraphLine size={20} />,
-                text:applyTranslation('FINANCIALS')
+                text:applyTranslation('Menu.FINANCIALS')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
-                to:'/business',
+            {
+                to:'/business-profile',
                 icon:<RiProfileLine size={20} />,
-                text:applyTranslation('PROFILE'),
-            } || undefined,
+                text:applyTranslation('Menu.BUSINESS_PROFILE'),
+            },
             hasRole('business') && {
                 to:'/projects',
                 icon:<AiOutlineFolderOpen size={20} />,
-                text:applyTranslation('PROJECTS'),
-            } || undefined,
+                text:applyTranslation('Menu.PROJECTS'),
+            },
         ],[
             {
-                label:<>{applyTranslation('PERSONAL')}</>
+                label:<>{applyTranslation('Menu.PERSONAL')}</>
             },
             {
                 to:'/profile',
@@ -103,17 +184,17 @@ export default function menu({ userData, hasRole, applyTranslation, createTransl
             } || undefined,
         ],[
             {
-                label:<>{applyTranslation('HELPDESK')}</>
+                label:<>{applyTranslation('Menu.HELPDESK')}</>
             },
             {
                 to:'/faq',
                 icon:<FaQuestionCircle size={20} />,
-                text:applyTranslation('FAQ'),
+                text:applyTranslation('Menu.FAQ'),
             },
             {
                 to:'/contact',
                 icon:<FiMail size={20} />,
-                text:applyTranslation('CONTACT'),
+                text:applyTranslation('Menu.CONTACT'),
             },
         ],[
             {

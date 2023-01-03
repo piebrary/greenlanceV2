@@ -26,6 +26,8 @@ module.exports = documents => {
             status,
         } = document
 
+        console.log(document)
+
         return {
             _id,
             shift,

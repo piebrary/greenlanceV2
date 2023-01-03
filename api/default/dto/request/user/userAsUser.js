@@ -15,13 +15,11 @@ module.exports = documents => {
         const {
             _id,
             username,
-            profilePicture,
         } = sanitize(document)
 
         return {
             _id,
             username,
-            profilePicture,
         }
     }
 

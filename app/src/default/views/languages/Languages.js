@@ -42,7 +42,7 @@ export default function LanguagesView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('LANGUAGES')}
             controls={<Controls />}
             >

@@ -57,7 +57,8 @@ module.exports = documents => {
             profilePicture,
             password,
             repeatPassword,
-            accountType,
+            businessType,
+            businessName,
         } = sanitize(document)
 
         return {
@@ -75,7 +76,8 @@ module.exports = documents => {
             profilePicture,
             password,
             repeatPassword,
-            accountType,
+            businessType,
+            businessName,
         }
     }
 

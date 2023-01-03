@@ -15,6 +15,7 @@ import LoginView from '../custom/views/login/Login'
 import PasswordResetView from '../custom/views/passwordReset/PasswordReset'
 import DashboardView from '../custom/views/dashboard/Dashboard'
 import ProfileView from '../custom/views/profile/Profile'
+import BusinessProfileView from '../custom/views/businessProfile/BusinessProfile'
 import SettingsView from '../custom/views/settings/Settings'
 import UsersView from '../custom/views/users/Users'
 import CalendarView from '../custom/views/calendar/Calendar'
@@ -22,6 +23,10 @@ import LogoutView from '../default/views/logout/Logout'
 import ShiftsView from '../custom/views/shifts/Shifts'
 import TimesheetsView from '../custom/views/timesheets/Timesheets'
 import InvoicesView from '../custom/views/invoices/Invoices'
+import FinancialsView from '../custom/views/financials/Financials'
+import ProjectsView from '../custom/views/projects/Projects'
+import FaqView from '../custom/views/faq/Faq'
+import ContactView from '../custom/views/contact/Contact'
 
 import { AuthenticationContext } from '../default/contexts/AuthenticationContext'
 import { UserContext } from '../default/contexts/UserContext'
@@ -58,13 +63,18 @@ export default function App() {
                         ?
                             <Routes>
                                     <Route path="/" element={<DashboardView />} />
-                                    <Route path="/profile" element={<ProfileView />} />
-                                    <Route path="/settings" element={<SettingsView />} />
-                                    { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
                                     { (hasRole('freelancer') || hasRole('business')) && <Route path="/calendar" element={<CalendarView />} /> }
                                     { (hasRole('freelancer') || hasRole('business')) && <Route path="/shifts" element={<ShiftsView />} /> }
                                     { (hasRole('freelancer') || hasRole('business')) && <Route path="/timesheets" element={<TimesheetsView />} /> }
                                     { (hasRole('freelancer') || hasRole('business')) && <Route path="/invoices" element={<InvoicesView />} /> }
+                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/financials" element={<FinancialsView />} /> }
+                                    <Route path="/business-profile" element={<BusinessProfileView />} />
+                                    { hasRole('business') && <Route path="/projects" element={<ProjectsView />} /> }
+                                    <Route path="/profile" element={<ProfileView />} />
+                                    <Route path="/settings" element={<SettingsView />} />
+                                    { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
+                                    <Route path="/faq" element={<FaqView />} />
+                                    <Route path="/contact" element={<ContactView />} />
                                     <Route path="/logout" element={<LogoutView />} />
                                     <Route path="*" element={<Navigate to="/" />} />
                             </Routes>

@@ -59,7 +59,7 @@ export default function ListView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('LIST')}
             controls={<Controls />}
             >

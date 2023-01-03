@@ -3,21 +3,22 @@ import { NavLink, useLocation } from 'react-router-dom'
 
 import { motion } from 'framer-motion'
 
-import { AuthenticationContext } from '../../../contexts/AuthenticationContext'
-import { UserContext } from '../../../contexts/UserContext'
-import { LanguageContext } from '../../../contexts/LanguageContext'
-import { VisualsContext } from '../../../contexts/VisualsContext'
+import { AuthenticationContext } from '../../../../default/contexts/AuthenticationContext'
+import { UserContext } from '../../../../default/contexts/UserContext'
+import { LanguageContext } from '../../../../default/contexts/LanguageContext'
+import { VisualsContext } from '../../../../default/contexts/VisualsContext'
 
 import { BiMenu } from 'react-icons/bi'
 import { IoIosArrowUp } from 'react-icons/io'
 import { BiLogOutCircle } from 'react-icons/bi'
 import { BsFillArrowUpCircleFill } from 'react-icons/bs'
+import { FiSearch } from 'react-icons/fi'
 
-import { createStyle } from '../../../utils/createStyle'
+import { createStyle } from '../../../../default/utils/createStyle'
 
 import styles from './Layout.module.css'
 
-export default function Layout({ items = [], children, customStyles, title, controls, logo }){
+export default function Layout({ items = [], children, customStyles, title, controls, logo, backgroundImage }){
 
     let Logo
 
@@ -86,25 +87,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
     // }, [isMenuOpen])
 
     return (
-        <div id={'container'} className={styles.container}>
-            {
-                showScrollToTopBtn && (
-                    <div
-                        className={createStyle([styles, customStyles], 'scrollToTopBtn')}
-                        onClick={event => {
-
-                            const body = document.querySelector('body')
-
-                            body.scrollTo({
-                                top:0,
-                                behavior: 'smooth'
-                            })
-                        }}
-                        >
-                        <BsFillArrowUpCircleFill size={30} />
-                    </div>
-                )
-            }
+        <div id={'container'} className={createStyle([styles, customStyles], 'container')}>
             <div className={createStyle([styles, customStyles], 'headerResponsive')}>
                 <div className={createStyle([styles, customStyles], 'logo')}>
                     { logo !== undefined && logo || <Logo /> }
@@ -135,9 +118,6 @@ export default function Layout({ items = [], children, customStyles, title, cont
                             </div>
                         )
                     }
-                    <div className={styles.usernameContainer}>
-                        Welcome {userData.username}
-                    </div>
                     {
                         items.map((group, i) => {
 
@@ -187,7 +167,7 @@ export default function Layout({ items = [], children, customStyles, title, cont
 
                             })
 
-                            return (
+                            return groupJSX.length > 0 && (
                                 <div
                                     key={i}
                                     className={createStyle([styles, customStyles], 'group')}>
@@ -200,20 +180,22 @@ export default function Layout({ items = [], children, customStyles, title, cont
                 </div>
             </div>
             <div className={createStyle([styles, customStyles], 'header')}>
-                {
-                    title && (
-                        <div className={createStyle([styles, customStyles], 'title')}>
-                            {title}
-                        </div>
-                    )
-                }
-                {
-                    controls && (
-                        <div className={createStyle([styles, customStyles], 'controls')}>
-                            {controls}
-                        </div>
-                    )
-                }
+                <div className={createStyle([styles, customStyles], 'headerItems')}>
+                    {
+                        title && (
+                            <div className={createStyle([styles, customStyles], 'title')}>
+                                {title}
+                            </div>
+                        )
+                    }
+                    {
+                        controls && (
+                            <div className={createStyle([styles, customStyles], 'controls')}>
+                                {controls}
+                            </div>
+                        )
+                    }
+                </div>
             </div>
             <motion.div
                 className={styles.motion}
@@ -240,7 +222,13 @@ export default function Layout({ items = [], children, customStyles, title, cont
             <div
                 className={createStyle([styles, customStyles], 'page')}
                 >
-                <div className={createStyle([styles, customStyles], 'content')}>
+                <div style={{
+                    backgroundImage: `url(${backgroundImage})`,
+                    backgroundRepeat: 'no-repeat',
+                    backgroundPosition: 'center',
+                    backgroundSize:'cover'
+                    }}
+                    className={createStyle([styles, customStyles], 'content')}>
                     {children}
                 </div>
             </div>

@@ -2,6 +2,8 @@ const sanitize = require('mongo-sanitize')
 
 module.exports = documents => {
 
+    console.log('test')
+
     if(Array.isArray(documents)){
 
         return documents.map(d => getDto(d))
@@ -12,13 +14,7 @@ module.exports = documents => {
 
     function getDto(document){
 
-        let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
-
-        try {
-            nameRequestDto = require('../../../../custom/dto/response/name')
-        } catch {
-            nameRequestDto = require('../../../../default/dto/response/name')
-        }
+        let emailRequestDto, settingsRequestDto, profileRequestDto
 
         try {
             emailRequestDto = require('../../../../custom/dto/response/email')
@@ -27,15 +23,9 @@ module.exports = documents => {
         }
 
         try {
-            phoneRequestDto = require('../../../../custom/dto/response/phone')
+            profileRequestDto = require('../../../../custom/dto/response/user/profile')
         } catch {
-            phoneRequestDto = require('../../../../default/dto/response/phone')
-        }
-
-        try {
-            addressRequestDto = require('../../../../custom/dto/response/address')
-        } catch {
-            addressRequestDto = require('../../../../default/dto/response/address')
+            profileRequestDto = require('../../../../default/dto/response/user/profile')
         }
 
         try {
@@ -47,16 +37,10 @@ module.exports = documents => {
         const {
             _id,
             username,
-            name,
             email,
-            emails,
-            phone,
-            phones,
-            address,
-            addresses,
             roles,
             settings,
-            profilePicture,
+            profile,
             password,
             newPassword,
             repeatPassword,
@@ -65,16 +49,10 @@ module.exports = documents => {
         return {
             _id,
             username,
-            name:nameRequestDto(name),
             email,
-            phone,
-            address,
-            emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
-            addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
             roles,
             settings:settings && settingsRequestDto(settings),
-            profilePicture,
+            profile:profile && profileRequestDto(profile),
             password,
             newPassword,
             repeatPassword,

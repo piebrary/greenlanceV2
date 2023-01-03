@@ -1,3 +1,8 @@
+import { useContext } from 'react'
+
+import { LanguageContext } from '../../../default/contexts/LanguageContext'
+import { UserContext } from '../../../default/contexts/UserContext'
+
 import { BiHome } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import { VscSettings } from 'react-icons/vsc'
@@ -25,7 +30,10 @@ import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { HiOutlineLogout } from 'react-icons/hi'
 
-export default function Menu({ userData, hasRole, applyTranslation }){
+export default function Menu(){
+
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
+    const { hasRole } = useContext(UserContext)
 
     return [
         [

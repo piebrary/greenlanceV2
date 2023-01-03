@@ -57,7 +57,7 @@ export default function ConfirmView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('CONFIRM_DIALOG')}
             controls={<Controls />}
             >

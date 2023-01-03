@@ -178,8 +178,8 @@ export default function Invoices(){
     return (
         <Layout
             className={styles.container}
-            items={Menu({ userData, hasRole, applyTranslation, createTranslation })}
-            title={applyTranslation('INVOICES')}
+            items={Menu()}
+            title={applyTranslation('Menu.INVOICES')}
             logo={<Logo />}
             controls={<Controls />}
             >

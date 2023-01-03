@@ -41,7 +41,7 @@ export default function Documentation(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('DOCUMENTATION')}
             controls={<Controls />}
             >

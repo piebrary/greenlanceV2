@@ -25,7 +25,7 @@ export default function Dashboard(){
     return (
         <Layout
             className={styles.container}
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('DASHBOARD')}
             controls={<Controls />}
             >

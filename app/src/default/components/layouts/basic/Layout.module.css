@@ -4,6 +4,7 @@
     flex-direction: column;
     min-height: fit-content;
     overflow-y: hidden;
+    background-color: var(--colorGreyLighter);
     /* height: 100vh;
     overflow: visible; */
 }
@@ -24,6 +25,8 @@
     display: flex;
     gap: 10px;
     flex-direction: column;
+    /* min-width: 100%; */
+    /* max-width: 100%; */
     /* max-height: 100vh; */
     /* max-height: calc(100vh - var(--menuHeight)); */
 }
@@ -69,6 +72,7 @@
 
 .header {
     display: none;
+
 }
 
 .items {
@@ -110,6 +114,7 @@
     margin: var(--menuGroupMargin);
     display: block;
     padding-left: var(--menuGroupPaddingLeft);
+    padding-right: var(--menuGroupPaddingLeft);
 }
 
 .group:first-child {
@@ -130,8 +135,9 @@
     text-decoration: none;
     display: inline-block;
     width: fit-content;
-    margin: var(--menuItemMargin);
-    background-color: var(--menuItemBackgroundColor);
+    /* width: 100%; */
+    /* margin: var(--menuItemMargin); */
+    /* background-color: var(--menuItemBackgroundColor); */
     border-radius: var(--menuItemBorderRadius);
     padding: var(--menuItemPadding);
 }
@@ -146,8 +152,8 @@
     text-decoration: none;
     display: inline-block;
     width: fit-content;
-    margin: var(--menuItemMargin);
-    background-color: var(--menuItemBackgroundColor);
+    /* margin: var(--menuItemMargin); */
+    /* background-color: var(--menuItemBackgroundColor); */
     border-radius: var(--menuItemBorderRadius);
     padding: var(--menuItemPadding);
     color: var(--menuItemColorHover);
@@ -156,17 +162,17 @@
 .itemIcon {
     display: none;
     height: var(--menuItemIconHeight);
+    margin-right: 10px;
 }
 
 .itemText {
     display: inline-block;
-    padding-top: var(--menuItemTextPaddingTop);
+    padding: var(--menuItemTextPadding);
 }
 
 .logo, .logo * {
     display: flex;
-    min-width: fit-content;
-    width: var(--menuLogoWidth);
+    max-width: fit-content;
     height: var(--menuHeight);
 }
 
@@ -226,6 +232,15 @@
         color: var(--headerColor);
         height: var(--menuHeight);
         border-bottom: 1px solid var(--colorGreyLighter);
+        z-index: 10;
+    }
+
+    .headerItems {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        max-width: calc(var(--layoutMaxWidth) - var(--menuWidth));
+        width: 100%;
         padding: 0px 20px;
     }
 
@@ -238,26 +253,30 @@
     }
 
     .content {
-        width: 100%;
-        max-width: var(--layoutMaxWidth);
-        min-height: fit-content;
+        /* width: calc(100% - var(--menuWidth)); */
+        max-width: calc(var(--layoutMaxWidth) - var(--menuWidth));
+        min-height: calc(100vh - var(--menuHeight));
     }
 
     .logo * {
         border-bottom: 2px solid var(--menuBackgroundColor);
+        max-width: var(--menuWidth);
+        width: 100%;
     }
 
-    .logo, .logo * {
-        width: var(--menuWidth);
+    .logo {
         height: var(--menuHeight);
+        max-width: var(--menuWidth);
+        width: var(--menuWidth);
+        min-width: var(--menuWidth);
     }
 
     .group:first-child {
-        margin-top: var(--menuGroupMarginTopFirstChild);
+        /* margin-top: var(--menuGroupMarginTopFirstChild); */
     }
 
     .group {
-        margin-top: var(--menuGroupMarginTop);
+        /* margin-top: var(--menuGroupMarginTop); */
         padding-left: var(--menuGroupPaddingLeft);
     }
 
@@ -289,19 +308,21 @@
     }
 
     .item {
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
         display: flex;
         align-items: center;
         overflow-wrap: anywhere;
         line-height: 20px;
+        width: 100%;
     }
 
     .itemIsActive {
-        margin-bottom: 10px;
+        /* margin-bottom: 10px; */
         display: flex;
         align-items: center;
         overflow-wrap: anywhere;
         line-height: 20px;
+        width: 100%;
     }
 
     .itemIcon {
@@ -309,7 +330,7 @@
     }
 
     .itemText {
-        padding-left: 6px;
+        padding: var(--menuItemTextPadding);
     }
 
     .toggle {
@@ -322,8 +343,13 @@
 
     .items {
         display: block;
+        /* min-height: calc(100vh - var(--menuHeight));
+        height: 100%; */
+        height: fit-content;
         min-height: calc(100vh - var(--menuHeight));
-        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
     }
 
     .logout {

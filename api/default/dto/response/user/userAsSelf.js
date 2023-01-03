@@ -10,66 +10,60 @@ module.exports = documents => {
 
     function getDto(document){
 
-        let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+        let nameResponseDto, emailResponseDto, settingsResponseDto, profileResponseDto
 
         try {
-            nameRequestDto = require('../../../../custom/dto/response/name')
+            nameResponseDto = require('../../../../custom/dto/response/name')
         } catch {
-            nameRequestDto = require('../../../../default/dto/response/name')
+            nameResponseDto = require('../../../../default/dto/response/name')
         }
 
         try {
-            emailRequestDto = require('../../../../custom/dto/response/email')
+            emailResponseDto = require('../../../../custom/dto/response/email')
         } catch {
-            emailRequestDto = require('../../../../default/dto/response/email')
+            emailResponseDto = require('../../../../default/dto/response/email')
         }
 
         try {
-            phoneRequestDto = require('../../../../custom/dto/response/phone')
+            phoneResponseDto = require('../../../../custom/dto/response/phone')
         } catch {
-            phoneRequestDto = require('../../../../default/dto/response/phone')
+            phoneResponseDto = require('../../../../default/dto/response/phone')
         }
 
         try {
-            addressRequestDto = require('../../../../custom/dto/response/address')
+            addressResponseDto = require('../../../../custom/dto/response/address')
         } catch {
-            addressRequestDto = require('../../../../default/dto/response/address')
+            addressResponseDto = require('../../../../default/dto/response/address')
         }
 
         try {
-            settingsRequestDto = require('../../../../custom/dto/response/user/settings')
+            settingsResponseDto = require('../../../../custom/dto/response/user/settings')
         } catch {
-            settingsRequestDto = require('../../../../default/dto/response/user/settings')
+            settingsResponseDto = require('../../../../default/dto/response/user/settings')
+        }
+
+        try {
+            profileResponseDto = require('../../../../custom/dto/response/user/profile')
+        } catch {
+            profileResponseDto = require('../../../../default/dto/response/user/profile')
         }
 
         const {
             _id,
             username,
-            name,
             email,
-            emails,
-            phone,
-            phones,
-            address,
-            addresses,
             roles,
             settings,
-            profilePicture,
+            profile,
         } = document
 
         return {
             _id,
             username,
-            name:name && nameRequestDto(name),
             email,
-            phone,
-            address,
-            emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
-            addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
             roles,
-            settings:settings && settingsRequestDto(settings),
-            profilePicture,
+            settings:settings && settingsResponseDto(settings),
+            profile:profile && profileResponseDto(profile),
         }
     }
 

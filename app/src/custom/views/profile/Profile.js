@@ -22,23 +22,23 @@ import styles from './Profile.module.css'
 
 export default function Profile(){
 
-    const { applyTranslation } = useContext(LanguageContext)
+    const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, hasRole, saveUserData, getProfilePicture } = useContext(UserContext)
 
     const onSubmit = data => saveUserData(data)
 
     const defaultValues = {
         username:userData.username,
-        'name.first':userData.name.first,
-        'name.last':userData.name.last,
+        'profile.name.first':userData.profile.name.first,
+        'profile.name.last':userData.profile.name.last,
     }
 
 
     return (
         <Layout
             className={styles.container}
-            items={Menu({ userData, hasRole, applyTranslation })}
-            title={applyTranslation('PROFILE')}
+            items={Menu()}
+            title={applyTranslation('Menu.PROFILE')}
             controls={<Controls />}
             >
             <Card
@@ -66,16 +66,16 @@ export default function Profile(){
                             />
                         <Input
                             label={applyTranslation('FIRSTNAME')}
-                            name={'name.first'}
+                            name={'profile.name.first'}
                             type={'text'}
                             customStyles={applyStyles([styles], 'inputField')}
                             shouldRegister
                             />
                         <Input
                             label={applyTranslation('LASTNAME')}
-                            name={'name.last'}
+                            name={'profile.name.last'}
                             type={'text'}
-                            defaultValue={userData.name.last}
+                            defaultValue={userData.profile.name.last}
                             shouldRegister
                             customStyles={applyStyles([styles], 'inputField')}
                             />

@@ -44,7 +44,7 @@ export default function theme(options){
     /* menu */
     const menuWidth = '250px'
     const menuHeight = '50px'
-    const menuBackgroundColor = colorGreyDarkest
+    const menuBackgroundColor = 'rgb(36, 39, 41)'
     const menuLogoWidth = '100px'
     const menuTitleColor = colorGreyDarkest
     const menuTitleBackgroundColor = colorWhite

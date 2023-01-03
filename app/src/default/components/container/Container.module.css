@@ -1,0 +1,37 @@
+.container {
+    width: 100%;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    transition: var(--componentButtonTransition);
+    cursor: pointer;
+    user-select: none;
+    font-size: 18px;
+    font-weight: 500;
+    margin-left: 10px;
+    margin-bottom: 14px;
+}
+
+.title:hover {
+    color: var(--colorPrimary3);
+    transition: var(--componentButtonTransition);
+}
+
+.arrow {
+    margin-left: 20px;
+}
+
+.childrenOpened {
+    height: fit-content;
+    margin-bottom: 40px;
+}
+
+.childrenClosed {
+    height: 0px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--colorGreyLight);
+    margin-bottom: 20px;
+}

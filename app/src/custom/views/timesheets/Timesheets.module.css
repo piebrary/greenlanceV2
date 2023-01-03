@@ -9,9 +9,10 @@
 .timesheetCardContent {
     display: flex;
     flex-direction: row;
-    gap: 10px;
-    justify-content: space-between;
+    gap: 20px;
+    justify-content: space-around;
     width: 100%;
+    flex-wrap: wrap;
 }
 
 .timesheetInput_container {
@@ -33,4 +34,8 @@
     gap: 10px;
     display: flex;
     flex-direction: column;
+}
+
+.cardIntro_body {
+    word-break: break-word;
 }

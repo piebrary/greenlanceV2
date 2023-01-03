@@ -213,7 +213,7 @@ export default function Users(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('USERS')}
             controls={<Controls />}
             >

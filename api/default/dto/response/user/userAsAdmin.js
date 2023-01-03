@@ -10,66 +10,42 @@ module.exports = documents => {
 
     function getDto(document){
 
-        let nameRequestDto, emailRequestDto, phoneRequestDto, addressRequestDto, settingsRequestDto
+        let emailResponseDto, settingsResponseDto, profileResponseDto
 
         try {
-            nameRequestDto = require('../../../../custom/dto/response/name')
+            emailResponseDto = require('../../../../custom/dto/response/email')
         } catch {
-            nameRequestDto = require('../../../../default/dto/response/name')
+            emailResponseDto = require('../../../../default/dto/response/email')
         }
 
         try {
-            emailRequestDto = require('../../../../custom/dto/response/email')
+            settingsResponseDto = require('../../../../custom/dto/response/user/settings')
         } catch {
-            emailRequestDto = require('../../../../default/dto/response/email')
+            settingsResponseDto = require('../../../../default/dto/response/user/settings')
         }
 
         try {
-            phoneRequestDto = require('../../../../custom/dto/response/phone')
+            profileResponseDto = require('../../../../custom/dto/response/user/profile')
         } catch {
-            phoneRequestDto = require('../../../../default/dto/response/phone')
-        }
-
-        try {
-            addressRequestDto = require('../../../../custom/dto/response/address')
-        } catch {
-            addressRequestDto = require('../../../../default/dto/response/address')
-        }
-
-        try {
-            settingsRequestDto = require('../../../../custom/dto/response/user/settings')
-        } catch {
-            settingsRequestDto = require('../../../../default/dto/response/user/settings')
+            profileResponseDto = require('../../../../default/dto/response/user/profile')
         }
 
         const {
             _id,
             username,
-            name,
             email,
-            emails,
-            phone,
-            phones,
-            address,
-            addresses,
             roles,
             settings,
-            profilePicture,
+            profile,
         } = document
 
         return {
             _id,
             username,
-            name:nameRequestDto(name),
             email,
-            phone,
-            address,
-            emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
-            phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),
-            addresses:addresses && Array.isArray(addresses) && addresses.map(obj => addressRequestDto(obj)),
             roles,
-            settings:settings && settingsRequestDto(settings),
-            profilePicture,
+            settings:settings && settingsResponseDto(settings),
+            profile:profile && profileResponseDto(profile),
         }
     }
 

@@ -83,34 +83,23 @@ module.exports = async server => {
 
     }
 
-    async function createBusiness(req){
+    async function createBusiness(_id, businessName){
 
         try {
-
-            // const currentUserDoc = await getCurrentUser(req)
-            // if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
-
-            const businessDto = businessAsSelfRequestDto(req.body)
-
-            const businessWithIdenticalName = await BusinessModel.findOne({ name:businessDto.name })
-
-            if(businessWithIdenticalName) return errorHandler(409, 'A business with that name already exists')
 
             let response
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                businessDto.creator = req.user._id
+                const newBusinessDoc = new BusinessModel()
 
-                const newBusinessDoc = new BusinessModel(businessDto)
-
-                newBusinessDoc.users.push(req.user._id)
+                newBusinessDoc.users.push(_id)
+                newBusinessDoc.name = businessName
 
                 const newMutationDoc = new MutationModel({
-                    user:req.user._id,
-                    action:'create',
-                    data:businessDto
+                    user:_id,
+                    action:'create client',
                 })
 
                 newBusinessDoc.mutations.push(newMutationDoc._id)

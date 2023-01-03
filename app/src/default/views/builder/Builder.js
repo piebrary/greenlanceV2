@@ -28,7 +28,7 @@ export default function Builder(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('Builder')}
             controls={<Controls />}
             >

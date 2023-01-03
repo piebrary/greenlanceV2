@@ -51,7 +51,7 @@ export default function CardView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('CARD')}
             controls={<Controls />}
             >

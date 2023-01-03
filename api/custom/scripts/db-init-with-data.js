@@ -337,7 +337,7 @@ module.exports = (async () => {
             username:'admin2',
             newPassword:'password1',
             repeatPassword:'password1',
-            currentPassword:'password1',
+            password:'password1',
             email:'admin2@greenlance.nl',
             roles:['admin'],
         })

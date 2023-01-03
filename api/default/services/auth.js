@@ -32,7 +32,8 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
-                roles:providedRoles
+                roles:providedRoles,
+                profile
             } = userAsSelfRequestDto(req.body)
 
             if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
@@ -49,7 +50,8 @@ module.exports = async server => {
                     username,
                     passwordHash,
                     email,
-                    roles:userRoles
+                    roles:userRoles,
+                    profile
                 })
 
                 const newMutationDoc = new MutationModel({
@@ -58,7 +60,8 @@ module.exports = async server => {
                     data:{
                         username,
                         email,
-                        roles:userRoles
+                        roles:userRoles,
+                        profile
                     }
                 })
 

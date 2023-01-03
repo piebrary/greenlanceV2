@@ -35,6 +35,7 @@ module.exports = async server => {
             if(!currentUserDoc) return notFoundHandler('User')
 
             const currentUserDocDto = userAsSelfResponseDto(currentUserDoc)
+
             return successHandler(undefined, currentUserDocDto)
 
         } catch (error) {
@@ -141,8 +142,9 @@ module.exports = async server => {
                 email,
                 newPassword,
                 repeatPassword,
-                currentPassword,
-                roles
+                password,
+                roles,
+                profile
             } = userAsAdminRequestDto(req.body)
 
             const adjustedRoles = []
@@ -165,7 +167,7 @@ module.exports = async server => {
 
             }
 
-            const matchingCurrentPasswords = await passwordsMatch(currentPassword, currentUserDoc.passwordHash)
+            const matchingCurrentPasswords = await passwordsMatch(password, currentUserDoc.passwordHash)
 
             if (!matchingCurrentPasswords) return errorHandler(406, 'Wrong password')
 
@@ -182,7 +184,8 @@ module.exports = async server => {
                     username,
                     email,
                     passwordHash,
-                    roles:adjustedRoles
+                    roles:adjustedRoles,
+                    profile
                 })
 
                 const newMutationDoc = new MutationModel({
@@ -191,7 +194,8 @@ module.exports = async server => {
                     data:{
                         username,
                         email,
-                        roles:adjustedRoles
+                        roles:adjustedRoles,
+                        profile
                     }
                 })
 
@@ -314,13 +318,8 @@ module.exports = async server => {
 
             const {
                 _id,
-                name,
                 email,
-                phone,
-                address,
-                emails,
-                phones,
-                addresses,
+                profile,
                 settings,
                 password,
                 roles,
@@ -367,14 +366,14 @@ module.exports = async server => {
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                if(name) userDoc.name = name
                 if(email) userDoc.email = email
                 if(roles && currentUserDoc.isAdmin) userDoc.roles = adjustedRoles
-                if(phone) userDoc.phone = phone
-                if(address) userDoc.address = address
-                if(emails) userDoc.emails = emails
-                if(phones) userDoc.phones = phones
-                if(addresses) userDoc.addresses = addresses
+                if(profile?.name) userDoc.profile.name = profile?.name
+                if(profile?.phone) userDoc.profile.phone = profile?.phone
+                if(profile?.address) userDoc.profile.address = profile?.address
+                if(profile?.emails) userDoc.profile.emails = profile?.emails
+                if(profile?.phones) userDoc.profile.phones = profile?.phones
+                if(profile?.addresses) userDoc.profile.addresses = profile?.addresses
                 if(settings) userDoc.settings = settings
 
                 const newMutationDoc = new MutationModel({
@@ -384,11 +383,12 @@ module.exports = async server => {
                         username:userDoc.username,
                         email,
                         roles:adjustedRoles,
-                        phone,
-                        address,
-                        emails,
-                        phones,
-                        addresses,
+                        name:profile?.name,
+                        name:profile?.phone,
+                        name:profile?.address,
+                        name:profile?.emails,
+                        name:profile?.phones,
+                        name:profile?.addresses,
                         settings,
                     }
                 })
@@ -450,9 +450,9 @@ module.exports = async server => {
             const filename = await fileUpload.save(req.file.buffer)
 
             // delete old profile picture
-            if(userDoc.profilePicture){
+            if(userDoc.profile.picture){
 
-                fs.unlink(profilePicturePath + userDoc.profilePicture, error => {
+                fs.unlink(profilePicturePath + userDoc.profile.picture, error => {
 
                     if(error) {
 
@@ -467,7 +467,7 @@ module.exports = async server => {
 
             }
 
-            userDoc.profilePicture = filename
+            userDoc.profile.picture = filename
 
             const result = await userDoc.save()
 
@@ -507,7 +507,7 @@ module.exports = async server => {
             // delete old profile picture
             if(userDoc.profilePicture){
 
-                fs.unlink(profilePicturePath + userDoc.profilePicture, error => {
+                fs.unlink(profilePicturePath + userDoc.profile.picture, error => {
 
                     if(error) {
 
@@ -522,7 +522,7 @@ module.exports = async server => {
 
             }
 
-            userDoc.profilePicture = filename
+            userDoc.profile.picture = filename
 
             const result = await userDoc.save()
 

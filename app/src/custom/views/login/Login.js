@@ -5,7 +5,7 @@ import { AuthenticationContext } from '../../../default/contexts/AuthenticationC
 import { passwordResetRequest, register } from '../../../default/services/AuthenticationService'
 
 import { LoginSchema } from '../../../default/schemas/Login'
-import { RegisterSchema } from '../../../default/schemas/Register'
+import { RegisterSchema } from '../../../custom/schemas/Register'
 import { PasswordResetRequestSchema } from '../../../default/schemas/PasswordResetRequest'
 
 import Form from '../../../default/components/form/Form'
@@ -146,8 +146,8 @@ export default function Login(){
                                     required
                                     />
                                 <Radio
-                                    label={'Do you want to register as Freelancer or as a business?'}
-                                    name={'accountType'}
+                                    label={'Do you want to register as Freelancer or as a Client?'}
+                                    name={'businessType'}
                                     shouldRegister
                                     required
                                     options={[
@@ -161,6 +161,12 @@ export default function Login(){
                                             checked:false,
                                         },
                                     ]}
+                                    />
+                                <Input
+                                    label={'Business name'}
+                                    name={'businessName'}
+                                    shouldRegister
+                                    required
                                     />
                             </Form>
                             <div

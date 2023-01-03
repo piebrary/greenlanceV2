@@ -517,7 +517,7 @@ module.exports = async server => {
 
                 shiftDocument.withdrawn.push(req.user._id)
 
-                shiftDocument.timesheets = shiftDocument.timesheets.filter(timesheet => !timesheet.freelancer.equals(req.user._id))
+                shiftDocument.timesheets = shiftDocument.timesheets.filter(timesheet => !timesheet.freelancer.equals(currentFreelancerDoc._id))
 
                 const shiftDocAppliedIndex = shiftDocument.applied.indexOf(req.user._id)
                 if(shiftDocAppliedIndex > -1){
@@ -618,7 +618,7 @@ module.exports = async server => {
 
                 const newTimesheetDoc = new TimesheetModel({
                     shift:shiftDocument._id,
-                    freelancer:req.query.userId,
+                    freelancer:freelancerDoc._id,
                     business:currentBusinessDoc._id,
                     planned:shiftDocument.datetime,
                 })

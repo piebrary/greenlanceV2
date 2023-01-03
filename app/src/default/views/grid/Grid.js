@@ -27,7 +27,7 @@ export default function GridView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('GRID')}
             controls={<Controls />}
             >

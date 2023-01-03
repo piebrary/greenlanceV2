@@ -54,7 +54,7 @@ export default function ButtonView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('NOTIFICATIONS')}
             controls={<Controls />}
             >

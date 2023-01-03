@@ -23,6 +23,12 @@ module.exports = async server => {
     const FreelancerModel = require('../../custom/models/freelancer')
     const BusinessModel = require('../../custom/models/business')
 
+    const FreelancerService = require('./freelancer')
+    const freelancerService = await FreelancerService(server)
+
+    const BusinessService = require('./business')
+    const businessService = await BusinessService(server)
+
     // register function is only for self (public) registration
     // register by an admin of other user is handled in users service
 
@@ -35,11 +41,13 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
-                accountType,
+                businessType,
+                businessName
             } = userAsSelfRequestDto(req.body)
 
             if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
-            if(accountType === undefined) return errorHandler(400, 'An account type must be chosen')
+            if(businessType === undefined) return errorHandler(400, 'A business type must be chosen')
+            if(businessName === undefined) return errorHandler(400, 'A business name must be chosen')
 
             let response
 
@@ -52,28 +60,11 @@ module.exports = async server => {
                     username,
                     passwordHash,
                     email,
-                    roles:['user', accountType]
+                    roles:['user', businessType]
                 })
 
-                // let newFreelancerDoc
-                //
-                // if(accountType === 'freelancer'){
-                //
-                //     newFreelancerDoc = new FreelancerModel({
-                //         user:newUserDoc._id
-                //     })
-                //
-                // }
-                //
-                // let newBusinessDoc
-                //
-                // if(accountType === 'business'){
-                //
-                //     newBusinessDoc = new BusinessModel()
-                //
-                //     newBusinessDoc.users.push(newUserDoc._id)
-                //
-                // }
+                if(businessType === 'freelancer') freelancerService.createFreelancer(newUserDoc._id, businessName)
+                if(businessType === 'business') businessService.createBusiness(newUserDoc._id, businessName)
 
                 const newMutationDoc = new MutationModel({
                     user:newUserDoc._id,

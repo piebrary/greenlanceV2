@@ -148,32 +148,23 @@ module.exports = async server => {
 
     }
 
-    async function createFreelancer(req){
+    async function createFreelancer(_id, businessName){
 
         try {
-
-            // const currentUserDoc = await getCurrentUser(req)
-            // if(!currentUserDoc.roles.includes('freelancer')) return errorHandler(403, 'Forbidden')
-
-            const freelancerDto = freelancerAsSelfRequestDto(req.body)
-
-            const freelancerWithIdenticalName = await FreelancerModel.findOne({ name:freelancerDto.name })
-
-            if(freelancerWithIdenticalName) return errorHandler(409, 'A freelancer with that name already exists')
 
             let response
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                const newFreelancerDoc = new FreelancerModel(freelancerDto)
+                const newFreelancerDoc = new FreelancerModel()
 
-                newFreelancerDoc.users.push(req.user._id)
+                newFreelancerDoc.users.push(_id)
+                newFreelancerDoc.name = businessName
 
                 const newMutationDoc = new MutationModel({
-                    user:req.user._id,
+                    user:_id,
                     action:'create freelancer',
-                    data:freelancerDto
                 })
 
                 newFreelancerDoc.mutations.push(newMutationDoc._id)

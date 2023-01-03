@@ -49,7 +49,7 @@ export default function CalendarView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('CALENDAR')}
             controls={<Controls />}
             >

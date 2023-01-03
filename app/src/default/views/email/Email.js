@@ -74,7 +74,7 @@ export default function EmailView(){
 
     return (
         <Layout
-            items={Menu({ userData, hasRole, applyTranslation })}
+            items={Menu()}
             title={applyTranslation('EMAIL')}
             controls={<Controls />}
             >
