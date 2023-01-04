@@ -13,17 +13,13 @@ module.exports = documents => {
     function getDto(document){
 
         const {
-            _id,
-            client,
-            clientName,
-            timesheets,
+            type,
+            name,
         } = sanitize(document)
 
         return {
-            _id,
-            client,
-            clientName,
-            timesheets,
+            type,
+            name
         }
     }
 

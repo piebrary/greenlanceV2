@@ -21,13 +21,13 @@ module.exports = async server => {
     try { radioObjToString = require('../../custom/utils/radioObjToString') } catch { radioObjToString = require('../../default/utils/radioObjToString') }
 
     const FreelancerModel = require('../../custom/models/freelancer')
-    const BusinessModel = require('../../custom/models/business')
+    const ClientModel = require('../../custom/models/client')
 
     const FreelancerService = require('./freelancer')
     const freelancerService = await FreelancerService(server)
 
-    const BusinessService = require('./business')
-    const businessService = await BusinessService(server)
+    const ClientService = require('./client')
+    const clientService = await ClientService(server)
 
     // register function is only for self (public) registration
     // register by an admin of other user is handled in users service
@@ -41,13 +41,9 @@ module.exports = async server => {
                 email,
                 password,
                 repeatPassword,
-                businessType,
-                businessName
             } = userAsSelfRequestDto(req.body)
 
             if(password !== repeatPassword) return errorHandler(406, 'Passwords don\'t match')
-            if(businessType === undefined) return errorHandler(400, 'A business type must be chosen')
-            if(businessName === undefined) return errorHandler(400, 'A business name must be chosen')
 
             let response
 
@@ -60,11 +56,8 @@ module.exports = async server => {
                     username,
                     passwordHash,
                     email,
-                    roles:['user', businessType]
+                    roles:['user']
                 })
-
-                if(businessType === 'freelancer') freelancerService.createFreelancer(newUserDoc._id, businessName)
-                if(businessType === 'business') businessService.createBusiness(newUserDoc._id, businessName)
 
                 const newMutationDoc = new MutationModel({
                     user:newUserDoc._id,
@@ -78,7 +71,7 @@ module.exports = async server => {
                 newUserDoc.mutations.push(newMutationDoc._id)
 
                 // if(newFreelancerDoc) await newFreelancerDoc.save()
-                // if(newBusinessDoc) await newBusinessDoc.save()
+                // if(newClientDoc) await newClientDoc.save()
 
                 response = await newUserDoc.save()
                 await newMutationDoc.save()

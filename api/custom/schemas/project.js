@@ -9,9 +9,9 @@ module.exports = new Schema({
     description:{
         type: String
     },
-    business: {
+    client: {
         type: Schema.Types.ObjectId,
-        ref: 'Business'
+        ref: 'Client'
     },
     shifts:{
         type: [Schema.Types.ObjectId],

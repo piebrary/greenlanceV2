@@ -52,9 +52,9 @@ export default function Timesheets(){
 
             }
 
-            if(hasRole('business')){
+            if(hasRole('client')){
 
-                // get all shifts from business
+                // get all shifts from client
                 const response = await getShifts()
 
                 setShifts(
@@ -159,10 +159,10 @@ export default function Timesheets(){
     createTranslation('TimesheetView.INTRO', {
         en:(
             <p>
-                Here you can fill in the time {hasRole('freelancer') && 'you have actually worked' || hasRole('business') && 'the freelancer has worked'}. If the worked times don't match, you can choose to accept the time the {hasRole('freelancer') && 'business' || hasRole('business') && 'freelancer'} entered or contact the {hasRole('freelancer') && 'business' || hasRole('business') && 'freelancer'}. When the times match hours can be billed on the Invoices page and will disappear from this page.
+                Here you can fill in the time {hasRole('freelancer') && 'you have actually worked' || hasRole('client') && 'the freelancer has worked'}. If the worked times don't match, you can choose to accept the time the {hasRole('freelancer') && 'client' || hasRole('client') && 'freelancer'} entered or contact the {hasRole('freelancer') && 'client' || hasRole('client') && 'freelancer'}. When the times match hours can be billed on the Invoices page and will disappear from this page.
             </p>
         ),
-        nl:`Hier kun je de tijd invullen die ${hasRole('freelancer') && 'je hebt gewerkt' || hasRole('business') && 'de freelancer heeft gewerkt'}. Mochten de opgegeven tijden verschillen dan kun je ervoor kiezen de tijd die opgegeven is door de ${hasRole('freelancer') && 'opdrachtgever' || hasRole('business') && 'freelancer'} te accepteren of contact op te nemen met de ${hasRole('freelancer') && 'opdrachtgever' || hasRole('business') && 'freelancer'}. Wanneer de tijden kloppen kun je de uren factureren via de Facturen pagina en zullen ze verdwijnen van deze pagina.`
+        nl:`Hier kun je de tijd invullen die ${hasRole('freelancer') && 'je hebt gewerkt' || hasRole('client') && 'de freelancer heeft gewerkt'}. Mochten de opgegeven tijden verschillen dan kun je ervoor kiezen de tijd die opgegeven is door de ${hasRole('freelancer') && 'opdrachtgever' || hasRole('client') && 'freelancer'} te accepteren of contact op te nemen met de ${hasRole('freelancer') && 'opdrachtgever' || hasRole('client') && 'freelancer'}. Wanneer de tijden kloppen kun je de uren factureren via de Facturen pagina en zullen ze verdwijnen van deze pagina.`
     })
 
     createTranslation('TimesheetView.AT', {
@@ -190,9 +190,9 @@ export default function Timesheets(){
         nl:'Daadwerkelijk (freelancer)'
     })
 
-    createTranslation('TimesheetView.ACTUAL_BY_BUSINESS', {
-        en:'Actual (business)',
-        nl:'Daadwerkelijk (business)'
+    createTranslation('TimesheetView.ACTUAL_BY_CLIENT', {
+        en:'Actual (client)',
+        nl:'Daadwerkelijk (client)'
     })
 
     createTranslation('TimesheetView.NO_FREELANCER_TIMESHEETS_FOUND', {
@@ -225,7 +225,7 @@ export default function Timesheets(){
                 )
             }
             {
-                shifts.filter(shift => shift.timesheets.length > 0).length === 0 && hasRole('business') && (
+                shifts.filter(shift => shift.timesheets.length > 0).length === 0 && hasRole('client') && (
                     <Card customStyles={applyStyles([styles], ['cardIntro'])}>
                         {applyTranslation('TimesheetView.NO_CLIENT_TIMESHEETS_FOUND')}
                     </Card>
@@ -250,7 +250,7 @@ export default function Timesheets(){
                                         <Card
                                             key={key}
                                             className={styles.timesheetCard}
-                                            title={`${shift.name} ${applyTranslation('TimesheetView.AT')} ${shift.datetime.start} ${applyTranslation('TimesheetView.BY')} ${shift.business?.name || timesheet.freelancer?.name}`}
+                                            title={`${shift.name} ${applyTranslation('TimesheetView.AT')} ${shift.datetime.start} ${applyTranslation('TimesheetView.BY')} ${shift.client?.name || timesheet.freelancer?.name}`}
                                             description={`${applyTranslation('TimesheetView.STATUS')}: ` + timesheet.status}
                                             >
                                             <div
@@ -263,11 +263,11 @@ export default function Timesheets(){
                                                             timesheet.actualByFreelancer?.start
                                                             && timesheet.actualByFreelancer?.end
                                                             && timesheet.actualByFreelancer?.start
-                                                            && timesheet.actualByBusiness?.end
+                                                            && timesheet.actualByClient?.end
                                                         )
                                                         && (
-                                                            timesheet.actualByFreelancer?.start !== timesheet.actualByBusiness?.start
-                                                            || timesheet.actualByFreelancer?.end !== timesheet.actualByBusiness?.end
+                                                            timesheet.actualByFreelancer?.start !== timesheet.actualByClient?.start
+                                                            || timesheet.actualByFreelancer?.end !== timesheet.actualByClient?.end
                                                         )
                                                     )
                                                     && (
@@ -325,26 +325,26 @@ export default function Timesheets(){
                                                 </div>
                                                 <div className={styles.timesheetGroup}>
                                                     <div className={styles.timesheetTitle}>
-                                                        {applyTranslation('TimesheetView.ACTUAL_BY_BUSINESS')}
+                                                        {applyTranslation('TimesheetView.ACTUAL_BY_CLIENT')}
                                                     </div>
                                                     <div className={styles.timesheetValue}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByBusiness.start`}
+                                                            name={`timesheet[${index}].actualByClient.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByBusiness?.start}
+                                                            defaultValue={timesheet.actualByClient?.start}
                                                             onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
-                                                            readOnly={!hasRole('business') || timesheet.actualByBusiness?.start}
+                                                            readOnly={!hasRole('client') || timesheet.actualByClient?.start}
                                                             />
                                                     </div>
                                                     <div className={styles.timesheetValue}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByBusiness.end`}
+                                                            name={`timesheet[${index}].actualByClient.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByBusiness?.end}
+                                                            defaultValue={timesheet.actualByClient?.end}
                                                             onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
-                                                            readOnly={!hasRole('business') || timesheet.actualByBusiness?.end}
+                                                            readOnly={!hasRole('client') || timesheet.actualByClient?.end}
                                                             />
                                                     </div>
                                                 </div>

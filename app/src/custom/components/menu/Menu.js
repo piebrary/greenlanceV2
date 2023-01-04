@@ -2,7 +2,7 @@ import { useContext } from 'react'
 
 import { LanguageContext } from '../../../default/contexts/LanguageContext'
 import { UserContext } from '../../../default/contexts/UserContext'
-import { BusinessContext } from '../../../custom/contexts/BusinessContext'
+import { ClientContext } from '../../../custom/contexts/ClientContext'
 import { FreelancerContext } from '../../../custom/contexts/FreelancerContext'
 
 import { BiHome } from 'react-icons/bi'
@@ -42,7 +42,7 @@ export default function Menu(){
 
     const { applyTranslation, createTranslation } = useContext(LanguageContext)
     const { userData, hasRole } = useContext(UserContext)
-    const { businessData } = useContext(BusinessContext)
+    const { clientData } = useContext(ClientContext)
     const { freelancerData } = useContext(FreelancerContext)
 
     createTranslation('Menu.PROFILE', {
@@ -90,6 +90,11 @@ export default function Menu(){
         nl:'Persoonlijk'
     })
 
+    createTranslation('Menu.PERSONAL_PROFILE', {
+        en:'Personal profile',
+        nl:'Persoonlijk profiel'
+    })
+
     createTranslation('Menu.HELPDESK', {
         en:'Helpdesk',
         nl:'Helpdesk'
@@ -105,56 +110,58 @@ export default function Menu(){
         nl:'Contact'
     })
 
+    console.log(clientData, freelancerData)
+
     return [
         [
             {
                 label:(
                     <>
                         <p>{userData.username}</p>
-                        <p>{businessData?.name || freelancerData?.name}</p>
+                        <p>{clientData?.name || freelancerData?.name}</p>
                     </>
                 )
             }
         ],[
-            {
+            (hasRole('freelancer') || hasRole('client')) && {
                 label:<>{applyTranslation('Menu.BUSINESS')}</>
             },
-            {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/',
                 icon:<BiHome size={20} />,
                 text:applyTranslation('DASHBOARD')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/calendar',
                 icon:<BsCalendar2Week size={20} />,
                 text:applyTranslation('CALENDAR')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/shifts',
                 icon:<AiOutlineFileDone size={20} />,
                 text:applyTranslation('Menu.SHIFTS')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/timesheets',
                 icon:<BsClockHistory size={20} />,
                 text:applyTranslation('Menu.TIMESHEETS')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/invoices',
                 icon:<FaFileInvoiceDollar size={20} />,
                 text:applyTranslation('Menu.INVOICES')
             },
-            (hasRole('freelancer') || hasRole('business')) && {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/financials',
                 icon:<VscGraphLine size={20} />,
                 text:applyTranslation('Menu.FINANCIALS')
             },
-            {
+            (hasRole('freelancer') || hasRole('client')) && {
                 to:'/business-profile',
                 icon:<RiProfileLine size={20} />,
                 text:applyTranslation('Menu.BUSINESS_PROFILE'),
             },
-            hasRole('business') && {
+            hasRole('client') && {
                 to:'/projects',
                 icon:<AiOutlineFolderOpen size={20} />,
                 text:applyTranslation('Menu.PROJECTS'),
@@ -166,7 +173,7 @@ export default function Menu(){
             {
                 to:'/profile',
                 icon:<FaUser size={20} />,
-                text:applyTranslation('PROFILE')
+                text:applyTranslation('Menu.PERSONAL_PROFILE')
             },
             {
                 to:'/settings',

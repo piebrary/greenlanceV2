@@ -10,9 +10,9 @@ export const FreelancerContext = createContext({})
 export default function FreelancerContextProvider({ children }){
 
     const { authState } = useContext(AuthenticationContext)
-    const { hasRole } = useContext(UserContext)
+    const { userData, hasRole } = useContext(UserContext)
 
-    const [ freelancerData, setFreelancerData] = useState([])
+    const [ freelancerData, setFreelancerData] = useState()
 
     const contextData = {
         freelancerData
@@ -20,27 +20,34 @@ export default function FreelancerContextProvider({ children }){
 
     useEffect(() => {
 
-        if(authState === 'success' && hasRole('freelancer')){
+        if(authState === 'success' && hasRole('freelancer')) refreshFreelancer()
+        if(authState === 'failed') setFreelancerData()
 
-            ;(async () => {
+    }, [authState, userData])
 
-                try {
+    useEffect(() => {
 
-                    const response = await getFreelancer()
+        console.log(freelancerData, 'is removed')
+    }, [freelancerData])
 
-                    setFreelancerData(response.data)
+    async function refreshFreelancer(){
 
-                } catch (error) {
+        try {
 
-                    console.log(error)
+            const response = await getFreelancer()
 
-                }
+            setFreelancerData(response.data)
+             console.log('test')
 
-            })()
+        } catch (error) {
+
+            console.log(error)
+
+            setFreelancerData()
 
         }
 
-    }, [authState])
+    }
 
     return (
         <FreelancerContext.Provider value={contextData}>

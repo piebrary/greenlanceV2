@@ -20,7 +20,7 @@ module.exports = documents => {
             _id,
             name,
             freelancer,
-            business,
+            client,
             isSend,
             isPayed,
         } = document
@@ -29,7 +29,7 @@ module.exports = documents => {
             _id,
             name,
             freelancer,
-            business,
+            client,
             isSend,
             isPayed,
         }

@@ -9,7 +9,7 @@ import 'animate.css'
 import 'react-notifications-component/dist/theme.css'
 
 import FreelancerContextProvider from './contexts/FreelancerContext'
-import BusinessContextProvider from './contexts/BusinessContext'
+import ClientContextProvider from './contexts/ClientContext'
 
 import LoginView from '../custom/views/login/Login'
 import PasswordResetView from '../custom/views/passwordReset/PasswordReset'
@@ -27,6 +27,7 @@ import FinancialsView from '../custom/views/financials/Financials'
 import ProjectsView from '../custom/views/projects/Projects'
 import FaqView from '../custom/views/faq/Faq'
 import ContactView from '../custom/views/contact/Contact'
+import RegisterBusinessView from '../custom/views/registerBusiness/RegisterBusiness'
 
 import { AuthenticationContext } from '../default/contexts/AuthenticationContext'
 import { UserContext } from '../default/contexts/UserContext'
@@ -51,44 +52,81 @@ export default function App() {
     }, [pathname])
 
     return (
-        <FreelancerContextProvider>
-            <BusinessContextProvider>
-                <div id={'App'} className={styles.app}>
-                    <ReactNotifications
-                        isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
-                        breakpoint={currentTheme?.values?.layoutBreakpoint}
-                        />
-                    {
-                        authState === 'success'
-                        ?
-                            <Routes>
-                                    <Route path="/" element={<DashboardView />} />
-                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/calendar" element={<CalendarView />} /> }
-                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/shifts" element={<ShiftsView />} /> }
-                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/timesheets" element={<TimesheetsView />} /> }
-                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/invoices" element={<InvoicesView />} /> }
-                                    { (hasRole('freelancer') || hasRole('business')) && <Route path="/financials" element={<FinancialsView />} /> }
-                                    <Route path="/business-profile" element={<BusinessProfileView />} />
-                                    { hasRole('business') && <Route path="/projects" element={<ProjectsView />} /> }
-                                    <Route path="/profile" element={<ProfileView />} />
-                                    <Route path="/settings" element={<SettingsView />} />
-                                    { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
-                                    <Route path="/faq" element={<FaqView />} />
-                                    <Route path="/contact" element={<ContactView />} />
-                                    <Route path="/logout" element={<LogoutView />} />
-                                    <Route path="*" element={<Navigate to="/" />} />
-                            </Routes>
-                        : authState === 'failed'
-                        ?
-                            <Routes>
-                                <Route path="/login" element={<LoginView />} />
-                                <Route path="/passwordReset" element={<PasswordResetView />} />
-                                <Route path="*" element={<Navigate to="/login" />} />
-                            </Routes>
-                        : <></>
-                    }
-                </div>
-            </BusinessContextProvider>
-        </FreelancerContextProvider>
+        <div id={'App'} className={styles.app}>
+            <ReactNotifications
+                isMobile={currentTheme?.values?.layoutBreakpoint ? true : false}
+                breakpoint={currentTheme?.values?.layoutBreakpoint}
+                />
+            {
+                authState === 'success' && !hasRole('client') && !hasRole('freelancer') && !hasRole('admin') && (
+                    <Routes>
+                        <Route path="/register-business" element={<RegisterBusinessView />} />
+                        <Route path="/logout" element={<LogoutView />} />
+                        <Route path="*" element={<Navigate to="/register-business" />} />
+                    </Routes>
+                )
+            }
+            {
+                authState === 'success' && hasRole('client') && (
+                    <Routes>
+                        <Route path="/" element={<DashboardView />} />
+                        <Route path="/calendar" element={<CalendarView /> } />
+                        <Route path="/shifts" element={<ShiftsView /> } />
+                        <Route path="/timesheets" element={<TimesheetsView />} />
+                        <Route path="/invoices" element={<InvoicesView />} />
+                        <Route path="/financials" element={<FinancialsView />} />
+                        <Route path="/business-profile" element={<BusinessProfileView />} />
+                        <Route path="/projects" element={<ProjectsView />} />
+                        <Route path="/profile" element={<ProfileView />} />
+                        <Route path="/settings" element={<SettingsView />} />
+                        <Route path="/faq" element={<FaqView />} />
+                        <Route path="/contact" element={<ContactView />} />
+                        <Route path="/logout" element={<LogoutView />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                )
+            }
+            {
+                authState === 'success' && hasRole('freelancer') && (
+                    <Routes>
+                        <Route path="/" element={<DashboardView />} />
+                        <Route path="/calendar" element={<CalendarView /> } />
+                        <Route path="/shifts" element={<ShiftsView /> } />
+                        <Route path="/timesheets" element={<TimesheetsView />} />
+                        <Route path="/invoices" element={<InvoicesView />} />
+                        <Route path="/financials" element={<FinancialsView />} />
+                        <Route path="/business-profile" element={<BusinessProfileView />} />
+                        <Route path="/profile" element={<ProfileView />} />
+                        <Route path="/settings" element={<SettingsView />} />
+                        <Route path="/faq" element={<FaqView />} />
+                        <Route path="/contact" element={<ContactView />} />
+                        <Route path="/logout" element={<LogoutView />} />
+                        <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
+                )
+            }
+            {
+                authState === 'success' && hasRole('admin') && (
+                    <Routes>
+                        <Route path="/profile" element={<ProfileView />} />
+                        <Route path="/users" element={<UsersView />} />
+                        <Route path="/settings" element={<SettingsView />} />
+                        <Route path="/faq" element={<FaqView />} />
+                        <Route path="/contact" element={<ContactView />} />
+                        <Route path="/logout" element={<LogoutView />} />
+                        <Route path="*" element={<Navigate to="/profile" />} />
+                    </Routes>
+                )
+            }
+            {
+                authState === 'failed' && (
+                    <Routes>
+                        <Route path="/login" element={<LoginView />} />
+                        <Route path="/passwordReset" element={<PasswordResetView />} />
+                        <Route path="*" element={<Navigate to="/login" />} />
+                    </Routes>
+                )
+            }
+        </div>
     )
 }

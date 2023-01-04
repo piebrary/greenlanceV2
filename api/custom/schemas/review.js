@@ -9,7 +9,7 @@ module.exports = new Schema({
     subjectModel: {
         type: String,
         required: true,
-        enum: ['freelancer', 'business']
+        enum: ['freelancer', 'client']
     },
     reviewer: {
         type: Schema.Types.ObjectId,
@@ -19,7 +19,7 @@ module.exports = new Schema({
     reviewerModel: {
         type: String,
         required: true,
-        enum: ['freelancer', 'business']
+        enum: ['freelancer', 'client']
     },
     rating:{
         type: String,

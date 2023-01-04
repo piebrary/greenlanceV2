@@ -145,29 +145,6 @@ export default function Login(){
                                     shouldRegister
                                     required
                                     />
-                                <Radio
-                                    label={'Do you want to register as Freelancer or as a Client?'}
-                                    name={'businessType'}
-                                    shouldRegister
-                                    required
-                                    options={[
-                                        {
-                                            name:'freelancer',
-                                            label:'Freelancer',
-                                            checked:false,
-                                        },{
-                                            name:'business',
-                                            label:'Business',
-                                            checked:false,
-                                        },
-                                    ]}
-                                    />
-                                <Input
-                                    label={'Business name'}
-                                    name={'businessName'}
-                                    shouldRegister
-                                    required
-                                    />
                             </Form>
                             <div
                                 className={styles.underMenu}

@@ -13,8 +13,8 @@ module.exports = async server => {
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
-    const projectAsBusinessRequestDto = require('../../custom/dto/request/project/projectAsBusiness')
-    const projectAsBusinessResponseDto = require('../../custom/dto/response/project/projectAsBusiness')
+    const projectAsClientRequestDto = require('../../custom/dto/request/project/projectAsClient')
+    const projectAsClientResponseDto = require('../../custom/dto/response/project/projectAsClient')
 
     return {
         getProjects,
@@ -34,13 +34,13 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
-                const projectDocuments = await ProjectModel.find({ business:currentBusinessDoc._id })
+                const projectDocuments = await ProjectModel.find({ client:currentClientDoc._id })
 
-                const projectDocumentsDto = projectAsBusinessResponseDto(projectDocuments)
+                const projectDocumentsDto = projectAsClientResponseDto(projectDocuments)
 
                 return successHandler(undefined, projectDocumentsDto)
 
@@ -62,13 +62,13 @@ module.exports = async server => {
 
             if(!currentUserDoc) return notFoundHandler('User')
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
-                const projectDocument = await ProjectModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
+                const projectDocument = await ProjectModel.find({ _id:req.params._id, client:currentClientDoc._id })
 
-                const projectDocumentDto = projectAsBusinessResponseDto(projectDocument)
+                const projectDocumentDto = projectAsClientResponseDto(projectDocument)
 
                 return successHandler(undefined, projectDocumentDto)
 
@@ -87,12 +87,12 @@ module.exports = async server => {
         try {
 
             const currentUserDoc = await getCurrentUser(req)
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            const currentClientDoc = await getCurrentClient(req)
 
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
-            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+            if(!currentClientDoc) return errorHandler(403, 'Forbidden')
+            if(!currentUserDoc.roles.includes('client')) return errorHandler(403, 'Forbidden')
 
-            const projectDto = projectAsBusinessRequestDto(req.body)
+            const projectDto = projectAsClientRequestDto(req.body)
 
             let response
 
@@ -118,7 +118,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const newProjectDocDto = projectAsBusinessResponseDto(response)
+            const newProjectDocDto = projectAsClientResponseDto(response)
 
             return successHandler(undefined, newProjectDocDto)
 
@@ -136,9 +136,9 @@ module.exports = async server => {
 
             const currentUserDoc = await getCurrentUser(req)
 
-            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+            if(!currentUserDoc.roles.includes('client')) return errorHandler(403, 'Forbidden')
 
-            const projectDto = projectAsBusinessRequestDto(req.body)
+            const projectDto = projectAsClientRequestDto(req.body)
 
             const projectDoc = await ProjectModel.findOne({ _id:req.params._id })
 
@@ -169,7 +169,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const projectDocDto = projectAsBusinessResponseDto(response)
+            const projectDocDto = projectAsClientResponseDto(response)
 
             return successHandler(undefined, projectDocDto)
 
@@ -183,13 +183,13 @@ module.exports = async server => {
 
     async function deleteProjectById(req){
 
-        // only for business
+        // only for client
 
         try {
 
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            const currentClientDoc = await getCurrentClient(req)
 
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
+            if(!currentClientDoc) return errorHandler(403, 'Forbidden')
 
             const projectDocument = await ProjectModel.findOneAndDelete({ _id:req.params._id })
 

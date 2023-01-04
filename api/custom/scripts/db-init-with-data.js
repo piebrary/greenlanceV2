@@ -90,33 +90,33 @@ module.exports = (async () => {
 
     }
 
-    async function createBusiness(credentials, data){
+    async function createClient(credentials, data){
 
         await login(credentials.username, credentials.password)
 
         const result = await axios({
             method:'post',
-            url:url + '/v1/s/business',
+            url:url + '/v1/s/client',
             data:data
         })
 
-        console.log('created business', result.data)
+        console.log('created client', result.data)
 
         return result.data
 
     }
 
-    async function addUserToBusiness(credentials, data){
+    async function addUserToClient(credentials, data){
 
         await login(credentials.username, credentials.password)
 
         const result = await axios({
             method:'post',
-            url:url + '/v1/s/business/user',
+            url:url + '/v1/s/client/user',
             data:data
         })
 
-        console.log('created business', result.data)
+        console.log('created client', result.data)
 
         return result.data
 
@@ -214,7 +214,7 @@ module.exports = (async () => {
 
     }
 
-    let UserModel, EventModel, FreelancerModel, BusinessModel, ReviewModel, ProjectModel, ShiftModel, MutationModel, encryptPassword, db
+    let UserModel, EventModel, FreelancerModel, ClientModel, ReviewModel, ProjectModel, ShiftModel, MutationModel, encryptPassword, db
 
     try {
 
@@ -237,9 +237,9 @@ module.exports = (async () => {
         }
 
         try {
-            BusinessModel = require('../../custom/models/business')
+            ClientModel = require('../../custom/models/client')
         } catch {
-            BusinessModel = require('../../default/models/business')
+            ClientModel = require('../../default/models/client')
         }
 
         try {
@@ -299,8 +299,8 @@ module.exports = (async () => {
         await FreelancerModel.collection?.dropIndexes()
         await FreelancerModel.collection?.drop()
 
-        await BusinessModel.collection?.dropIndexes()
-        await BusinessModel.collection?.drop()
+        await ClientModel.collection?.dropIndexes()
+        await ClientModel.collection?.drop()
 
         await ReviewModel.collection?.dropIndexes()
         await ReviewModel.collection?.drop()
@@ -342,54 +342,54 @@ module.exports = (async () => {
             roles:['admin'],
         })
 
-        // create users which will belong to employer businesses
+        // create users which will belong to employer clientes
 
         const user1 = await register({
             username:'user1',
             password:'password1',
             repeatPassword:'password1',
-            email:'user1@business1.nl',
+            email:'user1@client1.nl',
             roles:['user'],
-            accountType:'business'
+            businessType:'client',
         })
 
         const user2 = await register({
             username:'user2',
             password:'password1',
             repeatPassword:'password1',
-            email:'user2@business1.nl',
+            email:'user2@client1.nl',
             roles:['user'],
-            accountType:'business'
+            businessType:'client'
         })
 
         const user3 = await register({
             username:'user3',
             password:'password1',
             repeatPassword:'password1',
-            email:'user3@business1.nl',
+            email:'user3@client1.nl',
             roles:['user'],
-            accountType:'business'
+            businessType:'client'
         })
 
         const user4 = await register({
             username:'user4',
             password:'password1',
             repeatPassword:'password1',
-            email:'user4@business2.nl',
+            email:'user4@client2.nl',
             roles:['user'],
-            accountType:'business'
+            businessType:'client'
         })
 
         const user5 = await register({
             username:'user5',
             password:'password1',
             repeatPassword:'password1',
-            email:'user5@business2.nl',
+            email:'user5@client2.nl',
             roles:['user'],
-            accountType:'business'
+            businessType:'client'
         })
 
-        // create users which will belong to freelance businesses
+        // create users which will belong to freelance clientes
 
         const user6 = await register({
             username:'user6',
@@ -397,7 +397,7 @@ module.exports = (async () => {
             repeatPassword:'password1',
             email:'user6@freelancer1.nl',
             roles:['user'],
-            accountType:'freelancer'
+            businessType:'freelancer'
         })
 
         const user7 = await register({
@@ -406,7 +406,7 @@ module.exports = (async () => {
             repeatPassword:'password1',
             email:'user7@freelancer2.nl',
             roles:['user'],
-            accountType:'freelancer'
+            businessType:'freelancer'
         })
 
         const user8 = await register({
@@ -415,7 +415,7 @@ module.exports = (async () => {
             repeatPassword:'password1',
             email:'user8@freelancer3.nl',
             roles:['user'],
-            accountType:'freelancer'
+            businessType:'freelancer'
         })
 
         const user9 = await register({
@@ -424,7 +424,7 @@ module.exports = (async () => {
             repeatPassword:'password1',
             email:'user9@freelancer4.nl',
             roles:['user'],
-            accountType:'freelancer'
+            businessType:'freelancer'
         })
 
         const user10 = await register({
@@ -433,35 +433,35 @@ module.exports = (async () => {
             repeatPassword:'password1',
             email:'user10@freelancer5.nl',
             roles:['user'],
-            accountType:'freelancer'
+            businessType:'freelancer'
         })
 
-        // create businesses
+        // create clientes
 
-        await createBusiness({
+        await createClient({
             username:'user1',
             password:'password1'
         },{
-            name:'business1',
+            name:'client1',
         })
 
-        await createBusiness({
+        await createClient({
             username:'user4',
             password:'password1'
         },{
-            name:'business2',
+            name:'client2',
         })
 
-        // add user to business
+        // add user to client
 
-        await addUserToBusiness({
+        await addUserToClient({
             username:'user1',
             password:'password1'
         },{
             user:user2._id,
         })
 
-        await addUserToBusiness({
+        await addUserToClient({
             username:'user4',
             password:'password1'
         },{

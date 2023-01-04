@@ -85,7 +85,7 @@ export default function Shifts(){
 
         ;(async () => {
 
-            if(hasRole('business') && selectedShift){
+            if(hasRole('client') && selectedShift){
 
                 try {
 
@@ -169,15 +169,15 @@ export default function Shifts(){
                 if(timeframe === 'past' && shift.datetime.end < (new Date()).toISOString()) return shift
             })
             .filter(shift => {
-                if(hasRole('business')) return shift
+                if(hasRole('client')) return shift
                 if(hasRole('freelancer') && shiftTypes.includes('available') && shift.applied.length < shift.positions) return shift
                 if(hasRole('freelancer') && shiftTypes.includes('applied') && shift.applied.includes(freelancerData._id)) return shift
                 if(hasRole('freelancer') && shiftTypes.includes('enrolled') && shift.enrolled.includes(freelancerData._id)) return shift
             })
             .filter(shift => {
                 if(hasRole('freelancer')) return shift
-                if(hasRole('business') && shiftStates.includes('fullfilled') && shift.enrolled?.length === shift.positions) return shift
-                if(hasRole('business') && shiftStates.includes('unfullfilled') && shift.enrolled?.length < shift.positions) return shift
+                if(hasRole('client') && shiftStates.includes('fullfilled') && shift.enrolled?.length === shift.positions) return shift
+                if(hasRole('client') && shiftStates.includes('unfullfilled') && shift.enrolled?.length < shift.positions) return shift
             })
             .filter(shift => {
                 if(JSON.stringify(shift).includes(searchInput)) return shift
@@ -529,7 +529,7 @@ export default function Shifts(){
                                     )
                                 }
                                 {
-                                    hasRole('business') && (
+                                    hasRole('client') && (
                                         <Checkbox
                                             name={'shiftTypes'}
                                             customStyles={applyStyles([styles], 'shiftsHeaderElement')}
@@ -558,7 +558,7 @@ export default function Shifts(){
                             >
                             {`Displaying ${filteredShifts.length} of ${shifts.length} shifts`}
                             {
-                                hasRole('business') && (
+                                hasRole('client') && (
                                     <Button
                                         label={'Create Shift'}
                                         customStyles={applyStyles([styles], 'createShiftButton')}
@@ -630,7 +630,7 @@ export default function Shifts(){
                 )
             }
             {
-                viewMode === 'view shift' && hasRole('business') && (
+                viewMode === 'view shift' && hasRole('client') && (
                     <Button
                         label={applyTranslation('EDIT')}
                         onClick={evt => {
@@ -754,7 +754,7 @@ export default function Shifts(){
                             </Form>
                         </Card>
                         {
-                            hasRole('business') && shiftDetails && (
+                            hasRole('client') && shiftDetails && (
                                 <>
                                     Freelancer applications:
                                     {
@@ -766,7 +766,7 @@ export default function Shifts(){
                                                 <Card
                                                     key={key}
                                                     >
-                                                    Business: {sd.name}
+                                                    Client: {sd.name}
                                                     Rating: {sd.rating || 'Not yet rated'}
                                                     Status: {sd.status}
                                                     {sd.status === 'applied' && <Button label={'Accept'} onClick={() => accept(sd._id)} />}

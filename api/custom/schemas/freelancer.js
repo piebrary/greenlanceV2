@@ -20,7 +20,7 @@ module.exports = new Schema({
             type: String
         },
     }],
-    businessInfo: {
+    info: {
         kvk: {
             type: String
         },
@@ -47,9 +47,9 @@ module.exports = new Schema({
         type: [Schema.Types.ObjectId],
         ref: 'Review',
     },
-    connectedBusinesses: {
+    connections: {
         type: [Schema.Types.ObjectId],
-        ref: 'Business',
+        ref: 'Client',
     },
     applied: {
         type: [Schema.Types.ObjectId],

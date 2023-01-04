@@ -24,7 +24,7 @@ module.exports = documents => {
             freelancer,
             planned,
             actualByFreelancer,
-            actualByBusiness,
+            actualByClient,
         } = sanitize(document)
 
         return {
@@ -33,7 +33,7 @@ module.exports = documents => {
             freelancer,
             planned:planned && datetimeRequestDto(planned),
             actualByFreelancer:actualByFreelancer && datetimeRequestDto(actualByFreelancer),
-            actualByBusiness:actualByBusiness && datetimeRequestDto(actualByBusiness),
+            actualByClient:actualByClient && datetimeRequestDto(actualByClient),
         }
     }
 

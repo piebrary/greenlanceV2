@@ -12,7 +12,7 @@ module.exports = new Schema({
     description: {
         type: String,
     },
-    businessInfo: {
+    info: {
         kvk: {
             type: String
         },

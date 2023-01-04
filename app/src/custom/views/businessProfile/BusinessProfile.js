@@ -9,6 +9,8 @@ import Form from '../../../default/components/form/Form'
 import Layout from '../../../default/components/layouts/basic/Layout'
 import Card from '../../../default/components/card/Card'
 import Select from '../../../default/components/formElements/select/Select'
+import Radio from '../../../default/components/formElements/radio/Radio'
+import Input from '../../../default/components/formElements/input/Input'
 import Button from '../../../default/components/button/Button'
 import ImageUploader from '../../../default/components/imageUploader/ImageUploader'
 import Controls from '../../../default/components/controls/Controls'
@@ -40,13 +42,7 @@ export default function BusinessProfile(){
                 customStyles={applyStyles([styles], 'card1')}
                 >
                 <div className={styles.formContainer}>
-                    {
-                        (hasRole('freelancer') || hasRole('business')) && (
-                            <>
-                                You are a {hasRole('freelancer') && 'freelancer' || hasRole('business') && 'business'}!
-                            </>
-                        )
-                    }
+                    You are a {hasRole('freelancer') && 'freelancer' || hasRole('client') && 'client'}!
                 </div>
             </Card>
         </Layout>

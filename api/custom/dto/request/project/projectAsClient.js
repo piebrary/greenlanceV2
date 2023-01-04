@@ -42,7 +42,7 @@ module.exports = documents => {
             _id,
             name,
             description,
-            business,
+            client,
             shifts,
             label,
             datetime:datetimeRequestDto(datetime),

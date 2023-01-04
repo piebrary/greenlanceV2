@@ -12,7 +12,7 @@ module.exports = [
         permissions:[]
     },
     {
-        name:'business',
+        name:'client',
         permissions:[]
     },
 ]

@@ -11,61 +11,42 @@ export default function UserContextProvider({ children }){
 
     const { authState, setAuthState, authenticate, isAuthenticated, setIsAuthenticated } = useContext(AuthenticationContext)
 
-    const [id, setId] = useState()
-    const [username, setUsername] = useState()
-    const [name, setName] = useState()
-    const [email, setEmail] = useState()
-    const [phone, setPhone] = useState()
-    const [address, setAddress] = useState()
-    const [roles, setRoles] = useState([])
-    const [settings, setSettings] = useState()
-    const [profilePicture, setProfilePicture] = useState()
     const [userData, setUserData] = useState()
 
     const contextData = {
-        id,
-        username,
-        name,
-        email,
-        phone,
-        address,
-        roles,
         hasRole,
-        settings,
-        profilePicture,
         saveUserData,
         userData,
         uploadProfilePicture,
         getUsers,
         postUser,
         delUser,
+        refreshUser,
     }
 
     useEffect(() => {
 
-        if(isAuthenticated){
+        if(isAuthenticated) refreshUser()
 
-            ;(async () => {
+    }, [isAuthenticated])
 
-                try {
+    async function refreshUser(){
 
-                    const response = await getUser()
+        try {
 
-                    setUser(response.data)
+            const response = await getUser()
 
-                } catch (error) {
+            setUser(response.data)
 
-                    console.log(error)
+        } catch (error) {
 
-                    unsetUser()
+            console.log(error)
 
-                }
-
-            })()
+            unsetUser()
 
         }
 
-    }, [isAuthenticated])
+    }
 
     useEffect(() => {
 
@@ -81,16 +62,6 @@ export default function UserContextProvider({ children }){
 
         setUserData(data)
 
-        setId(data._id)
-        setUsername(data.username)
-        setName(data.name)
-        setEmail(data.email)
-        setPhone(data.phone)
-        setAddress(data.address)
-        setRoles(data.roles)
-
-        setSettings(data.settings)
-
         setAuthState('success')
 
     }
@@ -98,16 +69,6 @@ export default function UserContextProvider({ children }){
     async function unsetUser(){
 
         setUserData(undefined)
-
-        setId(undefined)
-        setUsername(undefined)
-        setName(undefined)
-        setEmail(undefined)
-        setPhone(undefined)
-        setAddress(undefined)
-        setRoles(undefined)
-
-        setSettings(undefined)
 
         setAuthState('failed')
 
@@ -122,7 +83,7 @@ export default function UserContextProvider({ children }){
 
             const response = await putUser(data)
 
-            if(response.data._id === id){
+            if(response.data._id === userData.id){
 
                 setUser(response.data)
 
@@ -162,7 +123,7 @@ export default function UserContextProvider({ children }){
 
     function hasRole(role){
 
-        return roles.includes(role)
+        return userData.roles.includes(role)
 
     }
 

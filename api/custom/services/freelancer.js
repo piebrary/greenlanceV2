@@ -6,20 +6,22 @@ module.exports = async server => {
     let UserModel, MutationModel, FreelancerModel, notFoundHandler, successHandler, errorHandler, getCurrentUser
 
     try { UserModel = require('../../custom/models/user') } catch { UserModel = require('../../default/models/user') }
-    try { BusinessModel = require('../../custom/models/business') } catch { BusinessModel = require('../../default/models/business') }
+    try { ClientModel = require('../../custom/models/client') } catch { ClientModel = require('../../default/models/client') }
     try { MutationModel = require('../../custom/models/mutation') } catch { MutationModel = require('../../default/models/mutation') }
     try { FreelancerModel = require('../../custom/models/freelancer') } catch { FreelancerModel = require('../../default/models/freelancer') }
     try { notFoundHandler = require('../../custom/handlers/notFound') } catch { notFoundHandler = require('../../default/handlers/notFound') }
     try { successHandler = require('../../custom/handlers/success') } catch { successHandler = require('../../default/handlers/success') }
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
+    try { userAsSelfResponseDto = require('../../custom/dto/response/user/userAsSelf') } catch { userAsSelfResponseDto = require('../../default/dto/response/user/userAsSelf') }
 
     const freelancerAsSelfRequestDto = require('../../custom/dto/request/freelancer/freelancerAsSelf')
     const freelancerAsSelfResponseDto = require('../../custom/dto/response/freelancer/freelancerAsSelf')
-    const freelancerAsBusinessRequestDto = require('../../custom/dto/request/freelancer/freelancerAsBusiness')
-    const freelancerAsBusinessResponseDto = require('../../custom/dto/response/freelancer/freelancerAsBusiness')
+    const freelancerAsClientRequestDto = require('../../custom/dto/request/freelancer/freelancerAsClient')
+    const freelancerAsClientResponseDto = require('../../custom/dto/response/freelancer/freelancerAsClient')
+    const businessAsAllRequestDto = require('../../custom/dto/request/business/businessAsAll')
 
-    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentClient = require('../../custom/utils/getCurrentClient')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
@@ -66,15 +68,15 @@ module.exports = async server => {
 
             const user_id = req.user._id
 
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            const currentClientDoc = await getCurrentClient(req)
 
-            if(!currentBusinessDoc) return notFoundHandler('User')
+            if(!currentClientDoc) return notFoundHandler('User')
 
-            const freelancerDocuments = await BusinessModel
+            const freelancerDocuments = await ClientModel
                 .find({ users:req.user._id })
                 .populate('freelancers')
 
-            const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
+            const freelancerDocumentsDto = freelancerAsClientResponseDto(freelancerDocuments)
 
             return successHandler(undefined, freelancerDocumentsDto)
 
@@ -95,15 +97,15 @@ module.exports = async server => {
             if(!currentUserDoc) return notFoundHandler('User')
 
             if(
-                currentUserDoc.roles.includes('business')
+                currentUserDoc.roles.includes('client')
                 || currentUserDoc.roles.includes('admin')
             ){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
-                const freelancerDocument = await FreelancerModel.find({ _id:req.params._id, business:currentBusinessDoc._id })
+                const freelancerDocument = await FreelancerModel.find({ _id:req.params._id, client:currentClientDoc._id })
 
-                const freelancerDocumentDto = freelancerAsBusinessResponseDto(freelancerDocument)
+                const freelancerDocumentDto = freelancerAsClientResponseDto(freelancerDocument)
 
                 return successHandler(undefined, freelancerDocumentDto)
 
@@ -126,13 +128,13 @@ module.exports = async server => {
             if(!currentUserDoc) return notFoundHandler('User')
 
             if(
-                currentUserDoc.roles.includes('business')
+                currentUserDoc.roles.includes('client')
                 || currentUserDoc.roles.includes('admin')
             ){
 
                 const freelancerDocuments = await FreelancerModel.find({ _id:req.body.ids })
 
-                const freelancerDocumentsDto = freelancerAsBusinessResponseDto(freelancerDocuments)
+                const freelancerDocumentsDto = freelancerAsClientResponseDto(freelancerDocuments)
 
                 return successHandler(undefined, freelancerDocumentsDto)
 
@@ -148,9 +150,14 @@ module.exports = async server => {
 
     }
 
-    async function createFreelancer(_id, businessName){
+    async function createFreelancer(req){
 
         try {
+
+            const {
+                type,
+                name
+            } = businessAsAllRequestDto(req.body)
 
             let response
 
@@ -159,26 +166,38 @@ module.exports = async server => {
 
                 const newFreelancerDoc = new FreelancerModel()
 
-                newFreelancerDoc.users.push(_id)
-                newFreelancerDoc.name = businessName
+                newFreelancerDoc.users.push(req.user._id)
+                newFreelancerDoc.name = name
 
                 const newMutationDoc = new MutationModel({
-                    user:_id,
+                    user:req.user._id,
                     action:'create freelancer',
                 })
 
                 newFreelancerDoc.mutations.push(newMutationDoc._id)
 
-                response = await newFreelancerDoc.save()
+                await newFreelancerDoc.save()
                 await newMutationDoc.save()
+
+                const currentUser = await getCurrentUser(req)
+
+                currentUser.roles.push('freelancer')
+
+                const newCurrentUserMutationDoc = new MutationModel({
+                    user:req.user._id,
+                    action:'add freelancer role',
+                })
+
+                response = await currentUser.save()
+                await newCurrentUserMutationDoc.save()
 
             })
 
             session.endSession()
 
-            const newFreelancerDocDto = freelancerAsSelfResponseDto(response)
+            const newUserDocDto = userAsSelfResponseDto(response)
 
-            return successHandler(undefined, newFreelancerDocDto)
+            return successHandler(undefined, newUserDocDto)
 
         } catch (error) {
 
@@ -194,7 +213,7 @@ module.exports = async server => {
     //
     //         const currentUserDoc = await getCurrentUser(req)
     //
-    //         if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+    //         if(!currentUserDoc.roles.includes('client')) return errorHandler(403, 'Forbidden')
     //
     //         const freelancerDto = freelancerRequestDto(req.body)
     //
@@ -227,7 +246,7 @@ module.exports = async server => {
     //
     //         session.endSession()
     //
-    //         const freelancerDocDto = freelancerAsBusinessResponseDto(response)
+    //         const freelancerDocDto = freelancerAsClientResponseDto(response)
     //
     //         return successHandler(undefined, freelancerDocDto)
     //

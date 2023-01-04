@@ -5,10 +5,10 @@ module.exports = new Schema({
         type: String,
         required: true,
     },
-    business:{
+    client:{
         type: Schema.Types.ObjectId,
         required: true,
-        ref: 'Business'
+        ref: 'Client'
     },
     freelancer:{
         type: Schema.Types.ObjectId,

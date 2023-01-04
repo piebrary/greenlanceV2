@@ -17,7 +17,7 @@ module.exports = async server => {
     const ShiftModel = require('../../custom/models/shift')
     const FreelancerModel = require('../../custom/models/freelancer')
     const TimesheetModel = require('../../custom/models/timesheet')
-    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentClient = require('../../custom/utils/getCurrentClient')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
@@ -54,12 +54,12 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
                 const timesheetDocuments = await TimesheetModel
-                    .find({ business:currentBusinessDoc._id })
+                    .find({ client:currentClientDoc._id })
 
                 const timesheetDocumentsDto = timesheetAsAllResponseDto(timesheetDocuments)
 
@@ -97,8 +97,8 @@ module.exports = async server => {
                         status:'accepted'
                     })
                     .populate({
-                        path:'business',
-                        model:'Business',
+                        path:'client',
+                        model:'Client',
                         select:'name'
                     })
 
@@ -108,14 +108,14 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
-                if(!currentBusinessDoc) return notFoundHandler('Business')
+                const currentClientDoc = await getCurrentClient(req)
+                if(!currentClientDoc) return notFoundHandler('Client')
 
                 const timesheets = await TimesheetModel
                     .find({
-                        business:currentBusinessDoc._id,
+                        client:currentClientDoc._id,
                         status:'accepted'
                     })
                     .populate({
@@ -152,7 +152,7 @@ module.exports = async server => {
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-                const timesheetDocument = await TimesheetModel.findOne({ _id:req.params._id, business:currentFreelancerDoc.businesses })
+                const timesheetDocument = await TimesheetModel.findOne({ _id:req.params._id, client:currentFreelancerDoc.clientes })
 
                 const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
 
@@ -160,12 +160,12 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
                 const timesheetDocument = await TimesheetModel
-                    .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
+                    .findOne({ _id:req.params._id, client:currentClientDoc._id })
                     .populate('applied enrolled withdrawn')
 
                 const timesheetDocumentDto = timesheetAsAllResponseDto(timesheetDocument)
@@ -220,19 +220,19 @@ module.exports = async server => {
 
                 }
 
-                if(currentUserDoc.roles.includes('business')){
+                if(currentUserDoc.roles.includes('client')){
 
-                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByBusiness:req.body })
+                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByClient:req.body })
 
                     // update actual time of timeshift with value { start } or { end }
-                    if(timesheetRequestDto.actualByBusiness?.start) timesheetDocument.actualByBusiness.start = timesheetRequestDto.actualByBusiness?.start
-                    if(timesheetRequestDto.actualByBusiness?.end) timesheetDocument.actualByBusiness.end = timesheetRequestDto.actualByBusiness?.end
+                    if(timesheetRequestDto.actualByClient?.start) timesheetDocument.actualByClient.start = timesheetRequestDto.actualByClient?.start
+                    if(timesheetRequestDto.actualByClient?.end) timesheetDocument.actualByClient.end = timesheetRequestDto.actualByClient?.end
 
                 }
 
                 if(
-                    timesheetDocument.actualByFreelancer?.start?.toString() === timesheetDocument.actualByBusiness?.start?.toString()
-                    && timesheetDocument.actualByFreelancer?.end?.toString() === timesheetDocument.actualByBusiness?.end?.toString()
+                    timesheetDocument.actualByFreelancer?.start?.toString() === timesheetDocument.actualByClient?.start?.toString()
+                    && timesheetDocument.actualByFreelancer?.end?.toString() === timesheetDocument.actualByClient?.end?.toString()
                 ){
 
                     timesheetDocument.status = 'accepted'
@@ -290,11 +290,11 @@ module.exports = async server => {
                         timesheetDocument.actualByFreelancer?.start
                         && timesheetDocument.actualByFreelancer?.end
                         && timesheetDocument.actualByFreelancer?.start
-                        && timesheetDocument.actualByBusiness?.end
+                        && timesheetDocument.actualByClient?.end
                     )
                     && (
-                        timesheetDocument.actualByFreelancer?.start !== timesheetDocument.actualByBusiness?.start
-                        || timesheetDocument.actualByFreelancer?.end !== timesheetDocument.actualByBusiness?.end
+                        timesheetDocument.actualByFreelancer?.start !== timesheetDocument.actualByClient?.start
+                        || timesheetDocument.actualByFreelancer?.end !== timesheetDocument.actualByClient?.end
                     )
                 ){
 

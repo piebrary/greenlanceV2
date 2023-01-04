@@ -12,7 +12,9 @@ let App,
     UserContextProvider,
     LanguageContextProvider,
     VisualsContextProvider,
-    RolesContextProvider
+    RolesContextProvider,
+    FreelancerContextProvider,
+    ClientContextProvider
 
 App = require('./custom/App').default
 
@@ -23,6 +25,9 @@ try { LanguageContextProvider = require('./custom/contexts/LanguageContext').def
 try { VisualsContextProvider = require('./custom/contexts/VisualsContext').default } catch { VisualsContextProvider = require('./default/contexts/VisualsContext').default }
 try { RolesContextProvider = require('./custom/contexts/RolesContext').default } catch { RolesContextProvider = require('./default/contexts/RolesContext').default }
 
+FreelancerContextProvider = require('./custom/contexts/FreelancerContext').default
+ClientContextProvider = require('./custom/contexts/ClientContext').default
+
 createRoot(
     document.getElementById('root')
 ).render(
@@ -32,9 +37,13 @@ createRoot(
                 <VisualsContextProvider>
                     <LanguageContextProvider>
                         <RolesContextProvider>
-                            <Router>
-                                <App />
-                            </Router>
+                            <FreelancerContextProvider>
+                                <ClientContextProvider>
+                                    <Router>
+                                        <App />
+                                    </Router>
+                                </ClientContextProvider>
+                            </FreelancerContextProvider>
                         </RolesContextProvider>
                     </LanguageContextProvider>
                 </VisualsContextProvider>

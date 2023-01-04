@@ -23,11 +23,4 @@ export const RegisterSchema = yup
         repeatPassword:yup
             .string()
             .oneOf([yup.ref('password'), null], '* Passwords must match'),
-        businessType:yup
-            .string()
-            .required('* Business type is required')
-            .nullable(),
-        businessName:yup
-            .string()
-            .required('* Business name is required'),
     })

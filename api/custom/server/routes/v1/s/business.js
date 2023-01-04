@@ -5,64 +5,7 @@ module.exports = async server => {
     const { express } = server
 
     const BusinessService = require('../../../../../custom/services/business')
-
     const businessService = await BusinessService(server)
-
-    express.get(
-        process.env.API_PREFIX + '/v1/s/business',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await businessService.getBusiness(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    express.get(
-        process.env.API_PREFIX + '/v1/s/business/:_id',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await businessService.getBusinessById(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
-
-    // express.put(
-    //     process.env.API_PREFIX + '/v1/s/business/:_id',
-    //     passport.authenticate('jwt', { session: false }),
-    //     async (req, res) => {
-    //
-    //         const result = await businessService.updateBusinessById(req)
-    //
-    //         res
-    //             .status(result.status)
-    //             .send(result.body)
-    //
-    //     }
-    // )
-
-    express.post(
-        process.env.API_PREFIX + '/v1/s/business/user',
-        passport.authenticate('jwt', { session: false }),
-        async (req, res) => {
-
-            const result = await businessService.addUserToBusiness(req)
-
-            res
-                .status(result.status)
-                .send(result.body)
-
-        }
-    )
 
     express.post(
         process.env.API_PREFIX + '/v1/s/business',
@@ -78,16 +21,16 @@ module.exports = async server => {
         }
     )
 
-    express.delete(
-        process.env.API_PREFIX + '/v1/s/business/:_id',
+    express.get(
+        process.env.API_PREFIX + '/v1/s/business/connect/:businessName',
         passport.authenticate('jwt', { session: false }),
         async (req, res) => {
 
-            const result = await businessService.deleteBusinessById(req)
+            const result = await businessService.requestBusinessConnection(req)
 
             res
                 .status(result.status)
-                .end()
+                .send(result.body)
 
         }
     )

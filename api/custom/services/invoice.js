@@ -23,13 +23,13 @@ module.exports = async server => {
     const timesheetAsAllResponseDto = require('../../custom/dto/response/timesheet/timesheetAsAll')
     const invoiceAsFreelancerRequestDto = require('../../custom/dto/request/invoice/invoiceAsFreelancer')
     const invoiceAsFreelancerResponseDto = require('../../custom/dto/response/invoice/invoiceAsFreelancer')
-    const invoiceAsBusinessRequestDto = require('../../custom/dto/request/invoice/invoiceAsBusiness')
-    const invoiceAsBusinessResponseDto = require('../../custom/dto/response/invoice/invoiceAsBusiness')
+    const invoiceAsClientRequestDto = require('../../custom/dto/request/invoice/invoiceAsClient')
+    const invoiceAsClientResponseDto = require('../../custom/dto/response/invoice/invoiceAsClient')
     const ShiftModel = require('../../custom/models/shift')
     const FreelancerModel = require('../../custom/models/freelancer')
     const TimesheetModel = require('../../custom/models/timesheet')
     const InvoiceModel = require('../../custom/models/invoice')
-    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentClient = require('../../custom/utils/getCurrentClient')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
@@ -56,8 +56,8 @@ module.exports = async server => {
                 const invoices = await InvoiceModel
                     .find({ freelancer:freelancerDocument._id })
                     .populate({
-                        path:'business',
-                        model:'Business',
+                        path:'client',
+                        model:'Client',
                         select:'name'
                     })
 
@@ -67,20 +67,20 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const businessDocument = await BusinessModel
+                const clientDocument = await ClientModel
                     .findOne({ users:req.user._id })
 
                 const invoices = await InvoiceModel
-                    .find({ business:businessDocument._id })
+                    .find({ client:clientDocument._id })
                     .populate({
                         path:'freelancer',
                         model:'Freelancer',
                         select:'name'
                     })
 
-                const invoiceDocumentsDto = invoiceAsBusinessResponseDto(invoices)
+                const invoiceDocumentsDto = invoiceAsClientResponseDto(invoices)
 
                 return successHandler(undefined, invoiceDocumentsDto)
 
@@ -116,8 +116,8 @@ module.exports = async server => {
                         status:'accepted'
                     })
                     .populate({
-                        path:'business',
-                        model:'Business',
+                        path:'client',
+                        model:'Client',
                         select:'name'
                     })
 
@@ -127,14 +127,14 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
-                if(!currentBusinessDoc) return notFoundHandler('Business')
+                const currentClientDoc = await getCurrentClient(req)
+                if(!currentClientDoc) return notFoundHandler('Client')
 
                 const timesheets = await TimesheetModel
                     .find({
-                        business:currentBusinessDoc._id,
+                        client:currentClientDoc._id,
                         status:'accepted'
                     })
                     .populate({
@@ -143,7 +143,7 @@ module.exports = async server => {
                         select:'name'
                     })
 
-                const timesheetDocumentsDto = timesheetAsBusinessResponseDto(timesheets)
+                const timesheetDocumentsDto = timesheetAsClientResponseDto(timesheets)
 
                 return successHandler(undefined, timesheetDocumentsDto)
 
@@ -176,7 +176,7 @@ module.exports = async server => {
             const timesheetDocuments = await TimesheetModel
                 .find({
                     _id:invoiceRequestDto.timesheets,
-                    business:invoiceRequestDto.business,
+                    client:invoiceRequestDto.client,
                     freelancer:freelancerDoc._id
                 })
                 .populate({
@@ -188,7 +188,7 @@ module.exports = async server => {
             // for all timesheets calculate hours * amount
             const totalHoursAmount = timesheetDocuments.map(timesheet => {
 
-                const timespanInMS = new Date(timesheet.actualByBusiness.end).getTime() - new Date(timesheet.actualByBusiness.start).getTime()
+                const timespanInMS = new Date(timesheet.actualByClient.end).getTime() - new Date(timesheet.actualByClient.start).getTime()
 
                 return {
                     hours:Math.floor(timespanInMS / 1000 / 60 / 60),
@@ -198,9 +198,9 @@ module.exports = async server => {
             })
 
             const invoiceDocument = await InvoiceModel({
-                name:`${invoiceRequestDto.businessName}_${Date.now()}.pdf`,
+                name:`${invoiceRequestDto.clientName}_${Date.now()}.pdf`,
                 freelancer:freelancerDoc._id,
-                business:invoiceRequestDto.business,
+                client:invoiceRequestDto.client,
                 timesheets:invoiceRequestDto.timesheets,
                 hours:totalHoursAmount.map(total => total.hours).reduce((a, b) => a + b, 0),
                 amount:totalHoursAmount.map(total => total.hours * total.price).reduce((a, b) => a + b, 0),
@@ -243,9 +243,9 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const invoiceResponseDto = invoiceAsBusinessResponseDto(invoiceDocument)
+                const invoiceResponseDto = invoiceAsClientResponseDto(invoiceDocument)
 
                 return successHandler(undefined, invoiceResponseDto)
 

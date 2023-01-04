@@ -9,9 +9,9 @@ module.exports = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Freelancer',
     },
-    business:{
+    client:{
         type: Schema.Types.ObjectId,
-        ref: 'Business',
+        ref: 'Client',
     },
     planned: {
         start: {

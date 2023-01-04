@@ -22,7 +22,7 @@ module.exports = documents => {
             freelancer,
             planned,
             actualByFreelancer,
-            actualByBusiness,
+            actualByClient,
             status,
         } = document
 
@@ -34,7 +34,7 @@ module.exports = documents => {
             freelancer,
             planned:planned && datetimeRequestDto(planned),
             actualByFreelancer:actualByFreelancer && datetimeRequestDto(actualByFreelancer),
-            actualByBusiness:actualByBusiness && datetimeRequestDto(actualByBusiness),
+            actualByClient:actualByClient && datetimeRequestDto(actualByClient),
             status,
         }
     }

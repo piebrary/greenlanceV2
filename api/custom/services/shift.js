@@ -14,14 +14,14 @@ module.exports = async server => {
     try { errorHandler = require('../../custom/handlers/error') } catch { errorHandler = require('../../default/handlers/error') }
     try { getCurrentUser = require('../../custom/utils/getCurrentUser') } catch { getCurrentUser = require('../../default/utils/getCurrentUser') }
 
-    const shiftAsBusinessRequestDto = require('../../custom/dto/request/shift/shiftAsBusiness')
+    const shiftAsClientRequestDto = require('../../custom/dto/request/shift/shiftAsClient')
     const shiftAsFreelancerResponseDto = require('../../custom/dto/response/shift/shiftAsFreelancer')
-    const shiftAsBusinessResponseDto = require('../../custom/dto/response/shift/shiftAsBusiness')
+    const shiftAsClientResponseDto = require('../../custom/dto/response/shift/shiftAsClient')
     const ShiftModel = require('../../custom/models/shift')
-    const BusinessModel = require('../../custom/models/business')
+    const ClientModel = require('../../custom/models/client')
     const FreelancerModel = require('../../custom/models/freelancer')
     const TimesheetModel = require('../../custom/models/timesheet')
-    const getCurrentBusiness = require('../../custom/utils/getCurrentBusiness')
+    const getCurrentClient = require('../../custom/utils/getCurrentClient')
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
@@ -56,8 +56,8 @@ module.exports = async server => {
 
                 const shiftDocuments = await ShiftModel
                     .find()
-                // use below line when enabling connected freelancers and businesses
-                // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
+                // use below line when enabling connected freelancers and clientes
+                // const shiftDocuments = await ShiftModel.find({ client:currentFreelancerDoc.clientes })
 
                 const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, req.user._id)
 
@@ -65,12 +65,12 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
                 const shiftDocuments = await ShiftModel
-                    .find({ business:currentBusinessDoc._id })
+                    .find({ client:currentClientDoc._id })
                     // .populate('applied enrolled withdrawn declined')
                     .populate([
                         {
@@ -100,7 +100,7 @@ module.exports = async server => {
                         }
                     ])
 
-                const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
+                const shiftDocumentsDto = shiftAsClientResponseDto(shiftDocuments)
 
                 return successHandler(undefined, shiftDocumentsDto)
 
@@ -132,19 +132,19 @@ module.exports = async server => {
                 const enrolledDocs = await FreelancerModel
                     .findOne({ user:req.user._id })
                     .select('enrolled')
-                    // .populate('enrolled', 'datetime enrolled timesheets business')
+                    // .populate('enrolled', 'datetime enrolled timesheets client')
                     .populate({
                         path:'enrolled',
                         model: 'Shift',
-                        select: 'datetime enrolled timesheets business',
+                        select: 'datetime enrolled timesheets client',
                         populate: [{
-                            path: 'business',
-                            model: 'Business',
+                            path: 'client',
+                            model: 'Client',
                             select: 'name'
                         },{
                             path: 'timesheets',
                             model: 'Timesheet',
-                            select: 'shift freelancer planned actualByBusiness actualByFreelancer accepted disputed status'
+                            select: 'shift freelancer planned actualByClient actualByFreelancer accepted disputed status'
                         }]
                     })
 
@@ -186,8 +186,8 @@ module.exports = async server => {
                         }
                     }
                 })
-                // use below line when enabling connected freelancers and businesses
-                // const shiftDocuments = await ShiftModel.find({ business:currentFreelancerDoc.businesses })
+                // use below line when enabling connected freelancers and clientes
+                // const shiftDocuments = await ShiftModel.find({ client:currentFreelancerDoc.clientes })
 
                 const shiftDocumentsDto = shiftAsFreelancerResponseDto(shiftDocuments, req.user._id)
 
@@ -195,14 +195,14 @@ module.exports = async server => {
 
             }
 
-            // if(currentUserDoc.roles.includes('business')){
+            // if(currentUserDoc.roles.includes('client')){
             //
-            //     const currentBusinessDoc = await getCurrentBusiness(req)
+            //     const currentClientDoc = await getCurrentClient(req)
             //
             //     const shiftDocuments = await ShiftModel
-            //         .find({ business:currentBusinessDoc._id })
+            //         .find({ client:currentClientDoc._id })
             //
-            //     const shiftDocumentsDto = shiftAsBusinessResponseDto(shiftDocuments)
+            //     const shiftDocumentsDto = shiftAsClientResponseDto(shiftDocuments)
             //
             //     return successHandler(undefined, shiftDocumentsDto)
             //
@@ -230,7 +230,7 @@ module.exports = async server => {
 
                 const currentFreelancerDoc = await getCurrentFreelancer(req)
 
-                const shiftDocument = await ShiftModel.findOne({ _id:req.params._id, business:currentFreelancerDoc.businesses })
+                const shiftDocument = await ShiftModel.findOne({ _id:req.params._id, client:currentFreelancerDoc.clientes })
 
                 const shiftDocumentDto = shiftAsFreelancerResponseDto(shiftDocument, req.user._id)
 
@@ -238,15 +238,15 @@ module.exports = async server => {
 
             }
 
-            if(currentUserDoc.roles.includes('business')){
+            if(currentUserDoc.roles.includes('client')){
 
-                const currentBusinessDoc = await getCurrentBusiness(req)
+                const currentClientDoc = await getCurrentClient(req)
 
                 const shiftDocument = await ShiftModel
-                    .findOne({ _id:req.params._id, business:currentBusinessDoc._id })
+                    .findOne({ _id:req.params._id, client:currentClientDoc._id })
                     .populate('applied enrolled withdrawn')
 
-                const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+                const shiftDocumentDto = shiftAsClientResponseDto(shiftDocument)
 
                 return successHandler(undefined, shiftDocumentDto)
 
@@ -265,18 +265,18 @@ module.exports = async server => {
         try {
 
             const currentUserDoc = await getCurrentUser(req)
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            const currentClientDoc = await getCurrentClient(req)
 
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
+            if(!currentClientDoc) return errorHandler(403, 'Forbidden')
 
-            const shiftDto = shiftAsBusinessRequestDto(req.body)
+            const shiftDto = shiftAsClientRequestDto(req.body)
 
             let response
 
             const session = await connection.startSession()
             await session.withTransaction(async () => {
 
-                shiftDto.business = currentBusinessDoc._id
+                shiftDto.client = currentClientDoc._id
                 shiftDto.creator = currentUserDoc._id
 
                 const newShiftDoc = new ShiftModel(shiftDto)
@@ -296,7 +296,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const newShiftDocDto = shiftAsBusinessResponseDto(response)
+            const newShiftDocDto = shiftAsClientResponseDto(response)
 
             return successHandler(undefined, newShiftDocDto)
 
@@ -310,13 +310,13 @@ module.exports = async server => {
 
     async function updateShiftById(req){
 
-        // only for business
+        // only for client
 
         try {
 
             const currentUserDoc = await getCurrentUser(req)
 
-            if(!currentUserDoc.roles.includes('business')) return errorHandler(403, 'Forbidden')
+            if(!currentUserDoc.roles.includes('client')) return errorHandler(403, 'Forbidden')
 
             const {
                 name,
@@ -328,7 +328,7 @@ module.exports = async server => {
                 location,
                 recurring,
                 active
-            } = shiftAsBusinessRequestDto(req.body)
+            } = shiftAsClientRequestDto(req.body)
 
             const shiftDoc = await ShiftModel.findOne({ _id:req.params._id })
 
@@ -377,7 +377,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocDto = shiftAsBusinessResponseDto(response)
+            const shiftDocDto = shiftAsClientResponseDto(response)
 
             return successHandler(undefined, shiftDocDto)
 
@@ -391,13 +391,13 @@ module.exports = async server => {
 
     async function deleteShiftById(req){
 
-        // only for business
+        // only for client
 
         try {
 
-            const currentBusinessDoc = await getCurrentBusiness(req)
+            const currentClientDoc = await getCurrentClient(req)
 
-            if(!currentBusinessDoc) return errorHandler(403, 'Forbidden')
+            if(!currentClientDoc) return errorHandler(403, 'Forbidden')
 
             const shiftDocument = await ShiftModel.findOneAndDelete({ _id:req.params._id })
 
@@ -420,9 +420,9 @@ module.exports = async server => {
             const currentFreelancerDoc = await getCurrentFreelancer(req)
             if(!currentFreelancerDoc) return notFoundHandler('Freelancer')
 
-            // uncomment when  users need to be connected to a business
+            // uncomment when  users need to be connected to a client
             const shiftDocument = await ShiftModel.findOne({
-                // business:currentFreelancerDoc.businesses,
+                // client:currentFreelancerDoc.clientes,
                 _id:req.params._id
             })
 
@@ -480,13 +480,13 @@ module.exports = async server => {
 
             const shiftDocument = await ShiftModel
                 .findOne({
-                    // business:currentFreelancerDoc.businesses,
+                    // client:currentFreelancerDoc.clientes,
                     _id:req.params._id
                 })
                 .populate('timesheets')
 
             // const timesheetDocument = await TimesheetModel.findOne({
-            //     // business:currentFreelancerDoc.businesses,
+            //     // client:currentFreelancerDoc.clientes,
             //     shift:req.params._id
             // })
             //
@@ -594,14 +594,14 @@ module.exports = async server => {
             const currentUserDoc = await getCurrentUser(req)
             if(!currentUserDoc) return notFoundHandler('User')
 
-            const currentBusinessDoc = await getCurrentBusiness(req)
-            if(!currentBusinessDoc) return notFoundHandler('Business')
+            const currentClientDoc = await getCurrentClient(req)
+            if(!currentClientDoc) return notFoundHandler('Client')
 
             const freelancerDoc = await FreelancerModel.findOne({ users:req.query.userId })
             if(!freelancerDoc) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                business:currentBusinessDoc._id,
+                client:currentClientDoc._id,
                 _id:req.query.shiftId
             })
 
@@ -619,7 +619,7 @@ module.exports = async server => {
                 const newTimesheetDoc = new TimesheetModel({
                     shift:shiftDocument._id,
                     freelancer:freelancerDoc._id,
-                    business:currentBusinessDoc._id,
+                    client:currentClientDoc._id,
                     planned:shiftDocument.datetime,
                 })
 
@@ -630,7 +630,7 @@ module.exports = async server => {
                         shift:shiftDocument._id,
                         freelancer:req.query.userId,
                         planned:shiftDocument.datetime,
-                        business:currentBusinessDoc._id,
+                        client:currentClientDoc._id,
                     }
                 })
 
@@ -667,7 +667,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+            const shiftDocumentDto = shiftAsClientResponseDto(shiftDocument)
 
             return successHandler(undefined, shiftDocumentDto)
 
@@ -686,14 +686,14 @@ module.exports = async server => {
             const currentUserDoc = await getCurrentUser(req)
             if(!currentUserDoc) return notFoundHandler('User')
 
-            const currentBusinessDoc = await getCurrentBusiness(req)
-            if(!currentBusinessDoc) return notFoundHandler('Business')
+            const currentClientDoc = await getCurrentClient(req)
+            if(!currentClientDoc) return notFoundHandler('Client')
 
             const freelancerDocument = await FreelancerModel.findOne({ users:req.query.userId })
             if(!freelancerDocument) return notFoundHandler('Freelancer')
 
             const shiftDocument = await ShiftModel.findOne({
-                // business:currentBusinessDoc._id,
+                // client:currentClientDoc._id,
                 _id:req.query.shiftId
             })
 
@@ -778,7 +778,7 @@ module.exports = async server => {
 
             session.endSession()
 
-            const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+            const shiftDocumentDto = shiftAsClientResponseDto(shiftDocument)
 
             return successHandler(undefined, shiftDocumentDto)
 
@@ -828,7 +828,7 @@ module.exports = async server => {
     //
     //         session.endSession()
     //
-    //         const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+    //         const shiftDocumentDto = shiftAsClientResponseDto(shiftDocument)
     //
     //         return successHandler(undefined, shiftDocumentDto)
     //
@@ -878,7 +878,7 @@ module.exports = async server => {
     //
     //         session.endSession()
     //
-    //         const shiftDocumentDto = shiftAsBusinessResponseDto(shiftDocument)
+    //         const shiftDocumentDto = shiftAsClientResponseDto(shiftDocument)
     //
     //         return successHandler(undefined, shiftDocumentDto)
     //

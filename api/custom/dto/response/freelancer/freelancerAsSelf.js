@@ -12,13 +12,13 @@ module.exports = documents => {
 
         const {
             _id,
-            user,
+            users,
             description,
             name,
             labels,
             rating,
             reviews,
-            businesses,
+            connections,
             applied,
             enrolled,
             withdrawn,
@@ -27,13 +27,13 @@ module.exports = documents => {
 
         return {
             _id,
-            user,
+            users,
             description,
             name,
             labels,
             rating,
             reviews,
-            businesses,
+            connections,
             applied,
             enrolled,
             withdrawn,

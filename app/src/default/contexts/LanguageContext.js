@@ -8,7 +8,7 @@ export const LanguageContext = createContext({})
 export default function LanguageContextProvider({ children }){
 
     const { AVAILABLE_LANGUAGES, DEFAULT_LANGUAGE } = useContext(ConfigContext)
-    const { settings } = useContext(UserContext)
+    const { userData } = useContext(UserContext)
 
     const [languages, setLanguages] = useState({})
 
@@ -48,11 +48,12 @@ export default function LanguageContextProvider({ children }){
 
         if(
             languages
-            && settings
-            && settings.language
-            && languages[settings.language]
-            && languages[settings.language][accessor]
-        ) return languages[settings.language][accessor]
+            && userData
+            && userData.settings
+            && userData.settings.language
+            && languages[userData.settings.language]
+            && languages[userData.settings.language][accessor]
+        ) return languages[userData.settings.language][accessor]
 
         return accessor
 

@@ -42,8 +42,8 @@ export default function Invoices(){
 
     const openHoursColumns = [
         {
-            Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
-            accessor: data => data.businessName,
+            Header: hasRole('client') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
+            accessor: data => hasRole('client') && data.freelancer.name || hasRole('freelancer') && data.client.name
         },
         {
             Header: applyTranslation('HOURS'),
@@ -57,12 +57,16 @@ export default function Invoices(){
 
     const invoicesColumns = [
         {
+            Header: applyTranslation('NAME'),
+            accessor: data => data.name,
+        },
+        {
             Header: applyTranslation('DATE'),
             accessor: data => moment(data.billingDate).format('DD-MM-YYYY'),
         },
         {
-            Header: hasRole('business') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
-            accessor: data => data.business.name,
+            Header: hasRole('client') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
+            accessor: data => hasRole('client') && data.freelancer.name || hasRole('freelancer') && data.client.name,
         },
         {
             Header: applyTranslation('HOURS'),
@@ -118,26 +122,26 @@ export default function Invoices(){
 
             for(let timesheet of response.data){
 
-                const hours = new Date(timesheet.actualByBusiness.end).getTime() - new Date(timesheet.actualByBusiness.start).getTime()
+                const hours = new Date(timesheet.actualByClient.end).getTime() - new Date(timesheet.actualByClient.start).getTime()
 
-                if(!groupedInObject[timesheet.business._id]) groupedInObject[timesheet.business._id] = {
-                    businessName:timesheet.business.name,
+                if(!groupedInObject[timesheet.client._id]) groupedInObject[timesheet.client._id] = {
+                    clientName:timesheet.client.name,
                     hours:0,
                     timesheets:[]
                 }
 
-                groupedInObject[timesheet.business._id || timesheet.freelancer._id].hours += Math.floor(hours / 1000 / 60 / 60)
-                groupedInObject[timesheet.business._id || timesheet.freelancer._id].timesheets.push(timesheet._id)
+                groupedInObject[timesheet.client._id || timesheet.freelancer._id].hours += Math.floor(hours / 1000 / 60 / 60)
+                groupedInObject[timesheet.client._id || timesheet.freelancer._id].timesheets.push(timesheet._id)
 
             }
 
             const groupedInArray = []
 
-            for(let business in groupedInObject){
+            for(let client in groupedInObject){
 
-                groupedInObject[business].business = business
+                groupedInObject[client].client = client
 
-                groupedInArray.push(groupedInObject[business])
+                groupedInArray.push(groupedInObject[client])
 
             }
 
@@ -192,7 +196,7 @@ export default function Invoices(){
                             <div
                                 className={styles.cardTitle}
                                 >
-                                {hasRole('business') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
+                                {hasRole('client') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
                             </div>
                             <Table
                                 columns={openHoursColumns}

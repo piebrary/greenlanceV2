@@ -28,6 +28,7 @@ export default function Dashboard(){
             logo={<Logo />}
             controls={<Controls />}
             >
+            test
             {/*<Card
                 title={'Grid component'}
                 customStyles={applyStyles([styles], 'card1')}
