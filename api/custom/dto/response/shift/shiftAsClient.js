@@ -31,6 +31,8 @@ module.exports = documents => {
         }
 
         const timesheetAsAll = require('../../../../custom/dto/response/timesheet/timesheetAsAll')
+        const userAsClient = require('../../../../custom/dto/response/user/userAsClient')
+        const freelancerAsClient = require('../../../../custom/dto/response/freelancer/freelancerAsClient')
 
         const {
             _id,
@@ -62,24 +64,9 @@ module.exports = documents => {
             location:location && locationResponseDto(location),
             recurring:recurring && recurringResponseDto(recurring),
             active,
-            applied:applied?.map(
-                application => {
-                    const { name, rating } = application
-                    return { name, rating }
-                }
-            ),
-            enrolled:enrolled?.map(
-                enrolment => {
-                    const { name, rating } = enrolment
-                    return { name, rating }
-                }
-            ),
-            withdrawn:withdrawn?.map(
-                withdrawment => {
-                    const { name, rating } = withdrawment
-                    return { name, rating }
-                }
-            ),
+            applied,
+            enrolled,
+            withdrawn,
             timesheets:timesheets?.map(
                 timesheet => timesheetAsAll(timesheet)
             )

@@ -132,6 +132,8 @@ module.exports = async server => {
                 || currentUserDoc.roles.includes('admin')
             ){
 
+                console.log(req.body)
+
                 const freelancerDocuments = await FreelancerModel.find({ _id:req.body.ids })
 
                 const freelancerDocumentsDto = freelancerAsClientResponseDto(freelancerDocuments)

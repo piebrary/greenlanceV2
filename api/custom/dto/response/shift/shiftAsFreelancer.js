@@ -1,4 +1,4 @@
-module.exports = (documents, userId) => {
+module.exports = (documents, freelancerId) => {
 
     if(Array.isArray(documents)){
 
@@ -62,10 +62,10 @@ module.exports = (documents, userId) => {
             location:location && locationResponseDto(location),
             recurring:recurring && recurringResponseDto(recurring),
             active,
-            applied:applied?.filter(_id => _id.equals(userId)),
-            enrolled:enrolled?.filter(_id => _id.equals(userId)),
-            withdrawn:withdrawn?.filter(_id => _id.equals(userId)),
-            timesheets:timesheets?.filter(timesheet => timesheet?.freelancer?.equals(userId)).map(timesheet => timesheetAsAll(timesheet)),
+            applied:applied?.filter(_id => _id.equals(freelancerId)),
+            enrolled:enrolled?.filter(_id => _id.equals(freelancerId)),
+            withdrawn:withdrawn?.filter(_id => _id.equals(freelancerId)),
+            timesheets:timesheets?.filter(timesheet => timesheet?.freelancer?.equals(freelancerId)).map(timesheet => timesheetAsAll(timesheet)),
         }
     }
 

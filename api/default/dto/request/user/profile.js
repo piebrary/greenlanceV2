@@ -13,9 +13,9 @@ module.exports = documents => {
     function getDto(document){
 
         try {
-            nameRequestDto = require('../../../../custom/dto/response/name')
+            nameRequestDto = require('../../../../custom/dto/request/name')
         } catch {
-            nameRequestDto = require('../../../../default/dto/response/name')
+            nameRequestDto = require('../../../../default/dto/request/name')
         }
 
         const {
@@ -27,7 +27,7 @@ module.exports = documents => {
         return {
             _id,
             username,
-            name:name && nameRequestDto(name)
+            name:name && nameRequestDto(name),
             picture,
             emails:emails && Array.isArray(emails) && emails.map(obj => emailRequestDto(obj)),
             phones:phones && Array.isArray(phones) && phones.map(obj => phoneRequestDto(obj)),

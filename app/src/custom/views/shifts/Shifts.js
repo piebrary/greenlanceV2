@@ -65,7 +65,6 @@ export default function Shifts(){
         description:selectedShift?.description,
         location:{
             start:selectedShift?.location?.start,
-            end:selectedShift?.location?.end
         }
     }
 
@@ -90,6 +89,8 @@ export default function Shifts(){
                 try {
 
                     const freelancers = [...selectedShift.applied, ...selectedShift.enrolled]
+
+                    console.log(selectedShift)
 
                     const response = await getFreelancersById(freelancers)
 
@@ -582,8 +583,7 @@ export default function Shifts(){
                                             <p>Price per hour: {shift.price}</p>
                                             <p>Start time: {moment(shift.datetime.start).format('DD-MM HH:mm')}</p>
                                             <p>End time: {moment(shift.datetime.end).format('DD-MM HH:mm')}</p>
-                                            <p>Start location: {shift.location.start.city}</p>
-                                            <p>End location: {shift.location.end.city}</p>
+                                            <p>Location: {shift.location.start.city}</p>
                                             <Button label={'Open'} onClick={() => openShiftDetails(shift)} />
                                             {hasRole('freelancer') && !shift.applied.includes(userData._id) && !shift.enrolled.includes(userData._id) && new Date(shift.datetime.start) > new Date() && <Button label={'Apply'} onClick={() => apply(shift._id)} />}
                                             {hasRole('freelancer') && (shift.applied.includes(userData._id) || shift.enrolled.includes(userData._id)) && <Button label={'Withdraw'} onClick={() => withdraw(shift._id)} />}
@@ -724,6 +724,7 @@ export default function Shifts(){
                                     label={applyTranslation('START TIME')}
                                     name={'datetime.start'}
                                     type={'datetime-local'}
+                                    min={(new Date()).toISOString().slice(0, -8)}
                                     required={true}
                                     shouldRegister
                                     readOnly={viewMode === 'view shift' ? true : false}
@@ -732,6 +733,7 @@ export default function Shifts(){
                                     label={applyTranslation('END TIME')}
                                     name={'datetime.end'}
                                     type={'datetime-local'}
+                                    min={(new Date()).toISOString().slice(0, -8)}
                                     required={true}
                                     shouldRegister
                                     readOnly={viewMode === 'view shift' ? true : false}
@@ -739,13 +741,6 @@ export default function Shifts(){
                                 <AddressInput
                                     label={applyTranslation('START LOCATION')}
                                     name={'location.start'}
-                                    required={true}
-                                    shouldRegister
-                                    readOnly={viewMode === 'view shift' ? true : false}
-                                    />
-                                <AddressInput
-                                    label={applyTranslation('END LOCATION')}
-                                    name={'location.end'}
                                     required={true}
                                     shouldRegister
                                     readOnly={viewMode === 'view shift' ? true : false}

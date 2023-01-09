@@ -27,6 +27,7 @@ import FinancialsView from '../custom/views/financials/Financials'
 import ProjectsView from '../custom/views/projects/Projects'
 import FaqView from '../custom/views/faq/Faq'
 import ContactView from '../custom/views/contact/Contact'
+import ConnectionsView from '../custom/views/connections/Connections'
 import RegisterBusinessView from '../custom/views/registerBusiness/RegisterBusiness'
 
 import { AuthenticationContext } from '../default/contexts/AuthenticationContext'
@@ -81,6 +82,7 @@ export default function App() {
                         <Route path="/settings" element={<SettingsView />} />
                         <Route path="/faq" element={<FaqView />} />
                         <Route path="/contact" element={<ContactView />} />
+                        <Route path="/connections" element={<ConnectionsView />} />
                         <Route path="/logout" element={<LogoutView />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>
@@ -100,6 +102,7 @@ export default function App() {
                         <Route path="/settings" element={<SettingsView />} />
                         <Route path="/faq" element={<FaqView />} />
                         <Route path="/contact" element={<ContactView />} />
+                        <Route path="/connections" element={<ConnectionsView />} />
                         <Route path="/logout" element={<LogoutView />} />
                         <Route path="*" element={<Navigate to="/" />} />
                     </Routes>

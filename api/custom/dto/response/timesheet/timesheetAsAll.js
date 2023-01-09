@@ -11,9 +11,9 @@ module.exports = documents => {
     function getDto(document){
 
         try {
-            datetimeRequestDto = require('../../../../custom/dto/response/datetime')
+            datetimeResponseDto = require('../../../../custom/dto/response/datetime')
         } catch {
-            datetimeRequestDto = require('../../../../default/dto/response/datetime')
+            datetimeResponseDto = require('../../../../default/dto/response/datetime')
         }
 
         const {
@@ -21,20 +21,19 @@ module.exports = documents => {
             shift,
             freelancer,
             planned,
-            actualByFreelancer,
-            actualByClient,
+            actual,
             status,
         } = document
-
-        console.log(document)
 
         return {
             _id,
             shift,
             freelancer,
-            planned:planned && datetimeRequestDto(planned),
-            actualByFreelancer:actualByFreelancer && datetimeRequestDto(actualByFreelancer),
-            actualByClient:actualByClient && datetimeRequestDto(actualByClient),
+            planned:planned && datetimeResponseDto(planned),
+            actual:{
+                freelancer:actual?.freelancer && datetimeResponseDto(actual?.freelancer),
+                client:actual?.client && datetimeResponseDto(actual?.client),
+            },
             status,
         }
     }

@@ -78,6 +78,8 @@ export default function Timesheets(){
 
     async function updateTimesheet(_id, value){
 
+        console.log(_id, value)
+
         try {
 
             const response = await updateTimesheetActual(_id, value)
@@ -156,6 +158,46 @@ export default function Timesheets(){
 
     }
 
+    async function accept(_id){
+
+        try {
+
+            const response = await acceptTimesheet(_id)
+
+            setShifts(previous => {
+
+                const newShifts = previous.map(shift => {
+
+                    const timesheets = shift.timesheets.map(timesheet => {
+
+                        if(timesheet._id === _id) return response.data
+                        return timesheet
+
+                    })
+
+                    shift.timesheets = timesheets
+
+                    return shift
+
+                })
+
+                return newShifts
+                    .sort((a, b) => new Date(a.datetime.start).getTime() - new Date(b.datetime.start).getTime())
+
+            })
+
+        } catch (error) {
+
+            notifications.create({
+                title: "Could not dispute timesheet",
+                type: 'danger',
+                container:'bottom-right'
+            })
+
+        }
+
+    }
+
     createTranslation('TimesheetView.INTRO', {
         en:(
             <p>
@@ -175,6 +217,11 @@ export default function Timesheets(){
         nl:'door'
     })
 
+    createTranslation('TimesheetView.FOR', {
+        en:'for',
+        nl:'voor'
+    })
+
     createTranslation('TimesheetView.STATUS', {
         en:'status',
         nl:'status'
@@ -185,14 +232,14 @@ export default function Timesheets(){
         nl:'Gepland'
     })
 
-    createTranslation('TimesheetView.ACTUAL_BY_FREELANCER', {
+    createTranslation('TimesheetView.ACTUAL_FREELANCER', {
         en:'Actual (freelancer)',
         nl:'Daadwerkelijk (freelancer)'
     })
 
-    createTranslation('TimesheetView.ACTUAL_BY_CLIENT', {
+    createTranslation('TimesheetView.ACTUAL_CLIENT', {
         en:'Actual (client)',
-        nl:'Daadwerkelijk (client)'
+        nl:'Daadwerkelijk (opdrachtgever)'
     })
 
     createTranslation('TimesheetView.NO_FREELANCER_TIMESHEETS_FOUND', {
@@ -203,6 +250,21 @@ export default function Timesheets(){
     createTranslation('TimesheetView.NO_CLIENT_TIMESHEETS_FOUND', {
         en:'No timesheets found. Freelancers will need to work a shift first and their timesheets will pop up here.',
         nl:'Er zijn geen urenstaten gevonden. Een freelancer moet een dienst werken en de betreffende urenstaat verschijnt hier.'
+    })
+
+    createTranslation('TimesheetView.OPEN_DISPUTE', {
+        en:'Open dispute',
+        nl:'Open geschil'
+    })
+
+    createTranslation('TimesheetView.ACCEPT_CLIENT_ACTUAL', {
+        en:'Accept time given by client',
+        nl:'Accepteer tijd ingevoerd door opdrachtgever'
+    })
+
+    createTranslation('TimesheetView.ACCEPT_FREELANCER_ACTUAL', {
+        en:'Accept time given by freelancer',
+        nl:'Accepteer tijd ingevoerd door freelancer'
     })
 
     return (
@@ -244,13 +306,11 @@ export default function Timesheets(){
                             {
                                 shift.timesheets.map((timesheet, index) => {
 
-                                    const key = timesheet._id
-
                                     return (
                                         <Card
                                             key={key}
                                             className={styles.timesheetCard}
-                                            title={`${shift.name} ${applyTranslation('TimesheetView.AT')} ${shift.datetime.start} ${applyTranslation('TimesheetView.BY')} ${shift.client?.name || timesheet.freelancer?.name}`}
+                                            title={`${shift.name} ${applyTranslation('TimesheetView.AT')} ${shift.datetime.start} ${shift.client?.name || timesheet.freelancer?.name}`}
                                             description={`${applyTranslation('TimesheetView.STATUS')}: ` + timesheet.status}
                                             >
                                             <div
@@ -260,21 +320,27 @@ export default function Timesheets(){
                                                     timesheet.status === 'open'
                                                     && (
                                                         (
-                                                            timesheet.actualByFreelancer?.start
-                                                            && timesheet.actualByFreelancer?.end
-                                                            && timesheet.actualByFreelancer?.start
-                                                            && timesheet.actualByClient?.end
+                                                            timesheet.actual.freelancer?.start
+                                                            && timesheet.actual.freelancer?.end
+                                                            && timesheet.actual.freelancer?.start
+                                                            && timesheet.actual.client?.end
                                                         )
                                                         && (
-                                                            timesheet.actualByFreelancer?.start !== timesheet.actualByClient?.start
-                                                            || timesheet.actualByFreelancer?.end !== timesheet.actualByClient?.end
+                                                            timesheet.actual.freelancer?.start !== timesheet.actual.client?.start
+                                                            || timesheet.actual.freelancer?.end !== timesheet.actual.client?.end
                                                         )
                                                     )
                                                     && (
-                                                        <Button
-                                                            label={applyTranslation('TimesheetView.OPEN_DISPUTE')}
-                                                            onClick={() => dispute(timesheet._id)}
-                                                            />
+                                                        <div className={styles.timesheetActionButtons}>
+                                                            <Button
+                                                                label={applyTranslation('TimesheetView.OPEN_DISPUTE')}
+                                                                onClick={() => dispute(timesheet._id)}
+                                                                />
+                                                            <Button
+                                                                label={hasRole('freelancer') && applyTranslation('TimesheetView.ACCEPT_CLIENT_ACTUAL') || hasRole('client') && applyTranslation('TimesheetView.ACCEPT_FREELANCER_ACTUAL')}
+                                                                onClick={() => accept(timesheet._id)}
+                                                                />
+                                                        </div>
                                                     )
                                                 }
                                                 <div className={styles.timesheetGroup}>
@@ -300,51 +366,51 @@ export default function Timesheets(){
                                                 </div>
                                                 <div className={styles.timesheetGroup}>
                                                     <div className={styles.timesheetTitle}>
-                                                        {applyTranslation('TimesheetView.ACTUAL_BY_FREELANCER')}
+                                                        {applyTranslation('TimesheetView.ACTUAL_FREELANCER')}
                                                     </div>
-                                                    <div className={styles.timesheetValue}>
+                                                    <div className={styles.timesheetValue} key={timesheet.actual.freelancer?.start}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByFreelancer.start`}
+                                                            name={`timesheet[${index}].actual.freelancer.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByFreelancer?.start}
+                                                            defaultValue={timesheet.actual.freelancer?.start}
                                                             onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
-                                                            readOnly={!hasRole('freelancer') || timesheet.actualByFreelancer?.start}
+                                                            readOnly={!hasRole('freelancer') || timesheet.actual.freelancer?.start}
                                                             />
                                                     </div>
-                                                    <div className={styles.timesheetValue}>
+                                                    <div className={styles.timesheetValue} key={timesheet.actual.freelancer?.end}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByFreelancer.end`}
+                                                            name={`timesheet[${index}].actual.freelancer.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByFreelancer?.end}
+                                                            defaultValue={timesheet.actual.freelancer?.end}
                                                             onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
-                                                            readOnly={!hasRole('freelancer') || timesheet.actualByFreelancer?.end}
+                                                            readOnly={!hasRole('freelancer') || timesheet.actual.freelancer?.end}
                                                             />
                                                     </div>
                                                 </div>
                                                 <div className={styles.timesheetGroup}>
                                                     <div className={styles.timesheetTitle}>
-                                                        {applyTranslation('TimesheetView.ACTUAL_BY_CLIENT')}
+                                                        {applyTranslation('TimesheetView.ACTUAL_CLIENT')}
                                                     </div>
-                                                    <div className={styles.timesheetValue}>
+                                                    <div className={styles.timesheetValue} key={timesheet.actual.client?.start}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByClient.start`}
+                                                            name={`timesheet[${index}].actual.client.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByClient?.start}
+                                                            defaultValue={timesheet.actual.client?.start}
                                                             onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
-                                                            readOnly={!hasRole('client') || timesheet.actualByClient?.start}
+                                                            readOnly={!hasRole('client') || timesheet.actual.client?.start}
                                                             />
                                                     </div>
-                                                    <div className={styles.timesheetValue}>
+                                                    <div className={styles.timesheetValue} key={timesheet.actual.client?.end}>
                                                         <Input
-                                                            name={`timesheet[${index}].actualByClient.end`}
+                                                            name={`timesheet[${index}].actual.client.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actualByClient?.end}
+                                                            defaultValue={timesheet.actual.client?.end}
                                                             onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
-                                                            readOnly={!hasRole('client') || timesheet.actualByClient?.end}
+                                                            readOnly={!hasRole('client') || timesheet.actual.client?.end}
                                                             />
                                                     </div>
                                                 </div>

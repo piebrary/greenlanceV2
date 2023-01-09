@@ -38,19 +38,22 @@ module.exports = new Schema({
             street: String,
             number: String,
             zipCode: String,
-            city: String,
+            city: {
+                type: String,
+                required: true,
+            },
             province: String,
             country: String,
         },
-        end: {
-            label: String,
-            street: String,
-            number: String,
-            zipCode: String,
-            city: String,
-            province: String,
-            country: String,
-        },
+        // end: {
+        //     label: String,
+        //     street: String,
+        //     number: String,
+        //     zipCode: String,
+        //     city: String,
+        //     province: String,
+        //     country: String,
+        // },
     },
     recurring:{
         interval: {
@@ -69,23 +72,19 @@ module.exports = new Schema({
     },
     applied: {
         type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-        default:[]
+        ref: 'Freelancer'
     },
     enrolled: {
         type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-        default:[]
+        ref: 'Freelancer'
     },
     withdrawn: {
         type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-        default:[]
+        ref: 'Freelancer'
     },
     declined: {
         type: [Schema.Types.ObjectId],
-        ref: 'Freelancer',
-        default:[]
+        ref: 'Freelancer'
     },
     timesheets: {
         type: [Schema.Types.ObjectId],

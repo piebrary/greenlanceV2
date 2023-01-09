@@ -131,8 +131,6 @@ module.exports = async server => {
 
         } catch (error) {
 
-            console.log(error)
-
             return errorHandler(undefined, error)
 
         }

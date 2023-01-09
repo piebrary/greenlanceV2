@@ -42,6 +42,7 @@ export default function Form(attributes){
         handleSubmit,
         reset,
         control,
+        getValues,
         formState:{
             errors,
             dirtyFields
@@ -106,6 +107,7 @@ export default function Form(attributes){
                                 control:shouldRegister && control,
                                 reset:shouldRegister && reset,
                                 register:shouldRegister && register,
+                                getValues,
                             }
                         )
 

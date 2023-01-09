@@ -9,7 +9,7 @@ import { BiHome } from 'react-icons/bi'
 import { FaUser } from 'react-icons/fa'
 import { VscSettings } from 'react-icons/vsc'
 import { FaUsersCog } from 'react-icons/fa'
-import { AiOutlineFolderOpen } from 'react-icons/ai'
+import { AiOutlineFolderOpen, AiOutlineShareAlt } from 'react-icons/ai'
 import { BsGrid } from 'react-icons/bs'
 import { FiCreditCard } from 'react-icons/fi'
 import { BsReverseLayoutTextWindowReverse } from 'react-icons/bs'
@@ -110,7 +110,10 @@ export default function Menu(){
         nl:'Contact'
     })
 
-    console.log(clientData, freelancerData)
+    createTranslation('Menu.CONNECTIONS', {
+        en:'Connections',
+        nl:'Connecties'
+    })
 
     return [
         [
@@ -165,6 +168,11 @@ export default function Menu(){
                 to:'/projects',
                 icon:<AiOutlineFolderOpen size={20} />,
                 text:applyTranslation('Menu.PROJECTS'),
+            },
+            (hasRole('freelancer') || hasRole('client')) && {
+                to:'/connections',
+                icon:<AiOutlineShareAlt size={20} />,
+                text:applyTranslation('Menu.CONNECTIONS'),
             },
         ],[
             {

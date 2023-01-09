@@ -26,6 +26,7 @@ module.exports = async server => {
         getTimesheetById,
         updateTimesheetActual,
         disputeTimesheetActual,
+        acceptTimesheetActual,
     }
 
     async function getTimesheets(req){
@@ -212,27 +213,27 @@ module.exports = async server => {
 
                 if(currentUserDoc.roles.includes('freelancer')){
 
-                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByFreelancer:req.body })
+                    const timesheetRequestDto = timesheetAsAllRequestDto({ actual:{ freelancer:req.body } })
 
                     // update actual time of timeshift with value { start } or { end }
-                    if(timesheetRequestDto.actualByFreelancer?.start) timesheetDocument.actualByFreelancer.start = timesheetRequestDto.actualByFreelancer?.start
-                    if(timesheetRequestDto.actualByFreelancer?.end) timesheetDocument.actualByFreelancer.end = timesheetRequestDto.actualByFreelancer?.end
+                    if(timesheetRequestDto.actual.freelancer?.start) timesheetDocument.actual.freelancer.start = timesheetRequestDto.actual.freelancer?.start
+                    if(timesheetRequestDto.actual.freelancer?.end) timesheetDocument.actual.freelancer.end = timesheetRequestDto.actual.freelancer?.end
 
                 }
 
                 if(currentUserDoc.roles.includes('client')){
 
-                    const timesheetRequestDto = timesheetAsAllRequestDto({ actualByClient:req.body })
+                    const timesheetRequestDto = timesheetAsAllRequestDto({ actual:{ client:req.body } })
 
                     // update actual time of timeshift with value { start } or { end }
-                    if(timesheetRequestDto.actualByClient?.start) timesheetDocument.actualByClient.start = timesheetRequestDto.actualByClient?.start
-                    if(timesheetRequestDto.actualByClient?.end) timesheetDocument.actualByClient.end = timesheetRequestDto.actualByClient?.end
+                    if(timesheetRequestDto.actual.client?.start) timesheetDocument.actual.client.start = timesheetRequestDto.actual.client?.start
+                    if(timesheetRequestDto.actual.client?.end) timesheetDocument.actual.client.end = timesheetRequestDto.actual.client?.end
 
                 }
 
                 if(
-                    timesheetDocument.actualByFreelancer?.start?.toString() === timesheetDocument.actualByClient?.start?.toString()
-                    && timesheetDocument.actualByFreelancer?.end?.toString() === timesheetDocument.actualByClient?.end?.toString()
+                    timesheetDocument.actual.freelancer?.start?.toString() === timesheetDocument.actual.client?.start?.toString()
+                    && timesheetDocument.actual.freelancer?.end?.toString() === timesheetDocument.actual.client?.end?.toString()
                 ){
 
                     timesheetDocument.status = 'accepted'
@@ -267,6 +268,8 @@ module.exports = async server => {
 
     async function disputeTimesheetActual(req){
 
+        // not finished yet. Need to add logic for taking action when a shift is disputed
+
         try {
 
             const currentUserDoc = await getCurrentUser(req)
@@ -287,14 +290,14 @@ module.exports = async server => {
 
                 if(
                     (
-                        timesheetDocument.actualByFreelancer?.start
-                        && timesheetDocument.actualByFreelancer?.end
-                        && timesheetDocument.actualByFreelancer?.start
-                        && timesheetDocument.actualByClient?.end
+                        timesheetDocument.actual.freelancer?.start
+                        && timesheetDocument.actual.freelancer?.end
+                        && timesheetDocument.actual.freelancer?.start
+                        && timesheetDocument.actual.client?.end
                     )
                     && (
-                        timesheetDocument.actualByFreelancer?.start !== timesheetDocument.actualByClient?.start
-                        || timesheetDocument.actualByFreelancer?.end !== timesheetDocument.actualByClient?.end
+                        timesheetDocument.actual.freelancer?.start !== timesheetDocument.actual.client?.start
+                        || timesheetDocument.actual.freelancer?.end !== timesheetDocument.actual.client?.end
                     )
                 ){
 
@@ -319,6 +322,85 @@ module.exports = async server => {
             const timesheetResponseDto = timesheetAsAllResponseDto(timesheetDocument)
 
             return successHandler(undefined, timesheetDocument)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
+    }
+
+    async function acceptTimesheetActual(req){
+
+        try {
+
+            const currentUserDoc = await getCurrentUser(req)
+
+            if(!currentUserDoc) return notFoundHandler('User')
+
+            // get timesheet for user
+            const timesheetDocument = await TimesheetModel
+                .findOne({ _id:req.params._id })
+                .populate({
+                    path:'freelancer',
+                    model:'Freelancer',
+                    select:'name'
+                })
+
+            const session = await connection.startSession()
+            await session.withTransaction(async () => {
+
+                if(
+                    (
+                        timesheetDocument.actual.freelancer?.start
+                        && timesheetDocument.actual.freelancer?.end
+                        && timesheetDocument.actual.freelancer?.start
+                        && timesheetDocument.actual.client?.end
+                    )
+                    && (
+                        timesheetDocument.actual.freelancer?.start !== timesheetDocument.actual.client?.start
+                        || timesheetDocument.actual.freelancer?.end !== timesheetDocument.actual.client?.end
+                    )
+                ){
+
+                    if(currentUserDoc.roles.includes('freelancer')){
+
+                        timesheetDocument.actual.freelancer.start = timesheetDocument.actual.client?.start
+                        timesheetDocument.actual.freelancer.end = timesheetDocument.actual.client?.end
+
+                        timesheetDocument.status = 'accepted'
+
+                    }
+
+                    if(currentUserDoc.roles.includes('client')){
+
+                        timesheetDocument.actual.client.start = timesheetDocument.actual.freelancer?.start
+                        timesheetDocument.actual.freelancer.end = timesheetDocument.actual.client?.end
+
+                        timesheetDocument.status = 'accepted'
+
+                    }
+
+                    const newMutationDoc = new MutationModel({
+                        user:req.user._id,
+                        action:'acceptTimesheetActual',
+                        data:timesheetDocument
+                    })
+
+                    timesheetDocument.save()
+                    newMutationDoc.save()
+
+                }
+
+            })
+
+            session.endSession()
+
+            // return shift
+            const timesheetResponseDto = timesheetAsAllResponseDto(timesheetDocument)
+
+            return successHandler(undefined, timesheetResponseDto)
 
         } catch (error) {
 

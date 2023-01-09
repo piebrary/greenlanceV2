@@ -129,6 +129,7 @@ module.exports = async server => {
 
             if(currentUserDoc.roles.includes('freelancer')){
 
+                // to use where in populate you can use 'match' prop, and remove doc selection from dto
                 const enrolledDocs = await FreelancerModel
                     .findOne({ user:req.user._id })
                     .select('enrolled')
@@ -136,7 +137,7 @@ module.exports = async server => {
                     .populate({
                         path:'enrolled',
                         model: 'Shift',
-                        select: 'datetime enrolled timesheets client',
+                        select: 'name datetime enrolled timesheets client',
                         populate: [{
                             path: 'client',
                             model: 'Client',
@@ -144,11 +145,11 @@ module.exports = async server => {
                         },{
                             path: 'timesheets',
                             model: 'Timesheet',
-                            select: 'shift freelancer planned actualByClient actualByFreelancer accepted disputed status'
+                            select: 'shift freelancer planned actual accepted disputed status'
                         }]
                     })
 
-                const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, req.user._id)
+                const enrolledDocsDto = shiftAsFreelancerResponseDto(enrolledDocs.enrolled, currentFreelancerDoc._id)
 
                 return successHandler(undefined, enrolledDocsDto)
 

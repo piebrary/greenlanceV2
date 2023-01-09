@@ -2,8 +2,6 @@ const sanitize = require('mongo-sanitize')
 
 module.exports = documents => {
 
-    console.log('test')
-
     if(Array.isArray(documents)){
 
         return documents.map(d => getDto(d))
@@ -17,21 +15,21 @@ module.exports = documents => {
         let emailRequestDto, settingsRequestDto, profileRequestDto
 
         try {
-            emailRequestDto = require('../../../../custom/dto/response/email')
+            emailRequestDto = require('../../../../custom/dto/request/email')
         } catch {
-            emailRequestDto = require('../../../../default/dto/response/email')
+            emailRequestDto = require('../../../../default/dto/request/email')
         }
 
         try {
-            profileRequestDto = require('../../../../custom/dto/response/user/profile')
+            profileRequestDto = require('../../../../custom/dto/request/user/profile')
         } catch {
-            profileRequestDto = require('../../../../default/dto/response/user/profile')
+            profileRequestDto = require('../../../../default/dto/request/user/profile')
         }
 
         try {
-            settingsRequestDto = require('../../../../custom/dto/response/user/settings')
+            settingsRequestDto = require('../../../../custom/dto/request/user/settings')
         } catch {
-            settingsRequestDto = require('../../../../default/dto/response/user/settings')
+            settingsRequestDto = require('../../../../default/dto/request/user/settings')
         }
 
         const {

@@ -25,11 +25,6 @@ export default function FreelancerContextProvider({ children }){
 
     }, [authState, userData])
 
-    useEffect(() => {
-
-        console.log(freelancerData, 'is removed')
-    }, [freelancerData])
-
     async function refreshFreelancer(){
 
         try {
@@ -37,7 +32,6 @@ export default function FreelancerContextProvider({ children }){
             const response = await getFreelancer()
 
             setFreelancerData(response.data)
-             console.log('test')
 
         } catch (error) {
 

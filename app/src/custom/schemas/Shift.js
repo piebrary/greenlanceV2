@@ -32,51 +32,51 @@ export const ShiftSchema = yup
                     .object()
                     .shape({
                         label:yup
-                            .string()
-                            .required('* A label is required'),
+                            .string(),
+                            // .required('* A label is required'),
                         street:yup
-                            .string()
-                            .required('* A street is required'),
+                            .string(),
+                            // .required('* A street is required'),
                         number:yup
-                            .string()
-                            .required('* A number is required'),
+                            .string(),
+                            // .required('* A number is required'),
                         zipCode:yup
-                            .string()
-                            .required('* A zip code is required'),
+                            .string(),
+                            // .required('* A zip code is required'),
                         city:yup
                             .string()
                             .required('* A city is required'),
                         province:yup
-                            .string()
-                            .required('* A province is required'),
+                            .string(),
+                            // .required('* A province is required'),
                         country:yup
-                            .string()
-                            .required('* A country is required'),
+                            .string(),
+                            // .required('* A country is required'),
                     }),
-                end:yup
-                    .object()
-                    .shape({
-                        label:yup
-                            .string()
-                            .required('* A label is required'),
-                        street:yup
-                            .string()
-                            .required('* A street is required'),
-                        number:yup
-                            .string()
-                            .required('* A number is required'),
-                        zipCode:yup
-                            .string()
-                            .required('* A zip code is required'),
-                        city:yup
-                            .string()
-                            .required('* A city is required'),
-                        province:yup
-                            .string()
-                            .required('* A province is required'),
-                        country:yup
-                            .string()
-                            .required('* A country is required'),
-                    }),
+                // end:yup
+                //     .object()
+                //     .shape({
+                //         label:yup
+                //             .string()
+                //             .required('* A label is required'),
+                //         street:yup
+                //             .string()
+                //             .required('* A street is required'),
+                //         number:yup
+                //             .string()
+                //             .required('* A number is required'),
+                //         zipCode:yup
+                //             .string()
+                //             .required('* A zip code is required'),
+                //         city:yup
+                //             .string()
+                //             .required('* A city is required'),
+                //         province:yup
+                //             .string()
+                //             .required('* A province is required'),
+                //         country:yup
+                //             .string()
+                //             .required('* A country is required'),
+                //     }),
             })
     })

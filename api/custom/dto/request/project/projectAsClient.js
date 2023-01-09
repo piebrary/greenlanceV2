@@ -15,15 +15,15 @@ module.exports = documents => {
         let datetimeRequestDto, locationRequestDto
 
         try {
-            datetimeRequestDto = require('../../../../custom/dto/response/datetime')
+            datetimeRequestDto = require('../../../../custom/dto/request/datetime')
         } catch {
-            datetimeRequestDto = require('../../../../default/dto/response/datetime')
+            datetimeRequestDto = require('../../../../default/dto/request/datetime')
         }
 
         try {
-            datetimeRequestDto = require('../../../../custom/dto/response/location')
+            datetimeRequestDto = require('../../../../custom/dto/request/location')
         } catch {
-            datetimeRequestDto = require('../../../../default/dto/response/location')
+            datetimeRequestDto = require('../../../../default/dto/request/location')
         }
 
         const {

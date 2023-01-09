@@ -23,20 +23,22 @@ module.exports = new Schema({
             required: true
         }
     },
-    actualByFreelancer: {
-        start: {
-            type: Date,
+    actual:{
+        freelancer: {
+            start: {
+                type: Date,
+            },
+            end: {
+                type: Date,
+            },
         },
-        end: {
-            type: Date,
-        }
-    },
-    actualByBusiness: {
-        start: {
-            type: Date,
-        },
-        end: {
-            type: Date,
+        client:{
+            start: {
+                type: Date,
+            },
+            end: {
+                type: Date,
+            }
         }
     },
     status: {

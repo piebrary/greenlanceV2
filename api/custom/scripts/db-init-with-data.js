@@ -436,7 +436,7 @@ module.exports = (async () => {
             businessType:'freelancer'
         })
 
-        // create clientes
+        // create clients
 
         await createClient({
             username:'user1',
@@ -446,10 +446,24 @@ module.exports = (async () => {
         })
 
         await createClient({
+            username:'user3',
+            password:'password1'
+        },{
+            name:'client3',
+        })
+
+        await createClient({
             username:'user4',
             password:'password1'
         },{
-            name:'client2',
+            name:'client4',
+        })
+
+        await createClient({
+            username:'user5',
+            password:'password1'
+        },{
+            name:'client5',
         })
 
         // add user to client
@@ -461,13 +475,6 @@ module.exports = (async () => {
             user:user2._id,
         })
 
-        await addUserToClient({
-            username:'user4',
-            password:'password1'
-        },{
-            user:user5._id,
-        })
-
 
         // create freelancers
 
@@ -475,35 +482,35 @@ module.exports = (async () => {
             username:'user6',
             password:'password1'
         },{
-            name:'freelancer1',
+            name:'freelancer6',
         })
 
         const freelancer2 = await createFreelancer({
             username:'user7',
             password:'password1'
         },{
-            name:'freelancer2',
+            name:'freelancer7',
         })
 
         const freelancer3 = await createFreelancer({
             username:'user8',
             password:'password1'
         },{
-            name:'freelancer3',
+            name:'freelancer8',
         })
 
         const freelancer4 = await createFreelancer({
             username:'user9',
             password:'password1'
         },{
-            name:'freelancer4',
+            name:'freelancer9',
         })
 
         const freelancer5 = await createFreelancer({
             username:'user10',
             password:'password1'
         },{
-            name:'freelancer5',
+            name:'freelancer10',
         })
 
         // create shifts
