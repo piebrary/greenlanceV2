@@ -15,6 +15,7 @@ import ProfileView from '../default/views/profile/Profile'
 import FormView from '../default/views/form/Form'
 import SettingsView from '../default/views/settings/Settings'
 import UsersView from '../default/views/users/Users'
+import DatabaseView from '../default/views/database/Database'
 import BuilderView from '../default/views/builder/Builder'
 import DocumentationView from '../default/views/documentation/Documentation'
 import CalendarView from '../default/views/calendar/Calendar'
@@ -67,6 +68,7 @@ export default function App() {
                             <Route path="/profile" element={<ProfileView />} />
                             <Route path="/settings" element={<SettingsView />} />
                             { hasRole('admin') && <Route path="/users" element={<UsersView />} /> }
+                            { hasRole('admin') && <Route path="/database" element={<DatabaseView />} /> }
                             <Route path="/builder" element={<BuilderView />} />
                             <Route path="/documentation" element={<DocumentationView />} />
                             <Route path="/email" element={<EmailView />} />

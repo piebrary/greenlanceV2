@@ -78,8 +78,6 @@ export default function Timesheets(){
 
     async function updateTimesheet(_id, value){
 
-        console.log(_id, value)
-
         try {
 
             const response = await updateTimesheetActual(_id, value)
@@ -296,19 +294,21 @@ export default function Timesheets(){
             {
                 shifts.map(shift => {
 
-                    const key = shift._id
+                    const shiftKey = shift._id
 
                     return shift.timesheets.length > 0 && (
                         <div
                             className={styles.timesheetsContainer}
-                            key={key}
+                            key={shiftKey}
                             >
                             {
                                 shift.timesheets.map((timesheet, index) => {
 
+                                    const timesheetKey = timesheet._id
+
                                     return (
                                         <Card
-                                            key={key}
+                                            key={timesheetKey}
                                             className={styles.timesheetCard}
                                             title={`${shift.name} ${applyTranslation('TimesheetView.AT')} ${shift.datetime.start} ${shift.client?.name || timesheet.freelancer?.name}`}
                                             description={`${applyTranslation('TimesheetView.STATUS')}: ` + timesheet.status}
@@ -368,7 +368,9 @@ export default function Timesheets(){
                                                     <div className={styles.timesheetTitle}>
                                                         {applyTranslation('TimesheetView.ACTUAL_FREELANCER')}
                                                     </div>
-                                                    <div className={styles.timesheetValue} key={timesheet.actual.freelancer?.start}>
+                                                    <div
+                                                        className={styles.timesheetValue}
+                                                        key={timesheet.actual.freelancer?.start + 'start'}>
                                                         <Input
                                                             name={`timesheet[${index}].actual.freelancer.start`}
                                                             type={'datetime-local'}
@@ -378,7 +380,9 @@ export default function Timesheets(){
                                                             readOnly={!hasRole('freelancer') || timesheet.actual.freelancer?.start}
                                                             />
                                                     </div>
-                                                    <div className={styles.timesheetValue} key={timesheet.actual.freelancer?.end}>
+                                                    <div
+                                                        className={styles.timesheetValue}
+                                                        key={timesheet.actual.freelancer?.end + 'end'}>
                                                         <Input
                                                             name={`timesheet[${index}].actual.freelancer.end`}
                                                             type={'datetime-local'}
@@ -393,7 +397,9 @@ export default function Timesheets(){
                                                     <div className={styles.timesheetTitle}>
                                                         {applyTranslation('TimesheetView.ACTUAL_CLIENT')}
                                                     </div>
-                                                    <div className={styles.timesheetValue} key={timesheet.actual.client?.start}>
+                                                    <div
+                                                        className={styles.timesheetValue}
+                                                        key={timesheet.actual.client?.start + 'start'}>
                                                         <Input
                                                             name={`timesheet[${index}].actual.client.start`}
                                                             type={'datetime-local'}
@@ -403,7 +409,9 @@ export default function Timesheets(){
                                                             readOnly={!hasRole('client') || timesheet.actual.client?.start}
                                                             />
                                                     </div>
-                                                    <div className={styles.timesheetValue} key={timesheet.actual.client?.end}>
+                                                    <div
+                                                        className={styles.timesheetValue}
+                                                        key={timesheet.actual.client?.end + 'end'}>
                                                         <Input
                                                             name={`timesheet[${index}].actual.client.end`}
                                                             type={'datetime-local'}

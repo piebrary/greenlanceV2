@@ -29,6 +29,7 @@ import { IoLogoCss3 } from 'react-icons/io5'
 import { BiTime } from 'react-icons/bi'
 import { MdOutlineEmail } from 'react-icons/md'
 import { HiOutlineLogout } from 'react-icons/hi'
+import { SiMongodb } from 'react-icons/si'
 
 export default function Menu(){
 
@@ -59,22 +60,27 @@ export default function Menu(){
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS') + ' (ADMIN)',
-            } || undefined,
+            },
+            hasRole('admin') && {
+                to:'/database',
+                icon:<SiMongodb size={20} />,
+                text:applyTranslation('DATABASE') + ' (ADMIN)',
+            },
             hasRole('admin') && {
                 to:'/builder',
                 icon:<IoMdHammer size={20} />,
                 text:applyTranslation('BUILDER') + ' (ADMIN)',
-            } || undefined,
+            },
             hasRole('admin') && {
                 to:'/documentation',
                 icon:<BsBook size={20} />,
                 text:applyTranslation('DOCUMENTATION') + ' (ADMIN)',
-            } || undefined,
+            },
             hasRole('admin') && {
                 to:'/email',
                 icon:<MdOutlineEmail size={20} />,
                 text:applyTranslation('EMAIL') + ' (ADMIN)',
-            } || undefined,
+            },
         ],[
             {
                 label:<>{applyTranslation('COMPONENTS')}</>

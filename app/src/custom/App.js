@@ -18,6 +18,7 @@ import ProfileView from '../custom/views/profile/Profile'
 import BusinessProfileView from '../custom/views/businessProfile/BusinessProfile'
 import SettingsView from '../custom/views/settings/Settings'
 import UsersView from '../custom/views/users/Users'
+import DatabaseView from '../custom/views/database/Database'
 import CalendarView from '../custom/views/calendar/Calendar'
 import LogoutView from '../default/views/logout/Logout'
 import ShiftsView from '../custom/views/shifts/Shifts'
@@ -113,6 +114,7 @@ export default function App() {
                     <Routes>
                         <Route path="/profile" element={<ProfileView />} />
                         <Route path="/users" element={<UsersView />} />
+                        <Route path="/database" element={<DatabaseView />} />
                         <Route path="/settings" element={<SettingsView />} />
                         <Route path="/faq" element={<FaqView />} />
                         <Route path="/contact" element={<ContactView />} />

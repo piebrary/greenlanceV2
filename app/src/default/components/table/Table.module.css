@@ -4,6 +4,15 @@
     border-spacing: var(--componentTableTableBorderSpacing);
 }
 
+.title {
+    width: 100%;
+    border-radius: var(--componentTableTHeadThLastChildBorderTopRightRadius);
+    background-color: var(--componentTableTHeadBackgroundColor);
+    padding: var(--componentTableThTdPadding);
+    text-align: var(--componentTableThTdTextAlign);
+    color: var(--componentTableTHeadColor);
+}
+
 .thead {
     background-color: var(--componentTableTHeadBackgroundColor);
     color: var(--componentTableTHeadColor);

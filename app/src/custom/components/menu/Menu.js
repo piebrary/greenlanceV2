@@ -37,6 +37,7 @@ import { BsClockHistory } from 'react-icons/bs'
 import { FiMail } from 'react-icons/fi'
 import { AiOutlineFileDone } from 'react-icons/ai'
 import { VscGraphLine } from 'react-icons/vsc'
+import { SiMongodb } from 'react-icons/si'
 
 export default function Menu(){
 
@@ -113,6 +114,11 @@ export default function Menu(){
     createTranslation('Menu.CONNECTIONS', {
         en:'Connections',
         nl:'Connecties'
+    })
+
+    createTranslation('Menu.DATABASE', {
+        en:'Database',
+        nl:'Database'
     })
 
     return [
@@ -196,7 +202,12 @@ export default function Menu(){
                 to:'/users',
                 icon:<FaUsersCog size={20} />,
                 text:applyTranslation('USERS'),
-            } || undefined,
+            },
+            hasRole('admin') && {
+                to:'/database',
+                icon:<SiMongodb size={20} />,
+                text:applyTranslation('Menu.DATABASE'),
+            },
         ],[
             {
                 label:<>{applyTranslation('Menu.HELPDESK')}</>

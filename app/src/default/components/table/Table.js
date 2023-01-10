@@ -9,6 +9,7 @@ import styles from './Table.module.css'
 export default function Table(attributes){
 
     const {
+        title,
         columns,
         data,
         onRowClick,
@@ -48,6 +49,7 @@ export default function Table(attributes){
 
     return (
         <div className={createStyle([styles, customStyles], 'container')}>
+            {title && <div className={createStyle([styles, customStyles], ['title'])}>{title}</div>}
             <table
                 className={createStyle([styles, customStyles], ['table'])}
                 {...getTableProps()}>

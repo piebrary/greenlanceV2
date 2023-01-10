@@ -80,6 +80,13 @@ module.exports = async () => {
             require('../../default/server/routes/v1/s/email')(server)
         }
 
+        try {
+            require('../../custom/server/routes/v1/s/database')(server)
+            require('../../default/server/routes/v1/s/database')(server)
+        } catch {
+            require('../../default/server/routes/v1/s/database')(server)
+        }
+
         require('../../custom/server/routes/v1/s/project')(server)
         require('../../custom/server/routes/v1/s/shift')(server)
         require('../../custom/server/routes/v1/s/freelancer')(server)

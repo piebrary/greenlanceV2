@@ -80,6 +80,13 @@ module.exports = async () => {
             require('../../default/server/routes/v1/s/email')(server)
         }
 
+        try {
+            require('../../custom/server/routes/v1/s/database')(server)
+            require('../../default/server/routes/v1/s/database')(server)
+        } catch {
+            require('../../default/server/routes/v1/s/database')(server)
+        }
+
         express.listen(
             process.env.API_PORT,
             () => {
