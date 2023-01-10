@@ -165,7 +165,7 @@ Submitting your app to the Appstore or Google Play makes it available on iOS and
 ## Building Desktop App<a name="building-desktop-app"></a>
 
 ## PieBrary<a name="piebrary"></a>
-PieBrary delivers you the most powerfull noeJS/React development kit. This chapter wil go through the library itself
+PieBrary delivers you the most powerfull nodeJS/React development kit. This chapter wil go through the library itself
 
 ### Installing Updates<a name="piebrary-installing-updates"></a>
 Installing new updates is an important feature of PieBrary. This way the code changes of the native PieBrary package get shipped easily to your own software. This includes files and folder called default.
