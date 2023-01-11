@@ -33,9 +33,40 @@ module.exports = async server => {
     const getCurrentFreelancer = require('../../custom/utils/getCurrentFreelancer')
 
     return {
+        getInvoicePdfByName,
         getInvoices,
         getInvoiceById,
         createInvoice,
+    }
+
+    async function getInvoicePdfByName(req){
+
+        try {
+
+            const query = {
+                name:req.params.name,
+            }
+
+            const currentFreelancer = await getCurrentFreelancer(req)
+            const currentClient = await getCurrentClient(req)
+
+            if(currentFreelancer) query.freelancer = currentFreelancer._id
+            if(currentClient) query.client = currentClient._id
+
+            const invoice = await InvoiceModel
+                .findOne(query)
+                .populate('freelancer')
+
+            if(!invoice) return notFoundHandler('Invoice')
+
+            return successHandler(undefined, invoice)
+
+        } catch (error) {
+
+            return errorHandler(undefined, error)
+
+        }
+
     }
 
     async function getInvoices(req){
@@ -163,8 +194,6 @@ module.exports = async server => {
 
         try {
 
-            const invoiceRequestDto = invoiceAsFreelancerRequestDto(req.body)
-
             const currentUserDoc = await getCurrentUser(req)
             if(!currentUserDoc) return notFoundHandler('User')
 
@@ -175,41 +204,46 @@ module.exports = async server => {
 
             const timesheetDocuments = await TimesheetModel
                 .find({
-                    _id:invoiceRequestDto.timesheets,
-                    client:invoiceRequestDto.client,
+                    _id:req.body,
                     freelancer:freelancerDoc._id
                 })
                 .populate({
                     path:'shift',
                     model:'Shift',
-                    select:'price'
+                    select:'price client'
                 })
+
+            if(timesheetDocuments.length === 0) return notFoundHandler('Timesheets')
 
             // for all timesheets calculate hours * amount
             const totalHoursAmount = timesheetDocuments.map(timesheet => {
 
-                const timespanInMS = new Date(timesheet.actualByClient.end).getTime() - new Date(timesheet.actualByClient.start).getTime()
+                const timespanInMS = new Date(timesheet.actual.client.end).getTime() - new Date(timesheet.actual.client.start).getTime()
+                const hours = Math.floor(timespanInMS / 1000 / 60 / 60)
+                const price = parseFloat(timesheet.shift.price)
+                const sum = hours * price
 
                 return {
-                    hours:Math.floor(timespanInMS / 1000 / 60 / 60),
-                    price:parseFloat(timesheet.shift.price),
+                    hours,
+                    price,
+                    sum
                 }
 
             })
 
             const invoiceDocument = await InvoiceModel({
-                name:`${invoiceRequestDto.clientName}_${Date.now()}.pdf`,
-                freelancer:freelancerDoc._id,
-                client:invoiceRequestDto.client,
-                timesheets:invoiceRequestDto.timesheets,
+                name:`nummering_${timesheetDocuments[0].shift.client._id}.pdf`,
+                freelancer:freelancerDoc,
+                client:timesheetDocuments[0].shift.client,
+                timesheets:req.body,
                 hours:totalHoursAmount.map(total => total.hours).reduce((a, b) => a + b, 0),
-                amount:totalHoursAmount.map(total => total.hours * total.price).reduce((a, b) => a + b, 0),
+                amount:totalHoursAmount.map(total => total.sum).reduce((a, b) => a + b, 0),
                 billingDate:Date.now()
             })
 
             // create pdf here
             const pdfDocument = new PDFDocument()
-            const invoicePath = path.join(invoicesPath,freelancerDoc.name)
+            const invoicePath = path.join(invoicesPath, freelancerDoc.name)
 
             fs.mkdirSync(invoicePath, { recursive: true })
 
@@ -225,8 +259,7 @@ module.exports = async server => {
             pdfDocument.end()
 
             // save all timesheets as billed
-            const timesheetDocs = await TimesheetModel.find({ _id:invoiceRequestDto.timesheets })
-            for (let timesheet of timesheetDocs){
+            for (let timesheet of timesheetDocuments){
 
                 timesheet.status = 'billed'
                 timesheet.save()

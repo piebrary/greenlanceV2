@@ -20,9 +20,11 @@ export function createStyle(styles, classNames){
         })
         .map(s => {
 
-            if(Array.isArray(s[classNames])){
+            if(Array.isArray(classNames)){
 
-                return s[classNames].join(' ')
+                return classNames
+                    .map(className => s[className])
+                    .join(' ')
 
             }
 

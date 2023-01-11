@@ -37,6 +37,10 @@ module.exports = new Schema({
         type: Date,
         required: true,
     },
+    timesheets:{
+        type: [Schema.Types.ObjectId],
+        ref: 'Timesheet'
+    },
     mutations:{
         type: [Schema.Types.ObjectId],
         ref: 'Mutation',

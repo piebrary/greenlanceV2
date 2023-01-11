@@ -8,7 +8,7 @@ import { UserContext } from '../../../default/contexts/UserContext'
 
 import { getEnrolledShifts, getShifts } from '../../services/ShiftService'
 import { getAcceptedTimesheets } from '../../services/TimesheetService'
-import { getInvoices, createInvoice } from '../../services/InvoiceService'
+import { getInvoices, createInvoice, getInvoicePdf } from '../../services/InvoiceService'
 
 import Button from '../../../default/components/button/Button'
 import Layout from '../../../default/components/layouts/basic/Layout'
@@ -40,45 +40,102 @@ export default function Invoices(){
 
     const notifications = notificationManager()
 
+    createTranslation('Invoices.OPEN_HOURS', {
+        en:'Open hours',
+        nl:'Openstaande uren'
+    })
+
+    createTranslation('Invoices.INVOICES', {
+        en:'Invoices',
+        nl:'Facturen'
+    })
+
+    createTranslation('Invoices.FREELANCER', {
+        en:'Freelancer',
+        nl:'Zzp\'er'
+    })
+
+    createTranslation('Invoices.HOURS', {
+        en:'Hours',
+        nl:'Uren'
+    })
+
+    createTranslation('Invoices.NAME', {
+        en:'Name',
+        nl:'Naam'
+    })
+
+    createTranslation('Invoices.DATE', {
+        en:'Date',
+        nl:'Datum'
+    })
+
+    createTranslation('Invoices.AMOUNT', {
+        en:'Amount',
+        nl:'Aantal'
+    })
+
+    createTranslation('Invoices.VIEW', {
+        en:'View',
+        nl:'Bekijken'
+    })
+
     const openHoursColumns = [
         {
-            Header: hasRole('client') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
-            accessor: data => hasRole('client') && data.freelancer.name || hasRole('freelancer') && data.client.name
+            Header: applyTranslation('Invoices.FREELANCER'),
+            accessor: data => data.name
         },
         {
-            Header: applyTranslation('HOURS'),
+            Header: applyTranslation('Invoices.HOURS'),
+            accessor: data => data.hours,
+        },
+    ]
+
+    const billableHoursColumns = [
+        {
+            Header: applyTranslation('Invoices.BUSINESS'),
+            accessor: data => data.name
+        },
+        {
+            Header: applyTranslation('Invoices.HOURS'),
             accessor: data => data.hours,
         },
         {
-            Header: applyTranslation('CREATE INVOICE'),
-            accessor: data => <div className={styles.createInvoiceBtn} onClick={event => createNewInvoice(data)}><AiOutlineFileAdd size={20} /></div>,
+            Header: applyTranslation('Invoices.CREATE_INVOICE'),
+            accessor: data => <div className={styles.createInvoiceBtn} onClick={event => createNewInvoice(data.timesheets)}><AiOutlineFileAdd size={20} /></div>,
         },
     ]
 
     const invoicesColumns = [
         {
-            Header: applyTranslation('NAME'),
+            Header: applyTranslation('Invoices.NAME'),
             accessor: data => data.name,
         },
         {
-            Header: applyTranslation('DATE'),
+            Header: applyTranslation('Invoices.DATE'),
             accessor: data => moment(data.billingDate).format('DD-MM-YYYY'),
         },
         {
-            Header: hasRole('client') && applyTranslation('FREELANCER') || hasRole('freelancer') && applyTranslation('BUSINESS'),
+            Header: hasRole('client') && applyTranslation('Invoices.FREELANCER') || hasRole('freelancer') && applyTranslation('Invoices.BUSINESS'),
             accessor: data => hasRole('client') && data.freelancer.name || hasRole('freelancer') && data.client.name,
         },
         {
-            Header: applyTranslation('HOURS'),
+            Header: applyTranslation('Invoices.HOURS'),
             accessor: data => data.hours,
         },
         {
-            Header: applyTranslation('AMOUNT'),
+            Header: applyTranslation('Invoices.AMOUNT'),
             accessor: data => data.amount,
         },
         {
-            Header: applyTranslation('VIEW'),
-            accessor: data => <div className={styles.createInvoiceBtn} onClick={event => console.log(event, data)}><AiOutlineFileSearch size={20} /></div>,
+            Header: applyTranslation('Invoices.VIEW'),
+            accessor: data => (
+                <div
+                    className={styles.createInvoiceBtn}
+                    onClick={event => viewPdf(event, data)}>
+                    <AiOutlineFileSearch size={20} />
+                </div>
+            ),
         },
     ]
 
@@ -89,13 +146,21 @@ export default function Invoices(){
 
     }, [])
 
+    async function viewPdf(event, data){
+
+        const result = await getInvoicePdf(data.name)
+        console.log(result)
+        result.data.blob().then(blob => {
+            console.log(blob)
+        })
+
+    }
+
     async function createNewInvoice(data){
 
         try {
 
             const response = await createInvoice(data)
-
-            console.log(response.data)
 
             fetchAcceptedTimesheets()
             fetchInvoices()
@@ -122,32 +187,41 @@ export default function Invoices(){
 
             for(let timesheet of response.data){
 
-                const hours = new Date(timesheet.actualByClient.end).getTime() - new Date(timesheet.actualByClient.start).getTime()
+                const hours = new Date(timesheet.actual.client.end).getTime() - new Date(timesheet.actual.client.start).getTime()
+                const oppositeParty = timesheet.client || timesheet.freelancer
 
-                if(!groupedInObject[timesheet.client._id]) groupedInObject[timesheet.client._id] = {
-                    clientName:timesheet.client.name,
-                    hours:0,
-                    timesheets:[]
+                if(groupedInObject[oppositeParty._id]){
+
+                    groupedInObject[oppositeParty._id].hours += Math.floor(hours * 1000 * 60 * 60)
+                    groupedInObject[oppositeParty._id].timesheets.push(timesheet._id)
+
                 }
 
-                groupedInObject[timesheet.client._id || timesheet.freelancer._id].hours += Math.floor(hours / 1000 / 60 / 60)
-                groupedInObject[timesheet.client._id || timesheet.freelancer._id].timesheets.push(timesheet._id)
+                if(!groupedInObject[oppositeParty._id]){
+
+                    groupedInObject[oppositeParty._id] = {
+                        name:oppositeParty.name,
+                        hours:hours,
+                        timesheets:[timesheet._id]
+                    }
+
+                }
 
             }
 
             const groupedInArray = []
 
-            for(let client in groupedInObject){
+            for(let entity in groupedInObject){
 
-                groupedInObject[client].client = client
-
-                groupedInArray.push(groupedInObject[client])
+                groupedInArray.push(groupedInObject[entity])
 
             }
 
             setGroupedTimesheets(groupedInArray)
 
         } catch (error) {
+
+            console.log(error)
 
             notifications.create({
                 title: "Could not load timesheets",
@@ -188,7 +262,7 @@ export default function Invoices(){
             controls={<Controls />}
             >
             {
-                viewmode === 'overview' && (
+                viewmode === 'overview' && hasRole('client') && (
                     <>
                         <Card
                             customStyles={applyStyles([styles], 'tableCard')}
@@ -196,10 +270,46 @@ export default function Invoices(){
                             <div
                                 className={styles.cardTitle}
                                 >
-                                {hasRole('client') ? 'OPEN HOURS' : 'BILLABLE HOURS'}
+                                {applyTranslation('Invoices.OPEN_HOURS')}
                             </div>
                             <Table
                                 columns={openHoursColumns}
+                                data={groupedTimesheets}
+                                customStyles={applyStyles([styles], 'tableCellContent')}
+                                noRecordsMessage={'There are no open hours. Timesheets of shifts must first be accepted by both parties.'}
+                                />
+                        </Card>
+                        <Card
+                            customStyles={applyStyles([styles], 'tableCard')}
+                            >
+                            <div
+                                className={styles.cardTitle}
+                                >
+                                {applyTranslation('Invoices.INVOICES')}
+                            </div>
+                            <Table
+                                columns={invoicesColumns}
+                                data={invoices}
+                                customStyles={applyStyles([styles], 'tableCellContent')}
+                                noRecordsMessage={'There are no invoices yet'}
+                                />
+                        </Card>
+                    </>
+                )
+            }
+            {
+                viewmode === 'overview' && hasRole('freelancer') && (
+                    <>
+                        <Card
+                            customStyles={applyStyles([styles], 'tableCard')}
+                            >
+                            <div
+                                className={styles.cardTitle}
+                                >
+                                {applyTranslation('Invoices.BILLABLE_HOURS')}
+                            </div>
+                            <Table
+                                columns={billableHoursColumns}
                                 data={groupedTimesheets}
                                 customStyles={applyStyles([styles], 'tableCellContent')}
                                 noRecordsMessage={'There are no billable hours. Timesheets of shifts must first be accepted by both parties.'}
@@ -211,7 +321,7 @@ export default function Invoices(){
                             <div
                                 className={styles.cardTitle}
                                 >
-                                INVOICES
+                                {applyTranslation('Invoices.INVOICES')}
                             </div>
                             <Table
                                 columns={invoicesColumns}

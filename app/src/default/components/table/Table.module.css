@@ -46,6 +46,8 @@
     margin: var(--componentTableThTdMargin);
     padding: var(--componentTableThTdPadding);
     text-align: var(--componentTableThTdTextAlign);
+    vertical-align:middle;
+
 }
 
 .tr.trHoverable:hover {

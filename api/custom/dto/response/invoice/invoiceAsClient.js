@@ -23,6 +23,9 @@ module.exports = documents => {
             client,
             isSend,
             isPayed,
+            hours,
+            amount,
+            billingDate
         } = document
 
         return {
@@ -32,6 +35,9 @@ module.exports = documents => {
             client,
             isSend,
             isPayed,
+            hours,
+            amount,
+            billingDate,
         }
     }
 

@@ -17,6 +17,7 @@ import Menu from '../../../custom/components/menu/Menu'
 import { applyStyles } from '../../../default/utils/applyStyles'
 import { createStyle } from '../../../default/utils/createStyle'
 import { notificationManager } from '../../../default/utils/notifications'
+import { UTCToLocal } from '../../../default/utils/UTCToLocal'
 
 import { GiConfirmed } from 'react-icons/gi'
 
@@ -350,7 +351,7 @@ export default function Timesheets(){
                                                             name={`shift.timesheets[${index}].planned.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.planned?.start}
+                                                            defaultValue={UTCToLocal(timesheet.planned?.start)}
                                                             readOnly
                                                             />
                                                     </div>
@@ -359,7 +360,7 @@ export default function Timesheets(){
                                                             name={`shift.timesheets[${index}].planned.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.planned?.end}
+                                                            defaultValue={UTCToLocal(timesheet.planned?.end)}
                                                             readOnly
                                                             />
                                                     </div>
@@ -375,9 +376,10 @@ export default function Timesheets(){
                                                             name={`timesheet[${index}].actual.freelancer.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actual.freelancer?.start}
+                                                            defaultValue={UTCToLocal(timesheet.actual.freelancer?.start)}
                                                             onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
                                                             readOnly={!hasRole('freelancer') || timesheet.actual.freelancer?.start}
+                                                            set={15}
                                                             />
                                                     </div>
                                                     <div
@@ -387,9 +389,10 @@ export default function Timesheets(){
                                                             name={`timesheet[${index}].actual.freelancer.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actual.freelancer?.end}
+                                                            defaultValue={UTCToLocal(timesheet.actual.freelancer?.end)}
                                                             onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
                                                             readOnly={!hasRole('freelancer') || timesheet.actual.freelancer?.end}
+                                                            set={15}
                                                             />
                                                     </div>
                                                 </div>
@@ -404,9 +407,10 @@ export default function Timesheets(){
                                                             name={`timesheet[${index}].actual.client.start`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actual.client?.start}
+                                                            defaultValue={UTCToLocal(timesheet.actual.client?.start)}
                                                             onBlur={data => updateTimesheet(timesheet._id, { start:data.target.value })}
                                                             readOnly={!hasRole('client') || timesheet.actual.client?.start}
+                                                            set={15}
                                                             />
                                                     </div>
                                                     <div
@@ -416,9 +420,10 @@ export default function Timesheets(){
                                                             name={`timesheet[${index}].actual.client.end`}
                                                             type={'datetime-local'}
                                                             customStyles={applyStyles([styles], ['timesheetInput'])}
-                                                            defaultValue={timesheet.actual.client?.end}
+                                                            defaultValue={UTCToLocal(timesheet.actual.client?.end)}
                                                             onBlur={data => updateTimesheet(timesheet._id, { end:data.target.value })}
                                                             readOnly={!hasRole('client') || timesheet.actual.client?.end}
+                                                            set={15}
                                                             />
                                                     </div>
                                                 </div>
